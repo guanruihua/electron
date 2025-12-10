@@ -1,5 +1,7 @@
 import { contextBridge, ipcRenderer, shell } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
+import { ObjectType } from '0type'
+import { AppSize } from './type'
 
 // Custom APIs for renderer
 const api = {
@@ -18,11 +20,15 @@ const api = {
     // shell.openExternal(path)
     shell.openPath(path)
   },
+  setSize: async (conf: AppSize) =>
+    await ipcRenderer.invoke('set-app-size', conf),
   getStartMenu: async () => await ipcRenderer.invoke('get-startMenu'),
-
-  test: async (path: string) => {
-    console.log("🚀 ~ path:", path)  
-    return await ipcRenderer.invoke('read-start-menu-dir')
+  invoke: async (type: string, conf: ObjectType = {}) =>
+    (await ipcRenderer.invoke(type, conf)) || {},
+  test: async (data: any) => {
+    console.log('🚀 ~ data:', data)
+    // return await ipcRenderer.invoke('read-start-menu-dir')
+    return await ipcRenderer.invoke('test', data)
   },
 }
 

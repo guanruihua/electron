@@ -1,8 +1,7 @@
-// import { setTitle } from '@/assets'
 import React from 'react'
 
 export const usePageState = () => {
-  const ref = React.useRef(null)
+  const ref = React.useRef<any>(null)
 
   React.useEffect(() => {
     if (!ref.current) return

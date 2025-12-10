@@ -16,7 +16,7 @@ import { registerShortcuts } from './register/shortcuts'
 // import installExtension, { REACT_DEVELOPER_TOOLS } from 'electron-devtools-installer'
 // @ts-ignore (define in dts)
 
-let mainWindow
+let mainWindow: BrowserWindow
 // let expressServer
 function createWindow(): void {
   const persistentSession = session.fromPartition('persist:mycache', {
@@ -25,8 +25,11 @@ function createWindow(): void {
   // Create the browser window.
   mainWindow = new BrowserWindow({
     width: 900,
-    height: 670,
-    // height: 120,
+    height: 60,
+    // height: 48,
+    // height: 240,
+    // height: 670,
+    // maxHeight: 800,
     show: false,
     resizable: true,
     icon,
@@ -51,15 +54,16 @@ function createWindow(): void {
   })
 
   // mainWindow.maximize()
+
   mainWindow.on('ready-to-show', () => {
     mainWindow.show()
   })
-
+  
   mainWindow.webContents.setWindowOpenHandler((details) => {
     shell.openExternal(details.url)
     return { action: 'deny' }
   })
-
+  
   // HMR for renderer base on electron-vite cli.
   // Load the remote URL for development or the local html file for production.
   if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
@@ -71,6 +75,7 @@ function createWindow(): void {
   }
   ipcMainHandle(mainWindow)
   registerShortcuts(mainWindow)
+  // mainWindow.webContents.toggleDevTools()
 }
 
 // This method will be called when Electron has finished

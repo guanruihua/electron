@@ -1,6 +1,7 @@
 import React from 'react'
 import './index.less'
 import { ObjectType } from '0type'
+import { AppCard } from '../mini-tool/components'
 
 export function StartMenu() {
   const [startMenus, setStartMenu] = React.useState<ObjectType[]>([])
@@ -10,26 +11,19 @@ export function StartMenu() {
     setStartMenu(val)
   }
   React.useEffect(() => {
-    init()
+    setTimeout(() => {
+      init()
+    }, 1000)
   }, [])
 
   return (
     <div className="page__start-menu">
+      <h4>最近使用</h4>
       <div className="page__start-menu-container">
-        {/* {startMenus.map((path: string) => {
-          if (path.includes('卸载')) return <React.Fragment key={path} />
-          const name = path
-            .split(/\\/)
-            .at(-1)
-            ?.replace(/\.lnk$/, '')
-          return (
-            <div key={path} className="start-menu-item" onClick={()=>{
-              window.api.openPath(path)
-            }}>
-              {name}
-            </div>
-          )
-        })} */}
+        {startMenus.map((item: ObjectType, i: number) => {
+          if (item?.fullPath.includes('卸载')) return <React.Fragment key={i} />
+          return <AppCard key={i} item={item} />
+        })}
       </div>
     </div>
   )

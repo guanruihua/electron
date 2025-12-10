@@ -1,8 +1,6 @@
 import React from 'react'
-import { useLayout } from '@renderer/layout/use-layout'
 
 export default function Dev() {
-  const route = useLayout()
   const [images, setImages] = React.useState([])
 
   const handleSelectDir = async () => {

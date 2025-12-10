@@ -1,50 +1,14 @@
-import { ipcMain, dialog, BrowserWindow, shell, app } from 'electron'
-import fs from 'fs'
-import path from 'path'
-
-const read = async (dirPath: string) => {
-  const exeFiles: any[] = []
-  try {
-    const files = await fs.readdirSync(dirPath, { withFileTypes: true })
-    // exeFiles.push(...files)
-    files.map(async (file) => {
-      const fullPath = path.join(file.parentPath, file.name)
-
-      if (file.isDirectory()) {
-        // 递归读取子文件夹
-        const subDirFiles = await read(fullPath)
-        exeFiles.push(...subDirFiles)
-      } else if (
-        file.isFile() &&
-        (file.name.toLowerCase().endsWith('.exe') ||
-          file.name.toLowerCase().endsWith('.lnk'))
-      ) {
-        // exeFiles.push([fullPath, shell.readShortcutLink(fullPath)])
-        const conf = shell.readShortcutLink(fullPath)
-        let iconDataURL = ''
-        if (conf.icon)
-          // iconDataURL = await app.getFileIcon(conf.icon).then((res) => {
-          iconDataURL = await app.getFileIcon(conf.icon).then((res) => {
-            // console.log('🚀 ~ read ~ icon:', res.toDataURL())
-            return res.toDataURL()
-          })
-        console.log('🚀 ~ read ~ iconDataURL:', iconDataURL)
-        exeFiles.push({ ...conf, fullPath, iconDataURL })
-      }
-    })
-  } catch (error) {}
-  return exeFiles
-}
+import { ipcMain, BrowserWindow, screen } from 'electron'
+import { getStartMenu, handleStore } from './utils'
+import { AppSize } from '../preload/type'
+// import { getSystemApps } from './register/getRecentApps'
 
 export const ipcMainHandle = (mainWindow: BrowserWindow) => {
   const Conf = {
     'window-minimize': () => mainWindow.unmaximize(),
     'window-maximize': () => mainWindow.maximize(),
     'window-close': () => mainWindow.close(),
-    'get-startMenu': async () => {
-      const path = 'C:\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs'
-      return await read(path)
-    },
+    'get-startMenu': getStartMenu,
     // 监听最大化/还原的请求
     'toggle-maximize-window': () => {
       if (mainWindow.isMaximized()) {
@@ -55,24 +19,29 @@ export const ipcMainHandle = (mainWindow: BrowserWindow) => {
         mainWindow.maximize()
       }
     },
+    'set-app-size': async (e, conf: AppSize) => {
+      // console.log("🚀 ~ ipcMainHandle / setAppSize~ conf:")
+      // console.log(conf)
+      if (mainWindow.isFullScreen()) return
+      const { height } = conf
+      // if (!width || !height) return
+      if (!height) return
+      // mainWindow.setSize(Math.max(width, 900), height)
+      // const width = mainWindow.getSize()[0]
+      // mainWindow.setSize(width, height)
+      const h = Math.min(Math.max(60, height), 600)
+      // console.log("🚀 ~ ipcMainHandle ~ h:", h)
+      
+      mainWindow.setSize(900, h, false)
+    },
+    store: handleStore,
+    test: async (data: any) => {
+      return {
+        // list: await getSystemApps()
+      }
+    },
   }
   for (const key in Conf) {
     ipcMain.handle(key, Conf[key])
   }
-
-  ipcMain.handle('select-image-dir', async () => {
-    const result = await dialog.showOpenDialog({
-      properties: ['openDirectory'], // 选择目录
-    })
-    if (!result.canceled) {
-      const dirPath = result.filePaths[0]
-      const files = fs.readdirSync(dirPath)
-      // 过滤出图片文件
-      const imageFiles = files
-        .filter((file) => /\.(png|jpg|jpeg|gif|webp|bmp)$/i.test(file))
-        .map((file) => `safe-img://${path.join(dirPath, file)}`)
-      return imageFiles
-    }
-    return []
-  })
 }

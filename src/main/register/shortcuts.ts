@@ -15,8 +15,13 @@ export const registerShortcuts = (mainWindow: BrowserWindow) => {
         type: 'mini-tool',
         timestamp: Date.now(),
       })
-      mainWindow.setSize(900, 50)
-      mainWindow.webContents.focus()
+      // mainWindow.setSize(900, 50)
+      // mainWindow.webContents.focus()
+      if (mainWindow.isFocused()) {
+        mainWindow.hide()
+        return
+      }
+      mainWindow.show()
     },
   }
 

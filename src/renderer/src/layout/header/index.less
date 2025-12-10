@@ -1,0 +1,64 @@
+.main-layout-header {
+  background: transparent;
+
+  &-major {
+    display: grid;
+    grid-template-columns: auto auto auto 1fr;
+    align-items: center;
+    height: 40px;
+    gap: 10px;
+    background: rgba(43, 43, 43, .9);
+
+    &-control {
+      display: flex;
+      gap: .3rem;
+      padding-left: 10px;
+
+      &>span {
+        display: inline-block;
+        width: .8rem;
+        height: .8rem;
+        border-radius: 50%;
+        cursor: pointer;
+      }
+
+      &-close {
+        background: rgba(255, 0, 0, .9);
+      }
+
+      &-min {
+        background: rgba(250, 214, 100, .9);
+      }
+
+      &-max {
+        background: rgba(0, 255, 0, .9);
+      }
+    }
+
+    &-href {
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      height: 32px;
+      line-height: 32px;
+      border-radius: 16px;
+      background: rgba(47, 47, 47, .9);
+      gap: 10px;
+      font-family: Arial, Helvetica, sans-serif;
+      font-weight: bold;
+
+      &>div:not(.last){
+        cursor: pointer;
+      }
+    }
+    &-title{
+      font-size: 14px;
+    }
+    &-handle {
+      height: 100%;
+      min-width: 80px;
+      cursor: grab;
+      -webkit-app-region: drag;
+    }
+  }
+}

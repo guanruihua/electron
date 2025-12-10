@@ -1,6 +1,7 @@
 # electron-app
 
 An Electron application with React and TypeScript
+<https://cn.electron-vite.org/guide/>
 
 ## Recommended IDE Setup
 

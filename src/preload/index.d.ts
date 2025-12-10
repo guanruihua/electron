@@ -1,8 +1,29 @@
+import { ObjectType } from '0type'
 import { ElectronAPI } from '@electron-toolkit/preload'
 
 declare global {
   interface Window {
     electron: ElectronAPI
-    api: unknown
+    api: {
+      // 窗口控制
+      minimize: () => void
+      maximize: () => void
+      close: () => void
+      // 
+      openPath: (path: string) => void
+      /**
+       * @description 获取开始开始菜单的快捷方式
+       * @returns {string[]} path[]
+       */
+      getStartMenu: () => Promise<ObjectType[]>
+      /**
+       * @description 监听快捷键
+       * @param {string} type 
+       * @param callback 
+       * @returns {void}
+       */
+      onShortcut: (type: string,callback: (info: any) => void) => void
+      test: (conf: any) => Promise<any>
+    }
   }
 }

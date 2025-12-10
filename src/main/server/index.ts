@@ -12,7 +12,7 @@ app.get('/api/data', (req: any, res: any) => {
 })
 
 // 导出启动和停止服务器的方法
-export function startServer(port = 3000) {
+export function startServer(port: number = 3000): Promise<any> {
   return new Promise((resolve, reject) => {
     const server = app
       .listen(port, () => {
@@ -23,7 +23,7 @@ export function startServer(port = 3000) {
   })
 }
 
-export function stopServer(server: any) {
+export function stopServer(server: any): Promise<null> {
   return new Promise((resolve) => {
     server.close(() => {
       console.log('Express server stopped.')
@@ -31,4 +31,3 @@ export function stopServer(server: any) {
     })
   })
 }
-

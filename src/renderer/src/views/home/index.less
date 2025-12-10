@@ -1,0 +1,40 @@
+.page__home {
+  padding: 10px;
+  // max-height: 100vh;
+  overflow-y: auto;
+
+  button {
+    color: #fff;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, .2);
+    outline: none;
+    border: none;
+    margin: 5px;
+  }
+
+  &-page-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    &-page-item {
+      display: inline-block;
+      border-radius: 8px;
+      padding: .5rem;
+      font-size: .8rem;
+      color: rgba(255, 255, 255, .8);
+      background-color: rgba(255, 255, 255, .2);
+      box-shadow: 0 0 3px rgba(255, 255, 255, .2);
+      border: none;
+      cursor: pointer;
+      letter-spacing: .1rem;
+      transition: all .3s;
+
+      &:hover {
+        color: rgba(255, 255, 255, .9);
+        background-color: rgba(255, 255, 255, .4);
+      }
+    }
+  }
+}

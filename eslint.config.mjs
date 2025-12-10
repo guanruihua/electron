@@ -6,27 +6,31 @@ import eslintPluginReactHooks from 'eslint-plugin-react-hooks'
 import eslintPluginReactRefresh from 'eslint-plugin-react-refresh'
 
 export default defineConfig(
-  { ignores: ['**/node_modules', '**/dist', '**/out'] },
+  {
+    ignores: ['**/node_modules', '**/dist', '**/out', './eslint.config.mjs'],
+  },
   tseslint.configs.recommended,
   eslintPluginReact.configs.flat.recommended,
   eslintPluginReact.configs.flat['jsx-runtime'],
   {
     settings: {
       react: {
-        version: 'detect'
-      }
-    }
+        version: 'detect',
+      },
+    },
   },
   {
     files: ['**/*.{ts,tsx}'],
     plugins: {
       'react-hooks': eslintPluginReactHooks,
-      'react-refresh': eslintPluginReactRefresh
+      'react-refresh': eslintPluginReactRefresh,
     },
     rules: {
       ...eslintPluginReactHooks.configs.recommended.rules,
-      ...eslintPluginReactRefresh.configs.vite.rules
-    }
+      ...eslintPluginReactRefresh.configs.vite.rules,
+      '@typescript-eslint/no-explicit-any': 'off',
+      'prettier/prettier': ['error', { endOfLine: 'off' }],
+    },
   },
-  eslintConfigPrettier
+  eslintConfigPrettier,
 )

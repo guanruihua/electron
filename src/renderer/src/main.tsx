@@ -1,11 +1,17 @@
-import './assets/main.css'
+// import { createRoot } from 'react-dom/client'
+// import 'aurad/dist/style.css'
+// import './assets/main.css'
+// import Layout from './layout'
 
-import { StrictMode } from 'react'
+// createRoot(document.getElementById('root')!).render(<Layout />)
+
+import React from 'react'
 import { createRoot } from 'react-dom/client'
-import App from './App'
+import { RouterProvider, createHashRouter } from 'react-router-dom'
+import { routes } from './layout/routes'
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <App />
-  </StrictMode>
-)
+const root = createRoot(document.querySelector('.root')!)
+function App() {
+  return <RouterProvider router={createHashRouter(routes)} />
+}
+root.render(<App />)

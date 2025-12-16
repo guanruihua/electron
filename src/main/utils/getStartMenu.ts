@@ -22,13 +22,13 @@ const read = async (dirPath: string) => {
         // exeFiles.push([fullPath, shell.readShortcutLink(fullPath)])
         const conf = shell.readShortcutLink(fullPath)
         let iconDataURL = ''
-        if (conf.icon)
-          // iconDataURL = await app.getFileIcon(conf.icon).then((res) => {
-          iconDataURL = await app.getFileIcon(conf.icon).then((res) => {
-            // console.log('🚀 ~ read ~ icon:', res.toDataURL())
-            return res.toDataURL()
-          })
-        console.log('🚀 ~ read ~ iconDataURL:', iconDataURL)
+        // if (conf.icon)
+        //   // iconDataURL = await app.getFileIcon(conf.icon).then((res) => {
+        //   iconDataURL = await app.getFileIcon(conf.icon).then((res) => {
+        //     // console.log('🚀 ~ read ~ icon:', res.toDataURL())
+        //     return res.toDataURL()
+        //   })
+        // console.log('🚀 ~ read ~ iconDataURL:', iconDataURL)
         exeFiles.push({ ...conf, fullPath, iconDataURL })
       }
     })

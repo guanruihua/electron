@@ -1,20 +1,10 @@
-import {
-  app,
-  shell,
-  BrowserWindow,
-  ipcMain,
-  protocol,
-  session,
-  globalShortcut,
-} from 'electron'
-import path, { join } from 'path'
+import { app, shell, BrowserWindow, session, globalShortcut } from 'electron'
+import path from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 // import { startServer, stopServer } from './server'
 import { ipcMainHandle } from './ipcMain-handle'
 import { registerShortcuts } from './register/shortcuts'
-// import installExtension, { REACT_DEVELOPER_TOOLS } from 'electron-devtools-installer'
-// @ts-ignore (define in dts)
 
 let mainWindow: BrowserWindow
 // let expressServer
@@ -25,7 +15,8 @@ function createWindow(): void {
   // Create the browser window.
   mainWindow = new BrowserWindow({
     width: 900,
-    height: 60,
+    // height: 60,
+    height: 430,
     // height: 48,
     // height: 240,
     // height: 670,
@@ -41,7 +32,7 @@ function createWindow(): void {
     transparent: true,
     // ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
-      preload: join(__dirname, '../preload/index.js'),
+      preload: path.join(__dirname, '../preload/index.js'),
       sandbox: false,
       webviewTag: true,
       contextIsolation: true,
@@ -58,18 +49,18 @@ function createWindow(): void {
   mainWindow.on('ready-to-show', () => {
     mainWindow.show()
   })
-  
+
   mainWindow.webContents.setWindowOpenHandler((details) => {
     shell.openExternal(details.url)
     return { action: 'deny' }
   })
-  
+
   // HMR for renderer base on electron-vite cli.
   // Load the remote URL for development or the local html file for production.
   if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
     mainWindow.loadURL(process.env['ELECTRON_RENDERER_URL'])
   } else {
-    mainWindow.loadFile(join(__dirname, '../renderer/index.html'), {
+    mainWindow.loadFile(path.join(__dirname, '../renderer/index.html'), {
       hash: '/home',
     })
   }

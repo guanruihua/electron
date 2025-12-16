@@ -6,6 +6,7 @@ declare global {
   interface Window {
     electron: ElectronAPI
     api: {
+      store: (conf: ObjectType) => Promise<any>
       // 窗口控制
       minimize: () => void
       maximize: () => void

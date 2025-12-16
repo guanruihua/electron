@@ -1,21 +1,27 @@
-import React from 'react'
-
 import './index.less'
+import { classNames } from 'harpe'
 
 export interface AppCardProps {
   [key: string]: any
 }
 
 export function AppCard(props: AppCardProps) {
-  const { item, ...rest } = props
-  const { iconDataURL, path, fullPath = '', description } = item
+  const { className, item, ...rest } = props
+  const {
+    iconDataURL = '',
+    path = '',
+    fullPath = '',
+    description = '',
+  } = item || {}
   const name = fullPath
     .split(/\\/)
     .at(-1)
     ?.replace(/\.lnk$/, '')
+  // console.log({ item })
+
   return (
     <div
-      className="app-card"
+      className={classNames('app-card', className)}
       title={description}
       onClick={() => {
         window.api.openPath(path)
@@ -23,7 +29,7 @@ export function AppCard(props: AppCardProps) {
       {...rest}
     >
       <div className="logo">
-        {iconDataURL ? (
+        {/* {iconDataURL ? (
           <img src={iconDataURL} />
         ) : (
           <svg
@@ -37,7 +43,7 @@ export function AppCard(props: AppCardProps) {
               d="M13 9V3.5L18.5 9M6 2c-1.11 0-2 .89-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"
             ></path>
           </svg>
-        )}
+        )} */}
       </div>
       <div className="name">{name}</div>
     </div>

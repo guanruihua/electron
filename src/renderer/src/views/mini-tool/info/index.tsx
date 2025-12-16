@@ -1,9 +1,8 @@
 import React from 'react'
 import { uesPageState } from '../state'
-import { AppCard } from '../components'
+import { StartMenu, AppCard } from '../components'
 import RandomPwd from '@/views/tools/random-pwd'
 import { Button } from 'aurad'
-import { StartMenu } from '@/views/startMenu'
 
 export interface InfoProps {
   [key: string]: any
@@ -12,9 +11,11 @@ export interface InfoProps {
 export function Info(props: InfoProps) {
   const h = uesPageState()
   const ref = React.useRef<HTMLDivElement>(null)
+
   React.useEffect(() => {
     if (!ref.current) return
     const dom: HTMLDivElement = ref.current
+    let timeoutId: NodeJS.Timeout | null = null
     const set = (rect) => {
       const { width, height } = rect || {}
       const w = Math.max(800, width)
@@ -23,6 +24,12 @@ export function Info(props: InfoProps) {
         width: w,
         height: h,
       }
+      // if (timeoutId) {
+      //   clearTimeout(timeoutId)
+      // }
+      // timeoutId = setTimeout(() => {
+      //   window.api.setSize(val)
+      // }, 500)
       window.api.setSize(val)
     }
     const observer = new ResizeObserver((entries) => {
@@ -30,9 +37,14 @@ export function Info(props: InfoProps) {
     })
     observer.observe(dom)
     return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId)
+        timeoutId = null
+      }
       observer.unobserve(dom)
     }
   }, [ref.current])
+
   return (
     <div ref={ref} className="page__miniTool-container-info">
       <div className="page__miniTool-container-info-container">
@@ -60,7 +72,6 @@ export function Info(props: InfoProps) {
               console.log('test:', res)
             }}
           />
-
         </div>
       </div>
     </div>

@@ -23,8 +23,10 @@ const api = {
   setSize: async (conf: AppSize) =>
     await ipcRenderer.invoke('set-app-size', conf),
   getStartMenu: async () => await ipcRenderer.invoke('get-startMenu'),
-  invoke: async (type: string, conf: ObjectType = {}) =>
-    (await ipcRenderer.invoke(type, conf)) || {},
+  store: async (conf: ObjectType)=> 
+    await ipcRenderer.invoke('store', conf),
+  invoke: async (type: string, payload: ObjectType = {}) =>
+    (await ipcRenderer.invoke(type, payload)) || {},
   test: async (data: any) => {
     console.log('🚀 ~ data:', data)
     // return await ipcRenderer.invoke('read-start-menu-dir')

@@ -1,9 +1,9 @@
-import { ipcMain, BrowserWindow, screen } from 'electron'
-import { getStartMenu, handleStore } from './utils'
+import { ipcMain, BrowserWindow } from 'electron'
+import { getStartMenu, StoreManager } from './utils'
 import { AppSize } from '../preload/type'
-// import { getSystemApps } from './register/getRecentApps'
 
 export const ipcMainHandle = (mainWindow: BrowserWindow) => {
+  const store = new StoreManager()
   const Conf = {
     'window-minimize': () => mainWindow.unmaximize(),
     'window-maximize': () => mainWindow.maximize(),
@@ -19,23 +19,18 @@ export const ipcMainHandle = (mainWindow: BrowserWindow) => {
         mainWindow.maximize()
       }
     },
-    'set-app-size': async (e, conf: AppSize) => {
-      // console.log("🚀 ~ ipcMainHandle / setAppSize~ conf:")
-      // console.log(conf)
+    'set-app-size': async (_e, conf: AppSize) => {
+      console.log("ipcMainHandle / setAppSize~ conf:", conf)
       if (mainWindow.isFullScreen()) return
       const { height } = conf
-      // if (!width || !height) return
       if (!height) return
-      // mainWindow.setSize(Math.max(width, 900), height)
-      // const width = mainWindow.getSize()[0]
-      // mainWindow.setSize(width, height)
-      const h = Math.min(Math.max(60, height), 600)
-      // console.log("🚀 ~ ipcMainHandle ~ h:", h)
-      
-      mainWindow.setSize(900, h, false)
+      const h = Math.min(Math.max(60, Number(height)), 600)
+      // mainWindow.setSize(900, h, false)
     },
-    store: handleStore,
-    test: async (data: any) => {
+    store: store.handleStore,
+    test: async (_e, payload: any = {}) => {
+      console.log('test ~ ipcMainHandle ~ data:', payload)
+     
       return {
         // list: await getSystemApps()
       }

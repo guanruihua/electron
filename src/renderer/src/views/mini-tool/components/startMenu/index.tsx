@@ -1,7 +1,7 @@
 import React from 'react'
 import './index.less'
 import { ObjectType } from '0type'
-import { AppCard } from '../mini-tool/components'
+import { AppCard } from '../app-card'
 import { Button } from 'aurad'
 import { Flex } from 'aurad'
 import { useSetState } from '0hook'
@@ -35,6 +35,7 @@ export function StartMenu() {
   return (
     <div className="page__start-menu">
       <h4>最近使用</h4>
+
       <Flex>
         <Button
           onClick={async () => {
@@ -66,7 +67,41 @@ export function StartMenu() {
         >
           test get
         </Button>
+        <Button
+          onClick={async () => {
+            setState({
+              select: [],
+              fastStart:
+                (state.select
+                  ?.map((id) => state.startMenu?.find((_) => _.id === id))
+                  .filter(Boolean) as ObjectType[]) || [],
+            })
+          }}
+        >
+          Add Fast Start
+        </Button>
       </Flex>
+      <div className="page__start-menu-container">
+        {state?.fastStart?.map((item: ObjectType, i: number) => {
+          const { id = i } = item
+          return (
+            <AppCard
+              key={i}
+              item={item}
+              onClick={() => {
+                if (!state.select) {
+                  state.select = []
+                }
+                setState({
+                  select: state.select.includes(id)
+                    ? state.select.filter((_) => _ !== id)
+                    : [id, ...state.select],
+                })
+              }}
+            />
+          )
+        })}
+      </div>
       <div className="page__start-menu-container">
         {state?.startMenu?.map((item: ObjectType, i: number) => {
           const { id = i } = item

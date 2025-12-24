@@ -1,4 +1,3 @@
-import React from 'react'
 import { useOwnState } from './state'
 
 export interface Search {
@@ -7,7 +6,7 @@ export interface Search {
 
 export function Search(props: Search) {
   const {} = props
-  const { inputRef, uploadRef } = useOwnState()
+  const { inputRef } = useOwnState()
 
   return (
     <div className="page__miniTool-container-input">

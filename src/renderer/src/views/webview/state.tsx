@@ -9,7 +9,7 @@ export const usePageState = () => {
     // console.log(webview)
 
     const handleNavigate = (event: any) => {
-      // console.log('页面跳转到:', event.url)
+      console.log('页面跳转到:', event.url)
       // setTitle(event.url)
     }
 

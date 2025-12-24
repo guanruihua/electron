@@ -160,11 +160,9 @@ export async function getProgramDetails(appName) {
   return null
 }
 
-
-
 // 获取系统已安装程序
 export async function getSystemApps() {
-  const apps:any[] = []
+  const apps: any[] = []
 
   try {
     // 从注册表获取已安装程序

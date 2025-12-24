@@ -1,6 +1,6 @@
 {
-  "name": "electron-app",
-  "version": "1.0.0",
+  "name": "xyy",
+  "version": "1.0.0-bate.1",
   "description": "An Electron application with React and TypeScript",
   "main": "./out/main/index.js",
   "author": "ruihuag",
@@ -64,6 +64,7 @@
     "express": "^5.1.0",
     "harpe": "^0.4.0",
     "less": "^4.4.2",
+    "pinyin-match": "^1.2.10",
     "prettier": "^3.6.2",
     "ws": "^8.18.3"
   }

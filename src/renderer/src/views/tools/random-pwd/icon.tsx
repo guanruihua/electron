@@ -1,4 +1,3 @@
-import React from 'react'
 
 const extendProps = {
   width: '1em',

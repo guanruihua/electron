@@ -2,12 +2,10 @@ import { app, shell, BrowserWindow, session, globalShortcut } from 'electron'
 import path from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
-// import { startServer, stopServer } from './server'
 import { ipcMainHandle } from './ipcMain-handle'
 import { registerShortcuts } from './register/shortcuts'
 
 let mainWindow: BrowserWindow
-// let expressServer
 function createWindow(): void {
   const persistentSession = session.fromPartition('persist:mycache', {
     cache: true,
@@ -15,12 +13,7 @@ function createWindow(): void {
   // Create the browser window.
   mainWindow = new BrowserWindow({
     width: 900,
-    // height: 60,
     height: 430,
-    // height: 48,
-    // height: 240,
-    // height: 670,
-    // maxHeight: 800,
     show: false,
     resizable: true,
     icon,
@@ -73,22 +66,6 @@ function createWindow(): void {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(async () => {
-  // 安装 React DevTools 扩展
-  // installExtension(REACT_DEVELOPER_TOOLS)
-  //   .then((name) => console.log(`已添加扩展: ${name}`))
-  //   .catch((err) => console.log('安装扩展时发生错误: ', err))
-
-  // try {
-  //   const reactDevToolsPath = path.join(__dirname, '../../resources/extensions/react-devtools.zip');
-  //   // session.defaultSession.loadExtension
-
-  //   const { name, version } = await session.defaultSession.loadExtension(reactDevToolsPath);
-
-  //   console.log(`已加载扩展: ${name} (v${version})`);
-  // } catch (error) {
-  //   console.error('加载扩展失败:', error);
-  // }
-
   // Set app user model id for windows
   electronApp.setAppUserModelId('com.electron')
 
@@ -99,20 +76,6 @@ app.whenReady().then(async () => {
     optimizer.watchWindowShortcuts(window)
   })
 
-  // 注册一个名为 'safe-img' 的自定义协议
-  // protocol.registerFileProtocol('safe-img', (request, callback) => {
-  //   const url = request.url.replace('safe-img://', '') // 移除协议头
-  //   const decodedUrl = decodeURI(url) // 解码URL，处理中文路径
-  //   try {
-  //     callback(decodedUrl)
-  //   } catch (error) {
-  //     console.error('Error loading image:', error)
-  //   }
-  // })
-
-  // IPC test
-  // ipcMain.on('ping', () => console.log('pong'))
-  // expressServer = await startServer()
   createWindow()
 
   // 应用激活时重新注册快捷键

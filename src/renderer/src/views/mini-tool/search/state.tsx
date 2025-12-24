@@ -1,6 +1,6 @@
 import React from 'react'
 
-export const useOwnState = ()=>{
+export const useOwnState = () => {
   const inputRef = React.useRef<HTMLInputElement>(null)
   const uploadRef = React.useRef<HTMLInputElement>(null)
 

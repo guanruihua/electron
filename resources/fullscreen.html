@@ -1,0 +1,71 @@
+<!doctype html>
+<html class="night night-theme">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Ruihuag</title>
+  </head>
+  <style>
+    body {
+      overflow: hidden;
+      min-width: 100vw;
+      min-height: 100vh;
+      background-color: rgba(0, 0, 0, 0.2);
+      padding: 0;
+      margin: 0;
+    }
+    .controls {
+      position: fixed;
+      right: 10px;
+      bottom: 10px;
+    }
+    .controls button {
+      border: none;
+      border-radius: 4px;
+      background: rgba(255, 255, 255, 0.8);
+      font-weight: bold;
+      font-size: 16px;
+      width: 24px;
+      height: 24px;
+    }
+  </style>
+
+  <body>
+    <div class="root">
+      <div class="controls">
+        <button onclick="changeOpacity(0.1)">+</button>
+        <button onclick="changeOpacity(-0.1)">-</button>
+      </div>
+    </div>
+  </body>
+  <script>
+    // 初始透明度
+    let currentOpacity = 0.2
+
+    // 更新背景透明度
+    function updateBackground() {
+      document.body.style.backgroundColor = `rgba(0, 0, 0, ${currentOpacity})`
+    }
+
+    // 改变透明度
+    function changeOpacity(delta) {
+      currentOpacity += delta
+      // 限制在 0 到 1 之间
+      if (currentOpacity < 0) currentOpacity = 0
+      if (currentOpacity > 1) currentOpacity = 1
+      updateBackground()
+    }
+
+    // 键盘快捷键支持
+    document.addEventListener('keydown', (e) => {
+      if (e.key === '+' || e.key === '=') {
+        changeOpacity(0.1)
+      } else if (e.key === '-' || e.key === '_') {
+        changeOpacity(-0.1)
+      } else if (e.key === '0') {
+        // 按 0 重置
+        currentOpacity = 0.2
+        updateBackground()
+      }
+    })
+  </script>
+</html>

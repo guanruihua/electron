@@ -1,4 +1,3 @@
-import React from 'react'
 import './index.less'
 import { useNavigate } from 'react-router-dom'
 import { Div } from 'aurad'

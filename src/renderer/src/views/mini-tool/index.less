@@ -1,8 +1,10 @@
 .page__miniTool {
-  // width: 100%;
   overflow: hidden;
-  // background-color: rgba(48, 49, 51, .8);
   width: 900px;
+
+  .disabled {
+    filter: brightness(0.5);
+  }
 
   &-container {
     display: grid;
@@ -10,17 +12,22 @@
     grid-template-rows: auto 1fr;
     gap: 12px;
     margin: 8px;
+    padding: 12px;
+
+    background-color: rgba(48, 49, 51, 0.8);
+    box-shadow: 0 0 6px rgba(255, 255, 255, 0.9);
+    border-radius: 16px;
 
     &-input {
-      background-color: rgba(48, 49, 51, .8);
-      box-shadow: 0 0 6px rgba(255, 255, 255, .9);
+      background-color: rgba(48, 49, 51, 0.8);
+      border: 1px solid rgba(255, 255, 255, 0.4);
       width: 100%;
       border-radius: 36px;
       display: flex;
       align-items: center;
       justify-content: flex-start;
 
-      &>input {
+      & > input {
         &.upload-file {
           display: none;
         }
@@ -38,8 +45,8 @@
       display: flex;
       height: 48px;
       width: 48px;
-      background-color: rgba(48, 49, 51, .8);
-      box-shadow: 0 0 6px rgba(255, 255, 255, 1);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      background-color: rgba(48, 49, 51, 0.8);
       border-radius: 50%;
       -webkit-app-region: drag;
       align-items: center;
@@ -49,14 +56,12 @@
 
     &-info {
       grid-column: 1/-1;
-      background-color: rgba(48, 49, 51, .7);
-      box-shadow: 0 0 6px rgba(255, 255, 255, 1);
       border-radius: 24px;
       padding: 10px;
-      max-height: calc(100vh - 80px);
+      max-height: calc(100vh - 100px);
 
       &-container {
-        max-height: calc(100vh - 100px);
+        max-height: calc(100vh - 120px);
         overflow-y: auto;
       }
 
@@ -79,11 +84,10 @@
         text-align: center;
         padding: 5px 10px;
         border-radius: 12px;
-        transition: all .3s;
-
+        transition: all 0.3s;
 
         &:hover {
-          background-color: rgba(255, 255, 255, .3);
+          background-color: rgba(255, 255, 255, 0.3);
         }
 
         .logo {

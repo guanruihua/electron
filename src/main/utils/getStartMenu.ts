@@ -1,6 +1,6 @@
 import fs from 'fs'
 import path from 'path'
-import { shell, app } from 'electron'
+import { shell } from 'electron'
 
 const read = async (dirPath: string) => {
   const exeFiles: any[] = []

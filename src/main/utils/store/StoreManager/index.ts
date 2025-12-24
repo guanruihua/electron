@@ -98,7 +98,7 @@ export class StoreManager {
       // await this.initItem(storeInfo)
     }
     console.log(
-      '🚀 ~ handleStore ~ conf:',
+      'handleStore ~ conf:',
       handleType,
       storeInfo,
       JSON.stringify(payload).slice(0, 100) + '...',
@@ -113,6 +113,8 @@ export class StoreManager {
         case 'edit':
         case 'save':
           return await this.handleSave(storeInfo, payload)
+        // case 'saveAll':
+        // return await this.handleSaveAll(storeInfo, payload)
         case 'query':
         case 'get':
           return await this.handleGet(storeInfo, payload)
@@ -207,6 +209,37 @@ export class StoreManager {
     await saveJSON2File(path, this.CACHE[name])
     return { message: 'Handle Save Data Success', code: 200 }
   }
+  // handleSaveAll = async (storeInfo: StoreInfo, payload: StorePayload) => {
+  //   const { name, dataType, path } = storeInfo
+  //   if (dataType === 'array' && isEffectArray<StorePayload>(payload)) {
+  //     payload.forEach((item, i) => {
+  //       if (!item.id) item.id = i + '-' + Date.now().toString()
+  //       this.CACHE[name].push(item)
+  //     })
+  //   }
+  //   if (dataType === 'array' && isEffectObject(payload)) {
+  //     const { id } = payload
+  //     if (!id) {
+  //       payload.id = Date.now().toString()
+  //       this.CACHE[name].push(payload)
+  //     } else {
+  //       const index = this.CACHE[name].findIndex((_) => _.id === id)
+  //       if (index)
+  //         this.CACHE[name][index] = {
+  //           ...this.CACHE[name][index],
+  //           ...payload,
+  //         }
+  //     }
+  //   }
+  //   if (dataType === 'object' && isEffectObject(payload)) {
+  //     for (const key in payload) {
+  //       this.CACHE[name][key] = payload[key]
+  //     }
+  //   }
+  //   await saveJSON2File(path, this.CACHE[name])
+  //   await saveJSON2File(path, this.CACHE[name])
+  //   return { message: 'Handle Save Data Success', code: 200 }
+  // }
   handleGet = async (storeInfo: StoreInfo, payload: StorePayload) => {
     const { name, dataType } = storeInfo
     const { id, ids } = payload

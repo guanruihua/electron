@@ -1,4 +1,5 @@
 import { BrowserWindow, globalShortcut } from 'electron'
+import { createScreenMask } from './create-screen-mask'
 
 export const registerShortcuts = (mainWindow: BrowserWindow) => {
   const Conf = {
@@ -8,6 +9,17 @@ export const registerShortcuts = (mainWindow: BrowserWindow) => {
     },
     'CommandOrControl+Shift+F12': () => {
       mainWindow.webContents.focus()
+    },
+    // 'CommandOrControl+Shift+F10': () => {
+    F10: () => {
+      // console.log('f10')
+      createScreenMask()
+      // mainWindow.webContents.focus()
+    },
+    F11: () => {
+      console.log('F11')
+      // createScreenMask()
+      // mainWindow.webContents.focus()
     },
     'Alt+V': () => {
       mainWindow.webContents.send('shortcut-info', {

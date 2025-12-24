@@ -1,11 +1,11 @@
 import { Pages } from '@/layout/routes'
 import { useNavigate } from 'react-router-dom'
 import './index.less'
-import React from 'react'
+// import React from 'react'
 
 export function Home() {
   const nav = useNavigate()
-  const [msg, setMsg] = React.useState('')
+  // const [msg, setMsg] = React.useState('')
 
   return (
     <div className="page__home">

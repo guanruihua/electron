@@ -20,17 +20,17 @@ export const ipcMainHandle = (mainWindow: BrowserWindow) => {
       }
     },
     'set-app-size': async (_e, conf: AppSize) => {
-      console.log("ipcMainHandle / setAppSize~ conf:", conf)
+      console.log('ipcMainHandle / setAppSize~ conf:', conf)
       if (mainWindow.isFullScreen()) return
       const { height } = conf
       if (!height) return
-      const h = Math.min(Math.max(60, Number(height)), 600)
+      // const h = Math.min(Math.max(60, Number(height)), 600)
       // mainWindow.setSize(900, h, false)
     },
     store: store.handleStore,
     test: async (_e, payload: any = {}) => {
       console.log('test ~ ipcMainHandle ~ data:', payload)
-     
+
       return {
         // list: await getSystemApps()
       }

@@ -3,9 +3,9 @@ import _fs from 'fs'
 import { ObjectType } from '0type'
 const fs = _fs.promises
 
-export async function deleteFile(url: string) : Promise<boolean>{
-  if(!url) return false
-    try {
+export async function deleteFile(url: string): Promise<boolean> {
+  if (!url) return false
+  try {
     await fs.unlink(url)
     console.log('Handle Delete File Success')
     return true

@@ -1,13 +1,23 @@
 .page__start-menu {
-  padding: 10px;
+  // padding: 10px;
+
+  &-fastStart {
+    &-module {
+      border-radius: 4px;
+      background-color: rgba(0, 0, 0, 0.15);
+      padding: 0 5px;
+      .app-card {
+        padding-left: 0;
+        padding-right: 0;
+      }
+    }
+  }
 
   &-container {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    gap: 10px;
-    max-height: 50vh;
-    overflow-y: auto;
+    gap: 4px;
 
     .app-card {
       &:hover {
@@ -18,7 +28,7 @@
         background: rgba(0, 255, 0, 0.5);
       }
 
-      &>.name {
+      & > .name {
         color: #fff;
         line-height: 18px;
         letter-spacing: 1px;
@@ -27,15 +37,15 @@
 
     .start-menu-item {
       border-radius: 8px;
-      padding: .5rem;
-      font-size: .8rem;
-      color: rgba(255, 255, 255, .8);
+      padding: 0.5rem 0.75rem;
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.8);
       // background-color: rgba(255, 255, 255, .2);
       // box-shadow: 0 0 3px rgba(255, 255, 255, .2);
       border: none;
       cursor: pointer;
-      letter-spacing: .1rem;
-      transition: all .3s;
+      letter-spacing: 0.1rem;
+      transition: all 0.3s;
 
       &:hover {
         // color: rgba(255, 255, 255, .9);

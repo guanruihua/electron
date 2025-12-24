@@ -18,6 +18,7 @@ export function Layout() {
   }
 
   React.useEffect(() => {
+    console.log(location.hash)
     init()
   }, [])
   if (type === 'mini-tool') {

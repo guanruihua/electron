@@ -1,5 +1,3 @@
-import React from 'react'
-
 export const InputNumber = ({ name, onChange, ...rest }: any) => {
   return (
     <input

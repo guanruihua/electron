@@ -1,4 +1,3 @@
-import './index.less'
 import { classNames } from 'harpe'
 
 export interface AppCardProps {
@@ -8,7 +7,7 @@ export interface AppCardProps {
 export function AppCard(props: AppCardProps) {
   const { className, item, ...rest } = props
   const {
-    iconDataURL = '',
+    // iconDataURL = '',
     path = '',
     fullPath = '',
     description = '',
@@ -16,7 +15,7 @@ export function AppCard(props: AppCardProps) {
   const name = fullPath
     .split(/\\/)
     .at(-1)
-    ?.replace(/\.lnk$/, '')
+    ?.replace(/\.(lnk|exe)$/, '')
   // console.log({ item })
 
   return (

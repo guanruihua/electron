@@ -3,6 +3,7 @@ import { Layout } from '.'
 import { Home } from '@/views/home'
 import { WebViewPage } from '@/views/webview'
 import { StartMenu } from '@/views/startMenu'
+import { MiniTool } from '@/views/mini-tool'
 
 export const Pages: (RouteObject & {
   name: string
@@ -16,6 +17,11 @@ export const Pages: (RouteObject & {
     name: 'Start Menu',
     path: '/startMenu',
     element: <StartMenu />,
+  },
+  {
+    name: 'MiniTool',
+    path: '/mini-tool',
+    element: <MiniTool />,
   },
 ]
 

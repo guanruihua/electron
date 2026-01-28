@@ -46,9 +46,12 @@ export function Info(props: InfoProps) {
   return (
     <div ref={ref} className="page__miniTool-container-info">
       <div className="page__miniTool-container-info-container">
+        <div style={{cursor: 'pointer'}} onClick={()=>{
+          window.api.openMaskWindow()
+        }}>打开遮罩</div>
         {/* <RandomPwd /> */}
-        <StartMenu h={h} />
-        <div className="app-list">
+        {/* <StartMenu h={h} /> */}
+        {/* <div className="app-list">
           <AppCard
             name="test"
             onClick={async () => {
@@ -70,7 +73,7 @@ export function Info(props: InfoProps) {
               console.log('test:', res)
             }}
           />
-        </div>
+        </div> */}
       </div>
     </div>
   )

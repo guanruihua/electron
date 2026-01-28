@@ -1,6 +1,5 @@
 .page__home {
-  padding: 10px;
-  // max-height: 100vh;
+  max-height: 100vh;
   overflow-y: auto;
 
   button {
@@ -35,6 +34,75 @@
         color: rgba(255, 255, 255, 0.9);
         background-color: rgba(255, 255, 255, 0.4);
       }
+    }
+  }
+}
+
+.page__iframe {
+  height: 100%;
+  height: var(--h);
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 50px 1fr;
+
+  &-bar {
+    background-color: #3c3c3c;
+    height: 100%;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 20px;
+
+    .center {
+      input {
+        border-radius: 50px;
+        background-color: #282828;
+        border: none;
+      }
+    }
+
+    .left {
+      height: 100%;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      padding-left: 10px;
+
+      svg,
+      path {
+        cursor: pointer;
+        font-size: 16px;
+        color: rgba(255, 255, 255, 0.7);
+      }
+
+      &>div {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        transition: all .7s;
+
+        &>svg {
+          margin-top: -2px;
+        }
+
+        &:hover {
+          background: rgba(255, 255, 255, .2);
+        }
+      }
+    }
+  }
+
+  &-iframe {
+    display: flex;
+    border: none;
+    width: 100%;
+    background-color: #000;
+
+    & div {
+      background-color: #000;
     }
   }
 }

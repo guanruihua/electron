@@ -17,7 +17,15 @@ export function MiniTool(props: MiniToolProps) {
       <div className="page__miniTool-container">
         <Search h={h} />
         <Avatar h={h} />
-        <Info h={h} />
+        {/* <Info h={h} /> */}
+        <div
+          style={{ cursor: 'pointer' }}
+          onClick={() => {
+            window.api.openMaskWindow()
+          }}
+        >
+          打开遮罩
+        </div>
       </div>
     </div>
   )

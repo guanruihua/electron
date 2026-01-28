@@ -1,44 +1,19 @@
-import { Pages } from '@/layout/routes'
-import { useNavigate } from 'react-router-dom'
+// import { Pages } from '@/layout/routes'
 import './index.less'
-// import React from 'react'
+
+import { usePageState } from './state'
+import { Header } from './components/header'
+import { View } from './view'
 
 export function Home() {
-  const nav = useNavigate()
-  // const [msg, setMsg] = React.useState('')
+  const { state, setState, handle } = usePageState()
 
   return (
-    <div className="page__home">
-      {/* {msg} */}
-      <button
-        onClick={async () => {
-          // setMsg(JSON.stringify(val, null, 2))
-        }}
-      >
-        test
-      </button>
-      <button
-        onClick={() => {
-          window.api.openPath('https://www.google.com')
-          // window.electronAPI.openPath(`C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe`)
-        }}
-      >
-        open
-      </button>
-      <div className="page__home-page-container">
-        {Pages.map((item: any) => {
-          return (
-            <div
-              key={item.path}
-              className="page__home-page-container-page-item"
-              onClick={() => nav(item.path)}
-            >
-              {item.name}
-            </div>
-          )
-        })}
+    <div className="main-layout">
+      <Header state={state} setState={setState} handle={handle} />
+      <div className="page__home">
+        <View state={state} setState={setState} handle={handle} />
       </div>
-      {/* <div>{JSON.stringify(location, null, 2)}</div> */}
     </div>
   )
 }

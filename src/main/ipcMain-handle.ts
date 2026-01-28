@@ -1,10 +1,20 @@
 import { ipcMain, BrowserWindow } from 'electron'
 import { getStartMenu, StoreManager } from './utils'
 import { AppSize } from '../preload/type'
+import { createScreenMask } from './register/create-screen-mask'
 
 export const ipcMainHandle = (mainWindow: BrowserWindow) => {
   const store = new StoreManager()
   const Conf = {
+    'open-mask-window': () => {
+      createScreenMask()
+      ipcMain.handle('resize-mask-window', (_, zoom) => {
+        console.log('resize-mask-window / mask: ', zoom)
+      })
+    },
+    // 'resize-mask-window': (_, zoom) => {
+    //   console.log('resize-mask-window / main: ', zoom)
+    // },
     'window-minimize': () => mainWindow.unmaximize(),
     'window-maximize': () => mainWindow.maximize(),
     'window-close': () => mainWindow.close(),
@@ -21,9 +31,9 @@ export const ipcMainHandle = (mainWindow: BrowserWindow) => {
     },
     'set-app-size': async (_e, conf: AppSize) => {
       console.log('ipcMainHandle / setAppSize~ conf:', conf)
-      if (mainWindow.isFullScreen()) return
-      const { height } = conf
-      if (!height) return
+      // if (mainWindow.isFullScreen()) return
+      // const { height } = conf
+      // if (!height) return
       // const h = Math.min(Math.max(60, Number(height)), 600)
       // mainWindow.setSize(900, h, false)
     },

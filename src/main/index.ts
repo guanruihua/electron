@@ -1,4 +1,11 @@
-import { app, shell, BrowserWindow, session, globalShortcut } from 'electron'
+import {
+  app,
+  shell,
+  BrowserWindow,
+  session,
+  globalShortcut,
+  screen,
+} from 'electron'
 import path from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
@@ -10,19 +17,26 @@ function createWindow(): void {
   const persistentSession = session.fromPartition('persist:mycache', {
     cache: true,
   })
+  const primaryDisplay = screen.getPrimaryDisplay()
+  const { width, height } = primaryDisplay.workAreaSize
+  console.log('🚀 ~ createWindow ~ width:', width, height)
+
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    width: 900,
-    height: 430,
-    show: false,
+    // width: 900,
+    // height: 430,
+    width,
+    height,
+    // show: false,
     resizable: true,
     icon,
     titleBarStyle: 'hidden', // 或 'hiddenInset' (macOS)
-    frame: false, // 无边框窗口（隐藏标题栏和边框）
+    // frame: false, // 无边框窗口（隐藏标题栏和边框）
     autoHideMenuBar: true, // 自动隐藏菜单栏（按 Alt 键显示）
     center: true,
     backgroundColor: '#00000000',
-    transparent: true,
+    // backgroundColor: '#00000000',
+    // transparent: true,
     // ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: path.join(__dirname, '../preload/index.js'),
@@ -30,14 +44,15 @@ function createWindow(): void {
       webviewTag: true,
       contextIsolation: true,
       nodeIntegration: false,
-      webSecurity: true,
+      webSecurity: false,
       nodeIntegrationInWorker: true,
       enablePreferredSizeMode: true,
       session: persistentSession,
+      allowRunningInsecureContent: true,
     },
   })
 
-  // mainWindow.maximize()
+  mainWindow.maximize()
 
   mainWindow.on('ready-to-show', () => {
     mainWindow.show()
@@ -60,6 +75,9 @@ function createWindow(): void {
   ipcMainHandle(mainWindow)
   registerShortcuts(mainWindow)
   // mainWindow.webContents.toggleDevTools()
+  mainWindow.webContents.openDevTools({
+    mode: 'bottom',
+  })
 }
 
 // This method will be called when Electron has finished

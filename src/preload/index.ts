@@ -5,6 +5,13 @@ import { AppSize } from './type'
 
 // Custom APIs for renderer
 const api = {
+  openMaskWindow: () => {
+    ipcRenderer.invoke('open-mask-window')
+  },
+  resizeMaskWindow: (zoom) => {
+    console.log('🚀 ~ zoom:', zoom)
+    ipcRenderer.invoke('resize-mask-window', zoom)
+  },
   onShortcut: (type: string, callback) => {
     ipcRenderer.on('shortcut-info', (event, data) => {
       if (data?.type === type) {

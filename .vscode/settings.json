@@ -8,7 +8,14 @@
   "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "cSpell.words": ["lancedb"],
+  "cSpell.words": [
+    "allowpopups",
+    "electronjs",
+    "eslintcache",
+    "lancedb",
+    "nodeintegration",
+    "nsis"
+  ],
   "path-intellisense.mappings": {
     "@": "${workspaceRoot}/src/renderer/src"
   }

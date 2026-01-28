@@ -6,6 +6,8 @@ declare global {
   interface Window {
     electron: ElectronAPI
     api: {
+      openMaskWindow(): void
+      resizeMaskWindow(zoom: number): void
       store: (conf: ObjectType) => Promise<any>
       // 窗口控制
       minimize: () => void

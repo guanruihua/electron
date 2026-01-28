@@ -57,9 +57,9 @@ export class StoreManager {
         ensureExists(item.path, '[]')
         this.CACHE[item.name] = (await getJSONFileData(item.path)) || []
       }
-      console.log(`Store '${item.name}' Init Success`)
+      // console.log(`Store '${item.name}' Init Success`)
     } catch (error) {
-      console.error(`Store '${item.name}' Init Error:`, error)
+      // console.error(`Store '${item.name}' Init Error:`, error)
     }
   }
 

@@ -15,6 +15,15 @@ export const ipcMainHandle = (mainWindow: BrowserWindow) => {
     // 'resize-mask-window': (_, zoom) => {
     //   console.log('resize-mask-window / main: ', zoom)
     // },
+    toggleDevTools: () => {
+      if (mainWindow.webContents.isDevToolsOpened()) {
+        mainWindow.webContents.closeDevTools()
+      } else {
+        mainWindow.webContents.openDevTools({
+          mode: 'bottom',
+        })
+      }
+    },
     'window-minimize': () => mainWindow.unmaximize(),
     'window-maximize': () => mainWindow.maximize(),
     'window-close': () => mainWindow.close(),

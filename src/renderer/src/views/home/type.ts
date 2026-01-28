@@ -6,10 +6,14 @@ export interface PageState {
   canGoForward?: boolean
 
   activeTab?: string
-  tabs?: {
-    id: string
-    title: string
-    url: string
-  }[]
+  tabs?: string[]
+  infos?: {
+    [key: string]: {
+      id: string
+      title?: string
+      url?: string
+      [key: string]: any
+    }
+  }
   [key: string]: any
 }

@@ -28,7 +28,10 @@ declare global {
        */
       onShortcut: (type: string, callback: (info: any) => void) => void
       setSize: (conf: AppSize) => void
-      invoke: (type: string, conf?: ObjectType) => Promise<ObjectType>
+      invoke: (
+        type: 'toggleDevTools',
+        conf?: ObjectType,
+      ) => Promise<ObjectType>
       test: (conf: any) => Promise<any>
     }
   }

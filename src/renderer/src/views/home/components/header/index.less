@@ -48,7 +48,7 @@
       &-container {
         height: 80%;
         display: flex;
-        gap: 5px;
+        // gap: 5px;
         flex-direction: row;
       }
 
@@ -58,11 +58,60 @@
 
       .main-layout-header-major-tab-item {
         font-weight: bold;
-        padding: 0px 20px 10px;
+        padding: 0px 10px 10px;
         border-top-left-radius: 12px;
         border-top-right-radius: 12px;
         transition: all .7s;
         cursor: pointer;
+        min-width: 160px;
+        position: relative;
+
+        &[data-active='false']::after {
+          content: '';
+          position: absolute;
+          top: 10px;
+          left: 0;
+          height: 10px;
+          width: 0;
+          border-right: 1px solid rgba(255, 255, 255, .3);
+        }
+
+        .header-tab-item-box {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+          gap: 10px;
+
+          &-close {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            line-height: 20px;
+            padding: 0;
+            text-align: center;
+            transition: all .7s;
+            cursor: pointer;
+
+            path,
+            svg {
+              transition: all .7s;
+              color: #787878;
+            }
+
+            &:hover {
+              background: rgba(255, 255, 255, .1);
+
+              path,
+              svg {
+                color: #fff;
+              }
+            }
+          }
+        }
 
         &[data-active='true'] {
           background-color: #3c3c3c;
@@ -70,6 +119,21 @@
 
         &[data-active='false']:hover {
           background-color: #134a77;
+        }
+
+        &.plus {
+          text-align: center;
+          padding: 0;
+          min-width: 26px;
+          width: 26px;
+          height: 26px;
+          line-height: 28px;
+          font-size: 18px;
+          border-radius: 50%;
+
+          &:hover {
+            background-color: #134a77;
+          }
         }
       }
     }

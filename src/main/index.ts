@@ -4,7 +4,6 @@ import {
   BrowserWindow,
   session,
   globalShortcut,
-  screen,
 } from 'electron'
 import path from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
@@ -17,16 +16,11 @@ function createWindow(): void {
   const persistentSession = session.fromPartition('persist:mycache', {
     cache: true,
   })
-  const primaryDisplay = screen.getPrimaryDisplay()
-  const { width, height } = primaryDisplay.workAreaSize
-  console.log('🚀 ~ createWindow ~ width:', width, height)
 
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    // width: 900,
-    // height: 430,
-    width,
-    height,
+    width: 900,
+    height: 430,
     // show: false,
     resizable: true,
     icon,
@@ -74,10 +68,6 @@ function createWindow(): void {
   }
   ipcMainHandle(mainWindow)
   registerShortcuts(mainWindow)
-  // mainWindow.webContents.toggleDevTools()
-  mainWindow.webContents.openDevTools({
-    mode: 'bottom',
-  })
 }
 
 // This method will be called when Electron has finished

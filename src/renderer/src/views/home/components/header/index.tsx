@@ -2,6 +2,7 @@ import { Div } from 'aurad'
 import { ObjectType } from '0type'
 import './index.less'
 import { PageState } from '../../type'
+import { Icon } from '../icons'
 
 export interface HeaderProps {
   handle: ObjectType
@@ -31,18 +32,51 @@ export function Header(props: HeaderProps) {
         </div>
         <div className="main-layout-header-major-tabs">
           <div className="main-layout-header-major-tabs-container">
-            {state?.tabs?.map((tab) => {
+            {state?.tabs?.map((id) => {
               return (
                 <div
-                  key={tab.id}
+                  key={id}
                   className="main-layout-header-major-tab-item"
-                  data-active={tab.id === state.activeTab}
-                  onClick={() => setState({ activeTab: tab.id })}
+                  data-active={id === state.activeTab}
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    e.preventDefault()
+                    setState({ activeTab: id })
+                  }}
                 >
-                  {tab.title}
+                  <span className="header-tab-item-box">
+                    <span
+                      data-header-title-id={id}
+                      style={{
+                        maxWidth: 200,
+                        whiteSpace: 'nowrap',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                        transition: 'all .3s',
+                      }}
+                    >
+                      Home
+                    </span>
+                    <span
+                      className="header-tab-item-box-close"
+                      onClick={(e) => {
+                        e.preventDefault()
+                        e.stopPropagation()
+                        handle.closeTab(id)
+                      }}
+                    >
+                      <Icon type="close" />
+                    </span>
+                  </span>
                 </div>
               )
             })}
+            <div
+              className="main-layout-header-major-tab-item plus"
+              onClick={handle.addTab}
+            >
+              <span>+</span>
+            </div>
           </div>
         </div>
         <div className="main-layout-header-major-handle"></div>

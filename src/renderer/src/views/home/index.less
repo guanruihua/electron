@@ -45,13 +45,17 @@
   grid-template-columns: 1fr;
   grid-template-rows: 50px 1fr;
 
+  &.hidden{
+    display: none;
+  }
+
   &-bar {
     background-color: #3c3c3c;
     height: 100%;
     display: grid;
     grid-template-columns: auto 1fr auto;
     align-items: center;
-    gap: 20px;
+    gap: 10px;
 
     .center {
       input {

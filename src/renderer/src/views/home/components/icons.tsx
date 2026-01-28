@@ -1,11 +1,40 @@
 import React from 'react'
 
 interface IconProps extends React.DOMAttributes<SVGSVGElement> {
-  type: 'back' | 'forward' | 'reload' | 'home'
+  type: 'back' | 'forward' | 'reload' | 'home' | 'close' | 'add'
   [key: string]: any
 }
 export function Icon(props: IconProps) {
   const { type, ...rest } = props
+  if (type === 'add')
+    return (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="1em"
+        height="1em"
+        viewBox="0 0 24 24"
+      >
+        <path
+          fill="currentColor"
+          d="M11 13H6q-.425 0-.712-.288T5 12t.288-.712T6 11h5V6q0-.425.288-.712T12 5t.713.288T13 6v5h5q.425 0 .713.288T19 12t-.288.713T18 13h-5v5q0 .425-.288.713T12 19t-.712-.288T11 18z"
+        ></path>
+      </svg>
+    )
+  if (type === 'close')
+    return (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="1em"
+        height="1em"
+        viewBox="0 0 24 24"
+      >
+        <path
+          fill="currentColor"
+          d="m12 13.4l-4.9 4.9q-.275.275-.7.275t-.7-.275t-.275-.7t.275-.7l4.9-4.9l-4.9-4.9q-.275-.275-.275-.7t.275-.7t.7-.275t.7.275l4.9 4.9l4.9-4.9q.275-.275.7-.275t.7.275t.275.7t-.275.7L13.4 12l4.9 4.9q.275.275.275.7t-.275.7t-.7.275t-.7-.275z"
+        ></path>
+      </svg>
+    )
+
   if (type === 'reload')
     return (
       <svg

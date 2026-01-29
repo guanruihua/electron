@@ -6,6 +6,7 @@ declare global {
   interface Window {
     electron: ElectronAPI
     api: {
+      onNewTab(callback: (data: ObjectType) => void): void
       openMaskWindow(): void
       resizeMaskWindow(zoom: number): void
       store: (conf: ObjectType) => Promise<any>
@@ -28,10 +29,7 @@ declare global {
        */
       onShortcut: (type: string, callback: (info: any) => void) => void
       setSize: (conf: AppSize) => void
-      invoke: (
-        type: 'toggleDevTools',
-        conf?: ObjectType,
-      ) => Promise<ObjectType>
+      invoke: (type: 'toggleDevTools', conf?: ObjectType) => Promise<ObjectType>
       test: (conf: any) => Promise<any>
     }
   }

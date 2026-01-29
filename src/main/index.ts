@@ -4,6 +4,9 @@ import {
   BrowserWindow,
   session,
   globalShortcut,
+  Menu,
+  BaseWindow,
+  WebContentsView,
 } from 'electron'
 import path from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
@@ -34,15 +37,26 @@ function createWindow(): void {
     // ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       preload: path.join(__dirname, '../preload/index.js'),
-      sandbox: false,
+
+      // 安全相关
+      sandbox: false, // 设为 false 确保完整功能
+      // allowRunningInsecureContent: false,
+
+      // sandbox: false,
       webviewTag: true,
       contextIsolation: true,
+      // contextIsolation: false,
       nodeIntegration: false,
-      webSecurity: false,
       nodeIntegrationInWorker: true,
       enablePreferredSizeMode: true,
       session: persistentSession,
+
+      webSecurity: false,
       allowRunningInsecureContent: true,
+      enableWebSQL: true,
+
+      experimentalFeatures: true,
+      // enableBlinkFeatures: 'ClipboardCustomFormats,ClipboardRead',
     },
   })
 
@@ -50,11 +64,6 @@ function createWindow(): void {
 
   mainWindow.on('ready-to-show', () => {
     mainWindow.show()
-  })
-
-  mainWindow.webContents.setWindowOpenHandler((details) => {
-    shell.openExternal(details.url)
-    return { action: 'deny' }
   })
 
   // HMR for renderer base on electron-vite cli.
@@ -68,6 +77,50 @@ function createWindow(): void {
   }
   ipcMainHandle(mainWindow)
   registerShortcuts(mainWindow)
+
+  // 1. 监听 webview 被附加到 DOM
+  mainWindow.webContents.on('did-attach-webview', (event, webContents) => {
+    console.log('✅ Webview 被附加，设置监听器...')
+
+    // 为 webview 的内容设置窗口打开处理器
+    webContents.setWindowOpenHandler((details) => {
+      console.log('Webview / new Window:', details)
+      // console.log('URL:', details.url);
+      // console.log('Features:', details.features);
+      // console.log('Frame:', details.frameName);
+      mainWindow.webContents.send('newTabEvent', {
+        type: 'newTab',
+        data: details,
+        timestamp: Date.now(),
+      })
+      // 在外部浏览器打开
+      // shell.openExternal(details.url);
+
+      return { action: 'deny' }
+    })
+
+    // 可选：监听 webview 的导航
+    // webContents.on('did-navigate', (event, url) => {
+    //   console.log('Webview 导航到:', url)
+    // })
+
+    // 可选：监听 webview 的 console
+    // webContents.on('console-message', (event, level, message) => {
+    //   console.log(`Webview 日志 [${level}]:`, message)
+    // })
+  })
+
+  // const win = new BaseWindow({ width: 800, height: 400 })
+
+  // const view1 = new WebContentsView()
+  // view1.webContents.loadURL('https://electronjs.org')
+  // view1.setBounds({ x: 0, y: 80, width: 1600, height: 800 })
+  // mainWindow.contentView.addChildView(view1)
+
+  // const view2 = new WebContentsView()
+  // mainWindow.contentView.addChildView(view2)
+  // view2.webContents.loadURL('https://github.com/electron/electron')
+  // view2.setBounds({ x: 400, y: 0, width: 400, height: 400 })
 }
 
 // This method will be called when Electron has finished
@@ -87,12 +140,12 @@ app.whenReady().then(async () => {
   createWindow()
 
   // 应用激活时重新注册快捷键
-  app.on('activate', () => {
-    if (BrowserWindow.getAllWindows().length === 0) {
-      createWindow()
-    }
-    registerShortcuts(mainWindow)
-  })
+  // app.on('activate', () => {
+  //   if (BrowserWindow.getAllWindows().length === 0) {
+  //     createWindow()
+  //   }
+  //   registerShortcuts(mainWindow)
+  // })
 
   // 应用失去焦点时
   app.on('browser-window-blur', () => {

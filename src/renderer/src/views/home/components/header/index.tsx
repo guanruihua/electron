@@ -55,7 +55,7 @@ export function Header(props: HeaderProps) {
                         transition: 'all .3s',
                       }}
                     >
-                      Home
+                      Loading...
                     </span>
                     <span
                       className="header-tab-item-box-close"

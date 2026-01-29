@@ -5,6 +5,9 @@ import { AppSize } from './type'
 
 // Custom APIs for renderer
 const api = {
+  onNewTab: (callback) => {
+    ipcRenderer.on('newTabEvent', (event, data) => callback(data))
+  },
   openMaskWindow: () => {
     ipcRenderer.invoke('open-mask-window')
   },

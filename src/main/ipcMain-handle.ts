@@ -24,7 +24,8 @@ export const ipcMainHandle = (mainWindow: BrowserWindow) => {
         })
       }
     },
-    'window-minimize': () => mainWindow.unmaximize(),
+    'window-minimize': () => mainWindow.minimize(),
+    'window-unmaximize': () => mainWindow.unmaximize(),
     'window-maximize': () => mainWindow.maximize(),
     'window-close': () => mainWindow.close(),
     'get-startMenu': getStartMenu,

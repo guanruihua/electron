@@ -1,7 +1,9 @@
 import { useSetState } from '0hook'
 import { WebviewTag } from 'electron'
 import React from 'react'
+import {} from 'harpe'
 import { setupEventListeners } from './setupEventListeners'
+import { sleep } from '@/util'
 
 interface ViewState {
   id: string
@@ -39,6 +41,8 @@ export const useViewState = (props) => {
     if (!ref.current) return
     const webview: WebviewTag = ref.current
     webview.addEventListener('dom-ready', () => {
+      console.log('allow pasting')
+      console.log('允许粘贴')
       console.log('Webview DOM 准备就绪')
       load()
     })
@@ -49,19 +53,17 @@ export const useViewState = (props) => {
     viewState,
     setViewState,
     handleView: {
-      searchKeyDown(e) {
+      async searchKeyDown(e) {
         if (e.key === 'Enter') {
           setViewState({
-            url: viewState.search,
+            id,
           })
           handle.updateTabInfo({
             id,
             url: viewState.search,
           })
-          const timer = setTimeout(() => {
-            load()
-            clearTimeout(timer)
-          }, 1000)
+          await sleep(500)
+          load()
         }
       },
       search(e) {

@@ -3,6 +3,14 @@ export * from './hook/use-set-state'
 import { message } from 'aurad'
 import { copyText } from 'harpe'
 
+export const sleep = async (timeout: number = 500) =>
+  new Promise<void>((rs) => {
+    const timer = setTimeout(() => {
+      clearTimeout(timer)
+      rs(undefined)
+    }, timeout)
+  })
+
 export const get = async (url: string): Promise<Record<string, any>> => {
   const xhr = new XMLHttpRequest()
   return new Promise((rs) => {

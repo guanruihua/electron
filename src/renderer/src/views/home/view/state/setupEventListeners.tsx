@@ -7,64 +7,10 @@ const setTitle = (id: string, title: string) => {
   // console.log('🚀 ~ webviewListener ~ dom:', dom)
 }
 
-export const setupEventListeners = (
-  webview,
-  tab,
-  handle,
-  setViewState,
-) => {
+export const setupEventListeners = (webview, tab, handle, setViewState) => {
   console.log('setupEventListeners')
+  
   const { id, url } = tab
-  // let count = 0
-  // const timer = setInterval(() => {
-  //   const title = webview?.getTitle?.()
-  //   console.log(title)
-  //   count++
-  //   if (title) {
-  //     clearInterval(timer)
-  //   }
-  //   if (count > 20) {
-  //     clearInterval(timer)
-  //   }
-  // }, 500)
-
-  const events = [
-    'load-commit',
-    'did-finish-load',
-    'did-fail-load',
-    'did-frame-finish-load',
-    'did-start-loading',
-    'did-stop-loading',
-    'did-attach',
-    // 'dom-ready',
-    'page-title-updated',
-    'page-favicon-updated',
-    'enter-html-full-screen',
-    'leave-html-full-screen',
-    'console-message',
-    'found-in-page',
-    'will-navigate',
-    'will-frame-navigate',
-    'did-start-navigation',
-    'did-redirect-navigation',
-    'did-navigate',
-    'did-frame-navigate',
-    'did-navigate-in-page',
-    'close',
-    'ipc-message',
-    'render-process-gone',
-    'destroyed',
-    'media-started-playing',
-    'media-paused',
-    'did-change-theme-color',
-    // 'update-target-url',
-    'devtools-open-url',
-    'devtools-search-query',
-    'devtools-opened',
-    'devtools-closed',
-    'devtools-focused',
-    'context-menu',
-  ]
   const newViewState = {
     id,
     url,
@@ -73,20 +19,6 @@ export const setupEventListeners = (
     canGoBack: false,
     canGoForward: false,
   }
-
-  events.forEach((item) => {
-    webview.addEventListener(item, () => {
-      // if (item === 'page-favicon-updated') {
-      //   const newTitle = webview?.getTitle?.()
-      //   if (newViewState.title !== newTitle) {
-      //     newViewState.title = newTitle
-      //     setViewState(newViewState)
-      //     setTitle(id, newViewState.title)
-      //   }
-      // }
-      console.log(item, webview?.getTitle?.())
-    })
-  })
 
   // 1. 监听页面开始加载
   webview.addEventListener('did-start-loading', () => {
@@ -204,4 +136,6 @@ export const setupEventListeners = (
     //   addToHistory(url)
     // }, 100)
   })
+
+
 }

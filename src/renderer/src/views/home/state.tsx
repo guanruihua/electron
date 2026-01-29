@@ -4,31 +4,37 @@ import { PageState } from './type'
 
 export const usePageState = () => {
   const [state, setState] = useSetState<PageState>({
-    activeTab: '1',
-    tabs: ['1', '2', '3', '4', '5'],
+    activeTab: '01',
+    tabs: [
+      '01',
+      '1',
+      // '2', '3', '4',
+      '5',
+    ],
   })
 
   const [info, setInfo] = React.useState({
     1: {
       id: '1',
       title: 'Qubit Safe',
-      url: 'http://172.16.30.53:5173/discovery',
+      // url: 'http://172.16.30.53:5173/discovery',
+      url: 'https://guanruihua.github.io/#/',
     },
-    2: {
-      id: '2',
-      title: 'Bing',
-      url: 'https://www.bing.com',
-    },
-    3: {
-      id: '3',
-      title: 'Baidu',
-      url: 'https://www.baidu.com',
-    },
-    4: {
-      id: '4',
-      title: 'Google',
-      url: 'https://www.google.com',
-    },
+    // 2: {
+    //   id: '2',
+    //   title: 'Bing',
+    //   url: 'https://www.bing.com',
+    // },
+    // 3: {
+    //   id: '3',
+    //   title: 'Baidu',
+    //   url: 'https://www.baidu.com',
+    // },
+    // 4: {
+    //   id: '4',
+    //   title: 'Google',
+    //   url: 'https://www.google.com',
+    // },
     5: {
       id: '5',
       title: 'Electron',
@@ -40,6 +46,23 @@ export const usePageState = () => {
   const cache = React.useRef<any>(null)
 
   // console.log('🚀 ~ usePageState ~ state:', state)
+  React.useEffect(() => {
+    window.api.onNewTab(async (res) => {
+      const { data, timestamp } = res
+      const id = String(timestamp)
+
+      // console.log('newTab', res)
+      if (!state.tabs) state.tabs = [id]
+      else state.tabs.push(id)
+      state.activeTab = id
+      setState(state)
+      info[id] = {
+        id,
+        ...data,
+      }
+      setInfo(info)
+    })
+  }, [])
 
   return {
     info,

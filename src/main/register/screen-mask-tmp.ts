@@ -1,4 +1,4 @@
-<!doctype html>
+export const ScreenMaskTmp = `<!doctype html>
 <html class="night night-theme">
   <head>
     <meta charset="UTF-8" />
@@ -9,7 +9,7 @@
       overflow: hidden;
       min-width: 100vw;
       min-height: 100vh;
-      background-color: rgba(0, 0, 0, 0.5);
+      background-color: rgba(0, 0, 0, 0.8);
       padding: 0;
       margin: 0;
     }
@@ -57,8 +57,7 @@
       <div class="bottom">
         <div></div>
         <div class="controls">
-          <!-- <button onclick="changeZoom(0.1)">zoom +</button> -->
-          <!-- <button onclick="changeZoom(-0.1)">zoom -</button> -->
+         
           <button onclick="changeOpacity(0.1)">+</button>
           <button onclick="changeOpacity(-0.1)">-</button>
         </div>
@@ -67,11 +66,12 @@
   </body>
   <script>
     // 初始透明度
-    let currentOpacity = 0.5
-
+    let currentOpacity = 0.8
+ // <button onclick="changeZoom(0.1)">zoom +</button>
+          // <button onclick="changeZoom(-0.1)">zoom -</button>
     // 更新背景透明度
     function updateBackground() {
-      document.body.style.backgroundColor = `rgba(0, 0, 0, ${currentOpacity})`
+      document.body.style.backgroundColor = "rgba(0, 0, 0, "+ currentOpacity + "})"
     }
 
     // 改变透明度
@@ -124,9 +124,8 @@
     //     const newH =
     //       direction === 'up' ? Number(currentH) + step : Number(currentH) - step
     //     // document.getElementById('sizeInfo').textContent =
-    //     console.log(`当前窗口尺寸：${newW} x ${newH}`)
     //   },
     //   { passive: false },
     // ) // passive: false 才能调用 preventDefault()
   </script>
-</html>
+</html>`

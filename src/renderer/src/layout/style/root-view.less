@@ -1,11 +1,10 @@
 .root-view {
-  height: 100%;
   height: var(--h);
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 50px 1fr;
 
-  &.hidden {
+  &[data-hidden="true"] {
     display: none;
   }
 
@@ -52,6 +51,7 @@
         &[data-disabled="true"] svg,
         &[data-disabled="true"] path {
           cursor: not-allowed;
+          opacity: .8;
         }
 
         &>svg {
@@ -70,6 +70,11 @@
     border: none;
     width: 100%;
     background-color: #000;
+    transition: all .3s;
+    
+    &[data-hidden="true"]{
+      display: none;
+    }
 
     & div {
       background-color: #000;

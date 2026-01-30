@@ -1,5 +1,5 @@
 export interface ViewState {
-  id: string
+  id?: string
   url?: string
   search?: string
   title?: string

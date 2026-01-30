@@ -1,39 +1,69 @@
+import { WebviewTag } from 'electron'
 import { setHeaderIcon, setHeaderTitle } from './index'
+import { ViewState } from '@/layout/type'
 
-export const setupEventListeners = (webview, tab, handle, handleView) => {
-  const { id, url } = tab
-  const newViewState = {
-    id,
-    url,
+export const setupEventListeners = (
+  webview: WebviewTag,
+  viewState: ViewState,
+  handle,
+  handleView,
+) => {
+  const { id, url } = viewState
+  const newViewState: ViewState = {
     search: url,
     title: webview?.getTitle?.() || 'Loading',
     canGoBack: false,
     canGoForward: false,
     favicon: '',
+    ...viewState,
+    home: false,
   }
 
+  // 插入 CSS
+  // webview
+  //   .insertCSS(
+  //     `
+  //   :root {
+  //     color-scheme: dark;
+  //   }
+    
+  //   body {
+  //     background-color: #121212 !important;
+  //     color: #e0e0e0 !important;
+  //     filter: invert(0.9) hue-rotate(180deg) !important;
+  //   }
+    
+  //   img, video, iframe, canvas, svg {
+  //     filter: invert(1) hue-rotate(180deg) !important;
+  //   }
+  // `,
+  //   )
+  //   .then(() => {
+  //     console.log('暗黑模式 CSS 已注入')
+  //   })
   // 1. 监听页面开始加载
-  webview.addEventListener('did-start-loading', () => {
-    // statusDiv.textContent = '状态: 正在加载...'
-    console.log('开始加载页面')
-  })
+  // webview.addEventListener('did-start-loading', () => {
+  //   // statusDiv.textContent = '状态: 正在加载...'
+  //   console.log('开始加载页面')
+  // })
 
   // 2. 监听页面加载完成
-  webview.addEventListener('did-stop-loading', () => {
-    // statusDiv.textContent = '状态: 加载完成'
-    const url = webview.getURL()
-    // updateUrlDisplay(url)
-    console.log('页面加载完成:', url)
-    newViewState.url = url
-    newViewState.search = url
-    newViewState.title = webview?.getTitle?.()
-    newViewState.canGoBack = webview?.canGoBack?.()
-    newViewState.canGoForward = webview?.canGoForward?.()
-    // console.log('🚀 ~ setupEventListeners ~ newViewState:', newViewState)
-    handleView.setViewState(newViewState)
-    setHeaderTitle(id, newViewState.title)
-    handle.updateTabInfo(newViewState)
-  })
+  webview
+    .addEventListener('did-stop-loading', () => {
+      // statusDiv.textContent = '状态: 加载完成'
+      const url = webview.getURL()
+      // updateUrlDisplay(url)
+      console.log('页面加载完成:', url)
+      newViewState.url = url
+      newViewState.search = url
+      newViewState.title = webview?.getTitle?.()
+      newViewState.canGoBack = webview?.canGoBack?.()
+      newViewState.canGoForward = webview?.canGoForward?.()
+      // console.log('🚀 ~ setupEventListeners ~ newViewState:', newViewState)
+      handleView.setViewState(newViewState)
+      setHeaderTitle(id, newViewState.title)
+      handle.updateTabInfo(newViewState)
+    })
 
   // 3. 监听页面标题变化
   webview.addEventListener('page-title-updated', (e) => {
@@ -43,17 +73,15 @@ export const setupEventListeners = (webview, tab, handle, handleView) => {
   })
 
   // 4. 监听 URL 变化（重定向时）
-  webview.addEventListener('did-navigate', (e) => {
-    console.log('页面导航到:', e.url)
-    // addToHistory(e.url)
-    // updateUrlDisplay(e.url)
-  })
+  // webview.addEventListener('did-navigate', (e) => {
+  //   console.log('页面导航到:', e.url)
+  // })
 
   // 5. 监听页面内导航（hash 变化等）
-  webview.addEventListener('did-navigate-in-page', (e) => {
-    console.log('页面内导航:', e.url)
-    // updateUrlDisplay(e.url)
-  })
+  // webview.addEventListener('did-navigate-in-page', (e) => {
+  //   console.log('页面内导航:', e.url)
+  //   // updateUrlDisplay(e.url)
+  // })
 
   // 6. 监听加载失败
   webview.addEventListener('did-fail-load', (e) => {
@@ -66,21 +94,21 @@ export const setupEventListeners = (webview, tab, handle, handleView) => {
   })
 
   // 7. 监听加载进度
-  webview.addEventListener('load-commit', (e) => {
-    console.log('加载提交:', {
-      url: e.url,
-      isMainFrame: e.isMainFrame,
-    })
-  })
+  // webview.addEventListener('load-commit', (e) => {
+  //   console.log('加载提交:', {
+  //     url: e.url,
+  //     isMainFrame: e.isMainFrame,
+  //   })
+  // })
 
   // 8. 监听新窗口打开
-  webview.addEventListener('new-window', (e) => {
-    console.log('新窗口请求:', e.url)
-    e.preventDefault() // 阻止默认行为
+  // webview.addEventListener('new-window', (e) => {
+  //   console.log('新窗口请求:', e.url)
+  //   e.preventDefault() // 阻止默认行为
 
-    // 在当前 webview 中打开
-    // webview.loadURL(e.url)
-  })
+  //   // 在当前 webview 中打开
+  //   // webview.loadURL(e.url)
+  // })
 
   // 9. 监听控制台消息
   // webview.addEventListener('console-message', (e) => {
@@ -107,13 +135,7 @@ export const setupEventListeners = (webview, tab, handle, handleView) => {
   // })
 
   // // 初始加载时获取 URL
-  webview.addEventListener('did-finish-load', () => {
-    console.log('🚀 ~ webviewListener ~ did-finish-load')
-
-    // setTimeout(() => {
-    //   const url = webview.getURL()
-    //   updateUrlDisplay(url)
-    //   addToHistory(url)
-    // }, 100)
-  })
+  // webview.addEventListener('did-finish-load', () => {
+  //   console.log('🚀 ~ webviewListener ~ did-finish-load')
+  // })
 }

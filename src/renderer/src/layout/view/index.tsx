@@ -1,7 +1,6 @@
 import { useViewState } from './state'
 import { Input } from 'antd'
 import { Icon } from '../components/icons'
-import { classNames } from 'harpe'
 import { HomeView } from '../home-view'
 import { ViewProps } from '../type'
 
@@ -10,15 +9,11 @@ export function View(props: ViewProps) {
   const { ref, viewState, handleView } = useViewState(props)
 
   return (
-    <div
-      className={classNames('root-view', {
-        hidden: id !== state.activeTab,
-      })}
-    >
+    <div className={'root-view'} data-hidden={id !== state.activeTab}>
       <div className="root-view-bar">
         <div className="left">
           <div
-            data-disabled={viewState.canGoBack !== true}
+            data-disabled={viewState.canGoBack !== true && !viewState.home}
             onClick={handleView.goBack}
           >
             <Icon type="back" />
@@ -45,20 +40,17 @@ export function View(props: ViewProps) {
         </div>
         <div></div>
       </div>
-      {viewState.url ? (
-        <webview
-          key={id}
-          ref={ref}
-          className="root-view-iframe"
-          style={{ width: '100%', height: '100%' }}
-          src={viewState.url}
-          // nodeintegration
-          plugins={'true' as any}
-          allowpopups={'true' as any}
-        ></webview>
-      ) : (
-        <HomeView {...props} />
-      )}
+      <webview
+        key={id}
+        ref={ref}
+        className="root-view-iframe"
+        data-hidden="true"
+        // src={undefined}
+        // nodeintegration
+        plugins={'true' as any}
+        allowpopups={'true' as any}
+      ></webview>
+      {viewState.home && <HomeView {...props} />}
     </div>
   )
 }

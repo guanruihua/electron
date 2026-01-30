@@ -1,4 +1,5 @@
-export const setHeaderTitle = (id: string, title: string) => {
+export const setHeaderTitle = (id?: string, title: string = 'Home') => {
+  if (!id) return
   // console.log('页面标题更新:', title)
   const dom = document.querySelector(
     `.root-header-tab-item[data-id="${id}"] .title`,
@@ -8,7 +9,8 @@ export const setHeaderTitle = (id: string, title: string) => {
   }
 }
 
-export const setHeaderIcon = (id: string, url: string) => {
+export const setHeaderIcon = (id?: string, url: string = '') => {
+  if (!id) return
   // console.log('页面logo更新:', url)
   const dom: HTMLImageElement | null = document.querySelector(
     `.root-header-tab-item[data-id="${id}"] .logo`,

@@ -1,51 +1,11 @@
-.page__home {
-  max-height: 100vh;
-  overflow-y: auto;
-
-  button {
-    color: #fff;
-    padding: 10px;
-    background-color: rgba(255, 255, 255, 0.2);
-    outline: none;
-    border: none;
-    margin: 5px;
-  }
-
-  &-page-container {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 10px;
-
-    &-page-item {
-      display: inline-block;
-      border-radius: 8px;
-      padding: 0.5rem;
-      font-size: 0.8rem;
-      color: rgba(255, 255, 255, 0.8);
-      background-color: rgba(255, 255, 255, 0.2);
-      box-shadow: 0 0 3px rgba(255, 255, 255, 0.2);
-      border: none;
-      cursor: pointer;
-      letter-spacing: 0.1rem;
-      transition: all 0.3s;
-
-      &:hover {
-        color: rgba(255, 255, 255, 0.9);
-        background-color: rgba(255, 255, 255, 0.4);
-      }
-    }
-  }
-}
-
-.page__iframe {
+.root-view {
   height: 100%;
   height: var(--h);
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: 50px 1fr;
 
-  &.hidden{
+  &.hidden {
     display: none;
   }
 
@@ -88,11 +48,17 @@
         border-radius: 50%;
         transition: all .7s;
 
+        &[data-disabled="true"],
+        &[data-disabled="true"] svg,
+        &[data-disabled="true"] path {
+          cursor: not-allowed;
+        }
+
         &>svg {
           margin-top: -2px;
         }
 
-        &:hover {
+        &:not([data-disabled="true"]):hover {
           background: rgba(255, 255, 255, .2);
         }
       }

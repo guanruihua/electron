@@ -5,7 +5,14 @@ export const registerShortcuts = (mainWindow: BrowserWindow) => {
   const Conf = {
     // 打开开发者工具
     F12: () => {
-      mainWindow.webContents.toggleDevTools()
+      // mainWindow.webContents.toggleDevTools()
+      if (mainWindow.webContents.isDevToolsOpened()) {
+        mainWindow.webContents.closeDevTools()
+      } else {
+        mainWindow.webContents.openDevTools({
+          mode: 'bottom',
+        })
+      }
     },
     'CommandOrControl+Shift+F12': () => {
       mainWindow.webContents.focus()

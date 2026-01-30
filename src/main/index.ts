@@ -13,6 +13,7 @@ import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import { ipcMainHandle } from './ipcMain-handle'
 import { registerShortcuts } from './register/shortcuts'
+import webPreferences from './webPreferences'
 
 let mainWindow: BrowserWindow
 function createWindow(): void {
@@ -36,6 +37,8 @@ function createWindow(): void {
     // transparent: true,
     // ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
+      ...webPreferences,
+
       preload: path.join(__dirname, '../preload/index.js'),
 
       // 安全相关

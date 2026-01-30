@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSetState } from '0hook'
-import { PageState } from './type'
+import { PageState, ViewStates } from './type'
 
 export const usePageState = () => {
   const [state, setState] = useSetState<PageState>({
@@ -13,7 +13,7 @@ export const usePageState = () => {
     ],
   })
 
-  const [info, setInfo] = React.useState({
+  const [info, setInfo] = React.useState<ViewStates>({
     1: {
       id: '1',
       title: 'Qubit Safe',
@@ -67,8 +67,8 @@ export const usePageState = () => {
   return {
     info,
     state,
-    setState,
     handle: {
+      setState,
       updateTabInfo(tab) {
         const newInfo = info || {}
         newInfo[tab.id] = { ...newInfo[tab.id], ...tab }

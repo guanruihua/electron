@@ -1,15 +1,6 @@
-const setTitle = (id: string, title: string) => {
-  console.log('页面标题更新:', title)
-  const dom = document.querySelector(
-    `.main-layout-header-major-tab-item span[data-header-title-id="${id}"]`,
-  )
-  if (dom) dom.textContent = title
-  // console.log('🚀 ~ webviewListener ~ dom:', dom)
-}
+import { setHeaderIcon, setHeaderTitle } from './index'
 
-export const setupEventListeners = (webview, tab, handle, setViewState) => {
-  console.log('setupEventListeners')
-  
+export const setupEventListeners = (webview, tab, handle, handleView) => {
   const { id, url } = tab
   const newViewState = {
     id,
@@ -18,6 +9,7 @@ export const setupEventListeners = (webview, tab, handle, setViewState) => {
     title: webview?.getTitle?.() || 'Loading',
     canGoBack: false,
     canGoForward: false,
+    favicon: '',
   }
 
   // 1. 监听页面开始加载
@@ -38,15 +30,15 @@ export const setupEventListeners = (webview, tab, handle, setViewState) => {
     newViewState.canGoBack = webview?.canGoBack?.()
     newViewState.canGoForward = webview?.canGoForward?.()
     // console.log('🚀 ~ setupEventListeners ~ newViewState:', newViewState)
-    setViewState(newViewState)
-    setTitle(id, newViewState.title)
+    handleView.setViewState(newViewState)
+    setHeaderTitle(id, newViewState.title)
     handle.updateTabInfo(newViewState)
   })
 
   // 3. 监听页面标题变化
   webview.addEventListener('page-title-updated', (e) => {
     newViewState.title = e.title
-    setTitle(id, e.title)
+    setHeaderTitle(id, e.title)
     handle.updateTabInfo(newViewState)
   })
 
@@ -95,25 +87,13 @@ export const setupEventListeners = (webview, tab, handle, setViewState) => {
   //   console.log(`Webview 控制台 [${e.level}]:`, e.message)
   // })
 
-  function updateUrlDisplay(url) {
-    // currentUrl = url
-    // urlDisplay.textContent = `URL: ${url}`
-    // urlInput.value = url
-  }
-
-  function addToHistory(url) {
-    // 如果当前不是最新的历史记录，移除后面的记录
-    // if (historyIndex < history.length - 1) {
-    //   history = history.slice(0, historyIndex + 1)
-    // }
-    // history.push(url)
-    // historyIndex++
-    // console.log('历史记录:', history)
-  }
-
-  function reloadWebview() {
-    webview.reload()
-  }
+  webview.addEventListener('page-favicon-updated', (e) => {
+    const favicon = e?.favicons?.at(0)
+    if (favicon) {
+      setHeaderIcon(id, favicon)
+      newViewState.favicon = favicon
+    }
+  })
 
   // // 监听键盘快捷键
   // document.addEventListener('keydown', (e) => {
@@ -136,6 +116,4 @@ export const setupEventListeners = (webview, tab, handle, setViewState) => {
     //   addToHistory(url)
     // }, 100)
   })
-
-
 }

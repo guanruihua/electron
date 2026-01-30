@@ -1,36 +1,30 @@
-import { ObjectType } from '0type'
-import { useViewState } from './state/index'
-import { PageState } from '../type'
+import { useViewState } from './state'
 import { Input } from 'antd'
 import { Icon } from '../components/icons'
 import { classNames } from 'harpe'
 import { HomeView } from '../home-view'
-
-interface ViewProps {
-  state: PageState
-  setState(newState: ObjectType): void
-  handle: ObjectType
-  info: ObjectType
-  id: string
-}
+import { ViewProps } from '../type'
 
 export function View(props: ViewProps) {
-  const { state, id, info } = props
+  const { state, id } = props
   const { ref, viewState, handleView } = useViewState(props)
 
   return (
     <div
-      className={classNames('page__iframe', {
+      className={classNames('root-view', {
         hidden: id !== state.activeTab,
       })}
     >
-      <div className="page__iframe-bar">
+      <div className="root-view-bar">
         <div className="left">
-          <div data-disabled={state.canGoBack} onClick={handleView.goBack}>
+          <div
+            data-disabled={viewState.canGoBack !== true}
+            onClick={handleView.goBack}
+          >
             <Icon type="back" />
           </div>
           <div
-            data-disabled={state.canGoForward}
+            data-disabled={viewState.canGoForward !== true}
             onClick={handleView.goForward}
           >
             <Icon type="forward" />
@@ -38,7 +32,7 @@ export function View(props: ViewProps) {
           <div onClick={handleView.reload}>
             <Icon type="reload" />
           </div>
-          <div>
+          <div data-disabled={!viewState.url} onClick={handleView.goHome}>
             <Icon type="home" />
           </div>
         </div>
@@ -55,14 +49,12 @@ export function View(props: ViewProps) {
         <webview
           key={id}
           ref={ref}
-          className="page__iframe-iframe"
+          className="root-view-iframe"
           style={{ width: '100%', height: '100%' }}
           src={viewState.url}
           // nodeintegration
           plugins={'true' as any}
           allowpopups={'true' as any}
-          // src="http://172.16.30.53/configuration/index"
-          // src="https://testapppulse.yessafe.com/login?redirect=/dashboard"
         ></webview>
       ) : (
         <HomeView {...props} />

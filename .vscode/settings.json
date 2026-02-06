@@ -14,7 +14,8 @@
     "eslintcache",
     "lancedb",
     "nodeintegration",
-    "nsis"
+    "nsis",
+    "taskkill"
   ],
   "path-intellisense.mappings": {
     "@": "${workspaceRoot}/src/renderer/src"

@@ -1,4 +1,7 @@
-import { Button } from 'antd'
+import React from 'react'
+import './index.less'
+import { Opt } from './opt'
+import { VSCodeOpt } from './vscode-opt'
 
 export interface HomeViewProps {
   [key: string]: any
@@ -7,38 +10,22 @@ export interface HomeViewProps {
 export function HomeView(props: HomeViewProps) {
   const { handle } = props
 
+  React.useEffect(()=>{
+    
+  }, [])
+
   return (
-    <div
-      style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'column',
-      }}
-    >
+    <div className="root-layout-home-view flex justify-center items-center col gap">
       <span
+        className="bold"
         style={{
-          fontWeight: 'bold',
           fontSize: 24,
         }}
       >
         Home
       </span>
-      <div className="flex">
-        <Button
-          onClick={() => {
-            window.api.openMaskWindow()
-          }}
-        >
-          打开遮罩
-        </Button>
-        <Button onClick={handle.openDevtool}>
-          <span style={{}}>Devtool</span>
-        </Button>
-        <Button onClick={handle.reload}>
-          <span style={{}}>Reload</span>
-        </Button>
-      </div>
+      <Opt handle={handle} />
+      <VSCodeOpt />
     </div>
   )
 }

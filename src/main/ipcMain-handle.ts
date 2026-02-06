@@ -2,10 +2,23 @@ import { ipcMain, BrowserWindow } from 'electron'
 import { getStartMenu, StoreManager } from './utils'
 import { AppSize } from '../preload/type'
 import { createScreenMask } from './register/create-screen-mask'
+import { ObjectType } from '0type'
+import { isString } from 'asura-eye'
+import { cmd } from './helper'
 
 export const ipcMainHandle = (mainWindow: BrowserWindow) => {
   const store = new StoreManager()
   const Conf = {
+    cmd: async (_e, conf: ObjectType | string) => {
+      console.log('Command:', conf)
+      if (isString(conf)) return await cmd.run(conf)
+      return undefined
+    },
+    dev: async (_e, conf: ObjectType | string) => {
+      console.log('Server Command:', conf)
+      if (isString(conf)) return await cmd.dev(conf)
+      return undefined
+    },
     'open-mask-window': () => {
       createScreenMask()
       ipcMain.handle('resize-mask-window', (_, zoom) => {

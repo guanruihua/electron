@@ -1,19 +1,11 @@
-import {
-  app,
-  shell,
-  BrowserWindow,
-  session,
-  globalShortcut,
-  Menu,
-  BaseWindow,
-  WebContentsView,
-} from 'electron'
+import { app, BrowserWindow, session, globalShortcut } from 'electron'
 import path from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
 import { ipcMainHandle } from './ipcMain-handle'
 import { registerShortcuts } from './register/shortcuts'
 import webPreferences from './webPreferences'
+import { cmd } from './helper'
 
 let mainWindow: BrowserWindow
 function createWindow(): void {
@@ -83,7 +75,7 @@ function createWindow(): void {
 
   // 1. 监听 webview 被附加到 DOM
   mainWindow.webContents.on('did-attach-webview', (event, webContents) => {
-    console.log('✅ Webview 被附加，设置监听器...')
+    // console.log('✅ Webview 被附加，设置监听器...')
 
     // 为 webview 的内容设置窗口打开处理器
     webContents.setWindowOpenHandler((details) => {
@@ -124,6 +116,10 @@ function createWindow(): void {
   // mainWindow.contentView.addChildView(view2)
   // view2.webContents.loadURL('https://github.com/electron/electron')
   // view2.setBounds({ x: 400, y: 0, width: 400, height: 400 })
+
+  mainWindow.on('closed', () => {
+    mainWindow = null as any // 释放内存引用
+  })
 }
 
 // This method will be called when Electron has finished
@@ -160,6 +156,13 @@ app.whenReady().then(async () => {
     registerShortcuts(mainWindow)
   })
 
+  // 应用退出前
+  app.on('before-quit', () => {
+    console.log('Quit APP...')
+    // # 3. 停止所有 node.exe 进程
+    // taskkill /F /IM node.exe
+    cmd.run('taskkill /F /IM node.exe')
+  })
   // 应用即将退出时
   app.on('will-quit', () => {
     // 注销所有全局快捷键

@@ -13,3 +13,10 @@ taskkill /PID 5678 /F
 # 3. 停止所有 node.exe 进程
 taskkill /F /IM node.exe
 ```
+
+```shell
+# netstat -ano | findstr <pid>
+netstat -ano | findstr 12556
+# TCP    [::1]:3302             [::]:0                 LISTENING       12556
+# TCP    [::1]:3302             [::1]:7167             ESTABLISHED     12556
+```

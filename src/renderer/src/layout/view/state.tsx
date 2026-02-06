@@ -16,16 +16,16 @@ export const useViewState = (props: ViewProps) => {
     url: tab.url,
     search: '',
     title: '',
+    contentsId: -1,
     canGoBack: false,
     canGoForward: false,
     home: true,
   })
-  console.log('🚀 ~ useViewState ~ viewState:', viewState)
+  // console.log('🚀 ~ useViewState ~ viewState:', viewState)
 
   const ref = React.useRef<WebviewTag>(null)
 
   const handleView = {
-   
     setViewState,
     async searchKeyDown(e) {
       if (e.key === 'Enter') {
@@ -100,6 +100,7 @@ export const useViewState = (props: ViewProps) => {
 
     if (!ref.current) return
     const webview: WebviewTag = ref.current
+
     if (newViewState.url) {
       webview.src = newViewState.url
       webview.dataset.hidden = 'false'
@@ -107,12 +108,17 @@ export const useViewState = (props: ViewProps) => {
         console.log('allow pasting')
         console.log('允许粘贴')
         console.log('Webview DOM 准备就绪')
+        const id = webview.getWebContentsId()
+        console.log(newViewState.url, id)
+        newViewState.contentsId = id
         if (newViewState.url) {
           load(newViewState)
         }
       })
     }
   }, [id])
+
+  console.log(viewState)
 
   return {
     ref,

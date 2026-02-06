@@ -1,4 +1,4 @@
-import { ipcMain, BrowserWindow } from 'electron'
+import { ipcMain, BrowserWindow, webContents } from 'electron'
 import { getStartMenu, StoreManager } from './utils'
 import { AppSize } from '../preload/type'
 import { createScreenMask } from './register/create-screen-mask'
@@ -9,6 +9,7 @@ import { cmd } from './helper'
 export const ipcMainHandle = (mainWindow: BrowserWindow) => {
   const store = new StoreManager()
   const Conf = {
+
     cmd: async (_e, conf: ObjectType | string) => {
       console.log('Command:', conf)
       if (isString(conf)) return await cmd.run(conf)

@@ -1,4 +1,6 @@
 .root-layout-home-view {
+  width: 100vw;
+
   .all-node-tread {
     background-color: rgba(0, 0, 0, .3);
   }
@@ -7,10 +9,12 @@
     .opt-item {
       line-height: 32px;
       padding-left: 12px;
-    }
-
-    .opt-item {
+      transition: transform .5s;
       background-color: rgba(255, 255, 255, .1);
+  
+      &:hover {
+        transform: scale(1.03);
+      }
     }
 
     .opt {
@@ -34,21 +38,12 @@
 
       &[data-disabled="true"],
       &[data-disabled="true"] path {
+        display: none;
         cursor: not-allowed;
         color: rgba(255, 255, 255, .5);
 
         &:hover {
           transform: none;
-        }
-      }
-
-      &.stop:not([data-disabled="true"]) {
-        path {
-          color: #fff;
-        }
-
-        &:active {
-          transform: scale(1.2);
         }
       }
     }

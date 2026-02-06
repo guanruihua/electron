@@ -1,4 +1,4 @@
-import { app, BrowserWindow, session, globalShortcut } from 'electron'
+import { app, BrowserWindow, session, globalShortcut, Menu } from 'electron'
 import path from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
@@ -6,8 +6,10 @@ import { ipcMainHandle } from './ipcMain-handle'
 import { registerShortcuts } from './register/shortcuts'
 import webPreferences from './webPreferences'
 import { cmd } from './helper'
+import { on_webview } from './on/webview'
 
 let mainWindow: BrowserWindow
+
 function createWindow(): void {
   const persistentSession = session.fromPartition('persist:mycache', {
     cache: true,
@@ -35,7 +37,6 @@ function createWindow(): void {
       // enableBlinkFeatures: 'ClipboardCustomFormats,ClipboardRead',
     },
   })
-
   mainWindow.maximize()
 
   mainWindow.on('ready-to-show', () => {
@@ -53,32 +54,33 @@ function createWindow(): void {
   }
   ipcMainHandle(mainWindow)
   registerShortcuts(mainWindow)
+  on_webview(mainWindow)
 
-  // 1. 监听 webview 被附加到 DOM
-  mainWindow.webContents.on('did-attach-webview', (event, webContents) => {
-    // 为 webview 的内容设置窗口打开处理器
-    webContents.setWindowOpenHandler((details) => {
-      console.log('Webview / new Window:', details)
-      mainWindow.webContents.send('newTabEvent', {
-        type: 'newTab',
-        data: details,
-        timestamp: Date.now(),
-      })
-      // 在外部浏览器打开
-      // shell.openExternal(details.url);
+  // 主窗口的快捷键拦截
+  mainWindow.webContents.on('before-input-event', (event, input) => {
+    // console.log("createWindow ~ input:", input)
+    console.log('createWindow ~ input.key:', input.key)
+    // 拦截 F12
+    if (input.key === 'F12') {
+      event.preventDefault()
 
-      return { action: 'deny' }
-    })
+      // 可以在这里添加你的自定义逻辑
+      console.log('before-input-event F12')
 
-    // 可选：监听 webview 的导航
-    // webContents.on('did-navigate', (event, url) => {
-    //   console.log('Webview 导航到:', url)
-    // })
+      // 例如：打开自定义的调试面板
+      // openCustomDebugPanel()
+    }
 
-    // 可选：监听 webview 的 console
-    // webContents.on('console-message', (event, level, message) => {
-    //   console.log(`Webview 日志 [${level}]:`, message)
-    // })
+    // 也可以拦截其他开发者工具快捷键
+    // if (input.control && input.shift && input.key === 'I') {
+    //   // Ctrl+Shift+I
+    //   event.preventDefault()
+    // }
+
+    // if (input.control && input.shift && input.key === 'J') {
+    //   // Ctrl+Shift+J
+    //   event.preventDefault()
+    // }
   })
 
   // const win = new BaseWindow({ width: 800, height: 400 })

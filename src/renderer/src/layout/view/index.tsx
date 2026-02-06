@@ -1,5 +1,5 @@
 import { useViewState } from './state'
-import { Input } from 'antd'
+import { Input, Button } from 'antd'
 import { Icon } from '../components/icons'
 import { HomeView } from '../home-view'
 import { ViewProps } from '../type'
@@ -40,17 +40,40 @@ export function View(props: ViewProps) {
         </div>
         <div></div>
       </div>
-      <webview
-        key={id}
-        ref={ref}
-        className="root-view-iframe"
-        data-hidden="true"
-        // src={undefined}
-        // nodeintegration
-        plugins={'true' as any}
-        allowpopups={'true' as any}
-      ></webview>
-      {viewState.home && <HomeView {...props} />}
+      <div className="root-view-content">
+        <webview
+          key={id}
+          ref={ref}
+          className="root-view-iframe"
+          data-hidden="true"
+          // src={undefined}
+          // nodeintegration
+          plugins={'true' as any}
+          allowpopups={'true' as any}
+        ></webview>
+        {viewState.home && <HomeView {...props} />}
+      </div>
+      {/* <div className="dev-control fixed right bottom">
+        <Button
+          onClick={() => {
+            window.api.invoke('toggleWebViewDevTools', viewState.contentsId)
+          }}
+        >
+          Devtool B
+        </Button>
+        <Button
+          onClick={() => {
+            const webview = ref.current
+
+            if (!webview) return
+            webview.isDevToolsOpened()
+              ? webview.closeDevTools()
+              : webview.openDevTools()
+          }}
+        >
+          Devtool
+        </Button>
+      </div> */}
     </div>
   )
 }

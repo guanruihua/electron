@@ -6,6 +6,7 @@ import { Icon } from './icon'
 export function Opt({ handle, state }) {
   return (
     <div className="root-layout-home-view-opt">
+      <h4 className="mb">Tool</h4>
       <div className="flex gap">
         <Button className="bolder" onClick={() => window.api.openMaskWindow()}>
           打开遮罩
@@ -16,14 +17,18 @@ export function Opt({ handle, state }) {
         <Button className="bolder" onClick={handle.reload}>
           Reload
         </Button>
-        {/* Google Sans Code, monospace; */}
-        <Button className="bolder" onClick={handle?.NodeThread?.findALL}>
-          Find ALL Node Thread
+      </div>
+
+      <h4 className="my">Node Thread</h4>
+      <div className="flex gap">
+        <Button className="bolder" onClick={handle?.NodeThread?.findAll}>
+          Find All
         </Button>
         <Button className="bolder" onClick={handle?.NodeTread?.stopAll}>
-          Stop ALL Node Thread
+          Stop All
         </Button>
       </div>
+
       {isArray(state?.NodeTreads) && state.NodeTreads.length > 0 && (
         <div
           className="grid gap mt all-node-tread p border-radius"

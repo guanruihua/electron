@@ -62,11 +62,16 @@ export function VSCodeOpt(props: Props) {
   return (
     <div className="root-layout-home-view-vscode-opt flex gap col justify-center">
       <div className="bold text-center">VSCode Operation</div>
-      <div className="flex gap flex-wrap justify-center">
+      <div
+        className="grid gap flex-wrap"
+        style={{
+          gridTemplateColumns: '1fr 1fr',
+        }}
+      >
         {items.map((item, i) => (
           <div
             key={i}
-            className="opt-item flex flex-wrap border border-radius box-shadow items-center pr"
+            className="opt-item flex border border-radius box-shadow items-center pr space-between"
           >
             <span
               className="bolder text-10 pointer px"
@@ -74,23 +79,19 @@ export function VSCodeOpt(props: Props) {
             >
               {item.label || item.path}
             </span>
-            <Icon
-              type="open"
-              className="opt open"
-              onClick={() => window.api.invoke('cmd', `code ${item.path}`)}
-            />
-            <Icon
-              type="run"
-              className="opt run"
-              data-disabled={!item.npm}
-              onClick={() => handle?.NodeThread?.dev?.(item)}
-            />
-            <Icon
-              type="stop"
-              className="opt stop"
-              data-disabled={'true'}
-              onClick={() => console.log('stop')}
-            />
+            <span className='flex'>
+              <Icon
+                type="open"
+                className="opt open"
+                onClick={() => window.api.invoke('cmd', `code ${item.path}`)}
+              />
+              <Icon
+                type="run"
+                className="opt run"
+                data-disabled={!item.npm}
+                onClick={() => handle?.NodeThread?.dev?.(item)}
+              />
+            </span>
           </div>
         ))}
       </div>

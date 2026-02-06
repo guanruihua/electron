@@ -25,8 +25,16 @@ export function HomeView(props: HomeViewProps) {
       >
         Home
       </span>
-      <Opt state={state} handle={handle} />
-      <VSCodeOpt state={state} handle={handle} />
+      <div
+        className="grid"
+        style={{
+          gridTemplateColumns: '1fr 1fr',
+          gap: 10,
+        }}
+      >
+        <Opt state={state} handle={handle} />
+        <VSCodeOpt state={state} handle={handle} />
+      </div>
     </div>
   )
 }

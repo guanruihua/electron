@@ -1,6 +1,10 @@
 .root-layout {
   max-height: 100vh;
   overflow-y: auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr;
+  overflow: hidden;
   
   &-page-container {
     display: flex;

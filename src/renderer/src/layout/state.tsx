@@ -75,6 +75,7 @@ export const usePageState = () => {
         console.log(res)
       },
       async findAll() {
+        console.log('click NodeThread / find all')
         const res = await window.api.invoke('cmd', 'tasklist | findstr node')
         if (isString(res)) {
           console.log('🚀 ~ Opt ~ result:', res)
@@ -101,7 +102,7 @@ export const usePageState = () => {
       if (!state.tabs) state.tabs = []
       const newTabs = state.tabs.filter((_) => _ !== id) || []
       delete info[id]
-      setState(info)
+      setInfo(info)
       setState({
         tabs: newTabs,
         activeTab: newTabs?.at(-1) || '',
@@ -123,9 +124,11 @@ export const usePageState = () => {
 
   // console.log('🚀 ~ usePageState ~ state:', state)
   React.useEffect(() => {
+    handle.NodeThread.findAll()
+
     window.api.onNewTab(async (res) => {
-      const { data, timestamp } = res
-      const id = String(timestamp)
+      const { data, } = res
+      const id = Date.now().toString()
 
       // console.log('newTab', res)
       if (!state.tabs) state.tabs = [id]

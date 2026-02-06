@@ -29,27 +29,27 @@ export const registerShortcuts = (mainWindow: BrowserWindow) => {
       // createScreenMask()
       // mainWindow.webContents.focus()
     },
-    'Alt+V': () => {
-      mainWindow.webContents.send('shortcut-info', {
-        shortcut: 'Alt+V',
-        type: 'mini-tool',
-        timestamp: Date.now(),
-      })
-      // mainWindow.setSize(900, 50)
-      // mainWindow.webContents.focus()
-      if (mainWindow.isFocused()) {
-        mainWindow.hide()
-        return
-      }
-      mainWindow.show()
-    },
+    // 'Alt+V': () => {
+    //   mainWindow.webContents.send('shortcut-info', {
+    //     shortcut: 'Alt+V',
+    //     type: 'mini-tool',
+    //     timestamp: Date.now(),
+    //   })
+    //   // mainWindow.setSize(900, 50)
+    //   // mainWindow.webContents.focus()
+    //   if (mainWindow.isFocused()) {
+    //     mainWindow.hide()
+    //     return
+    //   }
+    //   mainWindow.show()
+    // },
   }
 
   for (let key in Conf) {
     try {
       // console.log(globalShortcut.isRegistered(key))
       const status = globalShortcut.register(key, Conf[key])
-      console.log('registerShortcuts / status:', status)
+      // console.log('registerShortcuts', key, '/ status:', status)
     } catch (error) {
       console.log('Global Shortcut Register Error:', error)
     }

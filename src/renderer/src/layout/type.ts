@@ -34,11 +34,8 @@ export interface Handle {
 }
 
 export interface ViewProps {
+  id: string
   state: State
   info: ViewStates
-  handle: {
-    setState(newState: Partial<State>): void
-    [key: string]: any
-  }
-  id: string
+  handle: Handle
 }

@@ -12,10 +12,12 @@
     "allowpopups",
     "electronjs",
     "eslintcache",
+    "findstr",
     "lancedb",
     "nodeintegration",
     "nsis",
-    "taskkill"
+    "taskkill",
+    "tasklist"
   ],
   "path-intellisense.mappings": {
     "@": "${workspaceRoot}/src/renderer/src"

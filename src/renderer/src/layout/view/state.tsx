@@ -25,6 +25,7 @@ export const useViewState = (props: ViewProps) => {
   const ref = React.useRef<WebviewTag>(null)
 
   const handleView = {
+   
     setViewState,
     async searchKeyDown(e) {
       if (e.key === 'Enter') {

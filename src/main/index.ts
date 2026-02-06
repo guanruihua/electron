@@ -30,27 +30,8 @@ function createWindow(): void {
     // ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {
       ...webPreferences,
-
-      preload: path.join(__dirname, '../preload/index.js'),
-
-      // 安全相关
-      sandbox: false, // 设为 false 确保完整功能
-      // allowRunningInsecureContent: false,
-
-      // sandbox: false,
-      webviewTag: true,
-      contextIsolation: true,
-      // contextIsolation: false,
-      nodeIntegration: false,
-      nodeIntegrationInWorker: true,
-      enablePreferredSizeMode: true,
       session: persistentSession,
-
-      webSecurity: false,
-      allowRunningInsecureContent: true,
-      enableWebSQL: true,
-
-      experimentalFeatures: true,
+      preload: path.join(__dirname, '../preload/index.js'),
       // enableBlinkFeatures: 'ClipboardCustomFormats,ClipboardRead',
     },
   })
@@ -75,14 +56,9 @@ function createWindow(): void {
 
   // 1. 监听 webview 被附加到 DOM
   mainWindow.webContents.on('did-attach-webview', (event, webContents) => {
-    // console.log('✅ Webview 被附加，设置监听器...')
-
     // 为 webview 的内容设置窗口打开处理器
     webContents.setWindowOpenHandler((details) => {
       console.log('Webview / new Window:', details)
-      // console.log('URL:', details.url);
-      // console.log('Features:', details.features);
-      // console.log('Frame:', details.frameName);
       mainWindow.webContents.send('newTabEvent', {
         type: 'newTab',
         data: details,
@@ -122,16 +98,9 @@ function createWindow(): void {
   })
 }
 
-// This method will be called when Electron has finished
-// initialization and is ready to create browser windows.
-// Some APIs can only be used after this event occurs.
 app.whenReady().then(async () => {
-  // Set app user model id for windows
   electronApp.setAppUserModelId('com.electron')
 
-  // Default open or close DevTools by F12 in development
-  // and ignore CommandOrControl + R in production.
-  // see https://github.com/alex8088/electron-toolkit/tree/master/packages/utils
   app.on('browser-window-created', (_, window) => {
     optimizer.watchWindowShortcuts(window)
   })
@@ -146,40 +115,29 @@ app.whenReady().then(async () => {
   //   registerShortcuts(mainWindow)
   // })
 
-  // 应用失去焦点时
-  app.on('browser-window-blur', () => {
-    // 可选的：失去焦点时停用某些快捷键
-  })
+  // app.on('browser-window-blur', () => {
+  //   // 可选的：失去焦点时停用某些快捷键
+  // })
 
-  // 应用获得焦点时
   app.on('browser-window-focus', () => {
     registerShortcuts(mainWindow)
   })
 
-  // 应用退出前
   app.on('before-quit', () => {
     console.log('Quit APP...')
     // # 3. 停止所有 node.exe 进程
-    // taskkill /F /IM node.exe
     cmd.run('taskkill /F /IM node.exe')
   })
-  // 应用即将退出时
   app.on('will-quit', () => {
-    // 注销所有全局快捷键
     globalShortcut.unregisterAll()
   })
 
   app.on('activate', function () {
-    // On macOS it's common to re-create a window in the app when the
-    // dock icon is clicked and there are no other windows open.
     if (BrowserWindow.getAllWindows().length === 0) createWindow()
     registerShortcuts(mainWindow)
   })
 })
 
-// Quit when all windows are closed, except on macOS. There, it's common
-// for applications and their menu bar to stay active until the user quits
-// explicitly with Cmd + Q.
 app.on('window-all-closed', async () => {
   if (process.platform !== 'darwin') {
     // if (expressServer) {
@@ -188,6 +146,3 @@ app.on('window-all-closed', async () => {
     app.quit()
   }
 })
-
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and require them here.

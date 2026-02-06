@@ -2,7 +2,25 @@ import { BrowserWindowConstructorOptions } from 'electron'
 
 // webPreferences WebPreferences （可选）—— 网页功能设置
 const webPreferences: BrowserWindowConstructorOptions['webPreferences'] = {
+  // 安全相关
+  sandbox: false, // 设为 false 确保完整功能
+  // allowRunningInsecureContent: false,
+
+  webviewTag: true,
+  contextIsolation: true,
+  // contextIsolation: false,
+  nodeIntegration: false,
+  nodeIntegrationInWorker: true,
+  enablePreferredSizeMode: true,
+
+  webSecurity: false,
+  allowRunningInsecureContent: true,
+  enableWebSQL: true,
+
+  experimentalFeatures: true,
+
   // devTools boolean (可选) - 是否开启 DevTools. 如果设置为 false, 则无法使用 BrowserWindow.webContents.openDevTools () 打开 DevTools。 默认值为 true。
+  devTools: true,
   // nodeIntegration boolean (可选) - 是否启用Node integration. 默认值为 false.
   // nodeIntegration: false,
   // nodeIntegrationInWorker boolean (可选) - 是否在Web工作器中启用了Node集成. 默认值为 false. More about this can be found in Multithreading.

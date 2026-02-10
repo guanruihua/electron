@@ -1,12 +1,10 @@
 import { useSetState } from '0hook'
 import { WebviewTag } from 'electron'
 import React from 'react'
-import {} from 'harpe'
 import { setupEventListeners } from './helper/setupEventListeners'
 import { ViewProps, ViewState } from '../type'
 import { setHeaderTitle } from './helper'
 import { getSearchUrl } from './helper/getSearch'
-import { sleep } from '@/util'
 
 export const useViewState = (props: ViewProps) => {
   const { state, info, id, handle } = props
@@ -118,7 +116,7 @@ export const useViewState = (props: ViewProps) => {
     }
   }, [id])
 
-  console.log(viewState)
+  // console.log(viewState)
 
   return {
     ref,

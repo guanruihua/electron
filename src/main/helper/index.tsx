@@ -1,4 +1,12 @@
 import { exec, spawn } from 'child_process'
+import { BrowserWindow } from 'electron'
+
+const send = (mainWindow: BrowserWindow, type: string, data: any) => {
+  mainWindow.webContents.send(type, {
+    type,
+    data,
+  })
+}
 
 const dev = (command: string): Promise<any> => {
   return new Promise((rs) => {
@@ -55,4 +63,5 @@ const run = (command: string): Promise<any> => {
 export const cmd = {
   run,
   dev,
+  send,
 }

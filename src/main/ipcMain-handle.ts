@@ -1,4 +1,4 @@
-import { ipcMain, BrowserWindow, webContents } from 'electron'
+import { ipcMain, BrowserWindow } from 'electron'
 import { getStartMenu, StoreManager } from './utils'
 import { AppSize } from '../preload/type'
 import { createScreenMask } from './register/create-screen-mask'

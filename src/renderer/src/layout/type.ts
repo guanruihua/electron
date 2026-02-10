@@ -18,10 +18,16 @@ export interface State {
   activeTab?: string
   tabs?: string[]
   NodeTreads?: ObjectType[]
+  timeline?: {
+    startTime: number
+    info: ObjectType
+    [key: string]: any
+  }[]
   [key: string]: any
 }
 
 export interface Handle {
+  addTimePoint(info: any): void
   setState(newState: Partial<State>): void
   NodeThread: {
     dev(item: ObjectType): Promise<void>

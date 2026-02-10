@@ -1,10 +1,23 @@
 @import url(./position.less);
 @import url(./flex.less);
 @import url(./margin-padding.less);
+@import url('./color.less');
 
 // grid
 .grid {
   display: grid;
+}
+
+.w {
+  width: 100%;
+}
+
+.h {
+  height: 100%;
+}
+
+.bg {
+  background-color: rgba(0, 0, 0, .5);
 }
 
 // 字体
@@ -51,10 +64,7 @@
   font-size: 16px;
 }
 
-.color-disable,
-.color-disabled {
-  color: rgba(255, 255, 255, .5);
-}
+
 
 // 特殊
 .none {

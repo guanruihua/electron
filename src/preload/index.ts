@@ -5,6 +5,9 @@ import { AppSize } from './type'
 
 // Custom APIs for renderer
 const api = {
+  on: (eventName: string, callback: (data: any) => void) => {
+    ipcRenderer.on(eventName, (event, data) => callback(data))
+  },
   onNewTab: (callback) => {
     ipcRenderer.on('newTabEvent', (event, data) => callback(data))
   },

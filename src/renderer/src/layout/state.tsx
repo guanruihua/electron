@@ -1,7 +1,7 @@
 import React from 'react'
 import { useSetState } from '0hook'
 import { State, ViewStates } from './type'
-import { isString } from 'asura-eye'
+import { isArray, isString } from 'asura-eye'
 import { toNodeTreads } from './helper'
 
 export const usePageState = () => {
@@ -11,9 +11,10 @@ export const usePageState = () => {
       '01',
       '1',
       // '2', '3', '4',
-      '5',
+      // '5',
     ],
     NodeTreads: [],
+    timeline: [],
   })
 
   const [info, setInfo] = React.useState<ViewStates>({
@@ -38,11 +39,11 @@ export const usePageState = () => {
     //   title: 'Google',
     //   url: 'https://www.google.com',
     // },
-    5: {
-      id: '5',
-      title: 'Electron',
-      url: 'https://www.electronjs.org/zh/docs/latest/api/webview-tag#webviewisloading',
-    },
+    // 5: {
+    //   id: '5',
+    //   title: 'Electron',
+    //   url: 'https://www.electronjs.org/zh/docs/latest/api/webview-tag#webviewisloading',
+    // },
   })
 
   const getID = () => Date.now().toString()
@@ -50,6 +51,18 @@ export const usePageState = () => {
 
   const handle = {
     setState,
+    addTimePoint(info: any) {
+      const item = {
+        startTime: Date.now(),
+        info,
+      }
+      if (isArray(state.timeline)) {
+        state.timeline.push(item)
+      } else {
+        state.timeline = [item]
+      }
+      setState(state)
+    },
     NodeThread: {
       async dev(item) {
         if (!item.path || !item.npm) return
@@ -77,14 +90,29 @@ export const usePageState = () => {
       async findAll() {
         console.log('click NodeThread / find all')
         const res = await window.api.invoke('cmd', 'tasklist | findstr node')
-        if (isString(res)) {
-          console.log('🚀 ~ Opt ~ result:', res)
-          const NodeTreads = toNodeTreads(res)
-
-          setState({
-            NodeTreads,
-          })
+        if (!isString(res)) return
+        console.log('🚀 ~ Opt ~ result:', res)
+        const NewNodeTreads = toNodeTreads(res)
+        const pids = state?.NodeTreads?.map((_) => _.pid) || []
+        const now = Date.now()
+        const getTitle = () => {
+          const info = state.timeline?.filter((_) => _.startTime<=now).at(-1)?.info
+          console.log(now, state.timeline)
+          if(info?.label){
+            return info?.label
+          }
+          return 'electron'
         }
+        NewNodeTreads.forEach((item) => {
+          if (!state.NodeTreads) state.NodeTreads = []
+          if (pids.includes(item.pid)) return
+          state.NodeTreads.push({
+            startTime: now,
+            title: getTitle(),
+            ...item,
+          })
+        })
+        setState(state)
       },
     },
     updateTabInfo(tab) {
@@ -108,7 +136,20 @@ export const usePageState = () => {
         activeTab: newTabs?.at(-1) || '',
       })
     },
-    addTab() {
+    addTab(item?: any) {
+      if (item) {
+        const { id = getID() } = item
+        state.activeTab = id
+        if (!state.tabs) state.tabs = [id]
+        else state.tabs.push(id)
+        info[id] = {
+          id,
+          ...item,
+        }
+        setInfo(info)
+        setState(state)
+        return
+      }
       const newTab = getID()
       if (state.tabs) state.tabs.push(newTab)
       else state.tabs = [newTab]
@@ -127,7 +168,7 @@ export const usePageState = () => {
     handle.NodeThread.findAll()
 
     window.api.onNewTab(async (res) => {
-      const { data, } = res
+      const { data } = res
       const id = Date.now().toString()
 
       // console.log('newTab', res)

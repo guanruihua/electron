@@ -4,7 +4,7 @@ export function on_webview(mainWindow: BrowserWindow) {
   // 1. 监听 webview 被附加到 DOM
   mainWindow.webContents.on('did-attach-webview', (event, webContents) => {
     webContents.on('before-input-event', (_e, input) => {
-      console.log(input.key)
+      console.log('before-input-event: ', input.key)
       if (input.key === 'F12') {
         if (webContents.isDevToolsOpened()) {
           webContents.closeDevTools()

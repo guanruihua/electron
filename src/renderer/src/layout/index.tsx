@@ -6,7 +6,6 @@ import './style/root.less'
 import './style/index.less'
 import './style/header.less'
 import './style/root-view.less'
-import './style/other.less'
 import './style/util/index.less'
 
 export default function Layout() {

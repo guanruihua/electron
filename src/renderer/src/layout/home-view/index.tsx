@@ -13,22 +13,12 @@ export interface HomeViewProps {
 export function HomeView(props: HomeViewProps) {
   const { state, handle } = props
 
-  React.useEffect(() => {}, [])
-
   return (
-    <div className="root-layout-home-view flex justify-center items-center col gap">
-      <span
-        className="bold"
-        style={{
-          fontSize: 24,
-        }}
-      >
-        Home
-      </span>
+    <div className="root-layout-home-view flex justify-center items-center col gap h w">
       <div
-        className="grid"
+        className="grid h w gap"
         style={{
-          gridTemplateColumns: '1fr 1fr',
+          gridTemplateColumns: '1fr',
           gap: 10,
         }}
       >

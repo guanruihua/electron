@@ -1,5 +1,6 @@
 .root-layout-home-view {
   width: 100vw;
+  overflow-y: auto;
 
   .all-node-tread {
     background-color: rgba(0, 0, 0, .3);
@@ -11,7 +12,7 @@
       padding-left: 12px;
       transition: transform .5s;
       background-color: rgba(255, 255, 255, .1);
-  
+
       &:hover {
         transform: scale(1.03);
       }
@@ -25,7 +26,6 @@
 
       path {
         transition: all .5s;
-        color: rgb(92, 167, 101);
       }
 
       &:hover {
@@ -45,6 +45,23 @@
         &:hover {
           transform: none;
         }
+      }
+
+      &.web {
+        zoom: .92;
+        color: #3b9cf0;
+
+        path {
+          color: #3b9cf0;
+        }
+
+        &:hover {
+          color: #3b9cf0;
+        }
+      }
+
+      &.run path {
+        color: var(--success);
       }
     }
   }

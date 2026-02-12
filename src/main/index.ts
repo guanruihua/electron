@@ -5,7 +5,7 @@ import icon from '../../resources/icon.png?asset'
 import { ipcMainHandle } from './ipcMain-handle'
 import { registerShortcuts } from './register/shortcuts'
 import webPreferences from './webPreferences'
-import { cmd } from './helper'
+// import { cmd } from './helper'
 import { on_webview } from './on/webview'
 
 let mainWindow: BrowserWindow
@@ -128,7 +128,7 @@ app.whenReady().then(async () => {
   app.on('before-quit', () => {
     console.log('Quit APP...')
     // # 3. 停止所有 node.exe 进程
-    cmd.run('taskkill /F /IM node.exe')
+    // cmd.run('taskkill /F /IM node.exe')
   })
   app.on('will-quit', () => {
     globalShortcut.unregisterAll()

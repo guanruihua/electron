@@ -33,7 +33,7 @@ export interface Handle {
     dev(item: ObjectType): Promise<void>
     stopAll(item: ObjectType): Promise<void>
     stop(item: ObjectType): Promise<void>
-    findAll(item: ObjectType): Promise<void>
+    findAll(): Promise<void>
     [key: string]: any
   }
   [key: string]: any

@@ -14,17 +14,12 @@ export function HomeView(props: HomeViewProps) {
   const { state, handle } = props
 
   return (
-    <div className="root-layout-home-view flex justify-center items-center col gap h w">
-      <div
-        className="grid h w gap"
-        style={{
-          gridTemplateColumns: '1fr',
-          gap: 10,
-        }}
-      >
-        <Opt state={state} handle={handle} />
+    <div className="root-layout-home-view flex justify-center items-center col gap h w overflow-y max-h">
+      <div className="h w p">
         <VSCodeOpt state={state} handle={handle} />
+        <Opt state={state} handle={handle} />
       </div>
+      <br />
     </div>
   )
 }

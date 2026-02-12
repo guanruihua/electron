@@ -12,10 +12,12 @@
     "allowpopups",
     "electronjs",
     "eslintcache",
+    "executablepath",
     "findstr",
     "lancedb",
     "nodeintegration",
     "nsis",
+    "pids",
     "taskkill",
     "tasklist"
   ],

@@ -10,13 +10,18 @@ interface Props {
 
 export function VSCodeOpt(props: Props) {
   const { handle } = props
+
   return (
     <div className="root-layout-home-view-vscode-opt flex gap p col justify-center">
+      {/* <Button onClick={async () => {}}>Test</Button> */}
       <div className="flex gap flex-wrap">
         {Conf.items.map((item, i) => (
           <div
             key={i}
             className="opt-item flex col border border-radius box-shadow px pb"
+            data-path={item.path.replaceAll('\\', '>')}
+            data-start
+            data-pid
             style={{ width: 240 }}
           >
             <span
@@ -34,12 +39,7 @@ export function VSCodeOpt(props: Props) {
                   window.api.invoke('cmd', `code ${item.path}`)
                 }}
               />
-              <Icon
-                type="run"
-                className="opt run"
-                data-disabled={!item.npm}
-                onClick={() => handle?.NodeThread?.dev?.(item)}
-              />
+
               {item?.web && (
                 <>
                   <Icon
@@ -56,6 +56,24 @@ export function VSCodeOpt(props: Props) {
                   />
                 </>
               )}
+              <Icon
+                type="dir"
+                className="opt dir"
+                onClick={
+                  () => window.api.invoke('cmd', `explorer "${item.path}"`)
+                }
+              />
+              <Icon
+                type="run"
+                className="opt run"
+                data-disabled={!item.npm}
+                onClick={() => handle?.NodeThread?.dev?.(item)}
+              />
+              <Icon
+                type="stop"
+                className="opt stop"
+                onClick={() => handle.NodeThread.stopItem(item)}
+              />
             </span>
           </div>
         ))}

@@ -51,7 +51,6 @@ const run = (command: string): Promise<any> => {
         rs(stdout)
         return
       })
-      console.log(cmd)
     } catch (error) {
       console.error('Command / Error:', error)
       rs(-1)

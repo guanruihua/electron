@@ -1,5 +1,10 @@
 const items = [
   {
+    label: 'electron',
+    path: 'D:\\dev\\workspace\\docs\\electron',
+    npm: 'start',
+  },
+  {
     label: 'workspace',
     path: 'D:\\dev\\workspace',
   },
@@ -29,11 +34,6 @@ const items = [
     npm: 'start',
   },
   {
-    label: 'electron',
-    path: 'D:\\dev\\workspace\\docs\\electron',
-    npm: 'start',
-  },
-  {
     label: 'guanruihua.github.io',
     path: 'D:\\dev\\workspace\\docs\\guanruihua.github.io',
   },
@@ -47,6 +47,18 @@ const items = [
     path: 'D:\\work\\work_space\\appshieldportal_web',
     npm: 'dev',
     web: 'http://localhost:80',
+  },
+  {
+    label: 'qubit safe ui (beta)',
+    path: 'D:\\dev\\workspace\\test\\qubit-safe-ui',
+    npm: 'dev',
+    web: 'http://localhost:5173',
+  },
+  {
+    label: 'qubit-safe-portal web',
+    path: 'D:\\work\\work_space\\qubit-safe-portal_web',
+    npm: 'dev',
+    web: 'http://localhost:85',
   },
 ]
 

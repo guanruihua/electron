@@ -16,6 +16,15 @@
       &:hover {
         transform: scale(1.03);
       }
+
+      &[data-start="1"] {
+        border-color: var(--success) !important;
+        box-shadow: 0 0 6px var(--success) !important;
+      }
+
+      &[data-pid=""] .opt.stop {
+        display: none;
+      }
     }
 
     .opt {
@@ -46,6 +55,8 @@
           transform: none;
         }
       }
+
+
 
       &.web {
         zoom: .92;

@@ -7,7 +7,8 @@ import { setHeaderTitle } from './helper'
 import { getSearchUrl } from './helper/getSearch'
 
 export const useViewState = (props: ViewProps) => {
-  const { state, info, id, handle } = props
+  const { id } = props
+  const { state, info, handle } = props.h
   const tab = info[id] || {}
   const [viewState, setViewState] = useSetState<ViewState>({
     id,

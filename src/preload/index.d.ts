@@ -30,7 +30,7 @@ declare global {
       onShortcut: (type: string, callback: (info: any) => void) => void
       setSize: (conf: AppSize) => void
       invoke: (
-        type: 'toggleDevTools' | 'cmd' | 'dev',
+        type: 'toggleDevTools' | 'cmd' | 'dev' | 'fs' | 'cmdResult',
         conf?: ObjectType | string | number,
       ) => Promise<ObjectType>
       test: (conf: any) => Promise<any>

@@ -2,10 +2,11 @@ import React from 'react'
 import { useSetState } from '0hook'
 import { State, ViewStates } from './type'
 import { isArray, isString } from 'asura-eye'
-import { setStatus_NodeTread, toNodeTreads } from './helper'
+import { handleSetting, setStatus_NodeTread, toNodeTreads } from './helper'
+import { ObjectType } from '0type'
 
 export const usePageState = () => {
-  const [state, setState] = useSetState<State>({
+  const [state, _renderState] = useSetState<State>({
     activeTab: '01',
     tabs: [
       '01',
@@ -15,7 +16,18 @@ export const usePageState = () => {
     ],
     NodeTreads: [],
     timeline: [],
+    setting: {
+      path: 'D:\\Data\\electron',
+    },
+    modules: [],
   })
+  const renderState = () => _renderState(state)
+
+  const setState = (newState: Partial<State>) => {
+    for (let key in newState) {
+      state[key] = newState[key]
+    }
+  }
 
   const [info, setInfo] = React.useState<ViewStates>({
     // 1: {
@@ -51,6 +63,16 @@ export const usePageState = () => {
 
   const handle = {
     setState,
+    renderState,
+    async handleSaveSetting(values: ObjectType = state?.setting || {}) {
+      const { code, setting, modules } = await handleSetting(values)
+      if (code === -1) return
+      setState({
+        setting,
+        modules,
+      })
+      state.NodeTreads && setStatus_NodeTread(state.NodeTreads)
+    },
     addTimePoint(info: any) {
       const item = {
         startTime: Date.now(),
@@ -64,19 +86,19 @@ export const usePageState = () => {
       setState(state)
     },
     NodeThread: {
-      async dev(item) {
+      async dev(item: ObjectType, render: boolean = false) {
         if (!item.path || !item.npm) return
         await window.api.invoke(
           'dev',
           [`cd ${item.path}`, `npm.cmd run ${item.npm}`].join(' && '),
         )
-        await this.findAll()
+        await this.findAll(render)
       },
-      async stopAll() {
+      async stopAll(render: boolean = false) {
         await window.api.invoke('cmd', 'taskkill /F /IM node.exe')
-        await this.findAll()
+        await this.findAll(render)
       },
-      async stopItem(item) {
+      async stopModule(item: ObjectType, render: boolean = false) {
         if (!item.path) return
         const selector = `.opt-item[data-path="${item.path.replaceAll('\\', '>')}"]`
         const dom: HTMLDivElement | null = document.querySelector(selector)
@@ -86,27 +108,22 @@ export const usePageState = () => {
           const pid = pids[i]
           await window.api.invoke('cmd', `taskkill /PID ${pid} /F`)
         }
-        await this.findAll()
+        await this.findAll(render)
       },
-      async stop(nodeTread) {
+      async stop(nodeTread: ObjectType, render: boolean = false) {
         if (!nodeTread.pid) return
         await window.api.invoke('cmd', `taskkill /PID ${nodeTread.pid} /F`)
-        await this.findAll()
+        await this.findAll(render)
       },
-      async findAll() {
+      async findAll(render: boolean = false) {
         const res = await window.api.invoke('cmd', 'tasklist | findstr node')
         if (!isString(res)) return
         const NewNodeTreads = toNodeTreads(res)
-        state.NodeTreads =
-          NewNodeTreads.map((item) => {
-            return {
-              title: 'Unknown',
-              ...item,
-            }
-          }) || []
+        state.NodeTreads = NewNodeTreads || []
 
         setState(state)
         setStatus_NodeTread(state.NodeTreads)
+        render && renderState()
       },
     },
     updateTabInfo(tab) {
@@ -157,10 +174,14 @@ export const usePageState = () => {
     reload: () => window.location.reload(),
   }
 
+  const init = async () => {
+    await handle.handleSaveSetting()
+    await handle.NodeThread.findAll()
+    handle.renderState()
+  }
   // console.log('🚀 ~ usePageState ~ state:', state)
   React.useEffect(() => {
-    handle.NodeThread.findAll()
-
+    init()
     window.api.onNewTab(async (res) => {
       const { data } = res
       const id = Date.now().toString()
@@ -177,6 +198,8 @@ export const usePageState = () => {
       setInfo(info)
     })
   }, [])
+
+  // console.log('@ ~ usePageState ~ state:', state)
 
   return {
     info,

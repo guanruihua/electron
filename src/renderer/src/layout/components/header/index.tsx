@@ -1,10 +1,10 @@
 import { Div } from 'aurad'
-import { PageState } from '../../type'
+import { State } from '../../type'
 import { Icon } from '../icons'
 
 export interface HeaderProps {
   handle: {
-    setState(newState: Partial<PageState>): void
+    setState(newState: Partial<State>): void
     [key: string]: any
   }
   [key: string]: any

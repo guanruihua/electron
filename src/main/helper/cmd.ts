@@ -7,6 +7,37 @@ const send = (mainWindow: BrowserWindow, type: string, data: any) => {
     data,
   })
 }
+const cmdResult = (command: string): Promise<any> => {
+  return new Promise((rs) => {
+    const cmd = spawn(command, {
+      shell: true,
+    })
+    let result = ''
+    // 实时输出处理
+    cmd.stdout.on('data', (data) => {
+      // console.log('Command PID:', cmd.pid)
+      result += data
+      console.log(`Output: ${data}`)
+    })
+
+    // cmd.stderr.on('data', (data) => {
+    //   console.error(`Error: ${data}`)
+    // })
+
+    cmd.on('close', (code) => {
+      // if (command !== 'kill %1') {
+      //   run_cmd('kill %1')
+      // }
+      console.log(`Process termination, Exit Code: ${code}`)
+      rs(result)
+    })
+
+    cmd.on('error', (err) => {
+      console.error('Running Error:', err)
+      rs(-1)
+    })
+  })
+}
 
 const dev = (command: string): Promise<any> => {
   return new Promise((rs) => {
@@ -63,4 +94,5 @@ export const cmd = {
   run,
   dev,
   send,
+  cmdResult,
 }

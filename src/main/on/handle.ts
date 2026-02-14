@@ -1,18 +1,23 @@
 import { ipcMain, BrowserWindow } from 'electron'
-import { getStartMenu, StoreManager } from './utils'
-import { AppSize } from '../preload/type'
-import { createScreenMask } from './register/create-screen-mask'
+import { AppSize } from '../../preload/type'
+import { createScreenMask } from '../register/create-screen-mask'
 import { ObjectType } from '0type'
 import { isString } from 'asura-eye'
-import { cmd } from './helper'
+import { getStartMenu, StoreManager, cmd, FileSystem } from '../helper'
 
 export const ipcMainHandle = (mainWindow: BrowserWindow) => {
   const store = new StoreManager()
   const Conf = {
-
+    fs: async (_e, target: ObjectType | string) =>
+      FileSystem(target),
     cmd: async (_e, conf: ObjectType | string) => {
       console.log('Command:', conf)
       if (isString(conf)) return await cmd.run(conf)
+      return undefined
+    },
+    cmdResult: async (_e, conf: ObjectType | string) => {
+      console.log('Command:', conf)
+      if (isString(conf)) return await cmd.cmdResult(conf)
       return undefined
     },
     dev: async (_e, conf: ObjectType | string) => {

@@ -2,7 +2,7 @@ import { BrowserWindow } from 'electron'
 
 export function on_webview(mainWindow: BrowserWindow) {
   // 1. 监听 webview 被附加到 DOM
-  mainWindow.webContents.on('did-attach-webview', (event, webContents) => {
+  mainWindow.webContents.on('did-attach-webview', (_event, webContents) => {
     webContents.on('before-input-event', (_e, input) => {
       console.log('before-input-event: ', input.key)
       if (input.key === 'F12') {

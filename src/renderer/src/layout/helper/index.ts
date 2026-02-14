@@ -1,3 +1,6 @@
+export * from './setting'
+export * from './get'
+
 import { isString } from 'asura-eye'
 
 export const toNodeTreads = (text: string) =>
@@ -37,7 +40,6 @@ export const getPathByPID = async (pid: string | number) => {
     .trim()
     .replace(/^\"/, '')
     .replaceAll('\\', '>')
- 
 }
 
 export const setStatus_NodeTread = async (NodeTreads: any[]) => {
@@ -55,6 +57,13 @@ export const setStatus_NodeTread = async (NodeTreads: any[]) => {
     const path: string | undefined = dom.dataset.path
     const pid = path && pathMap[path]
     if (pid) {
+      if (dom.title) {
+        const d: HTMLDivElement | null = document.querySelector(
+          `.node-tread-row-title[data-pid="${pid}"]`,
+        )
+        if (d) d.innerText = dom.title
+      }
+
       dom.dataset.pid = pid
       dom.dataset.start = '1'
     } else {

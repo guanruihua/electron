@@ -4,11 +4,11 @@ import { ViewProps } from '../type'
 import { Bar } from './bar'
 
 export function View(props: ViewProps) {
-  const { state, id } = props
+  const { id, h } = props
   const { ref, viewState, handleView } = useViewState(props)
 
   return (
-    <div className={'root-view'} data-hidden={id !== state.activeTab}>
+    <div className={'root-view'} data-hidden={id !== h.state.activeTab}>
       <Bar viewState={viewState} handleView={handleView} />
       <div className="root-view-content">
         <webview

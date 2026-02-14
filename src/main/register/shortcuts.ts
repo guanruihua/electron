@@ -48,7 +48,8 @@ export const registerShortcuts = (mainWindow: BrowserWindow) => {
   for (let key in Conf) {
     try {
       // console.log(globalShortcut.isRegistered(key))
-      const status = globalShortcut.register(key, Conf[key])
+      // const status = 
+      globalShortcut.register(key, Conf[key])
       // console.log('registerShortcuts', key, '/ status:', status)
     } catch (error) {
       console.log('Global Shortcut Register Error:', error)

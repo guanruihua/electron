@@ -3,12 +3,17 @@
   --resize-handle-color: transparent;
   --resize-handle-hover-color: rgba(66, 153, 225, 0.5);
   --header-height: 36px;
-  --h: calc(100vh - var(--header-height));
+  --h: calc(100vh - var(--header-height) - 1px);
 
   --warning: #fcac3b;
   --error: #ff5b58;
   --success: #19cb6c;
   --disabled: rgba(255, 255, 255, .5);
+  
+  --warning-bg: #fcac3b;
+  --error-bg: #ff5b58;
+  --success-bg: #334a39;
+  --disabled-bg: rgba(255, 255, 255, .5);
 }
 
 .main-layout {
@@ -20,6 +25,10 @@
   &>div:not(.main-layout-header) {
     overflow-y: auto;
   }
+}
+button,
+button span{
+  font-size: 12px;
 }
 
 * {

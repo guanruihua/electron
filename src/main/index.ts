@@ -1,8 +1,8 @@
-import { app, BrowserWindow, session, globalShortcut, Menu } from 'electron'
+import { app, BrowserWindow, session, globalShortcut } from 'electron'
 import path from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
-import { ipcMainHandle } from './ipcMain-handle'
+import { ipcMainHandle } from './on/handle'
 import { registerShortcuts } from './register/shortcuts'
 import webPreferences from './webPreferences'
 // import { cmd } from './helper'
@@ -14,7 +14,6 @@ function createWindow(): void {
   const persistentSession = session.fromPartition('persist:mycache', {
     cache: true,
   })
-
   // Create the browser window.
   mainWindow = new BrowserWindow({
     width: 900,

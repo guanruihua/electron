@@ -1,0 +1,43 @@
+.file-tree {
+  .right-arrow {
+    zoom: 1.2;
+    transform: rotate(90deg);
+  }
+
+  [data-fold='true'] {
+    .right-arrow {
+      transform: none;
+    }
+    .children{
+      display: none;
+    }
+  }
+
+  [data-status=''] {
+    .status {
+      width: 10px;
+      height: 10px;
+      border-radius: 16px;
+      background: #4c4015;
+      margin-right: 2px;
+    }
+  }
+
+  [data-status='D'] {
+    .status {
+      color: var(--error);
+    }
+  }
+
+  [data-status='M'] {
+    .status {
+      color: var(--warning);
+    }
+  }
+
+  [data-status='??'] {
+    .status {
+      color: #8ecd9d;
+    }
+  }
+}

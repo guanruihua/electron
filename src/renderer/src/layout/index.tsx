@@ -9,7 +9,7 @@ import './style/root-view.less'
 import './style/util/index.less'
 
 export default function Layout() {
-  const { info, state, handle } = usePageState()
+  const h = usePageState()
 
   return (
     <ConfigProvider
@@ -18,10 +18,10 @@ export default function Layout() {
       }}
     >
       <div className="root-layout">
-        <Header state={state} handle={handle} />
+        <Header {...h} />
         <div className="root-view">
-          {state?.tabs?.map((id) => (
-            <View key={id} id={id} info={info} state={state} handle={handle} />
+          {h.state?.tabs?.map((id) => (
+            <View key={id} id={id} h={h} />
           ))}
         </div>
       </div>

@@ -6,7 +6,7 @@ export function Opt(props: ModuleProps) {
   return (
     <div className="root-layout-home-view-opt flex col justify-center overflow-y module-bg">
       <h4 className="mb">OPT</h4>
-      <div className="flex gap">
+      <div className="flex gap" style={{ paddingTop: 20 }}>
         <Button className="bolder" onClick={() => window.api.openMaskWindow()}>
           打开遮罩
         </Button>

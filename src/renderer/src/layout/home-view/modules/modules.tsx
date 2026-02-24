@@ -7,8 +7,11 @@ export function Modules(props: ModuleProps) {
 
   return (
     <div className="root-layout-home-view-modules">
-      <div className="module-bg">
-        <div className="flex space-between items-center mb">
+      <div className="module-bg" style={{ padding: 0 }}>
+        <div
+          className="flex space-between items-center mb"
+          style={{ padding: '20px 20px 0' }}
+        >
           <h4>Module</h4>
           <div className="flex gap">
             <Button
@@ -24,6 +27,7 @@ export function Modules(props: ModuleProps) {
           style={{
             gridTemplateColumns: '1fr 1fr 1fr',
             maxHeight: `calc(var(--h) - 150px)`,
+            padding: 20,
           }}
         >
           {state?.modules?.map?.((item, i) => (

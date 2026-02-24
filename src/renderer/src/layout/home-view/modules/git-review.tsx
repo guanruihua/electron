@@ -14,7 +14,10 @@ export function GitReview(props: ModuleProps) {
   return (
     <div className="root-layout-home-view-git-review">
       <div className="module-bg w flex gap col">
-        <div className="flex space-between items-center">
+        <div
+          className="flex space-between items-center"
+          style={{ paddingBottom: 20 }}
+        >
           <h4>Git</h4>
           <div className="flex gap">
             <Button

@@ -24,7 +24,7 @@ export function NodeTread(props: ModuleProps) {
       {isArray(state?.NodeTreads) && state.NodeTreads.length > 0 && (
         <div
           className="grid gap all-node-tread border-radius"
-          style={{ gridTemplateColumns: 'auto 100px 100px 100px' }}
+          style={{ gridTemplateColumns: 'auto 100px 100px 100px', paddingTop: 20 }}
         >
           {['项目', 'PID', '内存', ''].map((item, i) => (
             <div key={i} className="flex items-center bold">

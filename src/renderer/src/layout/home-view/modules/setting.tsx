@@ -27,7 +27,7 @@ export function Setting(props: ModuleProps) {
             </Button>
           </div>
         </div>
-        <div style={{ zoom: '.9' }}>
+        <div style={{ zoom: '.9', paddingTop: 20 }}>
           <Form form={form} layout="vertical">
             <Form.Item label={'Setting Path'} data-form-name={'path'}>
               <Space.Compact style={{ width: '100%' }}>

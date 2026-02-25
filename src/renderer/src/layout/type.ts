@@ -27,11 +27,13 @@ export interface State {
     path: string
     [key: string]: any
   }
+  settings?: {
+    [key: string]: any
+  }
   [key: string]: any
 }
 
 export interface Handle {
-  addTimePoint(info: any): void
   renderState(): void
   setState(newState: Partial<State>): void
   NodeThread: {

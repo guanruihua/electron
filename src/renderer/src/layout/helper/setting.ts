@@ -22,17 +22,15 @@ export const handleSetting = async (
       payload: { path: path + '/modules.json', isFile: true },
     })
 
-    const setting = getJSON(await window.api.invoke('fs', {
-      action: 'readFile',
-      payload: { path: path + '/setting.json' },
-    }), {
-      path,
-    }) as State['setting']
-
-    if (setting && setting.path) {
-      setting.path = path
-    }
-    // console.log('@ ~ handleSetting ~ setting:', setting)
+    const settings = getJSON(
+      await window.api.invoke('fs', {
+        action: 'readFile',
+        payload: { path: path + '/setting.json' },
+      }),
+      {
+        path,
+      },
+    ) as State['setting']
 
     const modules = getJSON(
       await window.api.invoke('fs', {
@@ -43,7 +41,7 @@ export const handleSetting = async (
     )
 
     // console.log('@ ~ handleSetting ~ modules:', modules)
-    return { code: 200, setting, modules }
+    return { code: 200, setting: { path }, settings, modules }
   } catch (error) {
     console.log('@ ~ handleSetting ~ error:', error)
     return { code: -1 }

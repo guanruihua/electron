@@ -14,6 +14,9 @@ export function Modules(props: ModuleProps) {
         >
           <h4>Module</h4>
           <div className="flex gap">
+            <Button onClick={() => handle.openModuleSetting()}>
+              Edit
+            </Button>
             <Button
               className="bolder"
               onClick={() => handle?.NodeThread?.findAll(true)}
@@ -50,7 +53,6 @@ export function Modules(props: ModuleProps) {
                   type="vscode"
                   className="opt open"
                   onClick={() => {
-                    handle.addTimePoint(item)
                     window.api.invoke('cmd', `code ${item.path}`)
                   }}
                 />

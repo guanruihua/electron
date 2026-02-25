@@ -15,9 +15,13 @@
       // background: rgba(255, 255, 255, .15);
     }
 
-    &:not([data-start="1"]) .opt.stop{
+    &:not([data-start="1"]) .opt.stop {
       display: none;
     }
+  }
+
+  [data-start="1"] .opt.run {
+    display: none !important;
   }
 
   .opt {
@@ -53,9 +57,11 @@
     &.google {
       zoom: .96;
     }
-    .dir{
-      zoom: 1.1;
+
+    &.dir {
+      zoom: 1.2;
     }
+
     &.web {
       zoom: .98;
       color: #3b9cf0;

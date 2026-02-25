@@ -52,8 +52,6 @@ export function Setting(props: ModuleProps) {
                   try {
                     const values = await form.validateFields()
                     handle.handleSaveSetting(values)
-
-                    console.log('@ ~ handleSave ~ values:', values)
                   } catch (error) {
                     console.log('@ ~ handleSave ~ error:', error)
                   }

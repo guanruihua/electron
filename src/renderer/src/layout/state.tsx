@@ -15,7 +15,6 @@ export const usePageState = () => {
       // '5',
     ],
     NodeTreads: [],
-    timeline: [],
     setting: {
       path: 'D:\\Data\\electron',
     },
@@ -64,26 +63,23 @@ export const usePageState = () => {
   const handle = {
     setState,
     renderState,
+    async openModuleSetting() {
+      console.log(state.setting)
+      state.setting?.path &&
+        window.api.invoke('cmd', `code ${state.setting.path}\\modules.json`)
+    },
     async handleSaveSetting(values: ObjectType = state?.setting || {}) {
-      const { code, setting, modules } = await handleSetting(values)
+      const { code, setting, settings, modules } = await handleSetting(values)
+
       if (code === -1) return
       setState({
         setting,
+        settings,
         modules,
       })
       state.NodeTreads && setStatus_NodeTread(state.NodeTreads)
-    },
-    addTimePoint(info: any) {
-      const item = {
-        startTime: Date.now(),
-        info,
-      }
-      if (isArray(state.timeline)) {
-        state.timeline.push(item)
-      } else {
-        state.timeline = [item]
-      }
-      setState(state)
+      console.log(setting, modules)
+      renderState()
     },
     NodeThread: {
       async dev(item: ObjectType, render: boolean = false) {

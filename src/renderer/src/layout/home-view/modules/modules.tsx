@@ -14,15 +14,12 @@ export function Modules(props: ModuleProps) {
         >
           <h4>Module</h4>
           <div className="flex gap">
-            <Button onClick={() => handle.openModuleSetting()}>
-              Edit
-            </Button>
+            <Button onClick={() => handle.openModuleSetting()}>Edit</Button>
             <Button
+              icon={<Icon type="reload" style={{ fontSize: 16 }} />}
               className="bolder"
               onClick={() => handle?.NodeThread?.findAll(true)}
-            >
-              Reload
-            </Button>
+            />
           </div>
         </div>
         <div
@@ -31,6 +28,9 @@ export function Modules(props: ModuleProps) {
             gridTemplateColumns: '1fr 1fr 1fr',
             maxHeight: `calc(var(--h) - 150px)`,
             padding: 20,
+          }}
+          onClick={()=>{
+
           }}
         >
           {state?.modules?.map?.((item, i) => (
@@ -55,6 +55,11 @@ export function Modules(props: ModuleProps) {
                   onClick={() => {
                     window.api.invoke('cmd', `code ${item.path}`)
                   }}
+                />
+                <Icon
+                  type="git"
+                  className="opt git"
+                  onClick={() => handle.git(item)}
                 />
                 <Icon
                   type="dir"

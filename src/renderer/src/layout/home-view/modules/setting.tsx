@@ -20,11 +20,10 @@ export function Setting(props: ModuleProps) {
           <h4>Setting</h4>
           <div className="flex gap">
             <Button
+              icon={<Icon type="reload" style={{ fontSize: 16 }} />}
               className="bolder"
               onClick={() => handle?.NodeThread?.findAll(true)}
-            >
-              Reload
-            </Button>
+            />
           </div>
         </div>
         <div style={{ zoom: '.9', paddingTop: 20 }}>

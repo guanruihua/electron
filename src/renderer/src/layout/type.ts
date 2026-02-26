@@ -30,6 +30,11 @@ export interface State {
   settings?: {
     [key: string]: any
   }
+  selectGitModule?: {
+    label: string
+    path: string
+    [key: string]: any
+  }
   [key: string]: any
 }
 

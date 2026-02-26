@@ -19,6 +19,10 @@ export const usePageState = () => {
       path: 'D:\\Data\\electron',
     },
     modules: [],
+    selectGitModule: {
+      label: '',
+      path: '',
+    },
   })
   const renderState = () => _renderState(state)
 
@@ -63,6 +67,12 @@ export const usePageState = () => {
   const handle = {
     setState,
     renderState,
+    async git(item) {
+      setState({
+        selectGitModule: item,
+      })
+      renderState()
+    },
     async openModuleSetting() {
       console.log(state.setting)
       state.setting?.path &&

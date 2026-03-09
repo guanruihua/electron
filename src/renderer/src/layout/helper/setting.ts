@@ -2,6 +2,16 @@ import { ObjectType } from '0type'
 import { State } from '../type'
 import { getJSON } from './get'
 
+export const getModules = async (path: string) => {
+  return getJSON(
+    await window.api.invoke('fs', {
+      action: 'readFile',
+      payload: { path: path + '/modules.json' },
+    }),
+    [],
+  )
+}
+
 export const handleSetting = async (
   values: ObjectType,
 ): Promise<Partial<State>> => {
@@ -32,13 +42,7 @@ export const handleSetting = async (
       },
     ) as State['setting']
 
-    const modules = getJSON(
-      await window.api.invoke('fs', {
-        action: 'readFile',
-        payload: { path: path + '/modules.json' },
-      }),
-      [],
-    )
+    const modules = await getModules(path)
 
     // console.log('@ ~ handleSetting ~ modules:', modules)
     return { code: 200, setting: { path }, settings, modules }

@@ -59,7 +59,6 @@ export interface Handle {
 
 export interface Hook {
   state: State
-  info: ViewStates
   handle: Handle
   [key: string]: any
 }

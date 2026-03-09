@@ -1,9 +1,6 @@
 import React from 'react'
 import { useSetState } from '0hook'
 import { State, ViewStates } from './type'
-import { isArray, isString } from 'asura-eye'
-import { handleSetting, setStatus_NodeTread, toNodeTreads } from './helper'
-import { ObjectType } from '0type'
 
 export const usePageState = () => {
   const [state, _renderState] = useSetState<State>({
@@ -14,15 +11,6 @@ export const usePageState = () => {
       // '2', '3', '4',
       // '5',
     ],
-    NodeTreads: [],
-    setting: {
-      path: 'D:\\Data\\electron',
-    },
-    modules: [],
-    selectGitModule: {
-      label: '',
-      path: '',
-    },
   })
   const renderState = () => _renderState(state)
 
@@ -67,71 +55,6 @@ export const usePageState = () => {
   const handle = {
     setState,
     renderState,
-    async git(item) {
-      setState({
-        selectGitModule: item,
-      })
-      renderState()
-    },
-    async openModuleSetting() {
-      console.log(state.setting)
-      state.setting?.path &&
-        window.api.invoke('cmd', `code ${state.setting.path}\\modules.json`)
-    },
-    async handleSaveSetting(values: ObjectType = state?.setting || {}) {
-      const { code, setting, settings, modules } = await handleSetting(values)
-
-      if (code === -1) return
-      setState({
-        setting,
-        settings,
-        modules,
-      })
-      state.NodeTreads && setStatus_NodeTread(state.NodeTreads)
-      console.log(setting, modules)
-      renderState()
-    },
-    NodeThread: {
-      async dev(item: ObjectType, render: boolean = false) {
-        if (!item.path || !item.npm) return
-        await window.api.invoke(
-          'dev',
-          [`cd ${item.path}`, `npm.cmd run ${item.npm}`].join(' && '),
-        )
-        await this.findAll(render)
-      },
-      async stopAll(render: boolean = false) {
-        await window.api.invoke('cmd', 'taskkill /F /IM node.exe')
-        await this.findAll(render)
-      },
-      async stopModule(item: ObjectType, render: boolean = false) {
-        if (!item.path) return
-        const selector = `.opt-item[data-path="${item.path.replaceAll('\\', '>')}"]`
-        const dom: HTMLDivElement | null = document.querySelector(selector)
-        if (!dom) return
-        const pids = [...new Set(dom.dataset.pid?.split(' '))]
-        for (let i = 0; i < pids.length; i++) {
-          const pid = pids[i]
-          await window.api.invoke('cmd', `taskkill /PID ${pid} /F`)
-        }
-        await this.findAll(render)
-      },
-      async stop(nodeTread: ObjectType, render: boolean = false) {
-        if (!nodeTread.pid) return
-        await window.api.invoke('cmd', `taskkill /PID ${nodeTread.pid} /F`)
-        await this.findAll(render)
-      },
-      async findAll(render: boolean = false) {
-        const res = await window.api.invoke('cmd', 'tasklist | findstr node')
-        if (!isString(res)) return
-        const NewNodeTreads = toNodeTreads(res)
-        state.NodeTreads = NewNodeTreads || []
-
-        setState(state)
-        setStatus_NodeTread(state.NodeTreads)
-        render && renderState()
-      },
-    },
     updateTabInfo(tab) {
       const newInfo = info || {}
       newInfo[tab.id] = { ...newInfo[tab.id], ...tab }
@@ -180,14 +103,7 @@ export const usePageState = () => {
     reload: () => window.location.reload(),
   }
 
-  const init = async () => {
-    await handle.handleSaveSetting()
-    await handle.NodeThread.findAll()
-    handle.renderState()
-  }
-  // console.log('🚀 ~ usePageState ~ state:', state)
   React.useEffect(() => {
-    init()
     window.api.onNewTab(async (res) => {
       const { data } = res
       const id = Date.now().toString()

@@ -21,7 +21,7 @@ export function View(props: ViewProps) {
           plugins={'true' as any}
           allowpopups={'true' as any}
         ></webview>
-        {viewState.home && <HomeView {...props} />}
+        {viewState.home && <HomeView />}
       </div>
       {/* <div className="dev-control fixed right bottom">
         <Button

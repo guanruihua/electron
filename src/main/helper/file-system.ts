@@ -1,4 +1,4 @@
-import { isString } from 'asura-eye'
+import { isObject, isString } from 'asura-eye'
 import fs from 'fs'
 import path from 'path'
 
@@ -53,6 +53,20 @@ const readFile = async (payload) => {
     })
   })
 }
+const saveFile = async (payload) => {
+  const { path, data } = payload
+  if (!isString(path)) return
+  return new Promise((rs) => {
+    const dataStr = isObject(data) ? JSON.stringify(data, null, 2) : data
+    fs.writeFile(path, dataStr, 'utf8', (error) => {
+      if (error) {
+        console.log('@ ~ writeFile ~ error:', error)
+        return rs(-1)
+      }
+      rs(1)
+    })
+  })
+}
 
 export const FileSystem = async (target: any) => {
   const { action, payload } = target
@@ -60,5 +74,6 @@ export const FileSystem = async (target: any) => {
     createPathIfNotExist,
     checkPath,
     readFile,
+    saveFile,
   }?.[action]?.(payload)
 }

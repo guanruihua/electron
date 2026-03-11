@@ -1,11 +1,12 @@
 .root-layout {
+  height: 100vh;
   max-height: 100vh;
   overflow-y: auto;
   display: grid;
   grid-template-columns: 1fr;
-  grid-template-rows: auto 1fr;
+  grid-template-rows: 36px 1fr;
   overflow: hidden;
-  
+
   &-page-container {
     display: flex;
     flex-direction: row;
@@ -29,6 +30,30 @@
         color: rgba(255, 255, 255, 0.9);
         background-color: rgba(255, 255, 255, 0.4);
       }
+    }
+  }
+}
+
+.au-message-box {
+  // --color-success: #52c41a;
+  // --color-warning: #faad14;
+  // --color-error: #ff4d4f;
+  // --color-info: #1677ff;
+
+  .au-message {
+    background-color: rgba(0, 0, 0, .5);
+
+    &.success{
+      border-color: rgba(105, 179, 59, .8);
+    }
+
+    .content {
+      font-weight: bold;
+      font-size: 12px;
+    }
+
+    .au-message-icon {
+      font-size: 16px;
     }
   }
 }

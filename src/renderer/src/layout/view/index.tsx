@@ -11,7 +11,7 @@ export function View(props: ViewProps) {
     <div className={'root-view'} data-hidden={id !== h.state.activeTab}>
       <Bar viewState={viewState} handleView={handleView} />
       <div className="root-view-content">
-        <webview
+        {!viewState.home && <webview
           key={id}
           ref={ref}
           className="root-view-iframe"
@@ -20,7 +20,7 @@ export function View(props: ViewProps) {
           // nodeintegration
           plugins={'true' as any}
           allowpopups={'true' as any}
-        ></webview>
+        ></webview>}
         {viewState.home && <HomeView />}
       </div>
       {/* <div className="dev-control fixed right bottom">

@@ -69,7 +69,7 @@ export const FileTree = (props: Props) => {
                 </div>
               </div>
               <div className='flex items-center justify-center'>
-                <div className='mr'>+</div>
+                {/* <div className='mr'>+</div> */}
                 <div className="status text-14 bold pl flex items-center justify-center">
                   {statusCode === '??' ? 'U' : statusCode}
                 </div>

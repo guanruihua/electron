@@ -8,7 +8,7 @@ import { FileTree } from '@/layout/components'
 
 export function GitReview(props: ModuleProps) {
   const { state, handle } = props.h
-  const { label = '', path } = state.selectGitModule || {}
+  const { label = '', path } = state?.setting?.selectGitModule || {}
   const [tree, setTree] = React.useState<FileTreeType>([])
   const [fold, setFold] = React.useState<string[]>([])
 
@@ -52,7 +52,7 @@ export function GitReview(props: ModuleProps) {
         </div>
         <div
           className="overflow-y bg border-radius p"
-          style={{ maxHeight: `calc(var(--h) - 200px)` }}
+          style={{ minHeight: 100, maxHeight: `calc(var(--h) - 200px)` }}
         >
           <FileTree tree={tree} fold={fold} setFold={setFold} />
         </div>

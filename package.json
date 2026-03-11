@@ -28,14 +28,16 @@
     "react-dom": "18.3.1"
   },
   "dependencies": {
+    "@electron-toolkit/preload": "^3.0.2",
+    "@electron-toolkit/utils": "^4.0.0",
+    "@xterm/addon-clipboard": "^0.2.0",
+    "electron-updater": "^6.3.9",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-router-dom": "^7.9.6",
     "typescript": "^5.9.2",
     "vite": "^7.1.6",
-    "@electron-toolkit/preload": "^3.0.2",
-    "@electron-toolkit/utils": "^4.0.0",
-    "electron-updater": "^6.3.9"
+    "xterm-addon-fit": "^0.8.0"
   },
   "devDependencies": {
     "0hook": "^1.8.0",
@@ -48,6 +50,8 @@
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^5.0.3",
+    "@xterm/addon-clipboard": "^0.2.0",
+    "@xterm/xterm": "^6.0.0",
     "abandonjs": "^3.12.1",
     "antd": "^6.2.2",
     "apache-arrow": "^21.1.0",
@@ -70,6 +74,7 @@
     "pinyin-match": "^1.2.10",
     "prettier": "^3.6.2",
     "ws": "^8.18.3",
+    "xterm-addon-fit": "^0.8.0",
     "zustand": "^5.0.11"
   }
 }

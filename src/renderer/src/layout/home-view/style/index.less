@@ -5,9 +5,45 @@
 
 .root-layout-home-view {
   background-color: #000000;
+
   .module-bg {
     border-radius: 12px;
     background: #2b2b2b;
     padding: 20px;
   }
+}
+
+.root-layout-home-view-terminal {
+  span {
+    letter-spacing: 1.5px !important;
+  }
+}
+
+.root-layout-home-view-quick-start {
+  &-container {
+    padding: 20px;
+  }
+
+  .quickStart-app-container {
+    max-height: 300px;
+    overflow-y: auto;
+    flex-wrap: wrap;
+  }
+
+  .quickStart-app {
+    padding: 0 10px;
+    height: 32px;
+    line-height: 32px;
+    font-size: 12px;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: rgba(0, 0, 0, .9);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all .6s;
+    
+    &:hover {
+      background-color: rgba(42, 112, 66, .5);
+    }
+  }
+
 }

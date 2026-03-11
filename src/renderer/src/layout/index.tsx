@@ -19,7 +19,7 @@ export default function Layout() {
     >
       <div className="root-layout">
         <Header {...h} />
-        <div className="root-view">
+        <div className="root-view-container">
           {h.state?.tabs?.map((id) => (
             <View key={id} id={id} h={h} />
           ))}

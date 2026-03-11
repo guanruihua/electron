@@ -23,16 +23,15 @@ export interface State {
     info: ObjectType
     [key: string]: any
   }[]
+  apps?: [string, string][]
   setting?: {
     path: string
-    [key: string]: any
-  }
-  settings?: {
-    [key: string]: any
-  }
-  selectGitModule?: {
-    label: string
-    path: string
+    quickStarts?: string[]
+    selectGitModule?: {
+      label?: string
+      path?: string
+      [key: string]: any
+    }
     [key: string]: any
   }
   [key: string]: any
@@ -41,6 +40,8 @@ export interface State {
 export interface Handle {
   renderState(): void
   setState(newState: Partial<State>): void
+  saveToFile(type: 'setting' | 'modules' | 'apps'): void
+  setDefaultState(state: State): state is Required<State>
   NodeThread: {
     dev(item: ObjectType, render?: boolean): Promise<void>
     stopAll(render?: boolean): Promise<void>

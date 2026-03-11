@@ -1,10 +1,11 @@
 import React from 'react'
 import { useSetState } from '0hook'
-import { State, ViewStates } from '../type'
-import { isArray, isString } from 'asura-eye'
+import { State } from '../type'
+import { isString } from 'asura-eye'
 import {
   getModules,
   handleSetting,
+  saveSettingToFile,
   setStatus_NodeTread,
   toNodeTreads,
 } from '../helper'
@@ -15,13 +16,35 @@ export const useHomeView = () => {
     NodeTreads: [],
     setting: {
       path: 'D:\\Data\\electron',
+      quickStarts: [],
+      selectGitModule: {
+        label: '',
+        path: '',
+      },
     },
     modules: [],
-    selectGitModule: {
-      label: '',
-      path: '',
-    },
+    apps: [],
   })
+  const saveToFile = (type: 'setting' | 'modules' | 'apps') => {
+    const { path } = state?.setting || {}
+    if (!path) return
+    if (type === 'setting') saveSettingToFile(path, state.setting)
+  }
+  const setDefaultState = (state: State): state is Required<State> => {
+    if (!state?.setting) {
+      state.setting = {
+        path: 'D:\\Data\\electron',
+        quickStarts: [],
+        selectGitModule: {
+          label: '',
+          path: '',
+        },
+      }
+    }
+    if (!state.setting.quickStarts) state.setting.quickStarts = []
+
+    return true
+  }
   const renderState = () => _renderState(state)
 
   const setState = (newState: Partial<State>) => {
@@ -34,7 +57,7 @@ export const useHomeView = () => {
     async reload() {
       if (!state.setting?.path) return
       const modules = await getModules(state.setting.path)
-      if(!state.selectGitModule?.path) state.selectGitModule = modules[0]
+      if (!state.selectGitModule?.path) state.selectGitModule = modules[0]
       setState({ modules })
       renderState()
     },
@@ -43,6 +66,7 @@ export const useHomeView = () => {
         window.api.invoke('cmd', `code ${state.setting.path}\\modules.json`)
     },
   }
+
   const handleNodeThread = {
     async dev(item: ObjectType, render: boolean = false) {
       if (!item.path || !item.npm) return
@@ -88,20 +112,20 @@ export const useHomeView = () => {
   const handle = {
     setState,
     renderState,
+    saveToFile,
     NodeThread: handleNodeThread,
     module: handleModule,
     async git(item) {
-      setState({
-        selectGitModule: item,
-      })
+      if (setDefaultState(state)) state.setting.selectGitModule = item
       renderState()
+      saveToFile('setting')
     },
     async handleSaveSetting(values: ObjectType = state?.setting || {}) {
-      const { code, setting, settings, modules } = await handleSetting(values)
+      const { code, apps, setting, modules } = await handleSetting(values)
       if (code === -1) return
       setState({
+        apps,
         setting,
-        settings,
         modules,
       })
       state.NodeTreads && setStatus_NodeTread(state.NodeTreads)
@@ -112,11 +136,20 @@ export const useHomeView = () => {
     min: () => window.api.minimize(),
     max: () => window.api.maximize(),
     reload: () => window.location.reload(),
+    setDefaultState,
   }
 
   const init = async () => {
     await handle.handleSaveSetting()
     await handle.NodeThread.findAll()
+
+    if (
+      setDefaultState(state) &&
+      !state.setting?.selectGitModule?.path &&
+      state?.modules?.[0]
+    ) {
+      state.setting.selectGitModule = state.modules[0]
+    }
     handle.renderState()
   }
 

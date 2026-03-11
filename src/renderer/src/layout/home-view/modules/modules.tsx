@@ -13,10 +13,9 @@ const Module = (props: ModuleProps & { item: ObjectType }) => {
       <div className="grid-span-full">
         <span className="bold text-14 pointer">{item.label || item.path}</span>
         <div
-          className="grid gap"
+          className="grid-layout grid gap"
           style={{
             marginTop: 10,
-            gridTemplateColumns: '1fr 1fr 1fr',
           }}
         >
           {item.children?.map?.((item, i) => (
@@ -106,14 +105,7 @@ export function Modules(props: ModuleProps) {
             />
           </div>
         </div>
-        <div
-          className="grid overflow-y gap"
-          style={{
-            gridTemplateColumns: '1fr 1fr 1fr',
-            maxHeight: `calc(var(--h) - 150px)`,
-            padding: 20,
-          }}
-        >
+        <div className="root-layout-home-view-modules-container grid overflow-y gap">
           {state?.modules?.map?.((item, i) => (
             <Module key={i} item={item} h={props.h} />
           ))}

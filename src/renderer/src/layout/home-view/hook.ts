@@ -60,6 +60,7 @@ export const useHomeView = () => {
       if (!state.selectGitModule?.path) state.selectGitModule = modules[0]
       setState({ modules })
       renderState()
+      await handleNodeThread.findAll()
     },
     async openConfFile() {
       state.setting?.path &&

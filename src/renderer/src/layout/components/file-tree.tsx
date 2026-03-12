@@ -5,9 +5,10 @@ interface Props {
   tree: FileTreeType
   fold: string[]
   setFold(fold: string[]): void
+  style?: React.CSSProperties
 }
 export const FileTree = (props: Props) => {
-  const { tree, fold, setFold } = props
+  const { tree, fold, setFold, ...rest } = props
 
   const getTree = () => {
     const list: any[] = tree
@@ -24,7 +25,7 @@ export const FileTree = (props: Props) => {
   const renderTree = getTree()
 
   return (
-    <div className="file-tree">
+    <div className="file-tree" {...rest}>
       {renderTree.map((item: FileNode, i) => {
         const { statusCode, isDirectory, path } = item
         return (
@@ -68,7 +69,7 @@ export const FileTree = (props: Props) => {
                   {item.name}
                 </div>
               </div>
-              <div className='flex items-center justify-center'>
+              <div className="flex items-center justify-center">
                 {/* <div className='mr'>+</div> */}
                 <div className="status text-14 bold pl flex items-center justify-center">
                   {statusCode === '??' ? 'U' : statusCode}
@@ -77,7 +78,11 @@ export const FileTree = (props: Props) => {
             </div>
             {item.children && (
               <div className="children" style={{ paddingLeft: 15 }}>
-                <FileTree tree={item.children} fold={fold} setFold={setFold} />
+                <FileTree
+                  tree={item.children}
+                  fold={fold}
+                  setFold={setFold}
+                />
               </div>
             )}
           </div>

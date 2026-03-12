@@ -1,3 +1,4 @@
+import React from 'react'
 import { ObjectType } from '0type'
 
 export interface ViewState {
@@ -71,6 +72,7 @@ export interface ViewProps {
 
 export interface ModuleProps {
   h: Hook
+  children?: React.ReactNode
   [key: string]: any
 }
 export interface FileNode {

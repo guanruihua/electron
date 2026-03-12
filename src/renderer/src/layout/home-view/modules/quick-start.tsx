@@ -15,8 +15,22 @@ export const QuickStart = (props: ModuleProps) => {
           style={{ padding: '20px 20px 0' }}
         >
           <h4>Quick Start</h4>
-          <div className="flex gap bold text-12">
-            {state.setting?.quickStarts?.length} / {state.apps?.length}
+          <div className="flex gap bold text-12 items-center">
+            <span>
+              {state.setting?.quickStarts?.length} / {state.apps?.length}
+            </span>
+            {state.apps?.length && state.setting?.quickStarts && (
+              <Button
+                className="bold"
+                onClick={() => {
+                  state.setting?.quickStarts?.forEach((path) => {
+                    window.api.invoke('cmd', `start "" "${path}"`)
+                  })
+                }}
+              >
+                Start All
+              </Button>
+            )}
           </div>
         </div>
         <div className="root-layout-home-view-quick-start-container grid overflow-y gap">
@@ -25,9 +39,13 @@ export const QuickStart = (props: ModuleProps) => {
               state.setting?.quickStarts?.map((path) => {
                 const fileName = state.apps?.find((_) => _[0] === path)?.[1]
                 return (
-                  <div className="quickStart-app" key={path} onClick={()=>{
-                    window.api.invoke('cmd', `start "" "${path}"`)
-                  }}>
+                  <div
+                    className="quickStart-app"
+                    key={path}
+                    onClick={() => {
+                      window.api.invoke('cmd', `start "" "${path}"`)
+                    }}
+                  >
                     {fileName?.replace('.lnk', '')}
                   </div>
                 )
@@ -41,11 +59,10 @@ export const QuickStart = (props: ModuleProps) => {
               placeholder="Select Quick Start App"
               allowClear
               onChange={setSelect}
-              options={state.apps
-                ?.map(([value, label]) => ({
-                  value,
-                  label: label.replace('.lnk', ''),
-                }))}
+              options={state.apps?.map(([value, label]) => ({
+                value,
+                label: label.replace('.lnk', ''),
+              }))}
             />
             <Button
               style={{ width: 60 }}

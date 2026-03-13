@@ -65,7 +65,7 @@ export const QuickStart = (props: ModuleProps) => {
               }))}
             />
             <Button
-              style={{ width: 60 }}
+              style={{ width: 100 }}
               onClick={() => {
                 if (handle.setDefaultState(state)) {
                   if (!state.setting.quickStarts) state.setting.quickStarts = []

@@ -20,6 +20,12 @@ export function GitReview(
     'feat: Improve documentation',
   )
 
+  const [loading, setLoading] = React.useState<boolean>(false)
+  const Loading = (p: Promise<any>) => {
+    setLoading(true)
+    p?.finally(() => setLoading(false))
+  }
+
   const gitPull = async () => {
     const res = await window.api.invoke(
       'cmdResult',
@@ -29,7 +35,7 @@ export function GitReview(
     if (!isString(res)) return setTree([])
     const fileTree = getFileTree(res) || []
     console.log(fileTree)
-    setTree(fileTree)
+    return setTree(fileTree)
   }
 
   const handlePush = async () => {
@@ -65,13 +71,12 @@ export function GitReview(
             <div className="bold text-14">{label}</div>
           </div>
           <div className="flex gap">
-            <Button className="bolder" onClick={gitPull}>
-              Pull
-            </Button>
             <Button
+              title="Pull"
+              loading={loading}
               className="bolder"
               icon={<Icon type="reload" style={{ fontSize: 16 }} />}
-              onClick={gitPull}
+              onClick={() => Loading(gitPull())}
             />
           </div>
         </div>
@@ -90,7 +95,10 @@ export function GitReview(
               {tree?.length ? (
                 <FileTree tree={tree} fold={fold} setFold={setFold} />
               ) : (
-                <div className="text-12 text-center" style={{ color: '#eee', paddingTop: 30 }}>
+                <div
+                  className="text-12 text-center"
+                  style={{ color: '#eee', paddingTop: 30 }}
+                >
                   No Data
                 </div>
               )}
@@ -108,7 +116,13 @@ export function GitReview(
                 setCommitMsg(value)
               }}
             />
-            <Button onClick={handlePush}>Push</Button>
+            <Button
+              loading={loading}
+              icon={<Icon type="check" style={{ fontSize: 16 }} />}
+              onClick={handlePush}
+            >
+              Push
+            </Button>
           </div>
           <div className="right-children">{right}</div>
         </div>

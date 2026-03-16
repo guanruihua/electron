@@ -11,7 +11,7 @@ const Module = (props: ModuleProps & { item: ObjectType }) => {
   if (isString(item?.type) && item.type.toLowerCase() === 'group')
     return (
       <div className="grid-span-full">
-        <span className="bold text-14 pointer">{item.label || item.path}</span>
+        <span className="bold text-12 pointer">{item.label || item.path}</span>
         <div
           className="grid-layout grid gap"
           style={{
@@ -27,32 +27,31 @@ const Module = (props: ModuleProps & { item: ObjectType }) => {
 
   return (
     <div
-      className="opt-item flex col border border-radius box-shadow px pb"
+      className="opt-item flex box-shadow"
       data-path={item.path.replaceAll('\\', '>')}
       data-start
       data-pid
       title={item.label || item.path}
     >
       <span
-        className="bold text-10 pointer"
+        className="opt-item-name bold pointer"
         onClick={() => window.api.invoke('cmd', `code ${item.path}`)}
       >
         {item.label || item.path}
       </span>
-      <span className="flex items-center">
+      <span className="opt-item-btns flex items-center">
         <Icon
-          type="vscode"
-          className="opt open"
-          onClick={() => {
-            window.api.invoke('cmd', `code ${item.path}`)
-          }}
+          type="run"
+          className="opt run"
+          data-disabled={!item.npm}
+          onClick={() => handle?.NodeThread?.dev?.(item, true)}
         />
-        <Icon type="git" className="opt git" onClick={() => handle.git(item)} />
         <Icon
-          type="dir"
-          className="opt dir"
-          onClick={() => window.api.invoke('cmd', `explorer "${item.path}"`)}
+          type="stop"
+          className="opt stop"
+          onClick={() => handle.NodeThread.stopModule(item, true)}
         />
+
         {item?.web && (
           <>
             <Icon
@@ -69,16 +68,18 @@ const Module = (props: ModuleProps & { item: ObjectType }) => {
             />
           </>
         )}
+        <Icon type="git" className="opt git" onClick={() => handle.git(item)} />
         <Icon
-          type="run"
-          className="opt run"
-          data-disabled={!item.npm}
-          onClick={() => handle?.NodeThread?.dev?.(item, true)}
+          type="vscode"
+          className="opt open"
+          onClick={() => {
+            window.api.invoke('cmd', `code ${item.path}`)
+          }}
         />
         <Icon
-          type="stop"
-          className="opt stop"
-          onClick={() => handle.NodeThread.stopModule(item, true)}
+          type="dir"
+          className="opt dir"
+          onClick={() => window.api.invoke('cmd', `explorer "${item.path}"`)}
         />
       </span>
     </div>

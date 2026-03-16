@@ -10,18 +10,12 @@ import {
   toNodeTreads,
 } from '../helper'
 import { ObjectType } from '0type'
+import { DefaultState } from './conf'
 
 export const useHomeView = () => {
   const [state, _renderState] = useSetState<State>({
     NodeTreads: [],
-    setting: {
-      path: 'D:\\Data\\electron',
-      quickStarts: [],
-      selectGitModule: {
-        label: '',
-        path: '',
-      },
-    },
+    setting: DefaultState.setting,
     modules: [],
     apps: [],
   })
@@ -31,19 +25,13 @@ export const useHomeView = () => {
     if (type === 'setting') saveSettingToFile(path, state.setting)
   }
   const setDefaultState = (state: State): state is Required<State> => {
-    if (!state?.setting) {
-      state.setting = {
-        path: 'D:\\Data\\electron',
-        quickStarts: [],
-        selectGitModule: {
-          label: '',
-          path: '',
-        },
-      }
+    try {
+      if (!state?.setting) state.setting = DefaultState.setting
+      if (!state.setting.quickStarts) state.setting.quickStarts = []
+      return true
+    } catch (error) {
+      return false
     }
-    if (!state.setting.quickStarts) state.setting.quickStarts = []
-
-    return true
   }
   const renderState = () => _renderState(state)
 

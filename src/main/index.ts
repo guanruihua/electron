@@ -8,6 +8,10 @@ import webPreferences from './webPreferences'
 // import { cmd } from './helper'
 import { on_webview } from './on/webview'
 
+app.disableHardwareAcceleration()
+app.commandLine.appendSwitch('disable-renderer-backgrounding')
+app.commandLine.appendSwitch('disable-background-timer-throttling')
+
 let mainWindow: BrowserWindow
 
 function createWindow(): void {

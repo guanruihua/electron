@@ -27,7 +27,7 @@ export interface State {
   apps?: [string, string][]
   setting?: {
     path: string
-    selectedQuickStart?: number | string
+    selectedQuickStart?: number
     quickStarts?: string[][]
     selectGitModule?: {
       label?: string

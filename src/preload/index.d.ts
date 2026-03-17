@@ -29,10 +29,19 @@ declare global {
        */
       onShortcut: (type: string, callback: (info: any) => void) => void
       setSize: (conf: AppSize) => void
+      /**
+       * @param type
+       * 'toggleDevTools' 折叠控制台
+       *  'cmd' 执行命令
+       *  'dev' 执行运行服务的命令
+       *  'fs' 文件系统相关
+       *  'cmdResult'  执行命令, 有log 回调
+       * 'updateApps' 更新 apps 列表
+       */
       invoke: (
-        type: 'toggleDevTools' | 'cmd' | 'dev' | 'fs' | 'cmdResult',
+        type: 'toggleDevTools' | 'cmd' | 'dev' | 'fs' | 'cmdResult' | 'updateApps',
         conf?: ObjectType | string | number,
-      ) => Promise<ObjectType>
+      ) => Promise<any>
       test: (conf: any) => Promise<any>
     }
   }

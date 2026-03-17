@@ -4,10 +4,12 @@ import { createScreenMask } from '../register/create-screen-mask'
 import { ObjectType } from '0type'
 import { isString } from 'asura-eye'
 import { getStartMenu, StoreManager, cmd, FileSystem } from '../helper'
+import { updateApps } from '../helper/updateApps'
 
 export const ipcMainHandle = (mainWindow: BrowserWindow) => {
   const store = new StoreManager()
   const Conf = {
+    updateApps: async (_, target: ObjectType | string) => updateApps(target),
     fs: async (_e, target: ObjectType | string) =>
       FileSystem(target),
     cmd: async (_e, conf: ObjectType | string) => {

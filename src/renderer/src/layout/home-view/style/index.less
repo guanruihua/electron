@@ -30,13 +30,18 @@
     flex-wrap: wrap;
   }
 
-  .quickStart-group{
+  .quickStart-group {
     background-color: #000;
     width: 100%;
     min-height: 32px;
     padding: 10px;
     border-radius: 12px;
-    &-container{
+
+    &-del {
+      display: none;
+    }
+
+    &-container {
       display: flex;
       gap: 10px;
       flex-wrap: wrap;
@@ -60,6 +65,34 @@
     }
   }
 
+  &[data-edit='true'] {
+    .quickStart-group {
+      position: relative;
+      padding-right: 40px;
+
+      &-del {
+        display: block;
+        position: absolute;
+        right: 12px;
+        top: 13px;
+        transition: all .6s;
+        font-size: 20px;
+
+        path {
+          color: rgba(255, 255, 255, .5);
+        }
+
+        &:hover {
+          border-radius: 4px;
+          background: var(--error-bg);
+
+          path {
+            color: rgba(255, 255, 255, .9);
+          }
+        }
+      }
+    }
+  }
 }
 
 .root-layout-home-view-git-review {

@@ -1,12 +1,15 @@
 import { ModuleProps } from '@/layout/type'
-import { Space } from 'antd'
-import { Checkbox } from 'antd'
-import { Button, Select } from 'antd'
+import { Space, Checkbox, Button, Select } from 'antd'
 import { isArray, isNumber, isString } from 'asura-eye'
 import React, { useState } from 'react'
+import { Icon } from '@/components'
+import { useLoading } from '@/util'
+import { Spin } from 'antd'
 
 export const QuickStart = (props: ModuleProps) => {
   const { handle, state } = props.h
+  const [loading, setLoading] = useLoading()
+  const [edit, setEdit] = useState<boolean>(false)
   const [select, setSelect] = useState<string[]>([])
   const startApp = (path: string) => {
     if (!isString(path)) return
@@ -14,7 +17,15 @@ export const QuickStart = (props: ModuleProps) => {
   }
   const handleSelf = {
     startApp,
+    async updateApps() {
+      const apps: [string, string][] =
+        (await window.api.invoke('updateApps', state.setting)) || []
+      console.log('update apps length: ', apps?.length)
+      state.apps = apps
+      handle.renderState()
+    },
     addGroup() {
+      setLoading(1000)
       if (!handle.setDefaultState(state)) return
       if (!state.setting.quickStarts) state.setting.quickStarts = [[]]
       else state.setting.quickStarts.push([])
@@ -23,20 +34,19 @@ export const QuickStart = (props: ModuleProps) => {
       handle.saveToFile('setting')
     },
     delGroup(i: number) {
+      setLoading(1000)
       if (i < 0 || !isNumber(i) || !handle.setDefaultState(state)) return
 
-      if (!state.setting.quickStarts) state.setting.quickStarts = []
-      else {
-        state.setting.quickStarts = state.setting.quickStarts.filter(
-          (_, i) => state.setting.selectedQuickStart !== i,
-        )
-        state.setting.selectedQuickStart =
-          state.setting.quickStarts.length > 0 ? 0 : 'NaN'
-      }
+      state.setting.quickStarts = state.setting.quickStarts!.filter(
+        (_, j) => j !== i,
+      )
+      if (state.setting.selectedQuickStart !== i)
+        state.setting.selectedQuickStart = 0
       handle.renderState()
       handle.saveToFile('setting')
     },
     setAppToGroup() {
+      setLoading(1000)
       if (handle.setDefaultState(state)) {
         if (!state.setting.quickStarts) state.setting.quickStarts = []
         if (!isNumber(state.setting?.selectedQuickStart)) return
@@ -58,9 +68,10 @@ export const QuickStart = (props: ModuleProps) => {
         return
       const list = quickStarts[selectedQuickStart]
       if (!isArray(list) || list.length < 1) return
-      list.forEach(startApp)
+      setLoading(Promise.all(list.map(startApp)))
     },
     addApp() {
+      setLoading(1000)
       if (
         !handle.setDefaultState(state) ||
         !isNumber(state.setting?.selectGitModule)
@@ -80,17 +91,17 @@ export const QuickStart = (props: ModuleProps) => {
     },
   }
 
-  // React.useEffect(()=>{
-  //   if(select.length !== state.setting?.quickStarts?.length){
-
-  //   }
-  // }, [state.setting?.selectedQuickStart])
   const total = state.setting?.quickStarts?.reduce(
     (sum, _) => sum + (isArray(_) ? _.length : 0),
     0,
   )
+  const getRenderList = () => {
+    if (!state.apps?.length || !state.setting?.quickStarts?.length) return []
+    return state.setting.quickStarts
+  }
+  const renderList = getRenderList()
   return (
-    <div className="root-layout-home-view-quick-start">
+    <div className="root-layout-home-view-quick-start" data-edit={edit}>
       <div className="module-bg" style={{ padding: 0 }}>
         <div
           className="flex space-between items-center mb"
@@ -101,9 +112,18 @@ export const QuickStart = (props: ModuleProps) => {
             <span>
               {total} / {state.apps?.length}
             </span>
-            <Button onClick={handleSelf.addGroup}>Add</Button>
+            <Button
+              loading={loading}
+              onClick={() => {
+                setLoading(1000)
+                setEdit(!edit)
+              }}
+            >
+              Edit
+            </Button>
             {state.apps?.length && state.setting?.quickStarts && (
               <Button
+                loading={loading}
                 disabled={
                   !isNumber(state.setting?.selectedQuickStart) ||
                   !state?.setting?.quickStarts[
@@ -120,66 +140,83 @@ export const QuickStart = (props: ModuleProps) => {
         </div>
         <div className="root-layout-home-view-quick-start-container grid overflow-y gap">
           <div className="quickStart-app-container flex row gap">
-            {state.apps?.length &&
-              state.setting?.quickStarts?.length &&
-              state.setting.quickStarts.map((quickStart, qi) => {
-                if (!isArray<string>(quickStart))
-                  return <React.Fragment key={qi} />
-                const list = quickStart?.filter((_) => isString(_)) || []
-                return (
-                  <div className="quickStart-group" key={qi}>
-                    <Checkbox
-                      checked={qi === state?.setting?.selectedQuickStart}
-                      onChange={() => handleSelf.select(qi)}
-                    >
-                      <div className="quickStart-group-container">
-                        {list.length === 0 && (
-                          <div style={{ color: 'rgba(255,255,255, .5)' }}>
-                            Place select apps
-                          </div>
-                        )}
-                        {list.map((path, pi) => {
-                          if (!isString(path) || !path)
-                            return <React.Fragment key={pi} />
+            {renderList.map((quickStart, qi) => {
+              if (!isArray<string>(quickStart))
+                return <React.Fragment key={qi} />
+              const list = quickStart?.filter((_) => isString(_)) || []
+              return (
+                <div className="quickStart-group" key={qi}>
+                  <Checkbox
+                    checked={qi === state?.setting?.selectedQuickStart}
+                    onChange={() => handleSelf.select(qi)}
+                  >
+                    <div className="quickStart-group-container">
+                      {list.length === 0 && (
+                        <div style={{ color: 'rgba(255,255,255, .5)' }}>
+                          Place select apps
+                        </div>
+                      )}
+                      {list.map((path, pi) => {
+                        if (!isString(path) || !path)
+                          return <React.Fragment key={pi} />
 
-                          const fileName = state.apps?.find(
-                            (_) => _[0] === path,
-                          )?.[1]
-                          return (
-                            <div
-                              className="quickStart-app"
-                              key={path}
-                              onClick={() => {
-                                window.api.invoke('cmd', `start "" "${path}"`)
-                              }}
-                            >
-                              {fileName?.replace('.lnk', '')}
-                            </div>
-                          )
-                        })}
-                      </div>
-                    </Checkbox>
-                  </div>
-                )
-              })}
+                        const fileName = state.apps?.find(
+                          (_) => _[0] === path,
+                        )?.[1]
+                        return (
+                          <div
+                            className="quickStart-app"
+                            key={path}
+                            onClick={() => {
+                              window.api.invoke('cmd', `start "" "${path}"`)
+                            }}
+                          >
+                            {fileName?.replace('.lnk', '')}
+                          </div>
+                        )
+                      })}
+                    </div>
+                  </Checkbox>
+
+                    <Icon
+                      type="close"
+                      title="delete"
+                      className="quickStart-group-del"
+                      onClick={() => handleSelf.delGroup(qi)}
+                    />
+                </div>
+              )
+            })}
           </div>
-          <Space.Compact>
-            <Select
-              style={{ width: 'calc( 100% - 60px )' }}
-              mode="multiple"
-              value={select}
-              placeholder="Select Quick Start App"
-              allowClear
-              onChange={setSelect}
-              options={state.apps?.map(([value, label]) => ({
-                value,
-                label: label.replace('.lnk', ''),
-              }))}
-            />
-            <Button style={{ width: 100 }} onClick={handleSelf.setAppToGroup}>
-              Update
-            </Button>
-          </Space.Compact>
+          {edit && (
+            <div className="flex gap row">
+              <Button onClick={handleSelf.addGroup}>Add</Button>
+              <Button onClick={handleSelf.updateApps}>Update Apps</Button>
+            </div>
+          )}
+          {edit && (
+            <Space.Compact>
+              <Select
+                style={{ width: 'calc( 100% - 60px )' }}
+                mode="multiple"
+                value={select}
+                placeholder="Select Quick Start App"
+                allowClear
+                onChange={setSelect}
+                options={state.apps?.map(([value, label]) => ({
+                  value,
+                  label: label.replace('.lnk', ''),
+                }))}
+              />
+              <Button
+                loading={loading}
+                style={{ width: 100 }}
+                onClick={handleSelf.setAppToGroup}
+              >
+                Update
+              </Button>
+            </Space.Compact>
+          )}
         </div>
       </div>
     </div>

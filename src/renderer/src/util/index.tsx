@@ -1,4 +1,5 @@
 export * from './hook/use-set-state'
+export * from './hook/use-loading'
 
 import { message } from 'aurad'
 import { copyText } from 'harpe'

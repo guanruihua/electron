@@ -5,19 +5,25 @@ import { Icon } from '../../components'
 import { ModuleProps } from '../../type'
 
 export function NodeTread(props: ModuleProps) {
-  const { handle, state } = props.h
+  const { handle, state, loadings } = props.h
+  const { setLoadings, NodeThread } = handle
   return (
     <div className="root-layout-home-view-node-tread overflow-y flex col gap module-bg w">
       <div className="flex space-between items-center w">
         <h4 className="">Node Thread</h4>
         <div className="flex gap">
           <Button
+            loading={loadings.findAll}
             className="bolder"
-            onClick={() => handle?.NodeThread?.findAll(true)}
+            onClick={() => setLoadings(NodeThread?.findAll(true), 'findAll')}
           >
             Find All
           </Button>
-          <Button className="bolder" onClick={handle?.NodeTread?.stopAll(true)}>
+          <Button
+            loading={loadings.stopAll}
+            className="bolder"
+            onClick={() => setLoadings(NodeThread?.stopAll(true), 'stopAll')}
+          >
             Stop All
           </Button>
         </div>
@@ -37,6 +43,7 @@ export function NodeTread(props: ModuleProps) {
           ))}
           <div className="grid-span-full border-b" />
           {state.NodeTreads.map((row: any, i) => {
+            const key = `nt_${i}`
             return (
               <React.Fragment key={i}>
                 <div
@@ -51,10 +58,11 @@ export function NodeTread(props: ModuleProps) {
                   {row.unit || 'K'}
                 </div>
                 <Icon
+                  loading={loadings[key]}
                   type="stop"
                   className="opt stop"
                   style={{ fontSize: 24 }}
-                  onClick={() => handle.NodeThread.stop(row)}
+                  onClick={() => setLoadings(handle.NodeThread.stop(row), key)}
                 />
               </React.Fragment>
             )

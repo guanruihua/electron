@@ -3,7 +3,6 @@ import { useSetState } from '0hook'
 import { State } from '../type'
 import { isString } from 'asura-eye'
 import {
-  getModules,
   handleSetting,
   saveSettingToFile,
   setStatus_NodeTread,
@@ -11,14 +10,22 @@ import {
 } from '../helper'
 import { ObjectType } from '0type'
 import { DefaultState } from './conf'
+import { useLoadings } from '@/util'
 
 export const useHomeView = () => {
+  const [loadings, setLoadings] = useLoadings({
+    nodeThread: false,
+    stopAll: false,
+    findAll: false,
+  })
+
   const [state, _renderState] = useSetState<State>({
     NodeTreads: [],
     setting: DefaultState.setting,
     modules: [],
     apps: [],
   })
+
   const saveToFile = (type: 'setting' | 'modules' | 'apps') => {
     const { path } = state?.setting || {}
     if (!path) return
@@ -41,19 +48,17 @@ export const useHomeView = () => {
     }
   }
 
-  const handleModule = {
-    async reload() {
-      if (!state.setting?.path) return
-      const modules = await getModules(state.setting.path)
-      if (!state.selectGitModule?.path) state.selectGitModule = modules[0]
-      setState({ modules })
-      renderState()
-      await handleNodeThread.findAll()
-    },
-    async openConfFile() {
-      state.setting?.path &&
-        window.api.invoke('cmd', `code ${state.setting.path}\\modules.json`)
-    },
+  const findAll_NodeThread = async (render: boolean = false) => {
+    const res = await window.api.invoke('cmd', 'tasklist | findstr node')
+    if (!isString(res)) {
+      state.NodeTreads = []
+    } else {
+      state.NodeTreads = toNodeTreads(res) || []
+    }
+
+    handle.setState(state)
+    setStatus_NodeTread(state.NodeTreads)
+    render && handle.renderState()
   }
 
   const handleNodeThread = {
@@ -86,24 +91,17 @@ export const useHomeView = () => {
       await window.api.invoke('cmd', `taskkill /PID ${nodeTread.pid} /F`)
       await this.findAll(render)
     },
-    async findAll(render: boolean = false) {
-      const res = await window.api.invoke('cmd', 'tasklist | findstr node')
-      if (!isString(res)) return
-      const NewNodeTreads = toNodeTreads(res)
-      state.NodeTreads = NewNodeTreads || []
-
-      setState(state)
-      setStatus_NodeTread(state.NodeTreads)
-      render && renderState()
-    },
+    findAll: findAll_NodeThread,
   }
 
   const handle = {
+    setLoadings,
     setState,
     renderState,
     saveToFile,
+    findAll_NodeThread,
+
     NodeThread: handleNodeThread,
-    module: handleModule,
     async git(item) {
       if (setDefaultState(state)) state.setting.selectGitModule = item
       renderState()
@@ -147,6 +145,7 @@ export const useHomeView = () => {
   }, [])
 
   return {
+    loadings,
     state,
     handle,
   }

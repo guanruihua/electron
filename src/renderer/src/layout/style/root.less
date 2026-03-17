@@ -55,3 +55,25 @@ html {
   // font-family: YaHei;
   // font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", Segoe UI Symbol, "Noto Color Emoji";
 }
+
+.loading {
+  animation: rotate 1.5s linear infinite;
+  /* 让旋转中心在正中间，不会歪 */
+  transform-origin: center center;
+  --loading-color: rgba(255, 255, 255, .5);
+  color: var(--loading-color) !important;
+
+  path {
+    color: var(--loading-color) !important;
+  }
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}

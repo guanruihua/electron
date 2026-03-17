@@ -1,3 +1,4 @@
+import { classNames } from 'harpe'
 import React from 'react'
 
 interface IconProps extends React.DOMAttributes<SVGSVGElement> {
@@ -23,10 +24,42 @@ interface IconProps extends React.DOMAttributes<SVGSVGElement> {
     | 'right-arrow'
     | 'git'
     | 'check'
+  loading?: boolean
+  loadingColor?: string
   [key: string]: any
 }
 export function Icon(props: IconProps) {
-  const { type, ...rest } = props
+  const { loading, loadingColor = 'rgba(255, 255, 255, .5)', type, ...rest } = props
+  if (loading) {
+    const { className, style, ...rest2 } = rest
+    return (
+      <svg
+        className={classNames('loading', className)}
+        xmlns="http://www.w3.org/2000/svg"
+        width="1em"
+        height="1em"
+        viewBox="0 0 24 24"
+        style={
+          {
+            '--loading-color': loadingColor,
+            ...style,
+          } as React.CSSProperties
+        }
+        {...rest2}
+      >
+        <path
+          fill="currentColor"
+          d="M12 2A10 10 0 1 0 22 12A10 10 0 0 0 12 2Zm0 18a8 8 0 1 1 8-8A8 8 0 0 1 12 20Z"
+          opacity={0.5}
+        ></path>
+        <path
+          fill="currentColor"
+          d="M20 12h2A10 10 0 0 0 12 2V4A8 8 0 0 1 20 12Z"
+          transform="rotate(360 12 12)"
+        ></path>
+      </svg>
+    )
+  }
   if (type === 'check')
     return (
       <svg

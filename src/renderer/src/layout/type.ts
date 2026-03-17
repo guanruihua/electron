@@ -1,5 +1,6 @@
 import React from 'react'
 import { ObjectType } from '0type'
+import { SetLoadings } from '@/util'
 
 export interface ViewState {
   id?: string
@@ -19,11 +20,6 @@ export interface State {
   activeTab?: string
   tabs?: string[]
   NodeTreads?: ObjectType[]
-  timeline?: {
-    startTime: number
-    info: ObjectType
-    [key: string]: any
-  }[]
   apps?: [string, string][]
   setting?: {
     path: string
@@ -43,7 +39,9 @@ export interface Handle {
   renderState(): void
   setState(newState: Partial<State>): void
   saveToFile(type: 'setting' | 'modules' | 'apps'): void
+  setLoadings: SetLoadings
   setDefaultState(state: State): state is Required<State>
+  findAll_NodeThread(render?: boolean): Promise<void>
   NodeThread: {
     dev(item: ObjectType, render?: boolean): Promise<void>
     stopAll(render?: boolean): Promise<void>
@@ -63,6 +61,7 @@ export interface Handle {
 export interface Hook {
   state: State
   handle: Handle
+  loadings: ObjectType<boolean>
   [key: string]: any
 }
 

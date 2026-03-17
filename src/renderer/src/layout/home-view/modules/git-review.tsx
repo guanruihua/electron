@@ -6,6 +6,7 @@ import { Icon } from '../../components'
 import { getFileTree } from '@/layout/helper/get'
 import { FileTree } from '@/layout/components'
 import { Input } from 'antd'
+import { useLoading } from '@/util'
 
 export function GitReview(
   props: ModuleProps & { left: React.ReactNode; right: React.ReactNode },
@@ -20,11 +21,7 @@ export function GitReview(
     'feat: Improve documentation',
   )
 
-  const [loading, setLoading] = React.useState<boolean>(false)
-  const Loading = (p: Promise<any>) => {
-    setLoading(true)
-    p?.finally(() => setLoading(false))
-  }
+  const [loading, setLoading] = useLoading(false)
 
   const gitPull = async () => {
     const res = await window.api.invoke(
@@ -76,7 +73,7 @@ export function GitReview(
               loading={loading}
               className="bolder"
               icon={<Icon type="reload" style={{ fontSize: 16 }} />}
-              onClick={() => Loading(gitPull())}
+              onClick={() => setLoading(gitPull())}
             />
           </div>
         </div>
@@ -119,7 +116,7 @@ export function GitReview(
             <Button
               loading={loading}
               icon={<Icon type="check" style={{ fontSize: 16 }} />}
-              onClick={handlePush}
+              onClick={() => setLoading(handlePush())}
             >
               Push
             </Button>

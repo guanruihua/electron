@@ -3,10 +3,16 @@ import { Icon } from '../../components'
 import { ModuleProps } from '../../type'
 import { Button } from 'antd'
 import { isString } from 'asura-eye'
+import { useLoadings } from '@/util'
+import { getModules } from '@/layout/helper'
 
 const Module = (props: ModuleProps & { item: ObjectType }) => {
   const { h, item } = props
   const { handle } = h
+  const [loadings, setLoadings] = useLoadings({
+    run: false,
+    stop: false,
+  })
 
   if (isString(item?.type) && item.type.toLowerCase() === 'group')
     return (
@@ -33,53 +39,73 @@ const Module = (props: ModuleProps & { item: ObjectType }) => {
       data-pid
       title={item.label || item.path}
     >
-      <span
-        className="opt-item-name bold pointer"
-        onClick={() => window.api.invoke('cmd', `code ${item.path}`)}
-      >
-        {item.label || item.path}
-      </span>
+      <span className="opt-item-name bold">{item.label || item.path}</span>
       <span className="opt-item-btns flex items-center">
         <Icon
+          loading={loadings.run || h.loadings.stopAll || h.loadings.findAll}
           type="run"
           className="opt run"
           data-disabled={!item.npm}
-          onClick={() => handle?.NodeThread?.dev?.(item, true)}
+          onClick={() =>
+            setLoadings(handle?.NodeThread?.dev?.(item, true), 'run')
+          }
         />
         <Icon
+          loading={loadings.stop || h.loadings.stopAll || h.loadings.findAll}
           type="stop"
           className="opt stop"
-          onClick={() => handle.NodeThread.stopModule(item, true)}
+          onClick={() =>
+            setLoadings(handle.NodeThread.stopModule(item, true), 'stop')
+          }
         />
 
         {item?.web && (
           <>
             <Icon
+              loading={loadings.addTab}
               type="web"
               className="opt web"
-              onClick={() => handle?.addTab({ url: item.web })}
+              onClick={() =>
+                setLoadings(handle?.addTab({ url: item.web }), 'addTab')
+              }
             />
             <Icon
+              loading={loadings.google}
               type="google"
               className="opt google"
               onClick={() =>
-                window.api.invoke('cmd', `start chrome ${item.web}`)
+                setLoadings(
+                  window.api.invoke('cmd', `start chrome ${item.web}`),
+                  'google',
+                )
               }
             />
           </>
         )}
-        <Icon type="git" className="opt git" onClick={() => handle.git(item)} />
         <Icon
+          loading={loadings.git}
+          type="git"
+          className="opt git"
+          onClick={() => setLoadings(handle.git(item), 'git')}
+        />
+        <Icon
+          loading={loadings.vscode}
           type="vscode"
           className="opt open"
           onClick={() => {
-            window.api.invoke('cmd', `code ${item.path}`)
+            setLoadings(window.api.invoke('cmd', `code ${item.path}`), 'vscode')
           }}
         />
         <Icon
+          loading={loadings.dir}
           type="dir"
           className="opt dir"
-          onClick={() => window.api.invoke('cmd', `explorer "${item.path}"`)}
+          onClick={() =>
+            setLoadings(
+              window.api.invoke('cmd', `explorer "${item.path}"`),
+              'dir',
+            )
+          }
         />
       </span>
     </div>
@@ -87,7 +113,27 @@ const Module = (props: ModuleProps & { item: ObjectType }) => {
 }
 
 export function Modules(props: ModuleProps) {
-  const { handle, state } = props.h
+  const { h } = props
+  const { handle, state } = h
+
+  const [loadings, setLoadings] = useLoadings({
+    edit: false,
+    reload: false,
+  })
+
+  const openConfFile = async () => {
+    if (!state.setting?.path) return
+    return window.api.invoke('cmd', `code ${state.setting.path}\\modules.json`)
+  }
+
+  const reload = async () => {
+    if (!state.setting?.path) return
+    const modules = await getModules(state.setting.path)
+    if (!state.selectGitModule?.path) state.selectGitModule = modules[0]
+    handle.setState({ modules })
+    handle.renderState()
+    handle.setLoadings(handle.findAll_NodeThread(), 'findAll')
+  }
 
   return (
     <div className="root-layout-home-view-modules">
@@ -98,11 +144,19 @@ export function Modules(props: ModuleProps) {
         >
           <h4>Module</h4>
           <div className="flex gap">
-            <Button onClick={() => handle.module.openConfFile()}>Edit</Button>
             <Button
+              loading={loadings.edit}
+              onClick={() => setLoadings(openConfFile(), 'edit')}
+            >
+              Edit
+            </Button>
+            <Button
+              loading={
+                loadings.reload || h.loadings.stopAll || h.loadings.findAll
+              }
               icon={<Icon type="reload" style={{ fontSize: 16 }} />}
               className="bolder"
-              onClick={() => handle.module.reload()}
+              onClick={() => setLoadings(reload(), 'reload')}
             />
           </div>
         </div>

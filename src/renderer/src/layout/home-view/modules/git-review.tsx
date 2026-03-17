@@ -106,6 +106,7 @@ export function GitReview(
         <div className="right">
           <div className="controls">
             <Input.TextArea
+              disabled={loading}
               autoSize={{ minRows: 1, maxRows: 10 }}
               value={commitMsg}
               onChange={(e) => {

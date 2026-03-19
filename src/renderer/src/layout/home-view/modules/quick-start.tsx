@@ -4,7 +4,6 @@ import { isArray, isNumber, isString } from 'asura-eye'
 import React, { useState } from 'react'
 import { Icon } from '@/components'
 import { useLoading } from '@/util'
-import { Spin } from 'antd'
 
 export const QuickStart = (props: ModuleProps) => {
   const { handle, state } = props.h
@@ -20,7 +19,6 @@ export const QuickStart = (props: ModuleProps) => {
     async updateApps() {
       const apps: [string, string][] =
         (await window.api.invoke('updateApps', state.setting)) || []
-      console.log('update apps length: ', apps?.length)
       state.apps = apps
       handle.renderState()
     },
@@ -40,7 +38,8 @@ export const QuickStart = (props: ModuleProps) => {
       state.setting.quickStarts = state.setting.quickStarts!.filter(
         (_, j) => j !== i,
       )
-      if (state.setting.selectedQuickStart !== i)
+      const selected:number = state.setting.selectedQuickStart!
+      if (selected === i)
         state.setting.selectedQuickStart = 0
       handle.renderState()
       handle.saveToFile('setting')
@@ -115,7 +114,6 @@ export const QuickStart = (props: ModuleProps) => {
             <Button
               loading={loading}
               onClick={() => {
-                setLoading(1000)
                 setEdit(!edit)
               }}
             >

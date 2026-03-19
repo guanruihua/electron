@@ -3,10 +3,11 @@ import { Opt } from './modules/opt'
 import { Modules } from './modules/modules'
 import { NodeTread } from './modules/node-tread'
 import { Setting } from './modules/setting'
-import { GitReview } from './modules/git-review'
+import { GitReview } from './modules/git-review/git-review'
 import { useHomeView } from './hook'
-import { SelfTerminal } from './modules/terminal'
+import { SelfTerminal } from './modules/terminal/terminal'
 import { QuickStart } from './modules/quick-start'
+import { Info } from './modules/info/info'
 
 export function HomeView() {
   const h = useHomeView()
@@ -41,6 +42,7 @@ export function HomeView() {
             }
             right={
               <div className="flex gap col">
+                <Info h={h} />
                 <Opt h={h} />
                 <Setting h={h} />
               </div>

@@ -1,12 +1,11 @@
 import React from 'react'
-import { Button } from 'antd'
-import { FileTreeType, ModuleProps } from '../../type'
+import { Button, Input } from 'antd'
+import { FileTreeType, ModuleProps } from '@/layout/type'
 import { isString } from 'asura-eye'
-import { Icon } from '../../components'
 import { getFileTree } from '@/layout/helper/get'
-import { FileTree } from '@/layout/components'
-import { Input } from 'antd'
+import { FileTree, Icon } from '@/layout/components'
 import { useLoading } from '@/util'
+import { simplifyFileTree } from '@/layout/helper'
 
 export function GitReview(
   props: ModuleProps & { left: React.ReactNode; right: React.ReactNode },
@@ -15,6 +14,7 @@ export function GitReview(
   const { state, handle } = h
   const { label = '', path } = state?.setting?.selectGitModule || {}
   const [tree, setTree] = React.useState<FileTreeType>([])
+  const [simpleTree, setSimpleTree] = React.useState<FileTreeType>([])
   const [fold, setFold] = React.useState<string[]>([])
 
   const [commitMsg, setCommitMsg] = React.useState<string>(
@@ -26,13 +26,19 @@ export function GitReview(
   const gitPull = async () => {
     const res = await window.api.invoke(
       'cmdResult',
-      `cd ${path} && git status --porcelain=v1 && q`,
+      `cd ${path} && git status --porcelain=v1 -M1 && q`,
     )
     console.log(res)
-    if (!isString(res)) return setTree([])
+
+    if (!isString(res)) {
+      setTree([])
+      setSimpleTree([])
+      return 
+    }
     const fileTree = getFileTree(res) || []
-    console.log(fileTree)
-    return setTree(fileTree)
+    setTree(fileTree)
+    setSimpleTree(simplifyFileTree(fileTree))
+    return 
   }
 
   const handlePush = async () => {
@@ -53,8 +59,10 @@ export function GitReview(
   }
 
   React.useEffect(() => {
-    path && gitPull()
+    path && setLoading(gitPull())
   }, [path])
+
+  // console.log('tree', simplifyFileTree(tree))
 
   return (
     <div className="root-layout-home-view-git-review">
@@ -90,7 +98,7 @@ export function GitReview(
               }}
             >
               {tree?.length ? (
-                <FileTree tree={tree} fold={fold} setFold={setFold} />
+                <FileTree tree={simpleTree} fold={fold} setFold={setFold} />
               ) : (
                 <div
                   className="text-12 text-center"

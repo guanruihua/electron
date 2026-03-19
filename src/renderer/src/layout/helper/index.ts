@@ -1,3 +1,4 @@
+export * from './tree'
 export * from './setting'
 export * from './get'
 

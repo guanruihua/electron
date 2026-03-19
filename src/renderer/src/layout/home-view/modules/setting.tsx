@@ -4,14 +4,28 @@ import { Form } from 'antd'
 import React from 'react'
 import { Space } from 'antd'
 import { Icon } from '../../components'
+import { useLoading } from '@/util'
 
 export function Setting(props: ModuleProps) {
   const { state, handle } = props.h
   const [form]: any[] = Form.useForm()
-
+  const [loading, setLoading] = useLoading()
   React.useEffect(() => {
     form.setFieldsValue(state?.setting || {})
   }, [])
+
+  const submit = async () => {
+    try {
+      const values = await form.validateFields()
+      return await handle.handleSaveSetting(values)
+    } catch (error) {
+      console.log('@ ~ handleSave ~ error:', error)
+      return
+    }
+  }
+  const reload = async () => {
+    return handle?.NodeThread?.findAll(true)
+  }
 
   return (
     <div className="root-layout-home-view-setting">
@@ -20,9 +34,10 @@ export function Setting(props: ModuleProps) {
           <h4>Setting</h4>
           <div className="flex gap">
             <Button
+              loading={loading}
               icon={<Icon type="reload" style={{ fontSize: 16 }} />}
               className="bolder"
-              onClick={() => handle?.NodeThread?.findAll(true)}
+              onClick={() => setLoading(reload())}
             />
           </div>
         </div>
@@ -35,7 +50,7 @@ export function Setting(props: ModuleProps) {
                   name={'path'}
                   rules={[{ message: 'It cannot be empty.', required: true }]}
                 >
-                  <Input />
+                  <Input readOnly={loading} />
                 </Form.Item>
                 <Space.Addon className="badge-status" data-type="1">
                   <Icon className="status-1" type="badge-success" />
@@ -46,19 +61,18 @@ export function Setting(props: ModuleProps) {
             </Form.Item>
             <div className="flex gap">
               <Button
+                loading={loading}
                 htmlType="submit"
-                onClick={async () => {
-                  try {
-                    const values = await form.validateFields()
-                    handle.handleSaveSetting(values)
-                  } catch (error) {
-                    console.log('@ ~ handleSave ~ error:', error)
-                  }
+                onClick={() => {
+                  setLoading(submit())
                 }}
               >
                 Save
               </Button>
-              <Button onClick={() => form.setFieldsValue(state?.setting || {})}>
+              <Button
+                loading={loading}
+                onClick={() => form.setFieldsValue(state?.setting || {})}
+              >
                 Reset
               </Button>
             </div>

@@ -2,6 +2,29 @@ import React from 'react'
 import { Button } from 'antd'
 import { ModuleProps } from '../../type'
 import { isFunction, isString } from 'asura-eye'
+import { useLoading } from '@/util'
+
+const MyButton = ({ child }: { child: [string, string | any] }) => {
+  const [name, cmd] = child
+  const title: string = isString(cmd) ? `${name} - ${cmd}` : name
+  const [loading, setLoading] = useLoading()
+  const click = async () => {
+    if (isString(cmd)) return window.api.invoke('cmd', cmd)
+    if (isFunction(cmd)) return cmd()
+    return
+  }
+  return (
+    <Button
+      loading={loading}
+      title={title}
+      onClick={() => {
+        setLoading(click())
+      }}
+    >
+      {name}
+    </Button>
+  )
+}
 
 export function Opt(props: ModuleProps) {
   const { handle } = props.h
@@ -30,7 +53,7 @@ export function Opt(props: ModuleProps) {
           'taskkill /F /IM nginx.exe && cd D:\\env\\nginx\\nginx-1.28.2 && start .\\nginx.exe',
         ],
         ['Reload', 'cd D:\\env\\nginx\\nginx-1.28.2 && .\\nginx.exe -s reload'],
-        ['Edit Conf', 'code C:\\Windows\\System32\\drivers\\etc\\hosts'],
+        ['Edit Conf', 'code D:\\env\\nginx\\nginx-1.28.2\\conf\\nginx.conf'],
       ],
     },
     {
@@ -50,23 +73,9 @@ export function Opt(props: ModuleProps) {
           return (
             <React.Fragment key={i}>
               <div className="title">{title}</div>
-              {children?.map((child, j) => {
-                const [name, cmd] = child
-                const title: string = isString(cmd) ? `${name} - ${cmd}` : name
-                return (
-                  <Button
-                    key={j}
-                    title={title}
-                    onClick={() => {
-                      if (isString(cmd)) return window.api.invoke('cmd', cmd)
-                      if (isFunction(cmd)) return cmd()
-                      return
-                    }}
-                  >
-                    {name}
-                  </Button>
-                )
-              })}
+              {children?.map((child, j) => (
+                <MyButton key={j} child={child} />
+              ))}
             </React.Fragment>
           )
         })}

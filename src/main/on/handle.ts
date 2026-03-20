@@ -3,7 +3,7 @@ import { AppSize } from '../../preload/type'
 import { createScreenMask } from '../register/create-screen-mask'
 import { ObjectType } from '0type'
 import { isString } from 'asura-eye'
-import { getStartMenu, StoreManager, cmd, FileSystem } from '../helper'
+import { /* getStartMenu,  */StoreManager, cmd, FileSystem } from '../helper'
 import { updateApps } from '../helper/updateApps'
 
 export const ipcMainHandle = (mainWindow: BrowserWindow) => {
@@ -49,7 +49,7 @@ export const ipcMainHandle = (mainWindow: BrowserWindow) => {
     'window-unmaximize': () => mainWindow.unmaximize(),
     'window-maximize': () => mainWindow.maximize(),
     'window-close': () => mainWindow.close(),
-    'get-startMenu': getStartMenu,
+    // 'get-startMenu': getStartMenu,
     // 监听最大化/还原的请求
     'toggle-maximize-window': () => {
       if (mainWindow.isMaximized()) {

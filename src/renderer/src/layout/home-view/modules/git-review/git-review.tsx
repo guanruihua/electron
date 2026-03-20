@@ -11,7 +11,7 @@ export function GitReview(
   props: ModuleProps & { left: React.ReactNode; right: React.ReactNode },
 ) {
   const { h, left, right } = props
-  const { state, handle } = h
+  const { state } = h
   const { label = '', path } = state?.setting?.selectGitModule || {}
   const [tree, setTree] = React.useState<FileTreeType>([])
   const [simpleTree, setSimpleTree] = React.useState<FileTreeType>([])
@@ -28,17 +28,23 @@ export function GitReview(
       'cmdResult',
       `cd ${path} && git status --porcelain=v1 -M1 && q`,
     )
-    console.log(res)
+    console.log('git status: ', res)
 
     if (!isString(res)) {
       setTree([])
       setSimpleTree([])
-      return 
+      return
     }
     const fileTree = getFileTree(res) || []
     setTree(fileTree)
     setSimpleTree(simplifyFileTree(fileTree))
-    return 
+
+    const history = await window.api.invoke(
+      'cmdResult',
+      `cd ${path} && git log && q`,
+    )
+    console.log('git history', history)
+    return
   }
 
   const handlePush = async () => {

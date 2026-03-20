@@ -10,7 +10,11 @@ export const simplifyFileTree = (fileTree: any[]) => {
         result.push(target)
         return
       }
-      if (isArray(children) && children.length === 1) {
+      if (
+        isArray(children) &&
+        children.length === 1 &&
+        children[0].isDirectory
+      ) {
         const next = children[0]
         core({
           ...next,

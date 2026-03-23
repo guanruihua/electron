@@ -1,11 +1,15 @@
-import { ModuleProps } from '@/layout/type'
+import { ModuleProps } from '@/type'
+import { isString } from 'asura-eye'
 import dayjs from 'dayjs'
 import React from 'react'
 
 export function Info(props: ModuleProps) {
   const {} = props
+  
+  const [LocalIP, setLocalIP] = React.useState('0.0.0.0')
   const [ddl, setDDL] = React.useState('今天不用上班！')
   const timer = React.useRef<NodeJS.Timeout | null>(null)
+
   function updateCountdown() {
     const now = dayjs()
     if ([0, 6].includes(now.day())) {
@@ -30,12 +34,21 @@ export function Info(props: ModuleProps) {
     if (hours < 1) {
       return `距离下班还有：${minutes}分钟 ${seconds}秒`
     }
-    if (hours<1 && minutes < 1) {
+    if (hours < 1 && minutes < 1) {
       return `距离下班还有：${seconds}秒`
     }
     return `距离下班还有：${hours}小时 ${minutes}分钟 ${seconds}秒`
   }
+
+  const init = async () => {
+    const LIP = await window.api.invoke('getLocalIP')
+    if (isString(LIP)) {
+      setLocalIP(LIP)
+    }
+  }
+
   React.useEffect(() => {
+    init()
     setDDL(updateCountdown())
 
     timer.current = setInterval(() => {
@@ -49,10 +62,12 @@ export function Info(props: ModuleProps) {
 
   return (
     <div className="root-layout-home-view-info">
-      <div className="module-bg">
+      <div className="module-bg gap">
         <div className="flex col gap">
           <h4>Info</h4>
-          <div>{ddl}</div>
+          <div className="text-14">{ddl}</div>
+          <h4>Local IP</h4>
+          <div className="text-14">{LocalIP}</div>
         </div>
       </div>
     </div>

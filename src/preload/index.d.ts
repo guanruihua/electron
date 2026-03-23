@@ -37,9 +37,10 @@ declare global {
        *  'fs' 文件系统相关
        *  'cmdResult'  执行命令, 有log 回调
        * 'updateApps' 更新 apps 列表
+       * 'getLocalIP' 获取本机IP
        */
       invoke: (
-        type: 'toggleDevTools' | 'cmd' | 'dev' | 'fs' | 'cmdResult' | 'updateApps',
+        type: 'toggleDevTools' | 'cmd' | 'dev' | 'fs' | 'cmdResult' | 'updateApps' | 'getLocalIP',
         conf?: ObjectType | string | number,
       ) => Promise<any>
       test: (conf: any) => Promise<any>

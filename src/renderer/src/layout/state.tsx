@@ -4,7 +4,7 @@ import { State, ViewStates } from '@/type'
 
 export const usePageState = () => {
   const [state, _renderState] = useSetState<State>({
-    activeTab: '01',
+    activeTab: '02',
     tabs: [
       // '01',
       // '02',

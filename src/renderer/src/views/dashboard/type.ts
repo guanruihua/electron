@@ -12,13 +12,11 @@ export interface ViewState {
   [key: string]: any
 }
 
-export interface ViewStates {
-  [key: string]: ViewState
-}
+export type  ViewStates  = ViewState[]
 
 export interface State {
   activeTab?: string
-  tabs?: string[]
+  tabs?: ViewState[]
   NodeTreads?: ObjectType[]
   apps?: [string, string][]
   setting?: {
@@ -38,36 +36,36 @@ export interface State {
 export interface Handle {
   renderState(): void
   setState(newState: Partial<State>): void
-  saveToFile(type: 'setting' | 'modules' | 'apps'): void
+  // saveToFile(type: 'setting' | 'modules' | 'apps'): void
   setLoadings: SetLoadings
-  setDefaultState(state: State): state is Required<State>
-  findAll_NodeThread(render?: boolean): Promise<void>
-  NodeThread: {
-    dev(item: ObjectType, render?: boolean): Promise<void>
-    stopAll(render?: boolean): Promise<void>
-    /**
-     * @description 停止模块运行
-     * @param item
-     * @param render
-     */
-    stopModule(item: ObjectType, render?: boolean): Promise<void>
-    stop(item: ObjectType, render?: boolean): Promise<void>
-    findAll(render?: boolean): Promise<void>
-    [key: string]: any
-  }
+  // setDefaultState(state: State): state is Required<State>
+  // findAll_NodeThread(render?: boolean): Promise<void>
+  // NodeThread: {
+  //   dev(item: ObjectType, render?: boolean): Promise<void>
+  //   stopAll(render?: boolean): Promise<void>
+  //   /**
+  //    * @description 停止模块运行
+  //    * @param item
+  //    * @param render
+  //    */
+  //   stopModule(item: ObjectType, render?: boolean): Promise<void>
+  //   stop(item: ObjectType, render?: boolean): Promise<void>
+  //   findAll(render?: boolean): Promise<void>
+  //   [key: string]: any
+  // }
   [key: string]: any
 }
 
 export interface Hook {
   state: State
   handle: Handle
-  loadings: ObjectType<boolean>
+  loadings?: ObjectType<boolean>
   [key: string]: any
 }
 
 export interface ViewProps {
-  id: string
   h: Hook
+  tab: ViewState
 }
 
 export interface ModuleProps {

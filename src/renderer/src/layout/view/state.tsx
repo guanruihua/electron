@@ -1,15 +1,14 @@
 import { useSetState } from '0hook'
 import { WebviewTag } from 'electron'
 import React from 'react'
-import { setupEventListeners } from './helper/setupEventListeners'
-import { ViewProps, ViewState } from '../type'
-import { setHeaderTitle } from './helper'
-import { getSearchUrl } from './helper/getSearch'
+import { ViewState } from '@/type'
+import { setHeaderTitle, getSearchUrl, setupEventListeners } from '@/util'
+import { ViewProps } from './index'
 
 export const useViewState = (props: ViewProps) => {
-  const { id } = props
-  const { state, info, handle } = props.h
-  const tab = info[id] || {}
+  const { tab, h } = props
+  const { id } = tab
+  const { state, handle } = h
   const [viewState, setViewState] = useSetState<ViewState>({
     id,
     url: tab.url,
@@ -62,7 +61,7 @@ export const useViewState = (props: ViewProps) => {
     },
     goHome() {
       setViewState({ home: true, url: '', search: '' })
-      setHeaderTitle(id, 'Home')
+      setHeaderTitle(id, 'Dashboard')
 
       const webview: WebviewTag | null = ref.current
       if (webview) {
@@ -94,7 +93,7 @@ export const useViewState = (props: ViewProps) => {
     }
     setViewState(newViewState)
     if (!tab.url) {
-      setHeaderTitle(id, 'Home')
+      setHeaderTitle(id, 'Dashboard')
     }
 
     if (!ref.current) return

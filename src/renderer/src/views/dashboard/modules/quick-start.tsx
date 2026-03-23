@@ -1,9 +1,9 @@
-import { ModuleProps } from '@/layout/type'
+import React, { useState } from 'react'
 import { Space, Checkbox, Button, Select } from 'antd'
 import { isArray, isNumber, isString } from 'asura-eye'
-import React, { useState } from 'react'
-import { Icon } from '@/components'
+import { ModuleProps } from '@/type'
 import { useLoading } from '@/util'
+import { Icon } from '@/components'
 
 export const QuickStart = (props: ModuleProps) => {
   const { handle, state } = props.h

@@ -1,13 +1,13 @@
 import React from 'react'
 import { useSetState } from '0hook'
-import { State } from '../type'
+import { State } from './type'
 import { isString } from 'asura-eye'
 import {
   handleSetting,
   saveSettingToFile,
   setStatus_NodeTread,
   toNodeTreads,
-} from '../helper'
+} from './helper'
 import { ObjectType } from '0type'
 import { DefaultState } from './conf'
 import { useLoadings } from '@/util'

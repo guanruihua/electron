@@ -62,6 +62,8 @@ export type SetLoadings = (
   key?: string | string[],
 ) => Promise<boolean>
 
+export type Loadings =  Record<string, boolean>
+
 export const useLoadings = (
   defaultValue: ObjectType<boolean> = {},
 ): [loadings: Record<string, boolean>, setLoadings: SetLoadings] => {

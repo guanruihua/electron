@@ -1,5 +1,5 @@
-import { Input, Button } from 'antd'
-import { Icon } from '../components/icons'
+import { Input } from 'antd'
+import { Icon } from '@/components'
 
 export function Bar({ viewState, handleView }) {
   return (

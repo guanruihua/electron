@@ -1,6 +1,6 @@
 import { Div } from 'aurad'
-import { State } from '../../type'
-import { Icon } from '../icons'
+import { State, ViewState } from '@/type'
+import { Icon } from '@/components'
 
 export interface HeaderProps {
   handle: {
@@ -24,7 +24,8 @@ export function Header(props: HeaderProps) {
         <span className="root-header-control-max" onClick={handle.max}></span>
       </div>
       <div className="root-header-tab">
-        {state?.tabs?.map((id) => {
+        {state?.tabs?.map((tab: ViewState) => {
+          const { id, title } = tab
           return (
             <div
               key={id}
@@ -35,6 +36,7 @@ export function Header(props: HeaderProps) {
                 e.stopPropagation()
                 e.preventDefault()
                 handle.setState({ activeTab: id })
+                handle.renderState()
               }}
             >
               <img className="logo" data-show="false" src="" />
@@ -48,7 +50,7 @@ export function Header(props: HeaderProps) {
                   transition: 'all .3s',
                 }}
               >
-                Loading...
+                {title || 'Loading...'}
               </span>
               <span
                 className="close"

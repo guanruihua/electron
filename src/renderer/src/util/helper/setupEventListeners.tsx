@@ -1,6 +1,6 @@
 import { WebviewTag } from 'electron'
 import { setHeaderIcon, setHeaderTitle } from './index'
-import { ViewState } from '@/layout/type'
+import { ViewState } from '@/type'
 
 export const setupEventListeners = (
   webview: WebviewTag,

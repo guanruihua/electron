@@ -1,11 +1,11 @@
 import React from 'react'
 import { Button } from 'antd'
 import { isArray } from 'asura-eye'
-import { Icon } from '../../components'
-import { ModuleProps } from '../../type'
+import { Icon } from '@/components'
+import { ModuleProps } from '@/type'
 
 export function NodeTread(props: ModuleProps) {
-  const { handle, state, loadings } = props.h
+  const { handle, state, loadings={} } = props.h
   const { setLoadings, NodeThread } = handle
   return (
     <div className="root-layout-home-view-node-tread overflow-y flex col gap module-bg w">

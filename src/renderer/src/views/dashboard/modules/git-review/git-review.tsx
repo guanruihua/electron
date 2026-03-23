@@ -1,11 +1,10 @@
 import React from 'react'
 import { Button, Input } from 'antd'
-import { FileTreeType, ModuleProps } from '@/layout/type'
+import { FileTreeType, ModuleProps } from '@/type'
 import { isString } from 'asura-eye'
-import { getFileTree } from '@/layout/helper/get'
-import { FileTree, Icon } from '@/layout/components'
-import { useLoading } from '@/util'
-import { simplifyFileTree } from '@/layout/helper'
+import { getFileTree, simplifyFileTree, useLoading } from '@/util'
+import { FileTree } from './file-tree'
+import { Icon } from '@/components'
 
 export function GitReview(
   props: ModuleProps & { left: React.ReactNode; right: React.ReactNode },

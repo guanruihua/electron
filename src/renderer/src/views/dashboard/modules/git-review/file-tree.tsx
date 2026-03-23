@@ -1,5 +1,5 @@
-import { FileTreeType, FileNode } from '../type'
-import { Icon } from './icons'
+import { FileTreeType, FileNode } from '@/type'
+import { Icon } from '@/components'
 
 interface Props {
   tree: FileTreeType
@@ -29,24 +29,26 @@ export const FileTree = (props: Props) => {
       {renderTree.map((item: FileNode, i) => {
         const { statusCode, isDirectory, path } = item
         return (
-          <div key={i}>
+          <div
+            key={i}
+            className="file-tree-item"
+            data-fold={fold.includes(path)}
+            data-status={statusCode}
+            data-dir={isDirectory}
+          >
             <div
               className="flex space-between px items-center"
-              data-fold={fold.includes(path)}
-              data-status={statusCode}
-              data-dir={isDirectory}
               style={{ height: 24 }}
             >
               <div
                 className="flex row pointer"
                 onClick={() => {
-                  if (fold.includes(path)) {
-                    setFold(fold.filter((_) => _ !== path))
-                    return
-                  }
-                  fold.push(path)
-                  console.log(fold)
-                  setFold(fold)
+                  if (!isDirectory) return
+                  const newFold = fold.includes(path)
+                    ? fold.filter((_) => _ !== path)
+                    : [path, ...fold]
+
+                  setFold(newFold)
                 }}
               >
                 <div
@@ -78,11 +80,7 @@ export const FileTree = (props: Props) => {
             </div>
             {item.children && (
               <div className="children" style={{ paddingLeft: 15 }}>
-                <FileTree
-                  tree={item.children}
-                  fold={fold}
-                  setFold={setFold}
-                />
+                <FileTree tree={item.children} fold={fold} setFold={setFold} />
               </div>
             )}
           </div>

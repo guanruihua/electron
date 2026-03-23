@@ -1,15 +1,15 @@
 import { ObjectType } from '0type'
-import { Icon } from '../../components'
-import { ModuleProps } from '../../type'
+import { Icon } from '@/components'
+import { ModuleProps } from '@/type'
 import { Button } from 'antd'
 import { isString } from 'asura-eye'
-import { useLoadings } from '@/util'
-import { getModules } from '@/layout/helper'
+import { useLoadings, getModules, Loadings } from '@/util'
 
 const Module = (props: ModuleProps & { item: ObjectType }) => {
   const { h, item } = props
   const { handle } = h
-  const [loadings, setLoadings] = useLoadings({
+  const viewLoadings: Loadings = h.loadings || {}
+  const [loadings = {}, setLoadings] = useLoadings({
     run: false,
     stop: false,
   })
@@ -42,7 +42,7 @@ const Module = (props: ModuleProps & { item: ObjectType }) => {
       <span className="opt-item-name bold">{item.label || item.path}</span>
       <span className="opt-item-btns flex items-center">
         <Icon
-          loading={loadings.run || h.loadings.stopAll || h.loadings.findAll}
+          loading={loadings.run || viewLoadings.stopAll || viewLoadings.findAll}
           type="run"
           className="opt run"
           data-disabled={!item.npm}
@@ -51,7 +51,7 @@ const Module = (props: ModuleProps & { item: ObjectType }) => {
           }
         />
         <Icon
-          loading={loadings.stop || h.loadings.stopAll || h.loadings.findAll}
+          loading={loadings.stop || viewLoadings.stopAll || viewLoadings.findAll}
           type="stop"
           className="opt stop"
           onClick={() =>
@@ -115,6 +115,7 @@ const Module = (props: ModuleProps & { item: ObjectType }) => {
 export function Modules(props: ModuleProps) {
   const { h } = props
   const { handle, state } = h
+  const viewLoadings = h.loadings || {}
 
   const [loadings, setLoadings] = useLoadings({
     edit: false,
@@ -152,7 +153,7 @@ export function Modules(props: ModuleProps) {
             </Button>
             <Button
               loading={
-                loadings.reload || h.loadings.stopAll || h.loadings.findAll
+                loadings.reload || viewLoadings.stopAll || viewLoadings.findAll
               }
               icon={<Icon type="reload" style={{ fontSize: 16 }} />}
               className="bolder"

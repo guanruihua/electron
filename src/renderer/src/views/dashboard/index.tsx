@@ -9,7 +9,7 @@ import { SelfTerminal } from './modules/terminal/terminal'
 import { QuickStart } from './modules/quick-start'
 import { Info } from './modules/info/info'
 
-export function HomeView() {
+export default function DashboardView() {
   const h = useHomeView()
   return (
     <div

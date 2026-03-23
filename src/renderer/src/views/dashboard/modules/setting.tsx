@@ -1,9 +1,9 @@
 import { Button, Input } from 'antd'
-import { ModuleProps } from '../../type'
+import { ModuleProps } from '../type'
 import { Form } from 'antd'
 import React from 'react'
 import { Space } from 'antd'
-import { Icon } from '../../components'
+import { Icon } from '@/components'
 import { useLoading } from '@/util'
 
 export function Setting(props: ModuleProps) {

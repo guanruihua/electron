@@ -1,27 +1,38 @@
 import { useViewState } from './state'
-import { HomeView } from '../home-view'
-import { ViewProps } from '../type'
+import { ViewState } from '@/type'
 import { Bar } from './bar'
+import DashboardView from '@/views/dashboard'
+import FileResourceManagement from '@/views/File-Resource-Management'
+import { ObjectType } from '0type'
+
+export interface ViewProps{
+  tab: ViewState
+  h: ObjectType
+}
 
 export function View(props: ViewProps) {
-  const { id, h } = props
+  const { tab, h } = props
+  const { id, type } = tab
   const { ref, viewState, handleView } = useViewState(props)
 
   return (
     <div className={'root-view'} data-hidden={id !== h.state.activeTab}>
       <Bar viewState={viewState} handleView={handleView} />
       <div className="root-view-content">
-        {!viewState.home && <webview
-          key={id}
-          ref={ref}
-          className="root-view-iframe"
-          data-hidden="true"
-          // src={undefined}
-          // nodeintegration
-          plugins={'true' as any}
-          allowpopups={'true' as any}
-        ></webview>}
-        {viewState.home && <HomeView />}
+        {type === 'dashboard' && <DashboardView />}
+        {type === 'fsm' && <FileResourceManagement />}
+        {/* {!viewState.home && (
+          <webview
+            key={id}
+            ref={ref}
+            className="root-view-iframe"
+            data-hidden="true"
+            // src={undefined}
+            // nodeintegration
+            plugins={'true' as any}
+            allowpopups={'true' as any}
+          ></webview>
+        )} */}
       </div>
       {/* <div className="dev-control fixed right bottom">
         <Button

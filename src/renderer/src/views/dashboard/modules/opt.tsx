@@ -1,6 +1,6 @@
 import React from 'react'
 import { Button } from 'antd'
-import { ModuleProps } from '../../type'
+import { ModuleProps } from '@/type'
 import { isFunction, isString } from 'asura-eye'
 import { useLoading } from '@/util'
 

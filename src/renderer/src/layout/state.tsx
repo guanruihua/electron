@@ -1,15 +1,11 @@
 import React from 'react'
 import { useSetState } from '0hook'
-import { State, ViewStates } from '@/type'
+import { State } from '@/type'
 
 export const usePageState = () => {
   const [state, _renderState] = useSetState<State>({
-    activeTab: '02',
+    activeTab: '01',
     tabs: [
-      // '01',
-      // '02',
-      // '2', '3', '4',
-      // '5',
       {
         id: '01',
         title: 'Dashboard',
@@ -19,8 +15,12 @@ export const usePageState = () => {
         id: '02',
         title: 'File Resource Management',
         type: 'fsm',
-        // url: 'http://172.16.30.53:5173/discovery',
         url: 'D:\\',
+      },
+      {
+        id: '03',
+        title: 'Terminal',
+        type: 'terminal',
       },
       // 1: {
       //   id: '1',

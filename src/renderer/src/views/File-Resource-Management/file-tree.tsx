@@ -1,5 +1,7 @@
 import React from 'react'
 import { Icon } from '@/components'
+import { Loadings, SetLoadings } from '@/util'
+import { isArray } from 'asura-eye'
 
 interface FileNode {
   // 文件夹/文件名
@@ -18,6 +20,8 @@ interface FileNode {
 interface Props {
   tree: FileNode[]
   open: string[]
+  loadings: Loadings
+  setLoadings: SetLoadings
   setOpen(open: string[]): void
   style?: React.CSSProperties
   depth: number
@@ -25,7 +29,7 @@ interface Props {
 }
 export const FileTree = (props: Props) => {
   const { tree, currentDepth = 0, ...rest } = props
-  const { open, setOpen, depth } = rest
+  const { loadings, setLoadings, open, setOpen, depth, ...rest2 } = rest
 
   const getTree = () => {
     const list: any[] = tree
@@ -40,19 +44,54 @@ export const FileTree = (props: Props) => {
     return list
   }
   const renderTree = getTree()
+  const getFileType = (item: FileNode) => {
+    if (item.type === 'directory') return 'dir'
+    if (['.zip', '.7z', '.rar'].some(v=>item.name.endsWith(v))) return 'zip'
+    if (['.exe'].some(v=>item.name.endsWith(v))) return 'exe'
+    if (['.mp3'].some(v=>item.name.endsWith(v))) return 'music'
+    if (['.ts'].some(v=>item.name.endsWith(v))) return 'ts'
+    if (['.js', '.cjs', '.mjs'].some(v=>item.name.endsWith(v))) return 'js'
+    if (['.json', '.jsonc'].some(v=>item.name.endsWith(v))) return 'json'
+    if (['.lnk'].some(v=>item.name.endsWith(v))) return 'lnk'
+    if (['.html'].some(v=>item.name.endsWith(v))) return 'html'
+    if (['.css'].some(v=>item.name.endsWith(v))) return 'css'
+    return 'file'
+  }
+
+  const IconMap = {
+    dir: (
+      <>
+        <Icon className="right-arrow transition" type="right-arrow" />
+        <Icon type="dir" />
+      </>
+    ),
+    zip: <Icon type="zip" style={{ fontSize: 14 }} />,
+    file: <Icon type="file2" style={{ fontSize: 17, marginLeft: -1 }} />,
+    exe: <Icon type="exe" style={{ fontSize: 14 }} />,
+    js: <Icon type="js" style={{ fontSize: 15 }} />,
+    json: <Icon type="json" style={{ fontSize: 15 }} />,
+    ts: <Icon type="ts" style={{ fontSize: 15 }} />,
+    music: <Icon type="music-file" style={{ fontSize: 14 }} />,
+    lnk: <Icon type="lnk" style={{ fontSize: 15 }} />,
+    html: <Icon type="html" style={{ fontSize: 15 }} />,
+    css: <Icon type="css" style={{ fontSize: 15 }} />,
+  }
 
   return (
-    <div className="frm-file-tree" {...rest}>
+    <div className="frm-file-tree" {...rest2}>
       {renderTree.map((item: FileNode, i) => {
         const { path, type } = item
         const isDirectory = type == 'directory'
         const isFold = !open.includes(path)
+        const fileType = getFileType(item)
+        const hasChildren = isArray<FileNode>(item.children) && item.children.length >0
         return (
           <div
             key={i}
             className="frm-file-tree-item"
             data-fold={isFold}
             data-dir={isDirectory}
+            data-has-child={hasChildren}
           >
             <div
               className="flex space-between px items-center"
@@ -73,21 +112,29 @@ export const FileTree = (props: Props) => {
                   className="flex items-center justify-center"
                   style={{ paddingRight: 5, gap: 5 }}
                 >
-                  {isDirectory ? (
-                    <>
-                      <Icon
-                        className="right-arrow transition"
-                        type="right-arrow"
-                      />
-                      <Icon type="dir" />
-                    </>
-                  ) : (
-                    <Icon type="file" />
-                  )}
+                  {IconMap[fileType]}
                 </div>
                 <div className="name text-12 flex items-center justify-center">
                   <span>{item.name}</span>
-                  <span className='ml' style={{color: 'rgba(255,255,255, .4)'}}>{item.children?.length || ''}</span>
+                  <span
+                    className="ml"
+                    style={{ color: 'rgba(255,255,255, .4)' }}
+                  >
+                    {item.children?.length || ''}
+                  </span>
+                  {/* {isDirectory && (
+                    <Icon
+                      loading={loadings.dir}
+                      type="dir"
+                      className="opt dir"
+                      onClick={() =>
+                        setLoadings(
+                          window.api.invoke('cmd', `explorer "${item.path}"`),
+                          'dir',
+                        )
+                      }
+                    />
+                  )} */}
                 </div>
               </div>
             </div>

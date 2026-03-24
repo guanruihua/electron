@@ -75,7 +75,7 @@ export const useLoadings = (
     else if (isArray(key)) key.forEach((k) => (newLoadings[k] = value))
     else for (const k in newLoadings) newLoadings[k] = value
     _setLoadings(newLoadings)
-    console.log('set', newLoadings)
+    // console.log('set', newLoadings)
     return true
   }
 

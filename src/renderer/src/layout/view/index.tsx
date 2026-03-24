@@ -1,9 +1,11 @@
 import { useViewState } from './state'
 import { ViewState } from '@/type'
 import { Bar } from './bar'
+import { ObjectType } from '0type'
+
 import DashboardView from '@/views/dashboard'
 import FileResourceManagement from '@/views/File-Resource-Management'
-import { ObjectType } from '0type'
+import TerminalPage from '@/views/terminal'
 
 export interface ViewProps{
   tab: ViewState
@@ -21,6 +23,7 @@ export function View(props: ViewProps) {
       <div className="root-view-content">
         {type === 'dashboard' && <DashboardView />}
         {type === 'fsm' && <FileResourceManagement />}
+        {type === 'terminal' && <TerminalPage />}
         {/* {!viewState.home && (
           <webview
             key={id}

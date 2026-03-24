@@ -27,7 +27,7 @@ export function GitReview(
       'cmdResult',
       `cd ${path} && git status --porcelain=v1 -M1 && q`,
     )
-    console.log('git status: ', res)
+    // console.log('git status: ', res)
 
     if (!isString(res)) {
       setTree([])
@@ -38,11 +38,11 @@ export function GitReview(
     setTree(fileTree)
     setSimpleTree(simplifyFileTree(fileTree))
 
-    const history = await window.api.invoke(
-      'cmdResult',
-      `cd ${path} && git log && q`,
-    )
-    console.log('git history', history)
+    // const history = await window.api.invoke(
+    //   'cmdResult',
+    //   `cd ${path} && git log && q`,
+    // )
+    // console.log('git history', history)
     return
   }
 

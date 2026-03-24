@@ -10,10 +10,12 @@ import {
   getLocalIP,
 } from '../helper'
 import { updateApps } from '../helper/updateApps'
+import { getFileTree } from '../helper/get/file-tree'
 
 export const ipcMainHandle = (mainWindow: BrowserWindow) => {
   const store = new StoreManager()
   const Conf = {
+    getFileTree,
     getLocalIP: async () => getLocalIP(),
     updateApps: async (_, target: ObjectType | string) => updateApps(target),
     fs: async (_e, target: ObjectType | string) => FileSystem(target),

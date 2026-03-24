@@ -1,14 +1,22 @@
-import { ModuleProps } from '@/type'
+import { useLoading } from '@/util'
 import { isString } from 'asura-eye'
+import { Icon } from '@/components'
+import { Button } from 'antd'
 import dayjs from 'dayjs'
 import React from 'react'
 
-export function Info(props: ModuleProps) {
-  const {} = props
-  
+export function Info() {
+  const [loading, setLoading] = useLoading()
   const [LocalIP, setLocalIP] = React.useState('0.0.0.0')
   const [ddl, setDDL] = React.useState('今天不用上班！')
+  const [networkName, setNetworkName] = React.useState('')
   const timer = React.useRef<NodeJS.Timeout | null>(null)
+
+  async function updateNetworkName() {
+    const cmd = `powershell -Command "Get-NetConnectionProfile | Select-Object -ExpandProperty Name"`
+    const res = await window.api.invoke('cmdResult', cmd)
+    if (isString(res)) setNetworkName(res)
+  }
 
   function updateCountdown() {
     const now = dayjs()
@@ -41,19 +49,20 @@ export function Info(props: ModuleProps) {
   }
 
   const init = async () => {
-    const LIP = await window.api.invoke('getLocalIP')
-    if (isString(LIP)) {
-      setLocalIP(LIP)
-    }
-  }
-
-  React.useEffect(() => {
-    init()
+    await window.api.invoke('getLocalIP').then((LIP) => {
+      if (isString(LIP)) setLocalIP(LIP)
+    })
+    await updateNetworkName()
     setDDL(updateCountdown())
 
     timer.current = setInterval(() => {
       setDDL(updateCountdown())
     }, 1000)
+    return
+  }
+
+  React.useEffect(() => {
+    init()
 
     return () => {
       timer.current && clearInterval(timer.current)
@@ -63,9 +72,18 @@ export function Info(props: ModuleProps) {
   return (
     <div className="root-layout-home-view-info">
       <div className="module-bg gap">
-        <div className="flex col gap">
+        <div className="flex col gap relative">
+          <Button
+            style={{ top: -10, right: 0 }}
+            loading={loading}
+            icon={<Icon type="reload" style={{ fontSize: 16 }} />}
+            className="bolder absolute"
+            onClick={() => setLoading(init())}
+          />
           <h4>Info</h4>
           <div className="text-14">{ddl}</div>
+          <h4>Network Name</h4>
+          <div className="text-14">{networkName}</div>
           <h4>Local IP</h4>
           <div className="text-14">{LocalIP}</div>
         </div>

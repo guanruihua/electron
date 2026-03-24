@@ -5,7 +5,6 @@ import { NodeTread } from './modules/node-tread'
 import { Setting } from './modules/setting'
 import { GitReview } from './modules/git-review/git-review'
 import { useHomeView } from './hook'
-import { SelfTerminal } from './modules/terminal/terminal'
 import { QuickStart } from './modules/quick-start'
 import { Info } from './modules/info/info'
 
@@ -21,7 +20,6 @@ export default function DashboardView() {
     >
       <div className="flex gap col">
         <Modules h={h} />
-        <SelfTerminal />
       </div>
 
       <div

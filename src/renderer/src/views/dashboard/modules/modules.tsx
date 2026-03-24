@@ -61,14 +61,14 @@ const Module = (props: ModuleProps & { item: ObjectType }) => {
 
         {item?.web && (
           <>
-            <Icon
+            {/* <Icon
               loading={loadings.addTab}
               type="web"
               className="opt web"
               onClick={() =>
                 setLoadings(handle?.addTab({ url: item.web }), 'addTab')
               }
-            />
+            /> */}
             <Icon
               loading={loadings.google}
               type="google"

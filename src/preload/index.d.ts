@@ -40,7 +40,7 @@ declare global {
        * 'getLocalIP' 获取本机IP
        */
       invoke: (
-        type: 'toggleDevTools' | 'cmd' | 'dev' | 'fs' | 'cmdResult' | 'updateApps' | 'getLocalIP',
+        type: 'toggleDevTools' | 'cmd' | 'dev' | 'fs' | 'cmdResult' | 'updateApps' | 'getLocalIP' | 'getFileTree',
         conf?: ObjectType | string | number,
       ) => Promise<any>
       test: (conf: any) => Promise<any>

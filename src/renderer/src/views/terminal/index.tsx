@@ -5,8 +5,9 @@ import '@xterm/xterm/css/xterm.css'
 // import { FitAddon } from 'xterm-addon-fit'
 // import { ClipboardAddon } from '@xterm/addon-clipboard'
 import { copy } from '@/util'
+import './index.less'
 
-export function SelfTerminal() {
+export default function TerminalPage() {
   const commandInputRef = useRef<string>('')
   // const fitAddonRef = useRef<FitAddon>(new FitAddon())
   // const clipboardAddonRef = useRef<ClipboardAddon>(new ClipboardAddon())
@@ -14,7 +15,7 @@ export function SelfTerminal() {
   const terminalRef = useRef<HTMLDivElement>(null)
 
   const handleCommand = (terminal: Terminal, command: string) => {
-    console.log({ terminal, command })
+    // console.log({ terminal, command })
     switch (command) {
       case 'clear':
         terminal.clear()
@@ -176,8 +177,9 @@ export function SelfTerminal() {
     term.write('$ ')
   }
   return (
-    <div className="root-layout-home-view-terminal">
-      <div className="root-layout-home-view-git-review">
+    <div className="terminal-page">
+
+      <div className="terminal-page-container">
         <div className="module-bg w flex gap col">
           <div
             className="flex space-between items-center"

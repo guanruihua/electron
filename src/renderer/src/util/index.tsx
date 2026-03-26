@@ -1,5 +1,6 @@
 export * from './hook/use-set-state'
 export * from './hook/use-loading'
+export * from './hook/use-msg'
 export * from './helper'
 
 import { message } from 'aurad'

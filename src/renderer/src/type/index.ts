@@ -12,14 +12,22 @@ export interface ViewState {
   [key: string]: any
 }
 
-export type  ViewStates  = ViewState[]
+export type ViewStates = ViewState[]
 
 export interface State {
+  initSysSettingSuccess?: boolean
+  initUserSettingSuccess?: boolean
+  initSuccess?: boolean
+  sysSetting?: {
+    path?: string
+    [key: string]: any
+  }
   activeTab?: string
   tabs?: ViewState[]
   NodeTreads?: ObjectType[]
   apps?: [string, string][]
   setting?: {
+    ignoreApps?: string
     path: string
     selectedQuickStart?: number
     quickStarts?: string[][]
@@ -34,6 +42,8 @@ export interface State {
 }
 
 export interface Handle {
+  success(msg: string, ...rest: any[]): void
+  error(msg: string, ...rest: any[]): void
   renderState(): void
   setState(newState: Partial<State>): void
   saveToFile(type: 'setting' | 'modules' | 'apps'): void

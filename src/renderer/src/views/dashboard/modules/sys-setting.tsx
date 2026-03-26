@@ -1,43 +1,86 @@
-import { Button, Input } from 'antd'
-import { ModuleProps } from '../type'
-import { Form } from 'antd'
 import React from 'react'
-import { Space } from 'antd'
+import { Button, Input, Form, Space } from 'antd'
+import { isString } from 'asura-eye'
+import { ModuleProps } from '../type'
 import { Icon } from '@/components'
-import { useLoading } from '@/util'
+import { getJSON, useLoading } from '@/util'
 
-export function Setting(props: ModuleProps) {
+export function SysSetting(props: ModuleProps) {
   const { state, handle } = props.h
   const [form]: any[] = Form.useForm()
   const [loading, setLoading] = useLoading()
+
+  const init = async (force: boolean = false) => {
+    if (!force) {
+      if (state.initSysSettingSuccess) return
+    }
+    const res = await window.api.invoke('getUserDataPath')
+    if (!isString(res)) return
+    await window.api.invoke('fs', {
+      action: 'createPathIfNotExist',
+      payload: { path: res + '\\electron', isFile: false },
+    })
+    const sysSettingPath = res + '\\electron\\setting.json'
+    await window.api.invoke('fs', {
+      action: 'createPathIfNotExist',
+      payload: { path: sysSettingPath, isFile: true },
+    })
+    const sysSetting = getJSON(
+      await window.api.invoke('fs', {
+        action: 'readFile',
+        payload: { path: sysSettingPath },
+      }),
+      {},
+    )
+    handle.setState({ sysSetting, initSysSettingSuccess: true })
+    handle.renderState()
+
+    form.setFieldsValue(sysSetting)
+    console.log('System Setting init Success...')
+  }
+
   React.useEffect(() => {
-    form.setFieldsValue(state?.setting || {})
-  }, [])
+    init()
+  }, [state.initSysSettingSuccess])
 
   const submit = async () => {
     try {
       const values = await form.validateFields()
-      return await handle.handleSaveSetting(values)
+      const newSysSetting = {
+        ...state.sysSetting,
+        ...values,
+      }
+      handle.setState({
+        sysSetting: newSysSetting,
+      })
+      handle.renderState()
+      const res = await window.api.invoke('getUserDataPath')
+      if (!isString(res)) return
+      const sysSettingPath = res + '\\electron\\setting.json'
+
+      await window.api.invoke('fs', {
+        action: 'saveFile',
+        payload: { path: sysSettingPath, data: newSysSetting },
+      })
+      handle.success('System Setting Update Success...')
+      return
     } catch (error) {
-      console.log('@ ~ handleSave ~ error:', error)
+      handle.error('System Setting Update Error...', error)
       return
     }
-  }
-  const reload = async () => {
-    return handle?.NodeThread?.findAll(true)
   }
 
   return (
     <div className="root-layout-home-view-setting">
       <div className="module-bg w flex gap col">
         <div className="flex space-between items-center">
-          <h4>Setting</h4>
+          <h4>System Setting</h4>
           <div className="flex gap">
             <Button
               loading={loading}
               icon={<Icon type="reload" style={{ fontSize: 16 }} />}
               className="bolder"
-              onClick={() => setLoading(reload())}
+              onClick={() => setLoading(init(true))}
             />
           </div>
         </div>

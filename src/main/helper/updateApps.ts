@@ -64,7 +64,7 @@ async function readAllFiles(dir) {
   return fileList.reverse()
 }
 
-export const updateApps = async (target: ObjectType | string) => {
+export const updateApps = async (_, target: ObjectType | string) => {
   console.log('updateApps', target, isObject(target))
   if (!isObject(target) || !isString(target?.path)) return
 

@@ -120,5 +120,5 @@ export async function getFileTree(_, conf: any) {
     maxDepth: 2,
     ...rest,
   })
-  return await fs.writeFile('./t.json', JSON.stringify(tree))
+  return tree
 }

@@ -1,18 +1,17 @@
-import React from 'react'
 import { useSetState } from '0hook'
 import { State } from './type'
 import { isString } from 'asura-eye'
 import {
-  handleSetting,
   saveSettingToFile,
   setStatus_NodeTread,
   toNodeTreads,
 } from './helper'
 import { ObjectType } from '0type'
 import { DefaultState } from './conf'
-import { useLoadings } from '@/util'
+import { useLoadings, useMsg } from '@/util'
 
 export const useHomeView = () => {
+  const {context, success, error}= useMsg()
   const [loadings, setLoadings] = useLoadings({
     nodeThread: false,
     stopAll: false,
@@ -20,7 +19,12 @@ export const useHomeView = () => {
   })
 
   const [state, _renderState] = useSetState<State>({
+    initSysSettingSuccess: false,
+    initUserSettingSuccess: false,
+    initSuccess: false,
+
     NodeTreads: [],
+    sysSetting: {},
     setting: DefaultState.setting,
     modules: [],
     apps: [],
@@ -107,46 +111,20 @@ export const useHomeView = () => {
       renderState()
       saveToFile('setting')
     },
-    async handleSaveSetting(values: ObjectType = state?.setting || {}) {
-      const { code, apps, setting, modules } = await handleSetting(values)
-      if (code === -1) return
-      setState({
-        apps,
-        setting,
-        modules,
-      })
-      state.NodeTreads && setStatus_NodeTread(state.NodeTreads)
-      renderState()
-    },
     openDevtool: () => window.api.invoke('toggleDevTools'),
     close: () => window.api.close(),
     min: () => window.api.minimize(),
     max: () => window.api.maximize(),
     reload: () => window.location.reload(),
     setDefaultState,
+    success,
+    error,
   }
-
-  const init = async () => {
-    await handle.handleSaveSetting()
-    await handle.NodeThread.findAll()
-
-    if (
-      setDefaultState(state) &&
-      !state.setting?.selectGitModule?.path &&
-      state?.modules?.[0]
-    ) {
-      state.setting.selectGitModule = state.modules[0]
-    }
-    handle.renderState()
-  }
-
-  React.useEffect(() => {
-    init()
-  }, [])
 
   return {
     loadings,
     state,
     handle,
+    context,
   }
 }

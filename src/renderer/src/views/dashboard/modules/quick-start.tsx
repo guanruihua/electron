@@ -18,8 +18,21 @@ export const QuickStart = (props: ModuleProps) => {
     startApp,
     async updateApps() {
       const apps: [string, string][] =
-        (await window.api.invoke('updateApps', state.setting)) || []
-      state.apps = apps
+        (await window.api.invoke('updateApps', state.sysSetting)) || []
+      // console.log(apps)
+      const ignoreApps = state.setting?.ignoreApps
+
+      if (isString(ignoreApps)) {
+        const ignoreNames = ignoreApps.split(',').map((_) => _.trim())
+
+        state.apps = apps.filter((_) => {
+          for (let i = 0; i < ignoreNames.length; i++)
+            if (_[1].indexOf(ignoreNames[i]) > -1) return false
+          return true
+        })
+      } else {
+        state.apps = apps
+      }
       handle.renderState()
     },
     addGroup() {
@@ -38,9 +51,8 @@ export const QuickStart = (props: ModuleProps) => {
       state.setting.quickStarts = state.setting.quickStarts!.filter(
         (_, j) => j !== i,
       )
-      const selected:number = state.setting.selectedQuickStart!
-      if (selected === i)
-        state.setting.selectedQuickStart = 0
+      const selected: number = state.setting.selectedQuickStart!
+      if (selected === i) state.setting.selectedQuickStart = 0
       handle.renderState()
       handle.saveToFile('setting')
     },
@@ -100,7 +112,11 @@ export const QuickStart = (props: ModuleProps) => {
   }
   const renderList = getRenderList()
   return (
-    <div className="root-layout-home-view-quick-start" data-edit={edit}>
+    <div
+      className="root-layout-home-view-quick-start"
+      data-edit={edit}
+      data-disabled={!state?.sysSetting?.path}
+    >
       <div className="module-bg" style={{ padding: 0 }}>
         <div
           className="flex space-between items-center mb"
@@ -109,7 +125,7 @@ export const QuickStart = (props: ModuleProps) => {
           <h4>Quick Start</h4>
           <div className="flex gap bold text-12 items-center">
             <span>
-              {total} / {state.apps?.length}
+              {total || 0} / {state.apps?.length}
             </span>
             <Button
               loading={loading}
@@ -176,12 +192,12 @@ export const QuickStart = (props: ModuleProps) => {
                     </div>
                   </Checkbox>
 
-                    <Icon
-                      type="close"
-                      title="delete"
-                      className="quickStart-group-del"
-                      onClick={() => handleSelf.delGroup(qi)}
-                    />
+                  <Icon
+                    type="close"
+                    title="delete"
+                    className="quickStart-group-del"
+                    onClick={() => handleSelf.delGroup(qi)}
+                  />
                 </div>
               )
             })}
@@ -192,29 +208,32 @@ export const QuickStart = (props: ModuleProps) => {
               <Button onClick={handleSelf.updateApps}>Update Apps</Button>
             </div>
           )}
-          {edit && (
-            <Space.Compact>
-              <Select
-                style={{ width: 'calc( 100% - 60px )' }}
-                mode="multiple"
-                value={select}
-                placeholder="Select Quick Start App"
-                allowClear
-                onChange={setSelect}
-                options={state.apps?.map(([value, label]) => ({
-                  value,
-                  label: label.replace('.lnk', ''),
-                }))}
-              />
-              <Button
-                loading={loading}
-                style={{ width: 100 }}
-                onClick={handleSelf.setAppToGroup}
-              >
-                Update
-              </Button>
-            </Space.Compact>
-          )}
+          {edit &&
+            isNumber(state?.setting?.selectedQuickStart) &&
+            isArray(state?.setting?.quickStarts) &&
+            state.setting.quickStarts.length && (
+              <Space.Compact>
+                <Select
+                  style={{ width: 'calc( 100% - 60px )' }}
+                  mode="multiple"
+                  value={select}
+                  placeholder="Select Quick Start App"
+                  allowClear
+                  onChange={setSelect}
+                  options={state.apps?.map(([value, label]) => ({
+                    value,
+                    label: label.replace('.lnk', ''),
+                  }))}
+                />
+                <Button
+                  loading={loading}
+                  style={{ width: 100 }}
+                  onClick={handleSelf.setAppToGroup}
+                >
+                  Update
+                </Button>
+              </Space.Compact>
+            )}
         </div>
       </div>
     </div>

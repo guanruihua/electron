@@ -11,13 +11,19 @@ import {
 } from '../helper'
 import { updateApps } from '../helper/updateApps'
 import { getFileTree } from '../helper/get/file-tree'
+import { getRunningApp } from '../helper/get/running-app'
+import { stopAppByName } from '../helper/handle/stop-app'
+import { getUserDataPath } from '../helper/get/user-info'
 
 export const ipcMainHandle = (mainWindow: BrowserWindow) => {
   const store = new StoreManager()
   const Conf = {
+    getUserDataPath,
+    stopAppByName,
+    getRunningApp,
     getFileTree,
-    getLocalIP: async () => getLocalIP(),
-    updateApps: async (_, target: ObjectType | string) => updateApps(target),
+    getLocalIP,
+    updateApps,
     fs: async (_e, target: ObjectType | string) => FileSystem(target),
     cmd: async (_e, conf: ObjectType | string) => {
       console.log('Command:', conf)

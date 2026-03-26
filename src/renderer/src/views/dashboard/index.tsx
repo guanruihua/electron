@@ -2,11 +2,13 @@ import './style/index.less'
 import { Opt } from './modules/opt'
 import { Modules } from './modules/modules'
 import { NodeTread } from './modules/node-tread'
-import { Setting } from './modules/setting'
+import { SysSetting } from './modules/sys-setting'
 import { GitReview } from './modules/git-review/git-review'
 import { useHomeView } from './hook'
 import { QuickStart } from './modules/quick-start'
 import { Info } from './modules/info/info'
+import RunningApp from './modules/running-app'
+import { UserSetting } from './modules/user-setting'
 
 export default function DashboardView() {
   const h = useHomeView()
@@ -20,6 +22,7 @@ export default function DashboardView() {
     >
       <div className="flex gap col">
         <Modules h={h} />
+        <RunningApp h={h} />
       </div>
 
       <div
@@ -40,14 +43,16 @@ export default function DashboardView() {
             }
             right={
               <div className="flex gap col">
-                <Info h={h} />
+                <Info />
                 <Opt h={h} />
-                <Setting h={h} />
+                <UserSetting h={h} />
+                <SysSetting h={h} />
               </div>
             }
           />
         </div>
       </div>
+      {h.context}
     </div>
   )
 }

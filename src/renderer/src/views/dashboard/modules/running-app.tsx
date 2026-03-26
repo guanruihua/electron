@@ -9,27 +9,27 @@ import React from 'react'
 type AppList = { name: string; id: string; title: string }[]
 
 export default function RunningApp(props: ModuleProps) {
-  const ignoreApps = props?.h?.state?.setting || ''
+  const { state } = props.h
   const [loading, setLoading] = useLoading()
   const [selects, setSelects] = React.useState<string[]>([])
   const [appList, setAppList] = React.useState<AppList>([])
-  // console.log(ignoreApps)
-  const ignoreNames = isString(ignoreApps)
-    ? ignoreApps.split(',').map((_) => _.trim())
-    : []
 
   const init = async () => {
     const res = await window.api.invoke('getRunningApp')
     // console.log(res)
-    if (isArray(res))
-      setAppList(
-        res.filter((_) => {
+    if (!isArray(res)) return
+    const ignoreApps = state.setting?.ignoreApps
+    const ignoreNames = ignoreApps?.split(',').map((_) => _.trim())
+    const newAppList = ignoreNames?.length
+      ? res.filter((_) => {
           if (!isString(_.name)) return
           for (let i = 0; i < ignoreNames.length; i++)
             if (_.name.indexOf(ignoreNames[i]) > -1) return false
           return true
-        }),
-      )
+        })
+      : res
+
+    setAppList(newAppList)
   }
   const stop = async () => {
     await window.api.invoke(

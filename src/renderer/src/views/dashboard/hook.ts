@@ -31,7 +31,7 @@ export const useHomeView = () => {
   })
 
   const saveToFile = (type: 'setting' | 'modules' | 'apps') => {
-    const { path } = state?.setting || {}
+    const { path } = state?.sysSetting || {}
     if (!path) return
     if (type === 'setting') saveSettingToFile(path, state.setting)
   }

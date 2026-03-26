@@ -1,4 +1,3 @@
-import { ObjectType } from '0type'
 import { State } from '@/type'
 import { getJSON } from './get'
 

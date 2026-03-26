@@ -19,20 +19,8 @@ export const QuickStart = (props: ModuleProps) => {
     async updateApps() {
       const apps: [string, string][] =
         (await window.api.invoke('updateApps', state.sysSetting)) || []
-      // console.log(apps)
-      const ignoreApps = state.setting?.ignoreApps
 
-      if (isString(ignoreApps)) {
-        const ignoreNames = ignoreApps.split(',').map((_) => _.trim())
-
-        state.apps = apps.filter((_) => {
-          for (let i = 0; i < ignoreNames.length; i++)
-            if (_[1].indexOf(ignoreNames[i]) > -1) return false
-          return true
-        })
-      } else {
-        state.apps = apps
-      }
+      state.apps = apps
       handle.renderState()
     },
     addGroup() {
@@ -66,6 +54,7 @@ export const QuickStart = (props: ModuleProps) => {
         handle.renderState()
         setSelect([])
         handle.saveToFile('setting')
+        handle.success('Update Quick Start Success...')
       }
     },
     startGroup() {
@@ -111,6 +100,25 @@ export const QuickStart = (props: ModuleProps) => {
     return state.setting.quickStarts
   }
   const renderList = getRenderList()
+
+  const getAppOptions = () => {
+    const ignoreApps = state.setting?.ignoreApps
+    const ignoreNames = ignoreApps?.split(',').map((_) => _.trim())
+    return state.apps
+      ?.filter(([, label]) => {
+        if (ignoreNames?.length) {
+          for (let i = 0; i < ignoreNames.length; i++)
+            if (label.indexOf(ignoreNames[i]) > -1) return false
+          return true
+        }
+        return true
+      })
+      ?.map(([value, label]) => ({
+        value,
+        label: label.replace('.lnk', ''),
+      }))
+  }
+  const appOptions = getAppOptions()
   return (
     <div
       className="root-layout-home-view-quick-start"
@@ -220,10 +228,7 @@ export const QuickStart = (props: ModuleProps) => {
                   placeholder="Select Quick Start App"
                   allowClear
                   onChange={setSelect}
-                  options={state.apps?.map(([value, label]) => ({
-                    value,
-                    label: label.replace('.lnk', ''),
-                  }))}
+                  options={appOptions}
                 />
                 <Button
                   loading={loading}

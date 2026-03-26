@@ -23,8 +23,8 @@ export default function FileResourceManagement() {
   }
 
   const init = async () => {
-    const res = await window.api.invoke('getFileTree', { path: 'D:\\' })
-    console.log(res)
+    // const res = await window.api.invoke('getFileTree', { path: 'D:\\' })
+    // console.log(res)
     return
   }
 

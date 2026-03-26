@@ -123,8 +123,8 @@ export function Modules(props: ModuleProps) {
   })
 
   const openConfFile = async () => {
-    if (!state.setting?.path) return
-    return window.api.invoke('cmd', `code ${state.setting.path}\\modules.json`)
+    if (!state.sysSetting?.path) return
+    return window.api.invoke('cmd', `code ${state.sysSetting.path}\\modules.json`)
   }
 
   const reload = async () => {

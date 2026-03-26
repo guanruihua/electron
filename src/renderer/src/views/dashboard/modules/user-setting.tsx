@@ -43,6 +43,7 @@ export function UserSetting(props: ModuleProps) {
     })
 
     const setting = await getSetting(path)
+    console.log({setting})
     const modules = await getModules(path)
     const apps = await getApps(path)
 
@@ -80,7 +81,7 @@ export function UserSetting(props: ModuleProps) {
   const submit = async () => {
     try {
       const values = await form.validateFields()
-      const newUserSetting = { ...state.userSetting, ...values }
+      const newUserSetting = { ...state.setting, ...values }
 
       handle.setState({
         userSetting: newUserSetting,
@@ -88,6 +89,7 @@ export function UserSetting(props: ModuleProps) {
       handle.renderState()
       const path = state?.sysSetting?.path
       if (!path) return
+      // console.log({ newUserSetting })
       await window.api.invoke('fs', {
         action: 'saveFile',
         payload: { path: path + '/setting.json', data: newUserSetting },

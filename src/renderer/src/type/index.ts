@@ -18,17 +18,19 @@ export interface State {
   initSysSettingSuccess?: boolean
   initUserSettingSuccess?: boolean
   initSuccess?: boolean
-  sysSetting?: {
-    path?: string
-    [key: string]: any
-  }
+
   activeTab?: string
   tabs?: ViewState[]
   NodeTreads?: ObjectType[]
   apps?: [string, string][]
+  
+  sysSetting?: {
+    path?: string
+    [key: string]: any
+  }
   setting?: {
     ignoreApps?: string
-    path: string
+    // path: string
     selectedQuickStart?: number
     quickStarts?: string[][]
     selectGitModule?: {

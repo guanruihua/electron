@@ -43,7 +43,6 @@ export function UserSetting(props: ModuleProps) {
     })
 
     const setting = await getSetting(path)
-    console.log({setting})
     const modules = await getModules(path)
     const apps = await getApps(path)
 
@@ -70,7 +69,6 @@ export function UserSetting(props: ModuleProps) {
     form.setFieldsValue(setting)
 
     console.log('User Setting init Success...')
-    console.log(state)
     return
   }
 
@@ -126,6 +124,7 @@ export function UserSetting(props: ModuleProps) {
             </Form.Item>
             <div className="flex gap">
               <Button
+                icon={<Icon type="save" />}
                 loading={loading}
                 htmlType="submit"
                 onClick={() => {
@@ -135,6 +134,7 @@ export function UserSetting(props: ModuleProps) {
                 Save
               </Button>
               <Button
+                icon={<Icon type="reload" />}
                 loading={loading}
                 onClick={() => form.setFieldsValue(state?.setting || {})}
               >

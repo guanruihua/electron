@@ -51,7 +51,9 @@ const Module = (props: ModuleProps & { item: ObjectType }) => {
           }
         />
         <Icon
-          loading={loadings.stop || viewLoadings.stopAll || viewLoadings.findAll}
+          loading={
+            loadings.stop || viewLoadings.stopAll || viewLoadings.findAll
+          }
           type="stop"
           className="opt stop"
           onClick={() =>
@@ -124,7 +126,10 @@ export function Modules(props: ModuleProps) {
 
   const openConfFile = async () => {
     if (!state.sysSetting?.path) return
-    return window.api.invoke('cmd', `code ${state.sysSetting.path}\\modules.json`)
+    return window.api.invoke(
+      'cmd',
+      `code ${state.sysSetting.path}\\modules.json`,
+    )
   }
 
   const reload = async () => {
@@ -146,6 +151,7 @@ export function Modules(props: ModuleProps) {
           <h4>Module</h4>
           <div className="flex gap">
             <Button
+              icon={<Icon type="edit" />}
               loading={loadings.edit}
               onClick={() => setLoadings(openConfFile(), 'edit')}
             >

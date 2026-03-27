@@ -52,7 +52,7 @@ export function Header(props: HeaderProps) {
               >
                 {title || 'Loading...'}
               </span>
-              <span
+              {/* <span
                 className="close"
                 onClick={(e) => {
                   e.preventDefault()
@@ -61,7 +61,7 @@ export function Header(props: HeaderProps) {
                 }}
               >
                 <Icon type="close" />
-              </span>
+              </span> */}
             </div>
           )
         })}

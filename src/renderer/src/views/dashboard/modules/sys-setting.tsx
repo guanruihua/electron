@@ -104,6 +104,7 @@ export function SysSetting(props: ModuleProps) {
             </Form.Item>
             <div className="flex gap">
               <Button
+                icon={<Icon type='save'/>}
                 loading={loading}
                 htmlType="submit"
                 onClick={() => {
@@ -113,6 +114,7 @@ export function SysSetting(props: ModuleProps) {
                 Save
               </Button>
               <Button
+                icon={<Icon type='reload'/>}
                 loading={loading}
                 onClick={() => form.setFieldsValue(state?.setting || {})}
               >

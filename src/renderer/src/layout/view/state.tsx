@@ -61,7 +61,7 @@ export const useViewState = (props: ViewProps) => {
     },
     goHome() {
       setViewState({ home: true, url: '', search: '' })
-      setHeaderTitle(id, 'Dashboard')
+      // setHeaderTitle(id, 'Dashboard')
 
       const webview: WebviewTag | null = ref.current
       if (webview) {
@@ -93,7 +93,7 @@ export const useViewState = (props: ViewProps) => {
     }
     setViewState(newViewState)
     if (!tab.url) {
-      setHeaderTitle(id, 'Dashboard')
+      // setHeaderTitle(id, 'Dashboard')
     }
 
     if (!ref.current) return

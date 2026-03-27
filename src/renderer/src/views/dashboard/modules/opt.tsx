@@ -3,9 +3,10 @@ import { Button } from 'antd'
 import { ModuleProps } from '@/type'
 import { isFunction, isString } from 'asura-eye'
 import { useLoading } from '@/util'
+import { Icon } from '@/components'
 
-const MyButton = ({ child }: { child: [string, string | any] }) => {
-  const [name, cmd] = child
+const MyButton = ({ child }: { child: [string, string | any, string] }) => {
+  const [name, cmd, icon] = child
   const title: string = isString(cmd) ? `${name} - ${cmd}` : name
   const [loading, setLoading] = useLoading()
   const click = async () => {
@@ -15,6 +16,7 @@ const MyButton = ({ child }: { child: [string, string | any] }) => {
   }
   return (
     <Button
+      icon={<Icon type={icon as any || 'run'} />}
       loading={loading}
       title={title}
       onClick={() => {
@@ -30,36 +32,36 @@ export function Opt(props: ModuleProps) {
   const { handle } = props.h
   const Conf: {
     title: string
-    children: [string, string | any][]
+    children: (string | any)[]
   }[] = [
     {
       title: 'System',
       children: [
         ['最大化', handle.max],
         ['最小化', handle.min],
-        ['关闭 ', handle.close],
+        ['关闭 ', handle.close, 'close'],
         ['打开遮罩', window.api.openMaskWindow],
         ['Devtool', handle.openDevtool],
-        ['Reload', handle.reload],
+        ['Reload', handle.reload, 'reload'],
       ],
     },
     {
       title: 'Nginx',
       children: [
         ['Start', 'cd D:\\env\\nginx\\nginx-1.28.2 && start .\\nginx.exe'],
-        ['Stop', 'taskkill /F /IM nginx.exe'],
+        ['Stop', 'taskkill /F /IM nginx.exe', 'stop'],
         [
           'Restart',
           'taskkill /F /IM nginx.exe && cd D:\\env\\nginx\\nginx-1.28.2 && start .\\nginx.exe',
         ],
-        ['Reload', 'cd D:\\env\\nginx\\nginx-1.28.2 && .\\nginx.exe -s reload'],
-        ['Edit Conf', 'code D:\\env\\nginx\\nginx-1.28.2\\conf\\nginx.conf'],
+        ['Reload', 'cd D:\\env\\nginx\\nginx-1.28.2 && .\\nginx.exe -s reload', 'reload'],
+        ['Edit Conf', 'code D:\\env\\nginx\\nginx-1.28.2\\conf\\nginx.conf', 'edit'],
       ],
     },
     {
       title: 'Win11',
       children: [
-        ['Edit Hosts', 'code C:\\Windows\\System32\\drivers\\etc\\hosts'],
+        ['Edit Hosts', 'code C:\\Windows\\System32\\drivers\\etc\\hosts', 'edit'],
       ],
     },
   ]

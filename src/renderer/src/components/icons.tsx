@@ -2,6 +2,7 @@ import { classNames } from 'harpe'
 import React from 'react'
 
 export type IconType =
+  | 'save'
   | 'back'
   | 'forward'
   | 'reload'
@@ -32,6 +33,7 @@ export type IconType =
   | 'right-arrow'
   | 'git'
   | 'check'
+  | 'edit'
 
 interface IconProps extends React.DOMAttributes<SVGSVGElement> {
   style?: React.CSSProperties
@@ -78,6 +80,38 @@ export function Icon(props: IconProps) {
       </svg>
     )
   }
+  if (type === 'save')
+    return (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="1em"
+        height="1em"
+        viewBox="0 0 24 24"
+        {...rest}
+      >
+        <path
+          fill="currentColor"
+          d="M18 21v-8H6v8H4a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h13l4 4v13a1 1 0 0 1-1 1zm-2 0H8v-6h8z"
+        ></path>
+      </svg>
+    )
+  if (type === 'edit')
+    return (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="1em"
+        height="1em"
+        viewBox="0 0 24 24"
+        {...rest}
+      >
+        <path
+          fill="currentColor"
+          fillRule="evenodd"
+          d="M15.586 3a2 2 0 0 1 2.828 0L21 5.586a2 2 0 0 1 0 2.828L19.414 10L14 4.586zm-3 3l-9 9A2 2 0 0 0 3 16.414V19a2 2 0 0 0 2 2h2.586A2 2 0 0 0 9 20.414l9-9z"
+          clipRule="evenodd"
+        ></path>
+      </svg>
+    )
   if (type === 'css')
     return (
       <svg
@@ -567,13 +601,22 @@ export function Icon(props: IconProps) {
         viewBox="0 0 24 24"
         {...rest}
       >
-        <g fill="none" fillRule="evenodd">
-          <path d="m12.593 23.258l-.011.002l-.071.035l-.02.004l-.014-.004l-.071-.035q-.016-.005-.024.005l-.004.01l-.017.428l.005.02l.01.013l.104.074l.015.004l.012-.004l.104-.074l.012-.016l.004-.017l-.017-.427q-.004-.016-.017-.018m.265-.113l-.013.002l-.185.093l-.01.01l-.003.011l.018.43l.005.012l.008.007l.201.093q.019.005.029-.008l.004-.014l-.034-.614q-.005-.018-.02-.022m-.715.002a.02.02 0 0 0-.027.006l-.006.014l-.034.614q.001.018.017.024l.015-.002l.201-.093l.01-.008l.004-.011l.017-.43l-.003-.012l-.01-.01z"></path>
-          <path
-            fill="currentColor"
-            d="M4 6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2z"
-          ></path>
-        </g>
+        <rect
+          width={4}
+          height={14}
+          x={6}
+          y={5}
+          fill="currentColor"
+          rx={1}
+        ></rect>
+        <rect
+          width={4}
+          height={14}
+          x={14}
+          y={5}
+          fill="currentColor"
+          rx={1}
+        ></rect>
       </svg>
     )
   if (type === 'run')

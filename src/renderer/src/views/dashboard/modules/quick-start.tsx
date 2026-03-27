@@ -136,6 +136,7 @@ export const QuickStart = (props: ModuleProps) => {
               {total || 0} / {state.apps?.length}
             </span>
             <Button
+              icon={<Icon type="edit" />}
               loading={loading}
               onClick={() => {
                 setEdit(!edit)
@@ -145,6 +146,7 @@ export const QuickStart = (props: ModuleProps) => {
             </Button>
             {state.apps?.length && state.setting?.quickStarts && (
               <Button
+                icon={<Icon type="run" />}
                 loading={loading}
                 disabled={
                   !isNumber(state.setting?.selectedQuickStart) ||
@@ -212,8 +214,15 @@ export const QuickStart = (props: ModuleProps) => {
           </div>
           {edit && (
             <div className="flex gap row">
-              <Button onClick={handleSelf.addGroup}>Add</Button>
-              <Button onClick={handleSelf.updateApps}>Update Apps</Button>
+              <Button icon={<Icon type="add" />} onClick={handleSelf.addGroup}>
+                Add
+              </Button>
+              <Button
+                icon={<Icon type="reload" />}
+                onClick={handleSelf.updateApps}
+              >
+                Update Apps
+              </Button>
             </div>
           )}
           {edit &&

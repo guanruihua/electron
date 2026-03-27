@@ -5,7 +5,7 @@ import { Icon } from '@/components'
 import { ModuleProps } from '@/type'
 
 export function NodeTread(props: ModuleProps) {
-  const { handle, state, loadings={} } = props.h
+  const { handle, state, loadings = {} } = props.h
   const { setLoadings, NodeThread } = handle
   return (
     <div className="root-layout-home-view-node-tread overflow-y flex col gap module-bg w">
@@ -15,11 +15,13 @@ export function NodeTread(props: ModuleProps) {
           <Button
             loading={loadings.findAll}
             className="bolder"
+            icon={<Icon type="run" />}
             onClick={() => setLoadings(NodeThread?.findAll(true), 'findAll')}
           >
             Find All
           </Button>
           <Button
+            icon={<Icon type="stop" />}
             loading={loadings.stopAll}
             className="bolder"
             onClick={() => setLoadings(NodeThread?.stopAll(true), 'stopAll')}

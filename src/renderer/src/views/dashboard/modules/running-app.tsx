@@ -1,7 +1,6 @@
 import { Icon } from '@/components'
 import { ModuleProps } from '@/type'
-import { useLoading } from '@/util'
-import { Checkbox } from 'antd'
+import { useLoading, useLoadings } from '@/util'
 import { Button } from 'antd'
 import { isArray, isString } from 'asura-eye'
 import React from 'react'
@@ -10,8 +9,8 @@ type AppList = { name: string; id: string; title: string }[]
 
 export default function RunningApp(props: ModuleProps) {
   const { state } = props.h
+  const [loadings, setLoadings] = useLoadings()
   const [loading, setLoading] = useLoading()
-  const [selects, setSelects] = React.useState<string[]>([])
   const [appList, setAppList] = React.useState<AppList>([])
 
   const init = async () => {
@@ -31,12 +30,13 @@ export default function RunningApp(props: ModuleProps) {
 
     setAppList(newAppList)
   }
-  const stop = async () => {
+  const stop = async (item) => {
+    if (!isString(item?.name)) return
     await window.api.invoke(
       'stopAppByName',
-      appList.filter((_) => selects.includes(_.id)).map((_) => _.name),
+      item.name,
+      // appList.filter((_) => selects.includes(_.id)).map((_) => _.name),
     )
-    setSelects([])
     await init()
     return
   }
@@ -45,13 +45,14 @@ export default function RunningApp(props: ModuleProps) {
       'stopAppByName',
       appList.map((_) => _.name),
     )
-    setSelects([])
     await init()
     return
   }
+
   React.useEffect(() => {
     init()
   }, [])
+
   return (
     <div className="root-layout-home-view-running-app">
       <div className="module-bg" style={{ padding: 0 }}>
@@ -61,16 +62,21 @@ export default function RunningApp(props: ModuleProps) {
         >
           <h4>Running App</h4>
           <div className="flex gap">
-            <Button loading={loading} onClick={() => setLoading(stopAll())}>
+            <Button
+              icon={<Icon type="stop" />}
+              loading={loading}
+              onClick={() => setLoading(stopAll())}
+            >
               Stop All
             </Button>
-            <Button
+            {/* <Button
+              icon={<Icon type="stop" />}
               disabled={!selects.length}
               loading={loading}
               onClick={() => setLoading(stop())}
             >
               Stop Select
-            </Button>
+            </Button> */}
             <Button
               loading={loading}
               icon={<Icon type="reload" style={{ fontSize: 16 }} />}
@@ -81,27 +87,41 @@ export default function RunningApp(props: ModuleProps) {
         </div>
         <div className="p">
           <div
-            className="flex col gap p border-radius"
-            style={{ background: '#000' }}
+            className="flex col p border-radius"
+            style={{
+              background: '#000',
+              minHeight: 80,
+              justifyContent: 'center',
+            }}
           >
-            {appList.map((item) => {
-              const { id } = item
-              return (
-                <Checkbox
-                  key={id}
-                  checked={selects.includes(id)}
-                  onClick={() =>
-                    setSelects((list) =>
-                      list.includes(id)
-                        ? list.filter((_) => _ != id)
-                        : [id, ...list],
-                    )
-                  }
-                >
-                  {item.title} ({item.name})
-                </Checkbox>
-              )
-            })}
+            {appList.length ? (
+              appList.map((item) => {
+                const { id } = item
+                return (
+                  <div
+                    key={id}
+                    className="grid gap"
+                    style={{
+                      gridTemplateColumns: '1fr auto',
+                      alignItems: 'center',
+                    }}
+                  >
+                    <div className="text-14">
+                      {item.title} ({item.name})
+                    </div>
+                    <Icon
+                      loading={loadings[item.id]}
+                      type="stop"
+                      className="opt stop"
+                      style={{ fontSize: 24 }}
+                      onClick={() => setLoadings(stop(item), item.id)}
+                    />
+                  </div>
+                )
+              })
+            ) : (
+              <div className="text-center">Empty</div>
+            )}
           </div>
         </div>
       </div>

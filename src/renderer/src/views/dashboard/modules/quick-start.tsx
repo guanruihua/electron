@@ -127,7 +127,7 @@ export const QuickStart = (props: ModuleProps) => {
     >
       <div className="module-bg" style={{ padding: 0 }}>
         <div
-          className="flex space-between items-center mb"
+          className="flex space-between items-center"
           style={{ padding: '20px 20px 0' }}
         >
           <h4>Quick Start</h4>
@@ -141,9 +141,7 @@ export const QuickStart = (props: ModuleProps) => {
               onClick={() => {
                 setEdit(!edit)
               }}
-            >
-              Edit
-            </Button>
+            />
             {state.apps?.length && state.setting?.quickStarts && (
               <Button
                 icon={<Icon type="run" />}

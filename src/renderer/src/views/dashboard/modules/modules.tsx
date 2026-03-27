@@ -1,3 +1,4 @@
+import React from 'react'
 import { ObjectType } from '0type'
 import { Icon } from '@/components'
 import { ModuleProps } from '@/type'
@@ -16,24 +17,29 @@ const Module = (props: ModuleProps & { item: ObjectType }) => {
 
   if (isString(item?.type) && item.type.toLowerCase() === 'group')
     return (
-      <div className="grid-span-full">
-        <span className="bold text-12 pointer">{item.label || item.path}</span>
-        <div
-          className="grid-layout grid gap"
-          style={{
-            marginTop: 10,
-          }}
-        >
-          {item.children?.map?.((item, i) => (
-            <Module key={i} item={item} h={props.h} />
-          ))}
+      <React.Fragment>
+        <div className="grid-span-full" style={{ borderBottom: '2px solid rgba(255,255,255, .2)', marginBottom: 10 }} />
+        <div className="grid-span-full">
+          <div className="bold text-12 pointer border-bottom">
+            {item.label || item.path}
+          </div>
+          <div
+            className="grid-layout grid"
+            style={{
+              marginTop: 5,
+            }}
+          >
+            {item.children?.map?.((item, i) => (
+              <Module key={i} item={item} h={props.h} />
+            ))}
+          </div>
         </div>
-      </div>
+      </React.Fragment>
     )
 
   return (
     <div
-      className="opt-item flex box-shadow"
+      className="opt-item flex"
       data-path={item.path.replaceAll('\\', '>')}
       data-start
       data-pid
@@ -42,25 +48,30 @@ const Module = (props: ModuleProps & { item: ObjectType }) => {
       <span className="opt-item-name bold">{item.label || item.path}</span>
       <span className="opt-item-btns flex items-center">
         <Icon
-          loading={loadings.run || viewLoadings.stopAll || viewLoadings.findAll}
-          type="run"
-          className="opt run"
-          data-disabled={!item.npm}
+          loading={loadings.dir}
+          type="dir"
+          className="opt dir"
           onClick={() =>
-            setLoadings(handle?.NodeThread?.dev?.(item, true), 'run')
+            setLoadings(
+              window.api.invoke('cmd', `explorer "${item.path}"`),
+              'dir',
+            )
           }
         />
         <Icon
-          loading={
-            loadings.stop || viewLoadings.stopAll || viewLoadings.findAll
-          }
-          type="stop"
-          className="opt stop"
-          onClick={() =>
-            setLoadings(handle.NodeThread.stopModule(item, true), 'stop')
-          }
+          loading={loadings.git}
+          type="git"
+          className="opt git"
+          onClick={() => setLoadings(handle.git(item), 'git')}
         />
-
+        <Icon
+          loading={loadings.vscode}
+          type="vscode"
+          className="opt open"
+          onClick={() => {
+            setLoadings(window.api.invoke('cmd', `code ${item.path}`), 'vscode')
+          }}
+        />
         {item?.web && (
           <>
             {/* <Icon
@@ -85,28 +96,22 @@ const Module = (props: ModuleProps & { item: ObjectType }) => {
           </>
         )}
         <Icon
-          loading={loadings.git}
-          type="git"
-          className="opt git"
-          onClick={() => setLoadings(handle.git(item), 'git')}
-        />
-        <Icon
-          loading={loadings.vscode}
-          type="vscode"
-          className="opt open"
-          onClick={() => {
-            setLoadings(window.api.invoke('cmd', `code ${item.path}`), 'vscode')
-          }}
-        />
-        <Icon
-          loading={loadings.dir}
-          type="dir"
-          className="opt dir"
+          loading={loadings.run || viewLoadings.stopAll || viewLoadings.findAll}
+          type="run"
+          className="opt run"
+          data-disabled={!item.npm}
           onClick={() =>
-            setLoadings(
-              window.api.invoke('cmd', `explorer "${item.path}"`),
-              'dir',
-            )
+            setLoadings(handle?.NodeThread?.dev?.(item, true), 'run')
+          }
+        />
+        <Icon
+          loading={
+            loadings.stop || viewLoadings.stopAll || viewLoadings.findAll
+          }
+          type="stop"
+          className="opt stop alway-show"
+          onClick={() =>
+            setLoadings(handle.NodeThread.stopModule(item, true), 'stop')
           }
         />
       </span>
@@ -133,8 +138,8 @@ export function Modules(props: ModuleProps) {
   }
 
   const reload = async () => {
-    if (!state.setting?.path) return
-    const modules = await getModules(state.setting.path)
+    if (!state.sysSetting?.path) return
+    const modules = await getModules(state.sysSetting.path)
     if (!state.selectGitModule?.path) state.selectGitModule = modules[0]
     handle.setState({ modules })
     handle.renderState()
@@ -154,9 +159,7 @@ export function Modules(props: ModuleProps) {
               icon={<Icon type="edit" />}
               loading={loadings.edit}
               onClick={() => setLoadings(openConfFile(), 'edit')}
-            >
-              Edit
-            </Button>
+            />
             <Button
               loading={
                 loadings.reload || viewLoadings.stopAll || viewLoadings.findAll
@@ -167,10 +170,12 @@ export function Modules(props: ModuleProps) {
             />
           </div>
         </div>
-        <div className="root-layout-home-view-modules-container grid overflow-y gap">
-          {state?.modules?.map?.((item, i) => (
-            <Module key={i} item={item} h={props.h} />
-          ))}
+        <div className="p" style={{ paddingTop: 10 }}>
+          <div className="root-layout-home-view-modules-container grid overflow-y">
+            {state?.modules?.map?.((item, i) => (
+              <Module key={i} item={item} h={props.h} />
+            ))}
+          </div>
         </div>
       </div>
     </div>

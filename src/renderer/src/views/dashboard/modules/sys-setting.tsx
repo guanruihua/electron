@@ -9,6 +9,7 @@ export function SysSetting(props: ModuleProps) {
   const { state, handle } = props.h
   const [form]: any[] = Form.useForm()
   const [loading, setLoading] = useLoading()
+  const [edit, setEdit] = React.useState<boolean>(false)
 
   const init = async (force: boolean = false) => {
     if (!force) {
@@ -71,11 +72,18 @@ export function SysSetting(props: ModuleProps) {
   }
 
   return (
-    <div className="root-layout-home-view-setting">
-      <div className="module-bg w flex gap col">
+    <div
+      className="root-layout-home-view-setting"
+      data-disabled={!state?.sysSetting?.path}
+    >
+      <div className="module-bg w flex gap col" style={{ paddingBottom: 0 }}>
         <div className="flex space-between items-center">
           <h4>System Setting</h4>
           <div className="flex gap">
+            <Button
+              icon={<Icon type="edit" />}
+              onClick={() => setEdit((v) => !v)}
+            />
             <Button
               loading={loading}
               icon={<Icon type="reload" style={{ fontSize: 16 }} />}
@@ -84,7 +92,7 @@ export function SysSetting(props: ModuleProps) {
             />
           </div>
         </div>
-        <div style={{ zoom: '.9', paddingTop: 20 }}>
+        <div style={{ zoom: '.9', paddingTop: 10 }}>
           <Form form={form} layout="vertical">
             <Form.Item label={'Setting Path'} data-form-name={'path'}>
               <Space.Compact style={{ width: '100%' }}>
@@ -102,25 +110,27 @@ export function SysSetting(props: ModuleProps) {
                 </Space.Addon>
               </Space.Compact>
             </Form.Item>
-            <div className="flex gap">
-              <Button
-                icon={<Icon type='save'/>}
-                loading={loading}
-                htmlType="submit"
-                onClick={() => {
-                  setLoading(submit())
-                }}
-              >
-                Save
-              </Button>
-              <Button
-                icon={<Icon type='reload'/>}
-                loading={loading}
-                onClick={() => form.setFieldsValue(state?.setting || {})}
-              >
-                Reset
-              </Button>
-            </div>
+            {edit && (
+              <div className="flex gap pb">
+                <Button
+                  icon={<Icon type="save" />}
+                  loading={loading}
+                  htmlType="submit"
+                  onClick={() => {
+                    setLoading(submit())
+                  }}
+                >
+                  Save
+                </Button>
+                <Button
+                  icon={<Icon type="reload" />}
+                  loading={loading}
+                  onClick={() => form.setFieldsValue(state?.setting || {})}
+                >
+                  Reset
+                </Button>
+              </div>
+            )}
           </Form>
         </div>
       </div>

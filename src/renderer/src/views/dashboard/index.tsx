@@ -16,13 +16,19 @@ export default function DashboardView() {
     <div
       className="root-layout-home-view h w overflow-y grid gap p"
       style={{
-        gridTemplateColumns: '1fr 1fr',
+        gridTemplateColumns: '7fr 5fr',
         height: 'var(--h)',
       }}
     >
       <div className="flex gap col">
         <Modules h={h} />
-        <RunningApp h={h} />
+        <div className="grid gap" style={{ gridTemplateColumns: '3fr 2fr' }}>
+          <RunningApp h={h} />
+          <div className="flex col gap">
+            <UserSetting h={h} />
+            <SysSetting h={h} />
+          </div>
+        </div>
       </div>
 
       <div
@@ -45,8 +51,6 @@ export default function DashboardView() {
               <div className="flex gap col">
                 <Info />
                 <Opt h={h} />
-                <UserSetting h={h} />
-                <SysSetting h={h} />
               </div>
             }
           />

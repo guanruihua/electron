@@ -57,7 +57,7 @@ export default function RunningApp(props: ModuleProps) {
     <div className="root-layout-home-view-running-app">
       <div className="module-bg" style={{ padding: 0 }}>
         <div
-          className="flex space-between items-center mb"
+          className="flex space-between items-center"
           style={{ padding: '20px 20px 0' }}
         >
           <h4>Running App</h4>
@@ -106,7 +106,7 @@ export default function RunningApp(props: ModuleProps) {
                       alignItems: 'center',
                     }}
                   >
-                    <div className="text-14">
+                    <div className="text-12">
                       {item.title} ({item.name})
                     </div>
                     <Icon

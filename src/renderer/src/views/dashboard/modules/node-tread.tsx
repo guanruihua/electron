@@ -32,30 +32,33 @@ export function NodeTread(props: ModuleProps) {
       </div>
       {isArray(state?.NodeTreads) && state.NodeTreads.length > 0 && (
         <div
-          className="grid gap all-node-tread border-radius"
+          className="grid all-node-tread border-radius"
           style={{
             gridTemplateColumns: '1fr 100px 100px auto',
-            paddingTop: 20,
+            paddingTop: 10,
           }}
         >
           {['项目', 'PID', '内存', ''].map((item, i) => (
-            <div key={i} className="flex items-center bold">
+            <div key={i} className="flex items-center bold text-12">
               {item}
             </div>
           ))}
-          <div className="grid-span-full border-b" />
+          <div
+            className="grid-span-full"
+            style={{ paddingTop: 10, borderBottom: '2px solid rgba(255, 255, 255, .3)' }}
+          />
           {state.NodeTreads.map((row: any, i) => {
             const key = `nt_${i}`
             return (
               <React.Fragment key={i}>
                 <div
-                  className="node-tread-row-title flex items-center"
+                  className="node-tread-row-title flex items-center text-12"
                   data-pid={row.pid}
                 >
                   {row.title || 'Node'}
                 </div>
-                <div className="flex items-center">{row.pid}</div>
-                <div className="flex items-center">
+                <div className="flex items-center text-12">{row.pid}</div>
+                <div className="flex items-center text-12">
                   {row.memory}
                   {row.unit || 'K'}
                 </div>

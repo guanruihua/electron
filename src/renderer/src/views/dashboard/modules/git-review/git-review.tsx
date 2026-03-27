@@ -74,7 +74,7 @@ export function GitReview(
       <div className="module-bg w flex gap col root-layout-home-view-git-review-module-bg">
         <div
           className="flex space-between items-center"
-          style={{ paddingBottom: 20 }}
+          style={{ paddingBottom: 10 }}
         >
           <div className="flex row gap">
             <Icon type="git" />

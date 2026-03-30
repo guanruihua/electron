@@ -1,4 +1,4 @@
-import { isObject, isString } from 'asura-eye'
+import { isArray, isObject, isString } from 'asura-eye'
 import fs from 'fs'
 import path from 'path'
 
@@ -36,7 +36,7 @@ async function createPathIfNotExist(payload: any) {
 }
 
 const checkPath = async (target: any) => {
-  console.log(target)
+  // console.log(target)
   return target
 }
 const readFile = async (payload) => {
@@ -48,16 +48,26 @@ const readFile = async (payload) => {
         console.log('@ ~ readFile ~ error:', error)
         return rs(-1)
       }
-      console.log(data)
+      // console.log(data)
       rs(data)
     })
   })
 }
 const saveFile = async (payload) => {
-  const { path, data } = payload
+  const { path, data, format = true } = payload
+  const getDataStr = () => {
+    try {
+      if (isString(data)) return data
+      if (isObject(data) || isArray(data))
+        return format ? JSON.stringify(data, null, 2) : JSON.stringify(data)
+      return ''
+    } catch {
+      return ''
+    }
+  }
+  const dataStr = getDataStr()
   if (!isString(path)) return
   return new Promise((rs) => {
-    const dataStr = isObject(data) ? JSON.stringify(data, null, 2) : data
     fs.writeFile(path, dataStr, 'utf8', (error) => {
       if (error) {
         console.log('@ ~ writeFile ~ error:', error)

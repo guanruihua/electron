@@ -6,6 +6,8 @@ declare global {
   interface Window {
     electron: ElectronAPI
     api: {
+      on(eventName: string, callback: (data: ObjectType) => void): void
+      off(eventName: string, callback: (data: ObjectType) => void): void
       onNewTab(callback: (data: ObjectType) => void): void
       openMaskWindow(): void
       resizeMaskWindow(zoom: number): void
@@ -41,7 +43,7 @@ declare global {
        */
       invoke: (
         type: 'toggleDevTools' | 'cmd' | 'dev' | 'fs' | 'cmdResult' | 'updateApps' | 'getLocalIP' | 'getFileTree' | 'getRunningApp' 
-        | 'stopAppByName' | 'getUserDataPath',
+        | 'stopAppByName' | 'getUserDataPath' | 'copy',
         conf?: ObjectType | string | number,
       ) => Promise<any>
       test: (conf: any) => Promise<any>

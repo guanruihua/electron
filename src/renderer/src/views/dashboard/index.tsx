@@ -9,6 +9,7 @@ import { QuickStart } from './modules/quick-start'
 import { Info } from './modules/info/info'
 import RunningApp from './modules/running-app'
 import { UserSetting } from './modules/user-setting'
+import ClipboardDashboard from './modules/clipboard'
 
 export default function DashboardView() {
   const h = useHomeView()
@@ -31,30 +32,23 @@ export default function DashboardView() {
         </div>
       </div>
 
-      <div
-        className="grid gap"
-        style={{
-          gridTemplateColumns: '3fr 2fr',
-          gridTemplateRows: 'auto 1fr',
-        }}
-      >
-        <div style={{ gridColumn: '1 / -1' }}>
-          <GitReview
-            h={h}
-            left={
-              <div className="flex gap col">
-                <QuickStart h={h} />
-                <NodeTread h={h} />
-              </div>
-            }
-            right={
-              <div className="flex gap col">
-                <Info />
-                <Opt h={h} />
-              </div>
-            }
-          />
-        </div>
+      <div className="flex gap col">
+        <ClipboardDashboard h={h} />
+        <GitReview
+          h={h}
+          left={
+            <div className="flex gap col">
+              <QuickStart h={h} />
+              <NodeTread h={h} />
+            </div>
+          }
+          right={
+            <div className="flex gap col">
+              <Info />
+              <Opt h={h} />
+            </div>
+          }
+        />
       </div>
       {h.context}
     </div>

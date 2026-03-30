@@ -34,6 +34,7 @@ export type IconType =
   | 'git'
   | 'check'
   | 'edit'
+  | 'copy'
 
 interface IconProps extends React.DOMAttributes<SVGSVGElement> {
   style?: React.CSSProperties
@@ -76,6 +77,38 @@ export function Icon(props: IconProps) {
           fill="currentColor"
           d="M20 12h2A10 10 0 0 0 12 2V4A8 8 0 0 1 20 12Z"
           transform="rotate(360 12 12)"
+        ></path>
+      </svg>
+    )
+  }
+  if (type === 'copy') {
+    return (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="1em"
+        height="1em"
+        viewBox="0 0 512 512"
+        {...rest}
+      >
+        <rect
+          width={336}
+          height={336}
+          x={128}
+          y={128}
+          fill="none"
+          stroke="currentColor"
+          strokeLinejoin="round"
+          strokeWidth={32}
+          rx={57}
+          ry={57}
+        ></rect>
+        <path
+          fill="none"
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={32}
+          d="m383.5 128l.5-24a56.16 56.16 0 0 0-56-56H112a64.19 64.19 0 0 0-64 64v216a56.16 56.16 0 0 0 56 56h24"
         ></path>
       </svg>
     )

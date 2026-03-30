@@ -24,7 +24,7 @@ export async function getRunningApp() {
       maxBuffer: 10 * 1024 * 1024, // 10MB，确保足够
     })
     if (stderr) console.warn('stderr:', stderr)
-    console.log(stdout)
+    // console.log(stdout)
     return parseTable(stdout)
   } catch (error) {
     console.error('获取进程列表失败:', error)

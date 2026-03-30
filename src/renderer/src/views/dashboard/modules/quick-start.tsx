@@ -59,16 +59,17 @@ export const QuickStart = (props: ModuleProps) => {
     },
     startGroup() {
       if (!state?.setting) return
+      setLoading(true)
       const { quickStarts, selectedQuickStart } = state.setting
       if (
         !isNumber(selectedQuickStart) ||
         !isArray(quickStarts) ||
         quickStarts.length < 1
       )
-        return
+        return setLoading(false)
       const list = quickStarts[selectedQuickStart]
-      if (!isArray(list) || list.length < 1) return
-      setLoading(Promise.all(list.map(startApp)))
+      if (!isArray(list) || list.length < 1) return setLoading(false)
+      return setLoading(Promise.all(list.map(startApp)))
     },
     addApp() {
       setLoading(1000)

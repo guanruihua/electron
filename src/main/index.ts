@@ -7,12 +7,14 @@ import { registerShortcuts } from './register/shortcuts'
 import webPreferences from './webPreferences'
 // import { cmd } from './helper'
 import { on_webview } from './on/webview'
+import { onClipboard } from './on/clipboard'
 
 app.disableHardwareAcceleration()
 app.commandLine.appendSwitch('disable-renderer-backgrounding')
 app.commandLine.appendSwitch('disable-background-timer-throttling')
 
 let mainWindow: BrowserWindow
+let clipboardTimer: NodeJS.Timeout | null = null
 
 function createWindow(): void {
   const persistentSession = session.fromPartition('persist:mycache', {
@@ -59,6 +61,9 @@ function createWindow(): void {
   registerShortcuts(mainWindow)
   on_webview(mainWindow)
 
+  clipboardTimer && clearInterval(clipboardTimer)
+  clipboardTimer = onClipboard(mainWindow)
+  
   // 主窗口的快捷键拦截
   mainWindow.webContents.on('before-input-event', (event, input) => {
     // console.log("createWindow ~ input:", input)
@@ -149,5 +154,6 @@ app.on('window-all-closed', async () => {
     //   await stopServer(expressServer)
     // }
     app.quit()
+    clipboardTimer && clearInterval(clipboardTimer)
   }
 })

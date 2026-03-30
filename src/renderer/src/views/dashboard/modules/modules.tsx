@@ -18,7 +18,13 @@ const Module = (props: ModuleProps & { item: ObjectType }) => {
   if (isString(item?.type) && item.type.toLowerCase() === 'group')
     return (
       <React.Fragment>
-        <div className="grid-span-full" style={{ borderBottom: '2px solid rgba(255,255,255, .2)', marginBottom: 10 }} />
+        <div
+          className="grid-span-full"
+          style={{
+            borderBottom: '2px solid rgba(255,255,255, .2)',
+            marginBottom: 10,
+          }}
+        />
         <div className="grid-span-full">
           <div className="bold text-12 pointer border-bottom">
             {item.label || item.path}
@@ -47,6 +53,25 @@ const Module = (props: ModuleProps & { item: ObjectType }) => {
     >
       <span className="opt-item-name bold">{item.label || item.path}</span>
       <span className="opt-item-btns flex items-center">
+        <Icon
+          loading={loadings.run || viewLoadings.stopAll || viewLoadings.findAll}
+          type="run"
+          className="opt run"
+          data-disabled={!item.npm}
+          onClick={() =>
+            setLoadings(handle?.NodeThread?.dev?.(item, true), 'run')
+          }
+        />
+        <Icon
+          loading={
+            loadings.stop || viewLoadings.stopAll || viewLoadings.findAll
+          }
+          type="stop"
+          className="opt stop alway-show"
+          onClick={() =>
+            setLoadings(handle.NodeThread.stopModule(item, true), 'stop')
+          }
+        />
         <Icon
           loading={loadings.dir}
           type="dir"
@@ -95,25 +120,6 @@ const Module = (props: ModuleProps & { item: ObjectType }) => {
             />
           </>
         )}
-        <Icon
-          loading={loadings.run || viewLoadings.stopAll || viewLoadings.findAll}
-          type="run"
-          className="opt run"
-          data-disabled={!item.npm}
-          onClick={() =>
-            setLoadings(handle?.NodeThread?.dev?.(item, true), 'run')
-          }
-        />
-        <Icon
-          loading={
-            loadings.stop || viewLoadings.stopAll || viewLoadings.findAll
-          }
-          type="stop"
-          className="opt stop alway-show"
-          onClick={() =>
-            setLoadings(handle.NodeThread.stopModule(item, true), 'stop')
-          }
-        />
       </span>
     </div>
   )

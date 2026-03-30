@@ -1,0 +1,89 @@
+.dashboard-clipboard {
+  .dashboard-module-container {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    background: #000;
+
+    .clipboard-item {
+      display: grid;
+      grid-template-rows: 1fr;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      border: 2px solid rgba(255, 255, 255, .1);
+      background: #141414;
+      border-radius: 12px;
+      transition: all .6s;
+
+      .content {
+        display: flex;
+        align-items: center;
+        padding: 5px 6px;
+        color: rgba(255, 255, 255, .8);
+        font-size: 12px;
+        // background: #191919;
+
+        &.text {
+          // max-height: 100px;
+          // overflow-y: auto;
+          // padding-top: 20px;
+        }
+
+        &.image {
+          img {
+            max-height: 100px;
+            max-width: 100%;
+          }
+
+
+        }
+      }
+
+      .btns {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        padding: 10px;
+
+        svg {
+          width: 24px;
+          height: 24px;
+
+          --size: 18px;
+          --color: rgba(255, 255, 255, .15);
+          cursor: pointer;
+
+          &:hover {
+            --color: rgba(255, 255, 255, .9);
+          }
+        }
+
+        svg,
+        svg rect,
+        svg path {
+          font-size: var(--size);
+          color: var(--color);
+          transition: all .6s;
+        }
+
+        .remove {
+          --color: rgba(255, 0, 0, .6);
+
+          &:hover {
+            --color: rgba(255, 0, 0, .9);
+          }
+        }
+
+      }
+
+      &:hover {
+        border: 2px solid rgba(255, 255, 255, .3);
+
+        svg {
+          --color: rgba(255, 255, 255, .5);
+        }
+
+      }
+    }
+  }
+}

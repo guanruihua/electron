@@ -8,6 +8,9 @@ const api = {
   on: (eventName: string, callback: (data: any) => void) => {
     ipcRenderer.on(eventName, (_event, data) => callback(data))
   },
+  off: (eventName: string, callback: (data: any) => void) => {
+    ipcRenderer.off(eventName, (_event, data) => callback(data))
+  },
   onNewTab: (callback) => {
     ipcRenderer.on('newTabEvent', (_event, data) => callback(data))
   },

@@ -9,7 +9,6 @@ import React from 'react'
 export default function ClipboardDashboard(props: ModuleProps) {
   const { h } = props
   const { handle, state } = h
-  const viewLoadings = h.loadings || {}
 
   const [edit, setEdit] = React.useState<boolean>(false)
   const [loadings, setLoadings] = useLoadings({
@@ -106,11 +105,7 @@ export default function ClipboardDashboard(props: ModuleProps) {
     },
   }
 
-  const onLoad = async () => {
-    handleSelf.reload()
-  }
-
-  const updateListRef = React.useRef((v: any) => {})
+  const updateListRef = React.useRef((_v: any) => {})
 
   React.useEffect(() => {
     updateListRef.current = (data) => {
@@ -119,13 +114,15 @@ export default function ClipboardDashboard(props: ModuleProps) {
   })
 
   React.useEffect(() => {
-    state.initSysSettingSuccess && state.initUserSettingSuccess && onLoad()
-    const handler = (data) => updateListRef.current(data)
-
-    window.api.on('clipboard-updated', handler)
-    return () => {
-      window.api.off('clipboard-updated', handler)
+    if (state.initSysSettingSuccess && state.initUserSettingSuccess) {
+      handleSelf.reload()
+      const handler = (data) => updateListRef.current(data)
+      window.api.on('clipboard-updated', handler)
+      return () => {
+        window.api.off('clipboard-updated', handler)
+      }
     }
+    return
   }, [state.initSysSettingSuccess, state.initUserSettingSuccess])
 
   return (
@@ -149,9 +146,7 @@ export default function ClipboardDashboard(props: ModuleProps) {
               onClick={() => setEdit((_) => !_)}
             />
             <Button
-              loading={
-                loadings.reload || viewLoadings.stopAll || viewLoadings.findAll
-              }
+              loading={loadings.reload}
               icon={<Icon type="reload" style={{ fontSize: 16 }} />}
               className="bolder"
               onClick={() => setLoadings(handleSelf.reload(), 'reload')}

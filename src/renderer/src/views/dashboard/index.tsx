@@ -24,8 +24,14 @@ export default function DashboardView() {
       <div className="flex gap col">
         <Modules h={h} />
         <div className="grid gap" style={{ gridTemplateColumns: '3fr 2fr' }}>
-          <RunningApp h={h} />
           <div className="flex col gap">
+            <QuickStart h={h} />
+            <RunningApp h={h} />
+            <Opt h={h} />
+          </div>
+          <div className="flex col gap">
+            <Info />
+            <NodeTread h={h} />
             <UserSetting h={h} />
             <SysSetting h={h} />
           </div>
@@ -36,18 +42,8 @@ export default function DashboardView() {
         <ClipboardDashboard h={h} />
         <GitReview
           h={h}
-          left={
-            <div className="flex gap col">
-              <QuickStart h={h} />
-              <NodeTread h={h} />
-            </div>
-          }
-          right={
-            <div className="flex gap col">
-              <Info />
-              <Opt h={h} />
-            </div>
-          }
+          left={<div className="flex gap col"></div>}
+          right={<div className="flex gap col"></div>}
         />
       </div>
       {h.context}

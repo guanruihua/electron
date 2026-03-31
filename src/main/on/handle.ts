@@ -15,11 +15,13 @@ import { getRunningApp } from '../helper/get/running-app'
 import { stopAppByName } from '../helper/handle/stop-app'
 import { getUserDataPath } from '../helper/get/user-info'
 import { copy } from '../helper/handle/clipboard'
+import { getClipboard } from './clipboard'
 
 export const ipcMainHandle = (mainWindow: BrowserWindow) => {
   const store = new StoreManager()
   const Conf = {
     copy,
+    getClipboard,
     getUserDataPath,
     stopAppByName,
     getRunningApp,

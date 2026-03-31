@@ -1,0 +1,81 @@
+.dashboard-clipboard {
+  .dashboard-clipboard-container-layout-right {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+
+    svg {
+      --size: 18px;
+      --color: rgba(255, 255, 255, .7);
+      padding: 5px;
+      border: 2px solid rgba(255, 255, 255, .1);
+      border-radius: 8px;
+      width: 36px;
+      height: 36px;
+      cursor: pointer;
+      transition: all .6s;
+
+      &:hover {
+        --color: rgba(255, 255, 255, 1);
+        border-color: rgba(255, 255, 255, .3);
+      }
+    }
+
+    svg,
+    svg rect,
+    svg path {
+      font-size: var(--size);
+      color: var(--color);
+      transition: all .6s;
+    }
+  }
+
+  .btns {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 10px;
+
+    svg {
+      width: 24px;
+      height: 24px;
+
+      --size: 18px;
+      --color: rgba(255, 255, 255, .15);
+      cursor: pointer;
+
+      &:hover {
+        --color: rgba(255, 255, 255, .9);
+      }
+    }
+
+    svg,
+    svg rect,
+    svg path {
+      font-size: var(--size);
+      color: var(--color);
+      transition: all .6s;
+    }
+
+    .remove {
+      --color: rgba(255, 0, 0, .6);
+
+      &:hover {
+        --color: rgba(255, 0, 0, .9);
+      }
+    }
+
+  }
+
+  svg.star {
+    transition: all .6s;
+
+    &:hover {
+      --color: rgba(244, 185, 82, 5) !important;
+    }
+  }
+
+  [data-star='true'] svg.star {
+    --color: rgb(244, 185, 82) !important;
+  }
+}

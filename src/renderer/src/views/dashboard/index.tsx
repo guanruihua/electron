@@ -1,6 +1,5 @@
 import './style/index.less'
 import { Opt } from './modules/opt'
-import { Modules } from './modules/modules'
 import { NodeTread } from './modules/node-tread'
 import { SysSetting } from './modules/sys-setting'
 import { GitReview } from './modules/git-review/git-review'
@@ -9,7 +8,8 @@ import { QuickStart } from './modules/quick-start'
 import { Info } from './modules/info/info'
 import RunningApp from './modules/running-app'
 import { UserSetting } from './modules/user-setting'
-import ClipboardDashboard from './modules/clipboard'
+import ClipboardDashboard from './modules/clipboard/clipboard'
+import ProjectDashboard from './modules/project/project'
 
 export default function DashboardView() {
   const h = useHomeView()
@@ -22,7 +22,7 @@ export default function DashboardView() {
       }}
     >
       <div className="flex gap col">
-        <Modules h={h} />
+        <ProjectDashboard h={h} />
         <div className="grid gap" style={{ gridTemplateColumns: '3fr 2fr' }}>
           <div className="flex col gap">
             <QuickStart h={h} />

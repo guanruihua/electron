@@ -7,7 +7,6 @@ import { registerShortcuts } from './register/shortcuts'
 import webPreferences from './webPreferences'
 // import { cmd } from './helper'
 import { on_webview } from './on/webview'
-import { onClipboard } from './on/clipboard'
 
 app.disableHardwareAcceleration()
 app.commandLine.appendSwitch('disable-renderer-backgrounding')
@@ -62,7 +61,6 @@ function createWindow(): void {
   on_webview(mainWindow)
 
   clipboardTimer && clearInterval(clipboardTimer)
-  clipboardTimer = onClipboard(mainWindow)
   
   // 主窗口的快捷键拦截
   mainWindow.webContents.on('before-input-event', (event, input) => {
@@ -154,6 +152,5 @@ app.on('window-all-closed', async () => {
     //   await stopServer(expressServer)
     // }
     app.quit()
-    clipboardTimer && clearInterval(clipboardTimer)
   }
 })

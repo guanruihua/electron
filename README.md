@@ -33,3 +33,19 @@ $ npm run build:mac
 # For Linux
 $ npm run build:linux
 ```
+
+## 显示电源状态
+
+powerMonitor.onBatteryPower
+boolean 属性。 如果系统处于电池电源状态，则为 true。
+
+## 直接渲染图片
+
+```js
+// 假设你有一个本地图片路径
+const imagePath = 'C:\\Users\\YourName\\Pictures\\photo.jpg';
+
+// 方式1：直接使用 file:// 协议
+const fileUrl = 'file:///' + imagePath.replace(/\\/g, '/');
+document.getElementById('preview').src = fileUrl;
+```

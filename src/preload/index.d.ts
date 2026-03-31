@@ -43,7 +43,7 @@ declare global {
        */
       invoke: (
         type: 'toggleDevTools' | 'cmd' | 'dev' | 'fs' | 'cmdResult' | 'updateApps' | 'getLocalIP' | 'getFileTree' | 'getRunningApp' 
-        | 'stopAppByName' | 'getUserDataPath' | 'copy',
+        | 'stopAppByName' | 'getUserDataPath' | 'copy' | 'getClipboard',
         conf?: ObjectType | string | number,
       ) => Promise<any>
       test: (conf: any) => Promise<any>

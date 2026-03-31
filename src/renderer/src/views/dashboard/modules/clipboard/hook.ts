@@ -123,11 +123,7 @@ export const usePageState = (props: ModuleProps) => {
 
     async reload() {
       const list = await getClipboardList(state)
-      isArray(list) &&
-        setPageState({
-          list,
-          renderList: getRenderList(list, pageState.selectType),
-        })
+      isArray(list) && this.updateList(list)
       return
     },
   }

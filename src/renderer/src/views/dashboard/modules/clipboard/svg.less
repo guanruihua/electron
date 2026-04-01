@@ -32,9 +32,10 @@
 
   .btns {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     gap: 5px;
     padding: 10px;
+    transition: all .6s;
 
     svg {
       width: 24px;
@@ -75,7 +76,26 @@
     }
   }
 
+  .clipboard-item {
+    .btns {
+      visibility: hidden;
+
+
+    }
+
+    &:hover {
+      .btns {
+        visibility: visible;
+
+     
+      }
+    }
+  }
+
   [data-star='true'] svg.star {
+    visibility: visible;
     --color: rgb(244, 185, 82) !important;
   }
+
+
 }

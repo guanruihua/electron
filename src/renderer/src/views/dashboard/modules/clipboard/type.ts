@@ -8,7 +8,6 @@ export interface PageState {
     file: number
     star: number
   }
-  edit?: boolean
   selectType?: string
   list?: ObjectType[]
   renderList?: ObjectType[]

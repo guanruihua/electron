@@ -23,7 +23,6 @@ export const usePageState = (props: ModuleProps) => {
       file: 0,
       star: 0,
     },
-    edit: false,
     selectType: 'all',
     list: [],
     renderList: [],

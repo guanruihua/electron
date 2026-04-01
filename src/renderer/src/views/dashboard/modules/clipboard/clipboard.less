@@ -91,7 +91,7 @@
       }
 
       svg.remove {
-        --color: rgba(255, 0, 0, .6);
+        --color: rgba(255, 0, 0, .4);
 
         &:hover {
           --color: rgba(255, 0, 0, .9);
@@ -126,20 +126,19 @@
       transition: all .6s;
 
       .content {
-        // display: flex;
-        // align-items: center;
         padding: 5px 6px;
+        padding-left: 12px;
         color: rgba(255, 255, 255, .8);
         font-size: 12px;
+        max-height: 200px;
+        overflow-y: auto;
 
-        &.text {
-          max-height: 300px;
-          overflow-y: auto;
-        }
+        // &.text {
+        // }
 
         &.image {
           img {
-            max-height: 100px;
+            min-width: 300px;
             max-width: 100%;
           }
         }

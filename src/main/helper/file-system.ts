@@ -22,9 +22,9 @@ async function createPathIfNotExist(payload: any) {
           rs(-1)
           return console.error(error)
         }
-        console.log(
-          `Path (${finalPath}) It has been confirmed that it exists (if it did not exist, it has been created)`,
-        )
+        // console.log(
+        //   `Path (${finalPath}) It has been confirmed that it exists (if it did not exist, it has been created)`,
+        // )
         rs(1)
       })
     } catch (err) {

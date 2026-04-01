@@ -17,7 +17,7 @@ const cmdResult = (command: string): Promise<any> => {
     cmd.stdout.on('data', (data) => {
       // console.log('Command PID:', cmd.pid)
       result += data
-      console.log(`Output: ${data}`)
+      // console.log(`Output: ${data}`)
     })
 
     // cmd.stderr.on('data', (data) => {
@@ -28,7 +28,7 @@ const cmdResult = (command: string): Promise<any> => {
       // if (command !== 'kill %1') {
       //   run_cmd('kill %1')
       // }
-      console.log(`Process termination, Exit Code: ${code}`)
+      // console.log(`Process termination, Exit Code: ${code}`)
       rs(result)
     })
 
@@ -45,21 +45,21 @@ const dev = (command: string): Promise<any> => {
       shell: true,
     })
     // 实时输出处理
-    cmd.stdout.on('data', (data) => {
+    cmd.stdout.on('data', (_data) => {
       rs(cmd.pid)
-      console.log('Command PID:', cmd.pid)
-      console.log(`Output: ${data}`)
+      // console.log('Command PID:', cmd.pid)
+      // console.log(`Output: ${_data}`)
     })
 
     // cmd.stderr.on('data', (data) => {
     //   console.error(`Error: ${data}`)
     // })
 
-    cmd.on('close', (code) => {
+    cmd.on('close', (_code) => {
       // if (command !== 'kill %1') {
       //   run_cmd('kill %1')
       // }
-      console.log(`Process termination, Exit Code: ${code}`)
+      // console.log(`Process termination, Exit Code: ${_code}`)
       rs(cmd.pid)
     })
 
@@ -78,7 +78,7 @@ const run = (command: string): Promise<any> => {
           rs(-1)
           return
         }
-        console.log('Command / Success:', stdout)
+        // console.log('Command / Success:', stdout)
         rs(stdout)
         return
       })

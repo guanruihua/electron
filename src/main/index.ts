@@ -8,6 +8,7 @@ import webPreferences from './webPreferences'
 // import { cmd } from './helper'
 import { on_webview } from './on/webview'
 
+app.setPath('cache', app.getPath('userData') + '\\Cache');
 app.disableHardwareAcceleration()
 app.commandLine.appendSwitch('disable-renderer-backgrounding')
 app.commandLine.appendSwitch('disable-background-timer-throttling')
@@ -65,7 +66,7 @@ function createWindow(): void {
   // 主窗口的快捷键拦截
   mainWindow.webContents.on('before-input-event', (event, input) => {
     // console.log("createWindow ~ input:", input)
-    console.log('createWindow ~ input.key:', input.key)
+    // console.log('createWindow ~ input.key:', input.key)
     // 拦截 F12
     if (input.key === 'F12') {
       event.preventDefault()

@@ -1,13 +1,14 @@
 import { useLoading } from '@/util'
-import { isString } from 'asura-eye'
+import { isBoolean, isString } from 'asura-eye'
 import { Icon } from '@/components'
 import { Button } from 'antd'
-import dayjs from 'dayjs'
 import React from 'react'
+import { updateCountdown } from './helper'
 
 export function Info() {
   const [loading, setLoading] = useLoading()
   const [LocalIP, setLocalIP] = React.useState('0.0.0.0')
+  const [batteryPower, setBatteryPower] = React.useState(false)
   const [ddl, setDDL] = React.useState('今天不用上班！')
   const [networkName, setNetworkName] = React.useState('')
   const timer = React.useRef<NodeJS.Timeout | null>(null)
@@ -18,46 +19,21 @@ export function Info() {
     if (isString(res)) setNetworkName(res)
   }
 
-  function updateCountdown() {
-    const now = dayjs()
-    if ([0, 6].includes(now.day())) {
-      if (timer.current) clearInterval(timer.current)
-      return '今天不用上班！'
-    }
-    let target = dayjs().hour(18).minute(0).second(0).millisecond(0)
-    if (now.isAfter(target)) {
-      target = target.add(1, 'day')
-    }
-
-    const diffMs = target.diff(now)
-    if (diffMs <= 0) {
-      if (timer.current) clearInterval(timer.current)
-      return '下班啦！'
-    }
-
-    const diffSeconds = Math.floor(diffMs / 1000)
-    const hours = Math.floor(diffSeconds / 3600)
-    const minutes = Math.floor((diffSeconds % 3600) / 60)
-    const seconds = diffSeconds % 60
-    if (hours < 1) {
-      return `距离下班还有：${minutes}分钟 ${seconds}秒`
-    }
-    if (hours < 1 && minutes < 1) {
-      return `距离下班还有：${seconds}秒`
-    }
-    return `距离下班还有：${hours}小时 ${minutes}分钟 ${seconds}秒`
-  }
-
   const init = async () => {
-    await window.api.invoke('getLocalIP').then((LIP) => {
-      if (isString(LIP)) setLocalIP(LIP)
-    })
-    await updateNetworkName()
-    setDDL(updateCountdown())
+    setDDL(updateCountdown(timer))
 
     timer.current = setInterval(() => {
-      setDDL(updateCountdown())
+      setDDL(updateCountdown(timer))
     }, 1000)
+
+    await updateNetworkName()
+
+    const [LIP, BatteryPower] = await window.api.invoke(
+      'getSysInfo',
+      'LocalIP,BatteryPower',
+    )
+    if (isString(LIP)) setLocalIP(LIP)
+    if (isBoolean(BatteryPower)) setBatteryPower(BatteryPower)
     return
   }
 
@@ -81,11 +57,28 @@ export function Info() {
             onClick={() => setLoading(init())}
           />
           <h4>Info</h4>
-          <div className="text-14">{ddl}</div>
-          <h4>Network Name</h4>
-          <div className="text-14">{networkName}</div>
-          <h4>Local IP</h4>
-          <div className="text-14">{LocalIP}</div>
+          <div
+            className="text-14"
+            style={{
+              paddingBottom: 10,
+              borderBottom: '2px solid rgba(255,255,255, .2)',
+            }}
+          >
+            {ddl}
+          </div>
+
+          <div className="flex row gap space-between">
+            <h4>Network Name</h4>
+            <div className="text-14">{networkName}</div>
+          </div>
+          <div className="flex row gap space-between">
+            <h4>Local IP</h4>
+            <div className="text-14">{LocalIP}</div>
+          </div>
+          <div className="flex row gap space-between">
+            <h4>充电中</h4>
+            <div className="text-14">{(!batteryPower).toString()}</div>
+          </div>
         </div>
       </div>
     </div>

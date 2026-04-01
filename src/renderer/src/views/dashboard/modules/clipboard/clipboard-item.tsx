@@ -9,8 +9,7 @@ interface Props {
 }
 
 export function ClipboardItem(props: Props) {
-  const { pageState, handleSelf, item } = props
-  const { edit = false } = pageState
+  const { handleSelf, item } = props
   const { type, data, time, star = 0, num } = item
   const now = Date.now()
 
@@ -22,7 +21,6 @@ export function ClipboardItem(props: Props) {
             className="content image"
             onClick={(e) => {
               e.preventDefault()
-              if (edit) return
               handleSelf.copy(item)
             }}
           >
@@ -35,7 +33,6 @@ export function ClipboardItem(props: Props) {
             title={data}
             onClick={(e) => {
               e.preventDefault()
-              if (edit) return
               handleSelf.copy(item)
             }}
           >
@@ -43,20 +40,16 @@ export function ClipboardItem(props: Props) {
           </div>
         )}
         <div className="btns">
-          {edit && (
-            <Icon
-              className="remove"
-              type="close"
-              onClick={() => handleSelf.del(item)}
-            />
-          )}
-          {(star || edit) && (
-            <Icon
-              className="star"
-              type={star ? 'star-fill' : 'star'}
-              onClick={() => handleSelf.star(item)}
-            />
-          )}
+          <Icon
+            className="remove"
+            type="close"
+            onClick={() => handleSelf.del(item)}
+          />
+          <Icon
+            className="star"
+            type={star ? 'star-fill' : 'star'}
+            onClick={() => handleSelf.star(item)}
+          />
         </div>
       </div>
       <div className="clipboard-item-footer">

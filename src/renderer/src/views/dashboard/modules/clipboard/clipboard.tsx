@@ -51,18 +51,6 @@ export default function ClipboardDashboard(props: ModuleProps) {
             <span className="flex items-center text-12 bold">
               Total: {list?.length || 0}
             </span>
-            <Button
-              disabled={!list?.length}
-              icon={<Icon type="edit" />}
-              loading={loadings.edit}
-              onClick={() => 
-                handleSelf.setPageState({
-                  edit: !pageState?.edit,
-                })
-              }
-            >
-              Setting
-            </Button>
           </ClipboardType>
           <div className="dashboard-clipboard-container">
             {!list.length && (

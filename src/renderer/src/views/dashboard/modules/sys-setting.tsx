@@ -11,27 +11,38 @@ export function SysSetting(props: ModuleProps) {
   const [loading, setLoading] = useLoading()
   const [edit, setEdit] = React.useState<boolean>(false)
 
-  const init = async (force: boolean = false) => {
-    if (!force) {
-      if (state.initSysSettingSuccess) return
-    }
+  const getSysSettingPath = async () => {
     const res = await window.api.invoke('getUserDataPath')
     if (!isString(res)) return
     await window.api.invoke('fs', {
       action: 'createPathIfNotExist',
-      payload: { path: res + '\\electron', isFile: false },
+      payload: { path: res + '\\Cache\\electron', isFile: false },
     })
-    const sysSettingPath = res + '\\electron\\setting.json'
+    const sysSettingPath =  res + '\\Cache\\electron\\setting.json'
+
     await window.api.invoke('fs', {
       action: 'createPathIfNotExist',
       payload: { path: sysSettingPath, isFile: true },
     })
+
+    return sysSettingPath
+  }
+
+  const init = async (force: boolean = false) => {
+    if (!force) {
+      if (state.initSysSettingSuccess) return
+    }
+
+    const sysSettingPath = await getSysSettingPath()
+    if(!sysSettingPath) return
     const sysSetting = getJSON(
       await window.api.invoke('fs', {
         action: 'readFile',
         payload: { path: sysSettingPath },
       }),
-      {},
+      {
+        path: 'D:\\Data\\electron',
+      },
     )
     handle.setState({ sysSetting, initSysSettingSuccess: true })
     handle.renderState()
@@ -55,9 +66,8 @@ export function SysSetting(props: ModuleProps) {
         sysSetting: newSysSetting,
       })
       handle.renderState()
-      const res = await window.api.invoke('getUserDataPath')
-      if (!isString(res)) return
-      const sysSettingPath = res + '\\electron\\setting.json'
+    
+      const sysSettingPath = await getSysSettingPath()
 
       await window.api.invoke('fs', {
         action: 'saveFile',
@@ -101,7 +111,7 @@ export function SysSetting(props: ModuleProps) {
                   name={'path'}
                   rules={[{ message: 'It cannot be empty.', required: true }]}
                 >
-                  <Input readOnly={loading} />
+                  <Input readOnly={loading || !edit} />
                 </Form.Item>
                 <Space.Addon className="badge-status" data-type="1">
                   <Icon className="status-1" type="badge-success" />
@@ -118,6 +128,7 @@ export function SysSetting(props: ModuleProps) {
                   htmlType="submit"
                   onClick={() => {
                     setLoading(submit())
+                    setEdit(false)
                   }}
                 >
                   Save

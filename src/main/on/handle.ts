@@ -7,7 +7,6 @@ import {
   /* getStartMenu,  */ StoreManager,
   cmd,
   FileSystem,
-  getLocalIP,
 } from '../helper'
 import { updateApps } from '../helper/updateApps'
 import { getFileTree } from '../helper/get/file-tree'
@@ -16,31 +15,32 @@ import { stopAppByName } from '../helper/handle/stop-app'
 import { getUserDataPath } from '../helper/get/user-info'
 import { copy } from '../helper/handle/clipboard'
 import { getClipboard } from './clipboard'
+import { getSysInfo } from '../helper/get/sys-info/sys-info'
 
 export const ipcMainHandle = (mainWindow: BrowserWindow) => {
   const store = new StoreManager()
   const Conf = {
     copy,
+    getSysInfo,
     getClipboard,
     getUserDataPath,
     stopAppByName,
     getRunningApp,
     getFileTree,
-    getLocalIP,
     updateApps,
     fs: async (_e, target: ObjectType | string) => FileSystem(target),
     cmd: async (_e, conf: ObjectType | string) => {
-      console.log('Command:', conf)
+      // console.log('Command:', conf)
       if (isString(conf)) return await cmd.run(conf)
       return undefined
     },
     cmdResult: async (_e, conf: ObjectType | string) => {
-      console.log('Command:', conf)
+      // console.log('Command:', conf)
       if (isString(conf)) return await cmd.cmdResult(conf)
       return undefined
     },
     dev: async (_e, conf: ObjectType | string) => {
-      console.log('Server Command:', conf)
+      // console.log('Server Command:', conf)
       if (isString(conf)) return await cmd.dev(conf)
       return undefined
     },

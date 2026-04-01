@@ -42,9 +42,21 @@ declare global {
        * 'getLocalIP' 获取本机IP
        */
       invoke: (
-        type: 'toggleDevTools' | 'cmd' | 'dev' | 'fs' | 'cmdResult' | 'updateApps' | 'getLocalIP' | 'getFileTree' | 'getRunningApp' 
-        | 'stopAppByName' | 'getUserDataPath' | 'copy' | 'getClipboard',
-        conf?: ObjectType | string | number,
+        type:
+          | 'toggleDevTools'
+          | 'cmd'
+          | 'dev'
+          | 'fs'
+          | 'cmdResult'
+          | 'updateApps'
+          | 'getSysInfo'
+          | 'getFileTree'
+          | 'getRunningApp'
+          | 'stopAppByName'
+          | 'getUserDataPath'
+          | 'copy'
+          | 'getClipboard',
+        conf?: ObjectType | string | number | any[],
       ) => Promise<any>
       test: (conf: any) => Promise<any>
     }

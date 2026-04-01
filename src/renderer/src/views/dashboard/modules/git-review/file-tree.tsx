@@ -37,7 +37,7 @@ export const FileTree = (props: Props) => {
             data-dir={isDirectory}
           >
             <div
-              className="flex space-between px items-center"
+              className="flex space-between pl items-center"
               style={{ height: 24 }}
             >
               <div
@@ -67,13 +67,13 @@ export const FileTree = (props: Props) => {
                     <Icon type="file" />
                   )}
                 </div>
-                <div className="name text-12 flex items-center justify-center">
+                <div className="name text-10 flex items-center justify-center">
                   {item.name}
                 </div>
               </div>
               <div className="flex items-center justify-center">
                 {/* <div className='mr'>+</div> */}
-                <div className="status text-14 bold pl flex items-center justify-center">
+                <div className="status text-12 bold pl flex items-center justify-center">
                   {statusCode === '??' ? 'U' : statusCode}
                 </div>
               </div>

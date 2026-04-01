@@ -1,4 +1,3 @@
-import React from 'react'
 import { Button, Input } from 'antd'
 import { ModuleProps } from '@/type'
 import { FileTree } from './file-tree'
@@ -6,10 +5,8 @@ import { Icon } from '@/components'
 import { usePageState } from './hook'
 import './git-review.less'
 
-export function GitReview(
-  props: ModuleProps & { left: React.ReactNode; right: React.ReactNode },
-) {
-  const { h, left, right } = props
+export function GitReview(props: ModuleProps) {
+  const { h } = props
 
   const {
     init,
@@ -49,26 +46,26 @@ export function GitReview(
       </div>
       <div className="root-layout-home-view-git-review-container">
         <div className="git-container p border-radius">
-        <div className="controls">
-          <Input.TextArea
-            readOnly={loading}
-            autoSize={{ minRows: 1, maxRows: 10 }}
-            value={commitMsg}
-            onChange={(e) => {
-              const value = e.target.value
-              setPageState({
-                commitMsg: value || '',
-              })
-            }}
-          />
-          <Button
-            loading={loading}
-            icon={<Icon type="check" style={{ fontSize: 16 }} />}
-            onClick={() => handlePush()}
-          >
-            Push
-          </Button>
-        </div>
+          <div className="controls">
+            <Input.TextArea
+              readOnly={loading}
+              autoSize={{ minRows: 1, maxRows: 10 }}
+              value={commitMsg}
+              onChange={(e) => {
+                const value = e.target.value
+                setPageState({
+                  commitMsg: value || '',
+                })
+              }}
+            />
+            <Button
+              loading={loading}
+              icon={<Icon type="check" style={{ fontSize: 16 }} />}
+              onClick={() => handlePush()}
+            >
+              Push
+            </Button>
+          </div>
           <div
             className="overflow-y bg border-radius"
             style={{

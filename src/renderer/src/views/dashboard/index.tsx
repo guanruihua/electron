@@ -21,24 +21,20 @@ export default function DashboardView() {
         height: 'var(--h)',
       }}
     >
-      <div className="flex col gap">
+      <div className="dashboard-layout-col">
         <Info />
         <QuickStart h={h} />
         <RunningApp h={h} />
         <NodeTread h={h} />
       </div>
 
-      <div className="flex gap col">
+      <div className="dashboard-layout-col">
         <ProjectDashboard h={h} />
         <Opt h={h} />
       </div>
 
-      <div className="flex gap col">
-        <GitReview
-          h={h}
-          left={<div className="flex gap col"></div>}
-          right={<div className="flex gap col"></div>}
-        />
+      <div className="dashboard-layout-col">
+        <GitReview h={h} />
         <UserSetting h={h} />
         <SysSetting h={h} />
       </div>

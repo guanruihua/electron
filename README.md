@@ -34,11 +34,6 @@ $ npm run build:mac
 $ npm run build:linux
 ```
 
-## 显示电源状态
-
-powerMonitor.onBatteryPower
-boolean 属性。 如果系统处于电池电源状态，则为 true。
-
 ## 直接渲染图片
 
 ```js

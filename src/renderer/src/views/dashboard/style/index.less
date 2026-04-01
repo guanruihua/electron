@@ -4,7 +4,20 @@
 @import url(./opt.less);
 
 .root-layout-home-view {
+  h4{
+    font-size: 14px;
+  }
   background-color: #000000;
+
+  .dashboard-layout-col {
+    &>div {
+      margin-bottom: 10px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
 
   .module-bg {
     border-radius: 12px;

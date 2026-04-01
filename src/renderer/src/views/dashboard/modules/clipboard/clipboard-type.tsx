@@ -32,7 +32,7 @@ export default function ClipboardType(props: Props) {
             className="dashboard-clipboard-type"
           >
             {_.label}
-            {counts?.[_.value] ? (
+            {_.value !== 'all' && counts?.[_.value] ? (
               <span> · {counts[_.value] > 99 ? '99+' : counts[_.value]}</span>
             ) : (
               <span />

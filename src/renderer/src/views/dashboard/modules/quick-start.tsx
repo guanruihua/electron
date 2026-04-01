@@ -141,6 +141,12 @@ export const QuickStart = (props: ModuleProps) => {
               loading={loading}
               onClick={() => {
                 setEdit(!edit)
+                if (state?.setting)
+                  setSelect(
+                    state.setting.quickStarts?.[
+                      state.setting?.selectedQuickStart || 0
+                    ] || [],
+                  )
               }}
             />
             {state.apps?.length && state.setting?.quickStarts && (

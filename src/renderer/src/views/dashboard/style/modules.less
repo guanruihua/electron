@@ -1,12 +1,8 @@
 .root-layout-home-view-modules {
-  .grid-layout {
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  }
 
   &-container {
     min-height: 100px;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    max-height: calc(var(--h) - 150px);
+    max-height: calc(var(--h) - 10px);
     padding: 10px;
     border-radius: 12px;
     background: #000;
@@ -34,6 +30,7 @@
     }
 
     &-btns {
+      height: 26px;
       justify-content: flex-start;
 
       svg {
@@ -48,11 +45,6 @@
     }
 
     &:hover {
-      .opt-item-name {
-        margin-left: -2px;
-        font-size: 13px;
-      }
-
       .opt-item-btns svg {
         opacity: .9;
       }
@@ -60,8 +52,6 @@
 
     &[data-start="1"] {
       .opt-item-name {
-        font-size: 13px;
-        margin-left: -2px;
         color: var(--success) !important;
       }
     }

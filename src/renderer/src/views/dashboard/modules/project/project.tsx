@@ -56,7 +56,7 @@ export default function ProjectDashboard(props: ModuleProps) {
           </div>
         </div>
         <div className="p" style={{ paddingTop: 10 }}>
-          <div className="root-layout-home-view-modules-container grid overflow-y">
+          <div className="root-layout-home-view-modules-container overflow-y">
             {state?.modules?.map?.((item, i) => (
               <Module key={i} item={item} h={props.h} />
             ))}

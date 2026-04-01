@@ -4,6 +4,7 @@ import { Icon } from '@/components'
 import { Button } from 'antd'
 import React from 'react'
 import { updateCountdown } from './helper'
+import './info.less'
 
 export function Info() {
   const [loading, setLoading] = useLoading()
@@ -46,7 +47,7 @@ export function Info() {
   }, [])
 
   return (
-    <div className="root-layout-home-view-info">
+    <div className="root-layout-home-view-info dashboard-info">
       <div className="module-bg gap">
         <div className="flex col gap relative">
           <Button
@@ -67,17 +68,17 @@ export function Info() {
             {ddl}
           </div>
 
-          <div className="flex row gap space-between">
+          <div className="dashboard-info-row">
             <h4>Network Name</h4>
-            <div className="text-14">{networkName}</div>
+            <div>{networkName}</div>
           </div>
-          <div className="flex row gap space-between">
+          <div className="dashboard-info-row">
             <h4>Local IP</h4>
-            <div className="text-14">{LocalIP}</div>
+            <div>{LocalIP}</div>
           </div>
-          <div className="flex row gap space-between">
+          <div className="dashboard-info-row">
             <h4>充电中</h4>
-            <div className="text-14">{(!batteryPower).toString()}</div>
+            <div>{(!batteryPower).toString()}</div>
           </div>
         </div>
       </div>

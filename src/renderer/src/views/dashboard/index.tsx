@@ -17,34 +17,33 @@ export default function DashboardView() {
     <div
       className="root-layout-home-view h w overflow-y grid gap p"
       style={{
-        gridTemplateColumns: '7fr 5fr',
+        gridTemplateColumns: '4fr 2fr 4fr 4fr',
         height: 'var(--h)',
       }}
     >
-      <div className="flex gap col">
-        <ProjectDashboard h={h} />
-        <div className="grid gap" style={{ gridTemplateColumns: '3fr 2fr' }}>
-          <div className="flex col gap">
-            <QuickStart h={h} />
-            <RunningApp h={h} />
-            <Opt h={h} />
-          </div>
-          <div className="flex col gap">
-            <Info />
-            <NodeTread h={h} />
-            <UserSetting h={h} />
-            <SysSetting h={h} />
-          </div>
-        </div>
+      <div className="flex col gap">
+        <Info />
+        <QuickStart h={h} />
+        <RunningApp h={h} />
+        <NodeTread h={h} />
       </div>
 
       <div className="flex gap col">
-        <ClipboardDashboard h={h} />
+        <ProjectDashboard h={h} />
+        <Opt h={h} />
+      </div>
+
+      <div className="flex gap col">
         <GitReview
           h={h}
           left={<div className="flex gap col"></div>}
           right={<div className="flex gap col"></div>}
         />
+        <UserSetting h={h} />
+        <SysSetting h={h} />
+      </div>
+      <div className="flex gap col">
+        <ClipboardDashboard h={h} />
       </div>
       {h.context}
     </div>

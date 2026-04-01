@@ -5,7 +5,6 @@ import icon from '../../resources/icon.png?asset'
 import { ipcMainHandle } from './on/handle'
 import { registerShortcuts } from './register/shortcuts'
 import webPreferences from './webPreferences'
-// import { cmd } from './helper'
 import { on_webview } from './on/webview'
 
 app.setPath('cache', app.getPath('userData') + '\\Cache');
@@ -32,7 +31,6 @@ function createWindow(): void {
     autoHideMenuBar: true, // 自动隐藏菜单栏（按 Alt 键显示）
     center: true,
     backgroundColor: '#00000000',
-    // backgroundColor: '#00000000',
     // transparent: true,
     // ...(process.platform === 'linux' ? { icon } : {}),
     webPreferences: {

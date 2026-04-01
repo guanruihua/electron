@@ -48,7 +48,7 @@ export default function ClipboardDashboard(props: ModuleProps) {
         </div>
         <div className="p" style={{ paddingTop: 10 }}>
           <ClipboardType pageState={pageState}  handleSelf={handleSelf}>
-            <span className="flex items-center text-12 bold">
+            <span className="flex items-center text-10 bold">
               Total: {list?.length || 0}
             </span>
           </ClipboardType>

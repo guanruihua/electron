@@ -2,6 +2,7 @@ import { ObjectType } from '0type'
 import { Options } from './conf'
 import { ReactNode } from 'react'
 import { PageState } from './type'
+import { getRenderList } from './helper'
 
 interface Props {
   pageState: PageState
@@ -23,6 +24,7 @@ export default function ClipboardType(props: Props) {
               e.preventDefault()
               handleSelf.setPageState({
                 selectType: _.value,
+                renderList: getRenderList(pageState.list || [], _.value),
               })
             }}
             data-disabled={!counts?.[_.value]}
@@ -30,7 +32,11 @@ export default function ClipboardType(props: Props) {
             className="dashboard-clipboard-type"
           >
             {_.label}
-            {counts?.[_.value] ? <span> · {counts[_.value]}</span> : <span />}
+            {counts?.[_.value] ? (
+              <span> · {counts[_.value] > 99 ? '99+' : counts[_.value]}</span>
+            ) : (
+              <span />
+            )}
           </div>
         ))}
       </div>

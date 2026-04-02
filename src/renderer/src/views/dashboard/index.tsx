@@ -23,9 +23,9 @@ export default function DashboardView() {
     >
       <div className="dashboard-layout-col">
         <Info />
-        <QuickStart h={h} />
-        <RunningApp h={h} />
         <NodeTread h={h} />
+        <UserSetting h={h} />
+        <SysSetting h={h} />
       </div>
 
       <div className="dashboard-layout-col">
@@ -34,9 +34,9 @@ export default function DashboardView() {
       </div>
 
       <div className="dashboard-layout-col">
+        <QuickStart h={h} />
         <GitReview h={h} />
-        <UserSetting h={h} />
-        <SysSetting h={h} />
+        <RunningApp h={h} />
       </div>
       <div className="flex gap col">
         <ClipboardDashboard h={h} />

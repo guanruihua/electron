@@ -15,30 +15,43 @@ export function ClipboardItem(props: Props) {
 
   return (
     <div className="clipboard-item" data-star={!!star}>
-      <div className="clipboard-item-content">
-        {type === 'image' && (
-          <div
-            className="content image"
-            onClick={(e) => {
-              e.preventDefault()
-              handleSelf.copy(item)
-            }}
-          >
-            <img src={data} alt="image" />
+      <div className="clipboard-item-left">
+        <div className="clipboard-item-content">
+          {type === 'image' && (
+            <div
+              className="content image"
+              onClick={(e) => {
+                e.preventDefault()
+                handleSelf.copy(item)
+              }}
+            >
+              <img src={data} alt="image" />
+            </div>
+          )}
+          {type === 'text' && (
+            <div
+              className="content text"
+              title={data}
+              onClick={(e) => {
+                e.preventDefault()
+                handleSelf.copy(item)
+              }}
+            >
+              {data.length < 1000 ? data : `${data.slice(0, 1000)}...`}
+            </div>
+          )}
+        </div>
+        <div className="clipboard-item-footer">
+          <div className="data-time">{formatRelativeTime(now, time)}</div>
+          <div className="clipboard-item-footer-right">
+            <div className="data-count">
+              {type === 'text' ? `Length: ${data.length}` : 'File'}
+            </div>
+            <div className="data-num">{num}</div>
           </div>
-        )}
-        {type === 'text' && (
-          <div
-            className="content text"
-            title={data}
-            onClick={(e) => {
-              e.preventDefault()
-              handleSelf.copy(item)
-            }}
-          >
-            {data.length < 1000 ? data : `${data.slice(0, 1000)}...`}
-          </div>
-        )}
+        </div>
+      </div>
+      <div className="clipboard-item-right">
         <div className="btns">
           <Icon
             className="remove"
@@ -50,15 +63,6 @@ export function ClipboardItem(props: Props) {
             type={star ? 'star-fill' : 'star'}
             onClick={() => handleSelf.star(item)}
           />
-        </div>
-      </div>
-      <div className="clipboard-item-footer">
-        <div className="data-time">{formatRelativeTime(now, time)}</div>
-        <div className="clipboard-item-footer-right">
-          <div className="data-count">
-            {type === 'text' ? `Length: ${data.length}` : 'File'}
-          </div>
-          <div className="data-num">{num}</div>
         </div>
       </div>
     </div>

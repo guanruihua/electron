@@ -15,7 +15,7 @@ export interface ViewProps{
 export function View(props: ViewProps) {
   const { tab, h } = props
   const { id, type } = tab
-  const { ref, viewState, handleView } = useViewState(props)
+  const { /* ref, */ viewState, handleView } = useViewState(props)
 
   return (
     <div className={'root-view'} data-hidden={id !== h.state.activeTab}>

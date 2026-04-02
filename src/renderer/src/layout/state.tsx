@@ -22,32 +22,6 @@ export const usePageState = () => {
         title: 'Terminal',
         type: 'terminal',
       },
-      // 1: {
-      //   id: '1',
-      //   title: 'Qubit Safe',
-      //   // url: 'http://172.16.30.53:5173/discovery',
-      //   url: 'https://guanruihua.github.io/#/',
-      // },
-      // 2: {
-      //   id: '2',
-      //   title: 'Bing',
-      //   url: 'https://www.bing.com',
-      // },
-      // 3: {
-      //   id: '3',
-      //   title: 'Baidu',
-      //   url: 'https://www.baidu.com',
-      // },
-      // 4: {
-      //   id: '4',
-      //   title: 'Google',
-      //   url: 'https://www.google.com',
-      // },
-      // 5: {
-      //   id: '5',
-      //   title: 'Electron',
-      //   url: 'https://www.electronjs.org/zh/docs/latest/api/webview-tag#webviewisloading',
-      // },
     ],
   })
   const renderState = () => _renderState(state)
@@ -58,8 +32,8 @@ export const usePageState = () => {
     }
   }
 
-  const getID = () => Date.now().toString()
-  const cache = React.useRef<any>(null)
+  // const getID = () => Date.now().toString()
+  // const cache = React.useRef<any>(null)
 
   const handle = {
     setState,
@@ -113,21 +87,21 @@ export const usePageState = () => {
   }
 
   React.useEffect(() => {
-    window.api.onNewTab(async (res) => {
-      // const { data } = res
-      // const id = Date.now().toString()
+    // window.api.onNewTab(async (res) => {
+    //   // const { data } = res
+    //   // const id = Date.now().toString()
 
-      // console.log('newTab', res)
-      // if (!state.tabs) state.tabs = [id]
-      // else state.tabs.push(id)
-      // state.activeTab = id
-      // setState(state)
-      // info[id] = {
-      //   id,
-      //   ...data,
-      // }
-      // setInfo(info)
-    })
+    //   // console.log('newTab', res)
+    //   // if (!state.tabs) state.tabs = [id]
+    //   // else state.tabs.push(id)
+    //   // state.activeTab = id
+    //   // setState(state)
+    //   // info[id] = {
+    //   //   id,
+    //   //   ...data,
+    //   // }
+    //   // setInfo(info)
+    // })
   }, [])
 
   // console.log('@ ~ usePageState ~ state:', state)

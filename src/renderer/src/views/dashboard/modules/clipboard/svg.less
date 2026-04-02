@@ -5,13 +5,11 @@
     gap: 5px;
 
     svg {
-      --size: 18px;
+      --size: 16px;
       --color: rgba(255, 255, 255, .7);
       padding: 5px;
       border: 2px solid rgba(255, 255, 255, .1);
       border-radius: 8px;
-      width: 36px;
-      height: 36px;
       cursor: pointer;
       transition: all .6s;
 
@@ -32,16 +30,15 @@
 
   .btns {
     display: flex;
-    flex-direction: row;
-    gap: 5px;
-    padding: 10px;
+    flex-direction: column;
+    padding: 2px 4px 2px 0;
     transition: all .6s;
 
     svg {
-      width: 24px;
-      height: 24px;
+      width: 20px;
+      height: 20px;
 
-      --size: 18px;
+      --size: 16px;
       --color: rgba(255, 255, 255, .15);
       cursor: pointer;
 
@@ -58,7 +55,7 @@
       transition: all .6s;
     }
 
-    .remove {
+    svg.remove {
       --color: rgba(255, 0, 0, .6);
 
       &:hover {
@@ -79,8 +76,6 @@
   .clipboard-item {
     .btns {
       visibility: hidden;
-
-
     }
 
     &:hover {

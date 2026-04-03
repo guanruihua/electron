@@ -21,9 +21,11 @@ export function GitReview(props: ModuleProps) {
 
   const { simpleTree, tree, commitMsg, hty } = pageState
 
-  // console.log(pageState)
   return (
-    <div className="root-layout-home-view-git-review">
+    <div
+      className="root-layout-home-view-git-review"
+      data-hidden={h.state?.setting?.selectProject?.git === false}
+    >
       <div className="module-bg w flex gap col root-layout-home-view-git-review-module-bg">
         <div
           className="flex space-between items-center"

@@ -128,21 +128,19 @@ export const usePageState = (props: ModuleProps) => {
   }
 
   React.useEffect(() => {
-    if (state.initSysSettingSuccess && state.initUserSettingSuccess) {
-      handleSelf.reload()
+    if (!state.initSysSettingSuccess || !state.initUserSettingSuccess) return
+    handleSelf.reload()
 
-      const run = async () => {
-        const res = await window.api.invoke('getClipboard')
-        if (!res?.data) return
-        res.time = Date.now()
-        handleSelf.updateList(res)
-      }
-      const timer = setInterval(run, 1000)
-      return () => {
-        timer && clearInterval(timer)
-      }
+    const run = async () => {
+      const res = await window.api.invoke('getClipboard')
+      if (!res?.data) return
+      res.time = Date.now()
+      handleSelf.updateList(res)
     }
-    return
+    const timer = setInterval(run, 1000)
+    return () => {
+      timer && clearInterval(timer)
+    }
   }, [state.initSysSettingSuccess, state.initUserSettingSuccess])
 
   return {

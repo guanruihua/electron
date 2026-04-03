@@ -10,6 +10,7 @@ import RunningApp from './modules/running-app'
 import { UserSetting } from './modules/user-setting'
 import ClipboardDashboard from './modules/clipboard/clipboard'
 import ProjectDashboard from './modules/project/project'
+import ProjectOperation from './modules/project/operation'
 
 export default function DashboardView() {
   const h = useHomeView()
@@ -30,16 +31,17 @@ export default function DashboardView() {
 
       <div className="dashboard-layout-col">
         <ProjectDashboard h={h} />
-        <Opt h={h} />
       </div>
 
       <div className="dashboard-layout-col">
-        <QuickStart h={h} />
+        <ProjectOperation h={h}/>
         <GitReview h={h} />
+        <QuickStart h={h} />
         <RunningApp h={h} />
       </div>
       <div className="flex gap col">
         <ClipboardDashboard h={h} />
+        <Opt h={h} />
       </div>
       {h.context}
     </div>

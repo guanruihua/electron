@@ -3,6 +3,7 @@ import { ModuleProps } from '@/type'
 import { Button } from 'antd'
 import { useLoadings, getModules } from '@/util'
 import { Module } from './module'
+import { openConfFile } from './helper'
 
 export default function ProjectDashboard(props: ModuleProps) {
   const { h } = props
@@ -13,14 +14,6 @@ export default function ProjectDashboard(props: ModuleProps) {
     edit: false,
     reload: false,
   })
-
-  const openConfFile = async () => {
-    if (!state.sysSetting?.path) return
-    return window.api.invoke(
-      'cmd',
-      `code ${state.sysSetting.path}\\modules.json`,
-    )
-  }
 
   const reload = async () => {
     if (!state.sysSetting?.path) return
@@ -38,12 +31,12 @@ export default function ProjectDashboard(props: ModuleProps) {
           className="flex space-between items-center mb"
           style={{ padding: '20px 20px 0' }}
         >
-          <h4>Module</h4>
+          <h4>Project</h4>
           <div className="flex gap">
             <Button
               icon={<Icon type="edit" />}
               loading={loadings.edit}
-              onClick={() => setLoadings(openConfFile(), 'edit')}
+              onClick={() => setLoadings(openConfFile(state), 'edit')}
             />
             <Button
               loading={

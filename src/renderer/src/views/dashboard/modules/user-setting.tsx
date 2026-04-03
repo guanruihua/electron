@@ -25,6 +25,9 @@ export function UserSetting(props: ModuleProps) {
     if (!force) {
       if (!state.initSysSettingSuccess || state.initUserSettingSuccess) return
     }
+    handle.setState({
+      initUserSettingSuccess: false,
+    })
 
     await window.api.invoke('fs', {
       action: 'createPathIfNotExist',
@@ -48,7 +51,7 @@ export function UserSetting(props: ModuleProps) {
     const apps = await getApps(path)
 
     if (setting && !setting?.selectGitModule?.path && modules?.[0]) {
-      setting.selectGitModule = state.modules[0]
+      setting.selectProject = state?.modules?.[0] || {}
     }
 
     const res = await window.api.invoke('cmd', 'tasklist | findstr node')

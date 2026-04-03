@@ -18,7 +18,7 @@ export function SysSetting(props: ModuleProps) {
       action: 'createPathIfNotExist',
       payload: { path: res + '\\Cache\\electron', isFile: false },
     })
-    const sysSettingPath =  res + '\\Cache\\electron\\setting.json'
+    const sysSettingPath = res + '\\Cache\\electron\\setting.json'
 
     await window.api.invoke('fs', {
       action: 'createPathIfNotExist',
@@ -32,9 +32,10 @@ export function SysSetting(props: ModuleProps) {
     if (!force) {
       if (state.initSysSettingSuccess) return
     }
-
+    handle.setState({ initSysSettingSuccess: false })
+    
     const sysSettingPath = await getSysSettingPath()
-    if(!sysSettingPath) return
+    if (!sysSettingPath) return
     const sysSetting = getJSON(
       await window.api.invoke('fs', {
         action: 'readFile',
@@ -66,7 +67,7 @@ export function SysSetting(props: ModuleProps) {
         sysSetting: newSysSetting,
       })
       handle.renderState()
-    
+
       const sysSettingPath = await getSysSettingPath()
 
       await window.api.invoke('fs', {

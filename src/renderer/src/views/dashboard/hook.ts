@@ -106,8 +106,8 @@ export const useHomeView = () => {
     findAll_NodeThread,
 
     NodeThread: handleNodeThread,
-    async git(item) {
-      if (setDefaultState(state)) state.setting.selectGitModule = item
+    async selectProject(item) {
+      if (setDefaultState(state)) state.setting.selectProject = item
       renderState()
       saveToFile('setting')
     },

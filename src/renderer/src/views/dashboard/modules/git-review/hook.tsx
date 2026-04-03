@@ -6,7 +6,7 @@ import { getHty, gitPull, gitPush } from './helper'
 
 export const usePageState = (h: Hook) => {
   const { state } = h
-  const { label = '', path } = state?.setting?.selectGitModule || {}
+  const { label = '', path } = state?.setting?.selectProject || {}
 
   const [pageState, setPageState] = useSetState<PageState>({
     commitMsg: 'feat: Improve the documentation',

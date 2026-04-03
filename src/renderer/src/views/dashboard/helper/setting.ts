@@ -1,7 +1,5 @@
-import { ObjectType } from '0type'
 import { State } from '../type'
 import { getJSON } from './get'
-import { DefaultState } from '../conf'
 
 export const getModules = async (path: string) =>
   getJSON(

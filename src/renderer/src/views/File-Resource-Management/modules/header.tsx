@@ -67,8 +67,7 @@ export function Header(props: Props) {
         <Button
           loading={loadings.reload}
           icon={<Icon type="reload" style={{ fontSize: 16 }} />}
-          className="bolder absolute"
-          style={{ top: 8, right: 10 }}
+          className="bolder"
           onClick={() => handlePage.setLoadings(handlePage?.init?.(), 'reload')}
         />
       </div>

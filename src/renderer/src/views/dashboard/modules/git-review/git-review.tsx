@@ -52,7 +52,7 @@ export function GitReview(props: ModuleProps) {
           <div className="controls">
             <AutoComplete
               options={hty_options}
-              onSelect={(value) => {
+              onSelect={(value: string = '') => {
                 setPageState({
                   commitMsg: value || '',
                 })

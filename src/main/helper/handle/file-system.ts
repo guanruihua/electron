@@ -1,7 +1,8 @@
 import { isArray, isObject, isString } from 'asura-eye'
 import fs from 'fs'
 import path from 'path'
-
+import fsp from 'fs/promises'
+const _path = path
 /**
  * 路径不存在则创建（核心函数）
  * @param {Object} payload
@@ -78,6 +79,41 @@ const saveFile = async (payload) => {
   })
 }
 
+const readCurrentDir = async (payload: any) => {
+  const { path } = payload
+
+  if (!isString(path)) return []
+  try {
+    // 读取目录项，带类型信息
+    const entries = await fsp.readdir(path, { withFileTypes: true })
+
+    const res: any[] = []
+    for (const ent of entries) {
+      const item = {
+        ...ent,
+        path: _path.join(path, ent.name),
+        type: 'file',
+      }
+      if (ent.isDirectory()) {
+        item.type = 'dir'
+      }
+      res.push(item)
+    }
+
+    return res
+  } catch (err) {
+    console.error('读取目录失败:', err)
+    return []
+  }
+}
+
+const stat = async (payload: any) => {
+  const { path } = payload
+
+  if (!isString(path)) return
+  return await fsp.stat(path)
+}
+
 export const FileSystem = async (target: any) => {
   const { action, payload } = target
   return {
@@ -85,5 +121,7 @@ export const FileSystem = async (target: any) => {
     checkPath,
     readFile,
     saveFile,
+    readCurrentDir,
+    stat,
   }?.[action]?.(payload)
 }

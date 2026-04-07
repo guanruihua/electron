@@ -9,6 +9,9 @@ export interface PageState {
     time: string
     commit: string
   }[]
+  hty_options?: {
+    value: string
+  }[]
   tree?: FileTreeType
   simpleTree?: FileTreeType
 }

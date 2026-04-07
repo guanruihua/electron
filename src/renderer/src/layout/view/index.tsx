@@ -1,13 +1,13 @@
-import { useViewState } from './state'
+// import { useViewState } from './state'
 import { ViewState } from '@/type'
-import { Bar } from './bar'
+// import { Bar } from './bar'
 import { ObjectType } from '0type'
 
 import DashboardView from '@/views/dashboard'
 import FileResourceManagement from '@/views/File-Resource-Management'
 import TerminalPage from '@/views/terminal'
 
-export interface ViewProps{
+export interface ViewProps {
   tab: ViewState
   h: ObjectType
 }
@@ -15,11 +15,13 @@ export interface ViewProps{
 export function View(props: ViewProps) {
   const { tab, h } = props
   const { id, type } = tab
-  const { /* ref, */ viewState, handleView } = useViewState(props)
+  // const { /* ref, */ viewState, handleView } = useViewState(props)
 
   return (
     <div className={'root-view'} data-hidden={id !== h.state.activeTab}>
-      <Bar viewState={viewState} handleView={handleView} />
+      {/* <Bar viewState={viewState} handleView={handleView} /> */}
+      <div className="root-view-bar" />
+
       <div className="root-view-content">
         {type === 'dashboard' && <DashboardView />}
         {type === 'fsm' && <FileResourceManagement />}

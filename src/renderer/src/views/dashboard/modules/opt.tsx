@@ -42,6 +42,7 @@ export function Opt(props: ModuleProps) {
         ['关闭 ', handle.close, 'close'],
         ['打开遮罩', window.api.openMaskWindow],
         ['Devtool', handle.openDevtool],
+        ['CMD', 'start cmd'],
         ['Reload', handle.reload, 'reload'],
       ],
     },

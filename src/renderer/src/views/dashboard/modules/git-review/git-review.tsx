@@ -4,6 +4,7 @@ import { FileTree } from './file-tree'
 import { Icon } from '@/components'
 import { usePageState } from './hook'
 import './git-review.less'
+import { AutoComplete } from 'antd'
 
 export function GitReview(props: ModuleProps) {
   const { h } = props
@@ -19,7 +20,7 @@ export function GitReview(props: ModuleProps) {
     setPageState,
   } = usePageState(h)
 
-  const { simpleTree, tree, commitMsg, hty } = pageState
+  const { simpleTree, tree, commitMsg, hty_options } = pageState
 
   return (
     <div
@@ -49,17 +50,26 @@ export function GitReview(props: ModuleProps) {
       <div className="root-layout-home-view-git-review-container">
         <div className="git-container p border-radius">
           <div className="controls">
-            <Input.TextArea
-              readOnly={loading}
-              autoSize={{ minRows: 1, maxRows: 10 }}
-              value={commitMsg}
-              onChange={(e) => {
-                const value = e.target.value
+            <AutoComplete
+              options={hty_options}
+              onSelect={(value) => {
                 setPageState({
                   commitMsg: value || '',
                 })
               }}
-            />
+            >
+              <Input.TextArea
+                readOnly={loading}
+                autoSize={{ minRows: 1, maxRows: 10 }}
+                value={commitMsg}
+                onChange={(e) => {
+                  const value = e.target.value
+                  setPageState({
+                    commitMsg: value || '',
+                  })
+                }}
+              />
+            </AutoComplete>
             <Button
               loading={loading}
               icon={<Icon type="check" style={{ fontSize: 16 }} />}

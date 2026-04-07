@@ -20,6 +20,7 @@ export type ProjectConf = Partial<{
   type: 'group' | string
   npm: string
   web: string
+  git: boolean
   build: Partial<{
     frontend: string
     backend: string
@@ -82,6 +83,7 @@ export interface ModuleProps {
   children?: React.ReactNode
   [key: string]: any
 }
+
 export interface FileNode {
   // 文件夹/文件名
   name: string

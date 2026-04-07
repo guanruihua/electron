@@ -1,0 +1,57 @@
+.file-resource-management .frm-card-info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  .frm-card-info-box {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .frm-card-info-row {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+  }
+
+  .frm-card-info-name,
+  .frm-card-info-value {
+    line-height: 28px;
+  }
+
+  .frm-card-info-name {
+    font-weight: bold;
+    font-size: 12px;
+    color: rgba(255, 255, 255, .8);
+  }
+
+  .frm-card-info-value {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    font-size: 12px;
+    color: rgba(255, 255, 255, .8);
+    transition: all .6s;
+
+    .right-arrow {
+      display: none;
+    }
+    
+    &[data-type='path'] {
+      cursor: pointer;
+      border-radius: 8px;
+      padding: 0 10px;
+      background: rgba(255, 255, 255, .2);
+
+      &:hover {
+        color: rgba(255, 255, 255, 1);
+        background: rgba(255, 255, 255, .4);
+      }
+    }
+  }
+
+  &[data-file-type='dir'] .frm-card-info-row[data-key='size']{
+    display: none;
+  }
+}

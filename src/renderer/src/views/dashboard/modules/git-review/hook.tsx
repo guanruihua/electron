@@ -11,6 +11,7 @@ export const usePageState = (h: Hook) => {
   const [pageState, setPageState] = useSetState<PageState>({
     commitMsg: 'feat: Improve the documentation',
     hty: [],
+    hty_options: [],
     tree: [],
     simpleTree: [],
   })
@@ -21,9 +22,21 @@ export const usePageState = (h: Hook) => {
 
   const init = async () => {
     setLoading(true)
+    const hty = (await getHty(path)) || []
+    const hty_commits: string[] = []
+
+    if (hty?.length) {
+      hty.forEach((item) => {
+        const value = item.commit.trim()
+        if (hty_commits.includes(value)) return
+        hty_commits.push(value)
+      })
+    }
+
     setPageState({
       ...(await gitPull(path)),
-      hty: await getHty(path),
+      hty,
+      hty_options: hty_commits.map((value) => ({ value })),
     })
     setLoading(false)
   }

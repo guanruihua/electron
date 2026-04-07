@@ -1,0 +1,40 @@
+export * from './conf'
+export * from './type'
+
+import { isString } from 'asura-eye'
+import { FileNode } from './type'
+
+export const getData = async (type: 'driver') => {
+  if (type === 'driver') {
+    const res = await window.api.invoke('cmd', 'wmic logicaldisk get name')
+    return res
+      .split('\n')
+      .map((line) => line.trim())
+      .filter((line) => /^[A-Za-z]:$/.test(line))
+      .map((line) => line + '\\')
+  }
+  // const res = await window.api.invoke('getFileTree', { path: 'D:\\' })
+}
+
+const ImageType = 'jpg, jpeg, png, gif, bmp, ico, webp, avif, svg'
+  .split(',')
+  .map((_) => _.trim())
+
+export const getFileType = (item: FileNode) => {
+  const { name } = item
+  if (!isString(name)) return 'file'
+  if (item.type === 'dir') return 'dir'
+
+  if (['.svg'].some((v) => name.endsWith(v))) return 'svg'
+  if (ImageType.some((v) => name.endsWith(v))) return 'image'
+  if (['.zip', '.7z', '.rar'].some((v) => name.endsWith(v))) return 'zip'
+  if (['.exe'].some((v) => name.endsWith(v))) return 'exe'
+  if (['.mp3'].some((v) => name.endsWith(v))) return 'music'
+  if (['.ts'].some((v) => name.endsWith(v))) return 'ts'
+  if (['.js', '.cjs', '.mjs'].some((v) => name.endsWith(v))) return 'js'
+  if (['.json', '.jsonc'].some((v) => name.endsWith(v))) return 'json'
+  if (['.lnk'].some((v) => name.endsWith(v))) return 'lnk'
+  if (['.html'].some((v) => name.endsWith(v))) return 'html'
+  if (['.css'].some((v) => name.endsWith(v))) return 'css'
+  return 'file'
+}

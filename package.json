@@ -1,6 +1,6 @@
 {
-  "name": "xyy",
-  "version": "0.0.1-beta.1",
+  "name": "ruihuag",
+  "version": "0.0.1-beta.2",
   "description": "An Electron application with React and TypeScript",
   "main": "./out/main/index.js",
   "author": "ruihuag",

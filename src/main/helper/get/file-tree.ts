@@ -44,7 +44,7 @@ export async function generateTree(dirPath: string, options: any = {}) {
   const result: any = {
     name: path.basename(dirPath),
     path: dirPath,
-    type: 'directory',
+    type: 'dir',
     children: [],
   }
 

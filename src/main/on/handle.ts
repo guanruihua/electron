@@ -3,11 +3,7 @@ import { AppSize } from '../../preload/type'
 import { createScreenMask } from '../register/create-screen-mask'
 import { ObjectType } from '0type'
 import { isString } from 'asura-eye'
-import {
-  /* getStartMenu,  */ StoreManager,
-  cmd,
-  FileSystem,
-} from '../helper'
+import { StoreManager, cmd, FileSystem } from '../helper'
 import { updateApps } from '../helper/updateApps'
 import { getFileTree } from '../helper/get/file-tree'
 import { getRunningApp } from '../helper/get/running-app'

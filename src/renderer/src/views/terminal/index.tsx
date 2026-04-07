@@ -72,7 +72,7 @@ export default function TerminalPage() {
   const handleOnKey = (terminal: Terminal, { key, domEvent }) => {
     // console.log(' handleOnKey: ', { key, domEvent })
     const printable = !domEvent.altKey && !domEvent.ctrlKey && !domEvent.metaKey
-    if(domEvent.code === 'KeyC' && domEvent.ctrlKey){
+    if (domEvent.code === 'KeyC' && domEvent.ctrlKey) {
       const selection = terminal.getSelection()
       console.log('复制', selection)
       copy(selection)
@@ -178,26 +178,15 @@ export default function TerminalPage() {
   }
   return (
     <div className="terminal-page">
-
-      <div className="terminal-page-container">
-        <div className="module-bg w flex gap col">
-          <div
-            className="flex space-between items-center"
-            style={{ paddingBottom: 20 }}
-          >
-            <div className="flex row gap bold">Terminal</div>
-            <div className="flex gap">
-              <Button onClick={test}>test</Button>
-              <Button onClick={clear}>Clear</Button>
-            </div>
-          </div>
-          <div
-            ref={terminalRef}
-            className="overflow-y bg border-radius p"
-            style={{ minHeight: 300, maxHeight: 900 }}
-          ></div>
-        </div>
+      <div className="flex gap">
+        <Button onClick={test}>test</Button>
+        <Button onClick={clear}>Clear</Button>
       </div>
+      <div
+        ref={terminalRef}
+        className="overflow-y bg border-radius p"
+        style={{ minHeight: 300, maxHeight: 900 }}
+      ></div>
     </div>
   )
 }

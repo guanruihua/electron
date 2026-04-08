@@ -2,7 +2,7 @@ import React from 'react'
 import { Icon } from '@/components'
 import { ModuleProps, ProjectConf } from '@/type'
 import { Button } from 'antd'
-import { useLoadings } from '@/util'
+import { sleep, useLoadings } from '@/util'
 import './operation.less'
 
 export default function ProjectOperation(props: ModuleProps) {
@@ -22,22 +22,31 @@ export default function ProjectOperation(props: ModuleProps) {
     if (ref.current) ref.current.dataset.start = '0'
   }
 
-  React.useEffect(() => {
+  const load = () => {
+    if (!item?.path) return timer.current && clearInterval(timer.current)
+    const dataPath = item.path.replaceAll('\\', '>')
+    const dom: HTMLDivElement | null = document.querySelector(
+      `.opt-item[data-path='${dataPath}']`,
+    )
+    if (!dom?.dataset?.start || !ref.current) return clear()
+    if (ref.current.dataset.start !== dom.dataset.start)
+      ref.current.dataset.start = dom.dataset.start
+  }
+  const init = () => {
     clear()
-    const handle = () => {
-      if (!item?.path) return timer.current && clearInterval(timer.current)
-      const dataPath = item.path.replaceAll('\\', '>')
-      const dom: HTMLDivElement | null = document.querySelector(
-        `.opt-item[data-path='${dataPath}']`,
-      )
-      if ( !dom?.dataset?.start || !ref.current) return clear()
-      if (ref.current.dataset.start !== dom.dataset.start)
-        ref.current.dataset.start = dom.dataset.start
-    }
-    handle()
-    timer.current = setInterval(handle, 3000)
+    load()
+    timer.current = setInterval(load, 3000)
+  }
+  React.useEffect(() => {
+    init()
     return clear
   }, [item.path])
+
+  const runningLoading =
+    loadings.stop ||
+    loadings.run ||
+    viewLoadings.stopAll ||
+    viewLoadings.findAll
 
   return (
     <div
@@ -58,12 +67,14 @@ export default function ProjectOperation(props: ModuleProps) {
               className="run"
               data-hidden={!item.npm}
               icon={<Icon type="run" />}
-              loading={
-                loadings.run || viewLoadings.stopAll || viewLoadings.findAll
-              }
-              onClick={() =>
-                setLoadings(handle?.NodeThread?.dev?.(item, true), 'run')
-              }
+              loading={runningLoading}
+              onClick={async () => {
+                setLoadings(true, 'run')
+                await handle?.NodeThread?.dev?.(item, true)
+                init()
+                await sleep(3000)
+                setLoadings(false, 'run')
+              }}
             >
               Run
             </Button>
@@ -71,12 +82,13 @@ export default function ProjectOperation(props: ModuleProps) {
               className="stop"
               data-hidden={!item.npm}
               icon={<Icon type="stop" />}
-              loading={
-                loadings.stop || viewLoadings.stopAll || viewLoadings.findAll
-              }
-              onClick={() =>
-                setLoadings(handle.NodeThread.stopModule(item, true), 'stop')
-              }
+              loading={runningLoading}
+              onClick={async () => {
+                setLoadings(true, 'stop')
+                await handle.NodeThread.stopModule(item, true)
+                await sleep(3000)
+                setLoadings(false, 'stop')
+              }}
             >
               Stop
             </Button>

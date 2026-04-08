@@ -27,11 +27,7 @@ export const FileInfoBox = (props: Props) => {
   return (
     <div className="frm-card-info-box">
       {items.map(([key, name, dataType = 'default']) => (
-        <div
-          key={key}
-          className="frm-card-info-row"
-          data-key={key}
-        >
+        <div key={key} className="frm-card-info-row" data-key={key}>
           <div className="frm-card-info-name">{name || key}</div>
           <div
             className="frm-card-info-value"

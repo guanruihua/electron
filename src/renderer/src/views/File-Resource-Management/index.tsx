@@ -1,26 +1,26 @@
 import { usePageState } from './hook'
 import { FileTree } from './modules/file-tree'
 import { FileInfo } from './modules/file-info/file-info'
-import { Header } from './modules/header'
+import { Header } from './modules/header/header'
 import './index.less'
 import { FileReview } from './modules/review/review'
 
 export default function FileResourceManagement() {
   const { pageState, loadings, handlePage } = usePageState()
-  const cmmProps = {
+  const cmm = {
     loadings,
     pageState,
     handlePage,
   }
   return (
     <div className="file-resource-management">
-      <Header {...cmmProps} />
+      <Header {...cmm} />
       <div className="file-resource-management__container">
         <div className="file-tree-container">
-          <FileTree {...cmmProps} path={pageState?.selectDrive || ''} />
+          <FileTree {...cmm} path={pageState?.selectDrive || ''} />
         </div>
-        <FileReview pageState={pageState} />
-        <FileInfo pageState={pageState} />
+        <FileReview {...cmm} />
+        <FileInfo {...cmm} />
       </div>
     </div>
   )

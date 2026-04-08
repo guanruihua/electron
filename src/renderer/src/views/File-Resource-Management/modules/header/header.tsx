@@ -1,0 +1,94 @@
+import React from 'react'
+import { Button, AutoComplete, Input } from 'antd'
+import { Icon } from '@/components'
+import { HandlePage, PageState } from '../../helper'
+import { Loadings } from '@/util'
+import {} from 'antd'
+import './header.less'
+
+type Props = {
+  loadings: Loadings
+  pageState: PageState
+  handlePage: HandlePage
+}
+
+export function Header(props: Props) {
+  const { loadings, pageState, handlePage } = props
+  const { pathMap } = pageState
+  const [input, setInput] = React.useState('')
+  // console.log(pageState.select?.path, paths)
+  const paths = pageState?.headerPaths || []
+  return (
+    <div className="file-resource-management__header">
+      <div className="frm__header-left">
+        <div className="frm__header-path">
+          {paths?.map((item, i) => {
+            const { value, dataKey } = item
+            const options =
+              pathMap?.[dataKey]
+                ?.filter((_) => _?.type !== 'file')
+                .map((item) => {
+                  item.value = item.name
+                  return item
+                }) || []
+            return (
+              <React.Fragment key={i}>
+                <AutoComplete
+                  options={options}
+                  classNames={{
+                    root: 'frm-path-item',
+                    popup: {
+                      root: 'frm-path-item-popup',
+                    },
+                  }}
+                  onSelect={(_, option: any) => {
+                    handlePage.selectFileNode(option)
+                  }}
+                >
+                  <div className="frm-path-item-value">{value}</div>
+                </AutoComplete>
+                <div
+                  data-hidden={i === paths.length - 1}
+                  className="text-12 mr"
+                >
+                  \
+                </div>
+              </React.Fragment>
+            )
+          })}
+          {/* <AutoComplete
+          options={options}
+          style={{ width: 200 }}
+          onSelect={onSelect}
+          showSearch={{
+            onSearch: (text) => setOptions(getPanelValue(text)),
+          }}
+          placeholder="Input Path here ..."
+        /> */}
+        </div>
+      </div>
+      <div className="frm__header-right">
+        <Input
+          value={input}
+          onChange={(e) => {
+            const value = e.target.value || ''
+            setInput(value)
+          }}
+          onPressEnter={(e) => {
+            const value = e.target.value || ''
+            console.log(value)
+          }}
+        />
+        <Button onClick={() => window.api.invoke('toggleDevTools')}>
+          Devtool
+        </Button>
+        <Button
+          loading={loadings.reload}
+          icon={<Icon type="reload" style={{ fontSize: 16 }} />}
+          className="bolder"
+          onClick={() => handlePage.setLoadings(handlePage?.init?.(), 'reload')}
+        />
+      </div>
+    </div>
+  )
+}

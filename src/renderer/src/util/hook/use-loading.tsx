@@ -1,7 +1,6 @@
 import { ObjectType } from '0type'
+import { useEffect, useState } from 'react'
 import { isArray, isBoolean, isNumber, isPromise, isString } from 'asura-eye'
-import { useEffect } from 'react'
-import { useState } from 'react'
 
 export type SetLoading = (
   target: number | boolean | Promise<any>,

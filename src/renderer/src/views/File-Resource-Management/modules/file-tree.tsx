@@ -1,6 +1,5 @@
 import React from 'react'
 import { Loadings } from '@/util'
-import { isString } from 'asura-eye'
 import {
   getFileType,
   IconMap,
@@ -22,43 +21,12 @@ export const FileTree = (props: Props) => {
   const { path, currentDepth = 0, ...rest } = props
   const { pageState, handlePage, loadings, ...rest2 } = rest
   const { open = [] } = pageState || {}
-  const renderTree: FileNode[] = pageState?.pathMap?.[path] || []
+  const renderTree: FileNode[] =
+    pageState?.pathMap?.[path]?.filter((_) => _.type === 'dir') || []
 
-  const handleClickName = async (item: FileNode) => {
-    // console.log(item)
-
-    const { path, type } = item
-    if (!isString(path)) return
-
-    const fileType = getFileType(item)
-
-    const stats = await window.api.invoke('fs', {
-      action: 'stat',
-      payload: { path },
-    })
-    const newPageState = {
-      select: { ...item, stats, fileType },
-      open,
-    }
-
-    if (type === 'dir') {
-      const newOpen = open.includes(path)
-        ? open.filter((_) => _ !== path)
-        : [path, ...open]
-
-      newPageState.open = newOpen
-
-      if (newOpen.includes(path) && !pageState?.pathMap?.[path]?.length) {
-        await handlePage?.readCurrentDir?.(path)
-        // console.log(path, ':', pageState?.pathMap?.[path]?.length || 0)
-      }
-    }
-
-    handlePage?.setPageState?.(newPageState)
-  }
   return (
     <div className="frm-file-tree" {...rest2}>
-      {renderTree.map((item: FileNode, i) => {
+      {renderTree?.map?.((item: FileNode, i) => {
         const { path, type } = item
         if (!path) return <React.Fragment key={i} />
 
@@ -66,9 +34,6 @@ export const FileTree = (props: Props) => {
         const isFold = !open.includes(path)
         const fileType = getFileType(item)
         const child: FileNode[] = pageState?.pathMap?.[path]
-        // if (child?.length) {
-        //   console.log(item, child?.length, isFold)
-        // }
 
         return (
           <div
@@ -85,7 +50,7 @@ export const FileTree = (props: Props) => {
             >
               <div
                 className="flex row pointer"
-                onClick={() => handleClickName(item)}
+                onClick={() => handlePage.selectFileNode(item)}
               >
                 <div
                   className="flex items-center justify-center"
@@ -105,7 +70,7 @@ export const FileTree = (props: Props) => {
                 </div>
               </div>
             </div>
-            {isDirectory && !isFold && child?.length && (
+            {isDirectory && !isFold && !!child?.length && (
               <div
                 className="frm-children children"
                 style={{ paddingLeft: 15 }}
@@ -116,7 +81,7 @@ export const FileTree = (props: Props) => {
                   currentDepth={currentDepth + 1}
                 />
               </div>
-            )} 
+            )}
           </div>
         )
       })}

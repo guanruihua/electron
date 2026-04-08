@@ -4,14 +4,37 @@ export * from './type'
 import { isString } from 'asura-eye'
 import { FileNode } from './type'
 
-export const getData = async (type: 'driver') => {
+export const getData = async (type: 'dir' | 'driver', payload: any = '') => {
+  if (type === 'dir') {
+    if (!isString(payload)) return []
+    const path: string = payload
+    const values =
+      (await window.api.invoke('fs', {
+        action: 'readCurrentDir',
+        payload: {
+          path: path.endsWith('\\') ? path : path + '\\',
+        },
+      })) || []
+
+    return (
+      values
+        .filter((_: any) => Boolean(_?.name))
+        .map((item: any) => {
+          item.sortBy = item.name.charCodeAt(0)
+          if (item.type === 'dir') item.sortBy += 1000
+          if (item.type === 'file') item.sortBy -= 1000
+          return item
+        })
+        .sort((a: any, b: any) => b.sortBy - a.sortBy) || []
+    )
+  }
   if (type === 'driver') {
     const res = await window.api.invoke('cmd', 'wmic logicaldisk get name')
     return res
       .split('\n')
       .map((line) => line.trim())
       .filter((line) => /^[A-Za-z]:$/.test(line))
-      .map((line) => line + '\\')
+    // .map((line) => line + '\\')
   }
   // const res = await window.api.invoke('getFileTree', { path: 'D:\\' })
 }

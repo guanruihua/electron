@@ -35,6 +35,6 @@ export type HandlePage = {
   setLoadings: SetLoadings
   setPageState(pageState: PageState): void
   init(): Promise<void>
-  selectDriver(driver: string): Promise<void>
   readCurrentDir(path: string): Promise<void>
+  selectFileNode(item: FileNode): Promise<void>
 }

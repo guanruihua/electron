@@ -1,8 +1,36 @@
-.file-resource-management .frm-card-review {
-  max-width: 800px;
+.file-resource-management .frm-review {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr auto;
+  overflow: hidden;
 
-  .frm-card-review-row {
+  .frm-review-container {
+    overflow-y: auto;
+  }
+
+  .frm-review-footer {
+    display: flex;
+    justify-content: flex-end;
+    zoom: .7;
+
+    &-total {
+      font-size: 18px;
+      padding-right: 10px;
+    }
+  }
+
+  .frm-review-row {
     font-size: 12px;
     line-height: 20px;
+    display: flex;
+    gap: 5px;
+    cursor: pointer;
+    overflow: hidden;
+    // max-width: 49vw;
+    white-space: wrap;
+
+    .right-arrow {
+      display: none;
+    }
   }
 }

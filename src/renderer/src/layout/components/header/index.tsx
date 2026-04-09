@@ -65,9 +65,9 @@ export function Header(props: HeaderProps) {
             </div>
           )
         })}
-        <div className="root-header-tab-item plus" onClick={handle.addTab}>
+        {/* <div className="root-header-tab-item plus" onClick={handle.addTab}>
           <Icon type="add" />
-        </div>
+        </div> */}
       </div>
       <div className="root-header-handle"></div>
     </Div>

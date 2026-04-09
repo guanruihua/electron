@@ -11,16 +11,21 @@ export const usePageState = () => {
         title: 'Dashboard',
         type: 'dashboard',
       },
+      // {
+      //   id: '02',
+      //   title: 'File Resource Management',
+      //   type: 'fsm',
+      //   url: 'D:\\',
+      // },
+      // {
+      //   id: '03',
+      //   title: 'Terminal',
+      //   type: 'terminal',
+      // },
       {
-        id: '02',
-        title: 'File Resource Management',
-        type: 'fsm',
-        url: 'D:\\',
-      },
-      {
-        id: '03',
-        title: 'Terminal',
-        type: 'terminal',
+        id: '04',
+        title: 'Agent',
+        type: 'agent',
       },
     ],
   })
@@ -80,9 +85,9 @@ export const usePageState = () => {
     //   setState(state)
     // },
     openDevtool: () => window.api.invoke('toggleDevTools'),
-    close: () => window.api.close(),
-    min: () => window.api.minimize(),
-    max: () => window.api.maximize(),
+    close: () => window.api.invoke('window-close'),
+    min: () => window.api.invoke('window-minimize'),
+    max: () => window.api.invoke('window-maximize'),
     reload: () => window.location.reload(),
   }
 

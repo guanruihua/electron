@@ -1,5 +1,5 @@
 import { BrowserWindow, globalShortcut } from 'electron'
-import { createScreenMask } from './create-screen-mask'
+import { createScreenMask } from '../gen/create-screen-mask'
 
 export const registerShortcuts = (mainWindow: BrowserWindow) => {
   const Conf = {

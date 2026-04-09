@@ -98,7 +98,6 @@ export const ScreenMaskTmp = `<!doctype html>
 
     function changeZoom(zoom) {
       console.log('🚀 ~ changeZoom ~ zoom:', zoom, window)
-      // window.api.resizeMaskWindow(zoom)
       window.api.test(zoom)
     }
     // window.addEventListener(
@@ -109,9 +108,6 @@ export const ScreenMaskTmp = `<!doctype html>
 
     //     // 判断滚动方向：deltaY > 0 向下（缩小），deltaY < 0 向上（放大）
     //     const direction = e.deltaY > 0 ? 'down' : 'up'
-
-    //     // 调用主进程的缩放方法
-    //     window.api.resizeMaskWindow(direction)
 
     //     // 实时更新窗口尺寸显示（可选）
     //     // 注：渲染进程无法直接获取窗口尺寸，这里简化为估算，也可通过 IPC 从主进程获取

@@ -51,7 +51,7 @@ export default function ProjectOperation(props: ModuleProps) {
   return (
     <div
       ref={ref}
-      className="root-layout-home-view-modules project-operation"
+      className="project-operation"
       data-start="0"
     >
       <div className="module-bg" style={{ padding: 0 }}>

@@ -11,6 +11,7 @@ import { UserSetting } from './modules/user-setting'
 import ClipboardDashboard from './modules/clipboard/clipboard'
 import ProjectDashboard from './modules/project/project'
 import ProjectOperation from './modules/project/operation'
+// import Log from './modules/log/log'
 
 export default function DashboardView() {
   const h = useHomeView()
@@ -18,27 +19,28 @@ export default function DashboardView() {
     <div
       className="root-layout-home-view h w overflow-y grid gap p"
       style={{
-        gridTemplateColumns: '4fr 2fr 4fr 4fr',
+        gridTemplateColumns: '2fr 4fr 4fr 4fr',
         height: 'var(--h)',
       }}
     >
       <div className="dashboard-layout-col">
-        <Info />
-        <NodeTread h={h} />
-        <UserSetting h={h} />
-        <SysSetting h={h} />
-      </div>
-
-      <div className="dashboard-layout-col">
         <ProjectDashboard h={h} />
       </div>
-
       <div className="dashboard-layout-col">
-        <ProjectOperation h={h}/>
+        <ProjectOperation h={h} />
         <GitReview h={h} />
         <QuickStart h={h} />
         <RunningApp h={h} />
       </div>
+
+      <div className="dashboard-layout-col">
+        <Info />
+        <NodeTread h={h} />
+        {/* <Log h={h} /> */}
+        <UserSetting h={h} />
+        <SysSetting h={h} />
+      </div>
+
       <div className="flex gap col">
         <ClipboardDashboard h={h} />
         <Opt h={h} />

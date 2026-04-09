@@ -2,7 +2,7 @@ import React from 'react'
 import { ModuleProps, ProjectConf } from '@/type'
 import { isString } from 'asura-eye'
 
-export const Module = (props: ModuleProps & { item: ProjectConf }) => {
+export const ProjectItem = (props: ModuleProps & { item: ProjectConf }) => {
   const { h, item } = props
   const { handle } = h
 
@@ -27,7 +27,7 @@ export const Module = (props: ModuleProps & { item: ProjectConf }) => {
             }}
           >
             {item.children?.map?.((item, i) => (
-              <Module key={i} item={item} h={props.h} />
+              <ProjectItem key={i} item={item} h={props.h} />
             ))}
           </div>
         </div>

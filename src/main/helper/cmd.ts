@@ -7,6 +7,7 @@ const send = (mainWindow: BrowserWindow, type: string, data: any) => {
     data,
   })
 }
+
 const cmdResult = (command: string): Promise<any> => {
   return new Promise((rs) => {
     const cmd = spawn(command, {

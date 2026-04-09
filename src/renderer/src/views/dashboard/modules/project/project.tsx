@@ -2,8 +2,9 @@ import { Icon } from '@/components'
 import { ModuleProps } from '@/type'
 import { Button } from 'antd'
 import { useLoadings, getModules } from '@/util'
-import { Module } from './module'
+import { ProjectItem } from './project-item'
 import { openConfFile } from './helper'
+import './project.less'
 
 export default function ProjectDashboard(props: ModuleProps) {
   const { h } = props
@@ -25,35 +26,33 @@ export default function ProjectDashboard(props: ModuleProps) {
   }
 
   return (
-    <div className="root-layout-home-view-modules">
-      <div className="module-bg" style={{ padding: 0 }}>
-        <div
-          className="flex space-between items-center mb"
-          style={{ padding: '20px 20px 0' }}
-        >
-          <h4>Project</h4>
-          <div className="flex gap">
-            <Button
-              icon={<Icon type="edit" />}
-              loading={loadings.edit}
-              onClick={() => setLoadings(openConfFile(state), 'edit')}
-            />
-            <Button
-              loading={
-                loadings.reload || viewLoadings.stopAll || viewLoadings.findAll
-              }
-              icon={<Icon type="reload" style={{ fontSize: 16 }} />}
-              className="bolder"
-              onClick={() => setLoadings(reload(), 'reload')}
-            />
-          </div>
+    <div className="dashboard-project">
+      <div
+        className="flex space-between items-center mb"
+        style={{ padding: '20px 20px 0' }}
+      >
+        <h4>Project</h4>
+        <div className="flex gap">
+          <Button
+            icon={<Icon type="edit" />}
+            loading={loadings.edit}
+            onClick={() => setLoadings(openConfFile(state), 'edit')}
+          />
+          <Button
+            loading={
+              loadings.reload || viewLoadings.stopAll || viewLoadings.findAll
+            }
+            icon={<Icon type="reload" style={{ fontSize: 16 }} />}
+            className="bolder"
+            onClick={() => setLoadings(reload(), 'reload')}
+          />
         </div>
-        <div className="p" style={{ paddingTop: 10 }}>
-          <div className="root-layout-home-view-modules-container overflow-y">
-            {state?.modules?.map?.((item, i) => (
-              <Module key={i} item={item} h={props.h} />
-            ))}
-          </div>
+      </div>
+      <div className="p" style={{ paddingTop: 10 }}>
+        <div className="dashboard-project-container overflow-y">
+          {state?.modules?.map?.((item, i) => (
+            <ProjectItem key={i} item={item} h={props.h} />
+          ))}
         </div>
       </div>
     </div>

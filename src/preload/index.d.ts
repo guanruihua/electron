@@ -1,6 +1,24 @@
 import { ObjectType } from '0type'
 import { ElectronAPI } from '@electron-toolkit/preload'
-import { AppSize } from './type'
+
+type InvokeType =
+  | 'window-minimize'
+  | 'window-unmaximize'
+  | 'window-maximize'
+  | 'window-close'
+  | 'toggleDevTools'
+  | 'cmd'
+  | 'dev'
+  | 'fs'
+  | 'cmdResult'
+  | 'updateApps'
+  | 'getSysInfo'
+  | 'getFileTree'
+  | 'getRunningApp'
+  | 'stopAppByName'
+  | 'getUserDataPath'
+  | 'copy'
+  | 'getClipboard'
 
 declare global {
   interface Window {
@@ -10,19 +28,7 @@ declare global {
       off(eventName: string, callback: (data: ObjectType) => void): void
       onNewTab(callback: (data: ObjectType) => void): void
       openMaskWindow(): void
-      resizeMaskWindow(zoom: number): void
-      store: (conf: ObjectType) => Promise<any>
-      // 窗口控制
-      minimize: () => void
-      maximize: () => void
-      close: () => void
-      //
       openPath: (path: string) => void
-      /**
-       * @description 获取开始开始菜单的快捷方式
-       * @returns {string[]} path[]
-       */
-      getStartMenu: () => Promise<ObjectType[]>
       /**
        * @description 监听快捷键
        * @param {string} type
@@ -30,35 +36,29 @@ declare global {
        * @returns {void}
        */
       onShortcut: (type: string, callback: (info: any) => void) => void
-      setSize: (conf: AppSize) => void
       /**
-       * @param type
-       * 'toggleDevTools' 折叠控制台
-       *  'cmd' 执行命令
-       *  'dev' 执行运行服务的命令
-       *  'fs' 文件系统相关
-       *  'cmdResult'  执行命令, 有log 回调
-       * 'updateApps' 更新 apps 列表
-       * 'getLocalIP' 获取本机IP
+       * - window-minimize  最小化窗口
+       * - window-unmaximize 取消最大化窗口
+       * - window-maximize 最大化窗口
+       * - window-close 关闭窗口
+       * - toggleDevTools 折叠控制台
+       * - cmd 执行一次性命令
+       * - dev 执行服务命令
+       * - fs  文件系统
+       * - cmdResult 执行命令, 有log 回调
+       * - updateApps 更新 app 列表
+       * - getSysInfo 获取系统信息
+       * - getFileTree 获取文件树
+       * - getRunningApp 获取运行 app
+       * - stopAppByName  停止 app 运行
+       * - getUserDataPath 获取用户数据路径
+       * - copy 复制
+       * - getClipboard 获取剪贴画
+       * @param {InvokeType} type
+       * @param {any} [conf]
+       * @returns {Promise<any>}
        */
-      invoke: (
-        type:
-          | 'toggleDevTools'
-          | 'cmd'
-          | 'dev'
-          | 'fs'
-          | 'cmdResult'
-          | 'updateApps'
-          | 'getSysInfo'
-          | 'getFileTree'
-          | 'getRunningApp'
-          | 'stopAppByName'
-          | 'getUserDataPath'
-          | 'copy'
-          | 'getClipboard',
-        conf?: ObjectType | string | number | any[],
-      ) => Promise<any>
-      test: (conf: any) => Promise<any>
+      invoke: (type: InvokeType, conf?: any) => Promise<any>
     }
   }
 }

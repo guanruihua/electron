@@ -1,6 +1,6 @@
 import { Div } from 'aurad'
 import { State, ViewState } from '@/type'
-import { Icon } from '@/components'
+// import { Icon } from '@/components'
 
 export interface HeaderProps {
   handle: {

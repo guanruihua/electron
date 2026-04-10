@@ -49,11 +49,7 @@ export default function ProjectOperation(props: ModuleProps) {
     viewLoadings.findAll
 
   return (
-    <div
-      ref={ref}
-      className="project-operation"
-      data-start="0"
-    >
+    <div ref={ref} className="project-operation" data-start="0">
       <div className="module-bg" style={{ padding: 0 }}>
         <div
           className="flex space-between items-center mb"
@@ -92,18 +88,7 @@ export default function ProjectOperation(props: ModuleProps) {
             >
               Stop
             </Button>
-            <Button
-              loading={loadings.vscode}
-              icon={<Icon type="vscode" />}
-              onClick={() => {
-                setLoadings(
-                  window.api.invoke('cmd', `code ${item.path}`),
-                  'vscode',
-                )
-              }}
-            >
-              VS Code
-            </Button>
+
             {item.web && (
               <Button
                 icon={<Icon type="google" />}
@@ -118,7 +103,33 @@ export default function ProjectOperation(props: ModuleProps) {
                 Google
               </Button>
             )}
-
+            <Button
+              loading={loadings.vscode}
+              icon={<Icon type="vscode" />}
+              onClick={() => {
+                setLoadings(
+                  window.api.invoke('cmd', `code ${item.path}`),
+                  'vscode',
+                )
+              }}
+            >
+              VS Code
+            </Button>
+            <Button
+              loading={loadings.cmd}
+              icon={<Icon type="cmd" />}
+              onClick={() => {
+                setLoadings(
+                  window.api.invoke(
+                    'cmd',
+                    `start cmd /k "cd /d \"${item.path}\""`,
+                  ),
+                  'cmd',
+                )
+              }}
+            >
+              CMD
+            </Button>
             <Button
               icon={<Icon type="dir" />}
               loading={loadings.dir}

@@ -5,7 +5,13 @@
   overflow: hidden;
 
   .frm-review-container {
+    height: 100%;
     overflow-y: auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-rows: auto;
+    gap: 0 10px;
+    align-content: start;
   }
 
   .frm-review-footer {
@@ -20,6 +26,7 @@
   }
 
   .frm-review-row {
+    min-height: 20px;
     font-size: 12px;
     line-height: 20px;
     display: flex;
@@ -28,6 +35,7 @@
     overflow: hidden;
     // max-width: 49vw;
     white-space: wrap;
+    margin-bottom: 8px;
 
     .right-arrow {
       display: none;

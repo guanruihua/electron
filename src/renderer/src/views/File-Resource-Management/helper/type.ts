@@ -27,6 +27,10 @@ export type PageState = Partial<{
   >
   setting: Partial<{
     ignore: string[]
+    includeDir: string,
+    excludeDir: string,
+    includeFile: string,
+    excludeFile: string,
   }>
   [key: string]: any
 }>

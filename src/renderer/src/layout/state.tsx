@@ -11,22 +11,22 @@ export const usePageState = () => {
         title: 'Dashboard',
         type: 'dashboard',
       },
-      // {
-      //   id: '02',
-      //   title: 'File Resource Management',
-      //   type: 'fsm',
-      //   url: 'D:\\',
-      // },
+      {
+        id: '02',
+        title: 'File Resource Management',
+        type: 'fsm',
+        url: 'D:\\',
+      },
       // {
       //   id: '03',
       //   title: 'Terminal',
       //   type: 'terminal',
       // },
-      {
-        id: '04',
-        title: 'Agent',
-        type: 'agent',
-      },
+      // {
+      //   id: '04',
+      //   title: 'Agent',
+      //   type: 'agent',
+      // },
     ],
   })
   const renderState = () => _renderState(state)

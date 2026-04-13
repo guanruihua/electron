@@ -18,7 +18,7 @@ export default function ProjectOperation(props: ModuleProps) {
 
   const clear = () => {
     timer.current && clearInterval(timer.current)
-
+    setLoadings(false)
     if (ref.current) ref.current.dataset.start = '0'
   }
 
@@ -143,30 +143,24 @@ export default function ProjectOperation(props: ModuleProps) {
               FRM
             </Button>
 
-            {item?.build?.frontend && (
-              <Button
-                icon={<Icon type="build" />}
-                className="text-10"
-                onClick={() =>
-                  item?.build?.frontend &&
-                  window.api.invoke('cmd', `explorer "${item.build.frontend}"`)
-                }
-              >
-                Front End
-              </Button>
-            )}
-            {item?.build?.backend && (
-              <Button
-                icon={<Icon type="build" />}
-                className="text-10"
-                onClick={() =>
-                  item?.build?.backend &&
-                  window.api.invoke('cmd', `explorer "${item.build.backend}"`)
-                }
-              >
-                Back End
-              </Button>
-            )}
+            {Object.keys(item)
+              .filter((key) => key.startsWith('url-'))
+              .map((key) => {
+                const value = item[key]
+                const tmp = key.replace('url-', '')
+                const label = tmp.slice(0,1).toUpperCase() + tmp.slice(1)
+                return (
+                  <Button
+                    icon={<Icon type="google" />}
+                    className="text-10"
+                    onClick={() =>
+                      value && window.api.invoke('cmd', `explorer "${value}"`)
+                    }
+                  >
+                    {label}
+                  </Button>
+                )
+              })}
           </div>
         </div>
       </div>

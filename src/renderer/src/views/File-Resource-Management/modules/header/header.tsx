@@ -31,8 +31,14 @@ export function Header(props: Props) {
                   item.value = item.name
                   return item
                 }) || []
+            if (!value && !options.length) {
+              return <React.Fragment key={i} />
+            }
             return (
               <React.Fragment key={i}>
+                <div data-hidden={i === 0} className="text-12 mr">
+                  \
+                </div>
                 <AutoComplete
                   options={options}
                   classNames={{
@@ -47,24 +53,9 @@ export function Header(props: Props) {
                 >
                   <div className="frm-path-item-value">{value}</div>
                 </AutoComplete>
-                <div
-                  data-hidden={i === paths.length - 1}
-                  className="text-12 mr"
-                >
-                  \
-                </div>
               </React.Fragment>
             )
           })}
-          {/* <AutoComplete
-          options={options}
-          style={{ width: 200 }}
-          onSelect={onSelect}
-          showSearch={{
-            onSearch: (text) => setOptions(getPanelValue(text)),
-          }}
-          placeholder="Input Path here ..."
-        /> */}
         </div>
       </div>
       <div className="frm__header-right">

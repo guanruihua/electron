@@ -13,7 +13,9 @@ export const usePageState = () => {
     fsStat: {},
     pathMap: {},
     select: {},
-    setting: {},
+    setting: {
+      excludeDir: 'excludeDir'
+    },
     headerPaths: [],
   })
 
@@ -78,7 +80,7 @@ export const usePageState = () => {
     init()
   }, [])
 
-  console.log(pageState)
+  // console.log(pageState)
   const selectFileNode = async (item: FileNode) => {
     console.log('selectFileNode: ', item)
     const { open = [] } = pageState

@@ -4,6 +4,7 @@ import { FileInfo } from './modules/file-info/file-info'
 import { Header } from './modules/header/header'
 import './index.less'
 import { FileReview } from './modules/review/review'
+import { Setting } from './modules/setting/setting'
 
 export default function FileResourceManagement() {
   const { pageState, loadings, handlePage } = usePageState()
@@ -21,6 +22,7 @@ export default function FileResourceManagement() {
         </div>
         <FileReview {...cmm} />
         <FileInfo {...cmm} />
+        <Setting {...cmm} />
       </div>
     </div>
   )

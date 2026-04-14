@@ -1,5 +1,5 @@
 import React from 'react'
-import { useLoadings, useSetState } from '@/util'
+import { sleep, useLoadings, useSetState } from '@/util'
 import { getData, FileNode, getFileType } from './helper'
 import { PageState } from './helper/type'
 import { isString } from 'asura-eye'
@@ -14,7 +14,9 @@ export const usePageState = () => {
     pathMap: {},
     select: {},
     setting: {
-      excludeDir: '.pnpm-store,$RECYCLE.BIN',
+      show: 0,
+      excludeDir:
+        '.pnpm-store,$RECYCLE.BIN,Config.Msi,System Volume Information,Program Files,Recovery,WindowsApps,D:\\software_data',
       includeDir: '',
       includeFile: '',
       excludeFile: '',
@@ -52,11 +54,15 @@ export const usePageState = () => {
   }
 
   const init = async () => {
-    const drives = await getData('driver')
-    const selectDrive = drives.find((_) => _ !== 'C:')
+    const drives = (await getData('driver')) || ['c:']
+    const selectDrive =
+      drives.length > 1 ? drives.find((_) => _ !== 'C:') : drives[0]
     await readCurrentDir(selectDrive)
     setHeaderPaths(selectDrive, 'dir')
-
+    console.log({
+      drives,
+      selectDrive,
+    })
     pageState.pathMap![''] = drives.map((path) => ({
       name: path,
       parentPath: '',
@@ -83,9 +89,8 @@ export const usePageState = () => {
     init()
   }, [])
 
-  // console.log(pageState)
   const selectFileNode = async (item: FileNode) => {
-    console.log('selectFileNode: ', item)
+    // console.log('selectFileNode: ', item)
     const { open = [] } = pageState
     const { path, type } = item
 

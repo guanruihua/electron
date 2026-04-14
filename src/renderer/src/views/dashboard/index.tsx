@@ -25,6 +25,7 @@ export default function DashboardView() {
     >
       <div className="dashboard-layout-col">
         <ProjectDashboard h={h} />
+        <Opt h={h} />
       </div>
       <div className="dashboard-layout-col">
         <ProjectOperation h={h} />
@@ -34,7 +35,7 @@ export default function DashboardView() {
       </div>
 
       <div className="dashboard-layout-col">
-        <Info />
+        <Info h={h}/>
         <NodeTread h={h} />
         {/* <Log h={h} /> */}
         <UserSetting h={h} />
@@ -43,7 +44,6 @@ export default function DashboardView() {
 
       <div className="flex gap col">
         <ClipboardDashboard h={h} />
-        <Opt h={h} />
       </div>
       {h.context}
     </div>

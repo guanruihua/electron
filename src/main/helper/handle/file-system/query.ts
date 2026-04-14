@@ -14,10 +14,11 @@ export async function getJSONFileData(url: string): Promise<ObjectType> {
 }
 const getPaths = (url: any): string[] => {
   if (!isString(url)) return url
-  return url?.replace(/\\\\|\//gi, '\\\\')?.split(',') || []
+  return url?.replace(/\\\\|\//gi, '\\\\')?.trim().split(',').filter(Boolean).map(_=>_.trim()) || []
 }
 
 const match = (list: string[], currentPath: string): boolean => {
+  if (!list?.length) return false
   for (let i = 0; i < list.length; i++) {
     const item: string = list[i]
     if (currentPath.includes(item)) {
@@ -50,6 +51,14 @@ export const readCurrentDir = async (payload: any) => {
         path: currentPath,
         type: 'file',
       }
+      // console.log(
+      //   item.name,
+      //   excludeDirs,
+      //   currentPath,
+      //   includeDirs?.length,
+      //   match(excludeDirs, currentPath),
+      // )
+
       if (ent.isDirectory()) {
         item.type = 'dir'
         //  includeDir
@@ -67,14 +76,14 @@ export const readCurrentDir = async (payload: any) => {
           if (match(includeFiles, currentPath)) res.push(item)
           continue
         }
+        // excludeFile
         if (excludeFiles?.length) {
           if (match(excludeFiles, currentPath)) continue
         }
-        // excludeFile
       }
       res.push(item)
     }
-    console.log(res, excludeDirs)
+    // console.log(res.map(_=>_.name), excludeDirs, currentPath)
     return res
   } catch (err) {
     console.error('读取目录失败:', err)

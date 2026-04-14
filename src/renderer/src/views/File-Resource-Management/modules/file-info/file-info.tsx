@@ -25,7 +25,7 @@ export const FileInfo = (props: Props) => {
   ]
 
   return (
-    <div className="frm-card frm-card-info" data-hidden={!pageState?.select?.path} data-file-type={pageState?.select?.fileType || 'default'}>
+    <div className="frm-card frm-card-info" data-hidden={!pageState?.select?.parentPath} data-file-type={pageState?.select?.fileType || 'default'}>
       <FileInfoBox items={items} pageState={pageState} />
       <FileInfoBox type="stats" items={fileItems} pageState={pageState} />
     </div>

@@ -8,6 +8,8 @@ import {
 } from '../../helper'
 import './review.less'
 import { useState } from 'react'
+import { useEffect } from 'react'
+import { Image } from 'antd'
 
 type Props = {
   pageState: PageState
@@ -29,6 +31,31 @@ export const FileReview = (props: Props) => {
     current * pageSize,
   )
 
+  const [count, setCount] = useState(3)
+  useEffect(() => {
+    const q = '.frm-review'
+    const dom = document.querySelector(q)
+    if (!dom) return
+    const resizeObserver = new ResizeObserver((entries) => {
+      for (let entry of entries) {
+        const { width } = entry.contentRect
+        // console.log(`宽度变化：${width}px`)
+        const newCount = Math.max(1, Math.floor(width / 300))
+        if (newCount === count) return
+        setCount(newCount)
+      }
+    })
+    resizeObserver.observe(dom)
+
+    return () => {
+      resizeObserver.disconnect()
+    }
+  }, [])
+
+  const cols = new Array(count)
+    .fill('')
+    .map((_, i) => renderTree.filter((_, j) => j % count === i))
+
   return (
     <div
       className="frm-review frm-card"
@@ -38,22 +65,40 @@ export const FileReview = (props: Props) => {
       }
     >
       <div className="frm-review-header"></div>
-      <div className="frm-review-container">
-        {renderTree.slice(0, 50).map((item: FileNode) => {
-          const { name } = item
-          const fileType = getFileType(item)
-
-          return (
-            <div
-              key={item.path}
-              className="frm-review-row"
-              onClick={() => handlePage.selectFileNode(item)}
-            >
-              {IconMap[fileType]}
-              {name}
-            </div>
-          )
-        })}
+      <div className="frm-review-container" style={{
+        gridTemplateColumns: `${new Array(count).fill('1fr').join(' ')}`
+      }}>
+        {cols.map((col, i) => (
+          <div key={i} className="frm-review-container-col">
+            {col.map((item: FileNode) => {
+              const { name, path } = item
+              const fileType = getFileType(item)
+              if (fileType === 'image') {
+                return (
+                  <div
+                    key={path}
+                    className="frm-review-item"
+                    // onClick={() => handlePage.selectFileNode(item)}
+                  >
+                    {/* <img src={`file://${path}`} /> */}
+                    <Image src={`file://${path}`} />
+                    <div className="frm-review-item-name">{name}</div>
+                  </div>
+                )
+              }
+              return (
+                <div
+                  key={path}
+                  className="frm-review-item"
+                  onClick={() => handlePage.selectFileNode(item)}
+                >
+                  {IconMap[fileType]}
+                  {name}
+                </div>
+              )
+            })}
+          </div>
+        ))}
       </div>
       <div className="frm-review-footer">
         <div className="frm-review-footer-total">Total: {tree.length}</div>

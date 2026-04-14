@@ -5,12 +5,17 @@ import { Button } from 'antd'
 import React from 'react'
 import { updateCountdown } from './helper'
 import './info.less'
+import { ObjectType } from '0type'
+import { ModuleProps } from '@/type'
 
-export function Info() {
+export function Info(props: ModuleProps) {
+  const { handle } = props.h
   const [loading, setLoading] = useLoading()
   const [LocalIP, setLocalIP] = React.useState('0.0.0.0')
   const [batteryPower, setBatteryPower] = React.useState(false)
-  const [ddl, setDDL] = React.useState('今天不用上班！')
+  const [ddl, setDDL] = React.useState<ObjectType<string>>({
+    msg: '今天不用上班！',
+  })
   const [networkName, setNetworkName] = React.useState('')
   const timer = React.useRef<NodeJS.Timeout | null>(null)
 
@@ -59,13 +64,29 @@ export function Info() {
           />
           <h4>Info</h4>
           <div
-            className="text-14"
-            style={{
-              paddingBottom: 10,
-              borderBottom: '2px solid rgba(255,255,255, .2)',
+            className="ddl-info-box"
+            title='Click Copy...'
+            onClick={async (e) => {
+              e?.preventDefault()
+              e?.stopPropagation()
+              const res = await window.api.invoke('copy', {
+                data: Object.values(ddl).join('\n'),
+              })
+              res
+                ? handle.success('Copy Success...')
+                : handle.error('Copy Error...')
             }}
           >
-            {ddl}
+            <div className="ddl-info">{ddl.msg}</div>
+            <div className="ddl-info" data-hidden={!ddl?.hours}>
+              {ddl?.hours}
+            </div>
+            <div className="ddl-info" data-hidden={!ddl?.minutes}>
+              {ddl?.minutes}
+            </div>
+            <div className="ddl-info" data-hidden={ddl?.seconds}>
+              {ddl?.seconds}
+            </div>
           </div>
 
           <div className="dashboard-info-row">

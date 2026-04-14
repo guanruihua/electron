@@ -13,7 +13,7 @@ export const usePageState = () => {
       },
       {
         id: '02',
-        title: 'File Resource Management',
+        title: 'FRM',
         type: 'fsm',
         url: 'D:\\',
       },

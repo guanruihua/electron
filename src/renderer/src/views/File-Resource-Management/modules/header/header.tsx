@@ -14,10 +14,11 @@ type Props = {
 
 export function Header(props: Props) {
   const { loadings, pageState, handlePage } = props
-  const { pathMap } = pageState
+  const { pathMap, setting = {} } = pageState
   const [input, setInput] = React.useState('')
   // console.log(pageState.select?.path, paths)
   const paths = pageState?.headerPaths || []
+  
   return (
     <div className="file-resource-management__header">
       <div className="frm__header-left">
@@ -78,6 +79,15 @@ export function Header(props: Props) {
           icon={<Icon type="reload" style={{ fontSize: 16 }} />}
           className="bolder"
           onClick={() => handlePage.setLoadings(handlePage?.init?.(), 'reload')}
+        />
+        <Button
+          icon={<Icon type="setting" style={{ fontSize: 16 }} />}
+          className="bolder"
+          type={setting.show === 1 ? 'primary' : 'default'}
+          onClick={() => {
+            setting.show = setting.show === 1 ? 0 : 1
+            handlePage.setPageState({ setting })
+          }}
         />
       </div>
     </div>

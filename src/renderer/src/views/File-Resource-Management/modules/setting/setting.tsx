@@ -24,8 +24,6 @@ export const Setting = (props: Props) => {
       children: [
         // { label: '仅包含文件', name: 'includeFile' },
         { label: '排除文件', name: 'excludeFile' },
-        // { label: '排除文件后缀', name: 'excludeFilePre' },
-        // { label: '排除文件后缀', name: 'excludeFileExt' },
       ],
     },
   ]

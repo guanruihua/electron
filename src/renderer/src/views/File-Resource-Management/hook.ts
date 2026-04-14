@@ -14,13 +14,16 @@ export const usePageState = () => {
     pathMap: {},
     select: {},
     setting: {
-      excludeDir: 'excludeDir'
+      excludeDir: '.pnpm-store,$RECYCLE.BIN',
+      includeDir: '',
+      includeFile: '',
+      excludeFile: '',
     },
     headerPaths: [],
   })
 
   const readCurrentDir = async (path: string) => {
-    const values = await getData('dir', path)
+    const values = await getData('dir', path, pageState.setting)
     if (pageState.pathMap) {
       pageState.pathMap[path] = values
     } else {

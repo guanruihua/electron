@@ -2,9 +2,13 @@ export * from './conf'
 export * from './type'
 
 import { isString } from 'asura-eye'
-import { FileNode } from './type'
+import { FileNode, PageState } from './type'
 
-export const getData = async (type: 'dir' | 'driver', payload: any = '') => {
+export const getData = async (
+  type: 'dir' | 'driver',
+  payload: any = '',
+  setting: PageState['setting'] = {},
+) => {
   if (type === 'dir') {
     if (!isString(payload)) return []
     const path: string = payload
@@ -12,6 +16,7 @@ export const getData = async (type: 'dir' | 'driver', payload: any = '') => {
       (await window.api.invoke('fs', {
         action: 'readCurrentDir',
         payload: {
+          setting,
           path: path.endsWith('\\') ? path : path + '\\',
         },
       })) || []

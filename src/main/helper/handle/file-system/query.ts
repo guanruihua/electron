@@ -1,6 +1,7 @@
 import { ObjectType } from '0type'
 import { isString } from 'asura-eye'
 import { fsp, fs, _path } from './pkg'
+import { FileSystemSetting } from './type'
 
 export async function getJSONFileData(url: string): Promise<ObjectType> {
   if (!url) return {}
@@ -11,9 +12,30 @@ export async function getJSONFileData(url: string): Promise<ObjectType> {
     return {}
   }
 }
+const getPaths = (url: any): string[] => {
+  if (!isString(url)) return url
+  return url?.replace(/\\\\|\//gi, '\\\\')?.split(',') || []
+}
+
+const match = (list: string[], currentPath: string): boolean => {
+  for (let i = 0; i < list.length; i++) {
+    const item: string = list[i]
+    if (currentPath.includes(item)) {
+      return true
+    }
+  }
+  return false
+}
 
 export const readCurrentDir = async (payload: any) => {
-  const { path } = payload
+  const { path, setting = {} } = payload
+
+  const { includeDir, excludeDir, includeFile, excludeFile } =
+    setting as FileSystemSetting
+  const includeDirs = getPaths(includeDir)
+  const excludeDirs = getPaths(excludeDir)
+  const includeFiles = getPaths(includeFile)
+  const excludeFiles = getPaths(excludeFile)
 
   if (!isString(path)) return []
   try {
@@ -22,17 +44,37 @@ export const readCurrentDir = async (payload: any) => {
 
     const res: any[] = []
     for (const ent of entries) {
+      const currentPath = _path.join(path, ent.name)
       const item = {
         ...ent,
-        path: _path.join(path, ent.name),
+        path: currentPath,
         type: 'file',
       }
       if (ent.isDirectory()) {
         item.type = 'dir'
+        //  includeDir
+        if (includeDirs?.length) {
+          if (match(includeDirs, currentPath)) res.push(item)
+          continue
+        }
+        // excludeDir
+        if (excludeDirs?.length) {
+          if (match(excludeDirs, currentPath)) continue
+        }
+      } else {
+        // includeFile
+        if (includeFiles?.length) {
+          if (match(includeFiles, currentPath)) res.push(item)
+          continue
+        }
+        if (excludeFiles?.length) {
+          if (match(excludeFiles, currentPath)) continue
+        }
+        // excludeFile
       }
       res.push(item)
     }
-
+    console.log(res, excludeDirs)
     return res
   } catch (err) {
     console.error('读取目录失败:', err)

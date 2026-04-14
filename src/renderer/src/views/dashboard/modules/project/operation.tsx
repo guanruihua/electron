@@ -148,9 +148,10 @@ export default function ProjectOperation(props: ModuleProps) {
               .map((key) => {
                 const value = item[key]
                 const tmp = key.replace('url-', '')
-                const label = tmp.slice(0,1).toUpperCase() + tmp.slice(1)
+                const label = tmp.slice(0, 1).toUpperCase() + tmp.slice(1)
                 return (
                   <Button
+                    key={key}
                     icon={<Icon type="google" />}
                     className="text-10"
                     onClick={() =>

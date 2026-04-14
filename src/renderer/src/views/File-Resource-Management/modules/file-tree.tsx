@@ -24,6 +24,8 @@ export const FileTree = (props: Props) => {
   const renderTree: FileNode[] =
     pageState?.pathMap?.[path]?.filter((_) => _.type === 'dir') || []
 
+  console.log(renderTree)
+
   return (
     <div className="frm-file-tree" {...rest2}>
       {renderTree?.map?.((item: FileNode, i) => {

@@ -1,55 +1,13 @@
-import { useLoading } from '@/util'
-import { isBoolean, isString } from 'asura-eye'
 import { Icon } from '@/components'
 import { Button } from 'antd'
-import React from 'react'
-import { updateCountdown } from './helper'
 import './info.less'
-import { ObjectType } from '0type'
 import { ModuleProps } from '@/type'
+import { useMyState } from './state'
 
 export function Info(props: ModuleProps) {
   const { handle } = props.h
-  const [loading, setLoading] = useLoading()
-  const [LocalIP, setLocalIP] = React.useState('0.0.0.0')
-  const [batteryPower, setBatteryPower] = React.useState(false)
-  const [ddl, setDDL] = React.useState<ObjectType<string>>({
-    msg: '今天不用上班！',
-  })
-  const [networkName, setNetworkName] = React.useState('')
-  const timer = React.useRef<NodeJS.Timeout | null>(null)
-
-  async function updateNetworkName() {
-    const cmd = `powershell -Command "Get-NetConnectionProfile | Select-Object -ExpandProperty Name"`
-    const res = await window.api.invoke('cmdResult', cmd)
-    if (isString(res)) setNetworkName(res)
-  }
-
-  const init = async () => {
-    setDDL(updateCountdown(timer))
-
-    timer.current = setInterval(() => {
-      setDDL(updateCountdown(timer))
-    }, 1000)
-
-    await updateNetworkName()
-
-    const [LIP, BatteryPower] = await window.api.invoke(
-      'getSysInfo',
-      'LocalIP,BatteryPower',
-    )
-    if (isString(LIP)) setLocalIP(LIP)
-    if (isBoolean(BatteryPower)) setBatteryPower(BatteryPower)
-    return
-  }
-
-  React.useEffect(() => {
-    init()
-
-    return () => {
-      timer.current && clearInterval(timer.current)
-    }
-  }, [])
+  const { loading, setLoading, LocalIP, batteryPower, ddl, networkName, init } =
+    useMyState()
 
   return (
     <div className="root-layout-home-view-info dashboard-info">
@@ -65,28 +23,23 @@ export function Info(props: ModuleProps) {
           <h4>Info</h4>
           <div
             className="ddl-info-box"
-            title='Click Copy...'
+            title="Click Copy..."
             onClick={async (e) => {
               e?.preventDefault()
               e?.stopPropagation()
               const res = await window.api.invoke('copy', {
-                data: Object.values(ddl).join('\n'),
+                data: ddl.filter(Boolean).join('\n'),
               })
               res
                 ? handle.success('Copy Success...')
                 : handle.error('Copy Error...')
             }}
           >
-            <div className="ddl-info">{ddl.msg}</div>
-            <div className="ddl-info" data-hidden={!ddl?.hours}>
-              {ddl?.hours}
-            </div>
-            <div className="ddl-info" data-hidden={!ddl?.minutes}>
-              {ddl?.minutes}
-            </div>
-            <div className="ddl-info" data-hidden={ddl?.seconds}>
-              {ddl?.seconds}
-            </div>
+            {ddl.map((val) => (
+              <div key={val} className="ddl-info">
+                {val}
+              </div>
+            ))}
           </div>
 
           <div className="dashboard-info-row">

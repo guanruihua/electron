@@ -1,12 +1,8 @@
 import React from 'react'
 import { Loadings } from '@/util'
-import {
-  getFileType,
-  IconMap,
-  FileNode,
-  PageState,
-  HandlePage,
-} from '../helper'
+import { FileNode, PageState, HandlePage } from '../helper'
+import './file-tree.less'
+import { Icon } from '@/components'
 
 type Props = {
   pageState: PageState
@@ -24,8 +20,6 @@ export const FileTree = (props: Props) => {
   const renderTree: FileNode[] =
     pageState?.pathMap?.[path]?.filter((_) => _.type === 'dir') || []
 
-  // console.log(renderTree)
-
   return (
     <div className="frm-file-tree" {...rest2}>
       {renderTree?.map?.((item: FileNode, i) => {
@@ -34,7 +28,6 @@ export const FileTree = (props: Props) => {
 
         const isDirectory = type == 'dir'
         const isFold = !open.includes(path)
-        const fileType = getFileType(item)
         const child: FileNode[] = pageState?.pathMap?.[path]
 
         return (
@@ -51,25 +44,22 @@ export const FileTree = (props: Props) => {
               }}
             >
               <div
-                className="flex row pointer"
+                className="frm-file-tree-item-render"
+                title={item.name}
                 onClick={() => handlePage.selectFileNode(item)}
               >
-                <div
-                  className="flex items-center justify-center"
-                  style={{ paddingRight: 5, gap: 5 }}
+                <Icon className="right-arrow transition" type="right-arrow" />
+                <Icon type="dir" />
+                <span className="frm-file-tree-item-render-name">
+                  {item.name}
+                </span>
+                <span
+                  data-hidden={!isDirectory}
+                  className="ml text-12"
+                  style={{ color: 'rgba(255,255,255, .4)' }}
                 >
-                  {IconMap[fileType]}
-                </div>
-                <div className="name text-12 flex items-center justify-center">
-                  <span>{item.name}</span>
-                  <span
-                    data-hidden={!isDirectory}
-                    className="ml"
-                    style={{ color: 'rgba(255,255,255, .4)' }}
-                  >
-                    {child?.length || ''}
-                  </span>
-                </div>
+                  {child?.length || ''}
+                </span>
               </div>
             </div>
             {isDirectory && !isFold && !!child?.length && (

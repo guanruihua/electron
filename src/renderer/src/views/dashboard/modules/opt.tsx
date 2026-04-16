@@ -69,8 +69,8 @@ export function Opt(props: ModuleProps) {
 
   return (
     <div className="root-layout-home-view-opt flex col justify-center overflow-y module-bg">
-      <h4 className="mb">OPT</h4>
-      <div className="flex gap wrap" style={{ paddingTop: 10 }}>
+      {/* <h4 className="mb">OPT</h4> */}
+      <div className="flex gap wrap">
         {Conf.map((item, i) => {
           const { title, children } = item
           return (

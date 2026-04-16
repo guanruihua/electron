@@ -15,8 +15,9 @@ export const usePageState = () => {
     select: {},
     setting: {
       show: 0,
+      showInfo: 1,
       excludeDir:
-        '.pnpm-store,$RECYCLE.BIN,Config.Msi,System Volume Information,Program Files,Recovery,WindowsApps,D:\\software_data',
+        '.pnpm-store,$RECYCLE.BIN,Config.Msi,System Volume Information,Program Files,Recovery,WindowsApps,D:\\software_data,node_modules',
       includeDir: '',
       includeFile: '',
       excludeFile: '',
@@ -59,10 +60,10 @@ export const usePageState = () => {
       drives.length > 1 ? drives.find((_) => _ !== 'C:') : drives[0]
     await readCurrentDir(selectDrive)
     setHeaderPaths(selectDrive, 'dir')
-    console.log({
-      drives,
-      selectDrive,
-    })
+    // console.log({
+    //   drives,
+    //   selectDrive,
+    // })
     pageState.pathMap![''] = drives.map((path) => ({
       name: path,
       parentPath: '',

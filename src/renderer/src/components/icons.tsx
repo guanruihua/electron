@@ -45,6 +45,8 @@ export type IconType =
   | 'cmd'
   | 'setting'
   | 'image'
+  | 'eye'
+  | 'eye-close'
 
 interface IconProps extends React.DOMAttributes<SVGSVGElement> {
   style?: React.CSSProperties
@@ -61,6 +63,9 @@ export function Icon(props: IconProps) {
     type,
     ...rest
   } = props
+
+  ;(rest as any)['data-icon-type'] = type
+
   if (loading) {
     const { className, style, ...rest2 } = rest
     return (
@@ -103,6 +108,37 @@ export function Icon(props: IconProps) {
         <path
           fill="currentColor"
           d="M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h14q.825 0 1.413.588T21 5v14q0 .825-.587 1.413T19 21zm0-2h14V5H5zm1-2h12l-3.75-5l-3 4L9 13zm-1 2V5z"
+        ></path>
+      </svg>
+    )
+
+  if (type === 'eye-close')
+    return (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="1em"
+        height="1em"
+        viewBox="0 0 20 20"
+        {...rest}
+      >
+        <path
+          fill="currentColor"
+          d="M2.854 2.146a.5.5 0 1 0-.708.708l3.5 3.498a8.1 8.1 0 0 0-3.366 5.046a.5.5 0 1 0 .98.204a7.1 7.1 0 0 1 3.107-4.528L7.953 8.66a3.5 3.5 0 1 0 4.886 4.886l4.307 4.308a.5.5 0 0 0 .708-.708zm9.265 10.68A2.5 2.5 0 1 1 8.673 9.38zm-1.995-4.824l3.374 3.374a3.5 3.5 0 0 0-3.374-3.374M10 6c-.57 0-1.129.074-1.666.213l-.803-.803A7.7 7.7 0 0 1 10 5c3.693 0 6.942 2.673 7.72 6.398a.5.5 0 0 1-.98.204C16.058 8.327 13.207 6 10 6"
+        ></path>
+      </svg>
+    )
+  if (type === 'eye')
+    return (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="1em"
+        height="1em"
+        viewBox="0 0 24 24"
+        {...rest}
+      >
+        <path
+          fill="currentColor"
+          d="M12 9.005a4 4 0 1 1 0 8a4 4 0 0 1 0-8m0 1.5a2.5 2.5 0 1 0 0 5a2.5 2.5 0 0 0 0-5M12 5.5c4.613 0 8.596 3.15 9.701 7.564a.75.75 0 1 1-1.455.365a8.504 8.504 0 0 0-16.493.004a.75.75 0 0 1-1.456-.363A10 10 0 0 1 12 5.5"
         ></path>
       </svg>
     )

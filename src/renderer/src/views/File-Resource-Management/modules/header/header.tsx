@@ -18,7 +18,7 @@ export function Header(props: Props) {
   const [input, setInput] = React.useState('')
   // console.log(pageState.select?.path, paths)
   const paths = pageState?.headerPaths || []
-  
+
   return (
     <div className="file-resource-management__header">
       <div className="frm__header-left">
@@ -79,6 +79,20 @@ export function Header(props: Props) {
           icon={<Icon type="reload" style={{ fontSize: 16 }} />}
           className="bolder"
           onClick={() => handlePage.setLoadings(handlePage?.init?.(), 'reload')}
+        />
+        <Button
+          icon={
+            <Icon
+              type={setting.showInfo === 1 ? 'eye' : 'eye-close'}
+              style={{ fontSize: 16 }}
+            />
+          }
+          className="bolder"
+          type={setting.showInfo === 1 ? 'primary' : 'default'}
+          onClick={() => {
+            setting.showInfo = setting.showInfo === 1 ? 0 : 1
+            handlePage.setPageState({ setting })
+          }}
         />
         <Button
           icon={<Icon type="setting" style={{ fontSize: 16 }} />}

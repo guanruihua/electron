@@ -22,7 +22,7 @@ export const FileReview = (props: Props) => {
 
   const [paging, setPaging] = useState({
     current: 1,
-    pageSize: 50,
+    pageSize: 100,
   })
   const tree: FileNode[] = pageState?.pathMap?.[select?.path || ''] || []
   const { current, pageSize } = paging
@@ -65,9 +65,12 @@ export const FileReview = (props: Props) => {
       }
     >
       <div className="frm-review-header"></div>
-      <div className="frm-review-container" style={{
-        gridTemplateColumns: `${new Array(count).fill('1fr').join(' ')}`
-      }}>
+      <div
+        className="frm-review-container"
+        style={{
+          gridTemplateColumns: `${new Array(count).fill('1fr').join(' ')}`,
+        }}
+      >
         {cols.map((col, i) => (
           <div key={i} className="frm-review-container-col">
             {col.map((item: FileNode) => {
@@ -82,7 +85,10 @@ export const FileReview = (props: Props) => {
                   >
                     {/* <img src={`file://${path}`} /> */}
                     <Image src={`file://${path}`} />
-                    <div className="frm-review-item-name">{name}</div>
+                    <div className="frm-review-item-box">
+                      {IconMap[fileType] || IconMap.file}
+                      <span>{name}</span>
+                    </div>
                   </div>
                 )
               }
@@ -92,8 +98,10 @@ export const FileReview = (props: Props) => {
                   className="frm-review-item"
                   onClick={() => handlePage.selectFileNode(item)}
                 >
-                  {IconMap[fileType]}
-                  {name}
+                  <div className="frm-review-item-box">
+                    {IconMap[fileType] || IconMap.file}
+                    <span>{name}</span>
+                  </div>
                 </div>
               )
             })}

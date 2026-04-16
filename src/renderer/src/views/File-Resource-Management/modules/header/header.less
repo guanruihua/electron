@@ -34,7 +34,9 @@
         font-size: 14px;
         min-width: 20px;
         padding-right: 10px;
-
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
       }
 
     }
@@ -47,12 +49,18 @@
 
     input {
       font-size: 12px;
+      min-width: 200px;
     }
-    button{
-      min-width: 32px;
-    }
+
+    // button {
+    //   min-width: 32px;
+    // }
+
     button span {
       white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      min-width: 32px;
     }
   }
 }

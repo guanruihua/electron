@@ -27,10 +27,12 @@ export type PageState = Partial<{
   >
   setting: Partial<{
     show: number
+    showInfo: number
     includeDir: string
     excludeDir: string
     includeFile: string
     excludeFile: string
+    [key: string]: any
   }>
   [key: string]: any
 }>

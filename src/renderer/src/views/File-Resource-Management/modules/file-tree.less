@@ -1,0 +1,30 @@
+.frm-file-tree-item {
+  &-render {
+    display: flex;
+    flex-direction: row;
+    cursor: pointer;
+    white-space: nowrap;
+    gap: 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    svg[data-icon-type='right-arrow']{
+      margin-top: 2px;
+    }
+    svg[data-icon-type='dir']{
+      margin-top: 3px;
+      path{
+        font-size: 16px;
+      }
+    }
+    span,
+    svg {
+      white-space: nowrap;
+    }
+
+    &-name {
+      font-size: 14px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+}

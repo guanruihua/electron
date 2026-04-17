@@ -1,0 +1,27 @@
+.frm-dropdown-root {
+  border: 3px solid rgba(0, 0, 0, .3);
+  border-radius: 12px;
+
+  .ant-dropdown-menu-root {
+    background-color: rgba(0, 0, 0, .5);
+  }
+}
+
+.ant-dropdown-menu-item {
+  .ant-dropdown-menu-title-content {
+    font-size: 12px;
+  }
+
+  &[data-menu-id='rc-menu-uuid-del'] {
+    border: 2px solid rgba(255, 0, 0, .9);
+
+    .ant-dropdown-menu-title-content {
+      color: red;
+    }
+
+    &:hover {
+      color: #fff;
+      background-color: rgba(255, 0, 0, .2) !important;
+    }
+  }
+}

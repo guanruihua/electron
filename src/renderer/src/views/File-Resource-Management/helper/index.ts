@@ -26,8 +26,10 @@ export const getData = async (
         .filter((_: any) => Boolean(_?.name))
         .map((item: any) => {
           item.sortBy = item.name.charCodeAt(0)
-          if (item.type === 'dir') item.sortBy += 1000
-          if (item.type === 'file') item.sortBy -= 1000
+          item.fileType = getFileType(item)
+          if (item.type === 'dir') item.sortBy += 660_000
+          // if (item.type === 'file') item.sortBy -= 661000
+          if (item.fileType === 'image') item.sortBy += 1000
           return item
         })
         .sort((a: any, b: any) => b.sortBy - a.sortBy) || []

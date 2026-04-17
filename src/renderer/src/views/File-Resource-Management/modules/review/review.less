@@ -41,24 +41,17 @@
     cursor: pointer;
     overflow: hidden;
     white-space: wrap;
-    margin-bottom: 8px;
 
     &-box {
-      // display: inline-block;
       display: flex;
       flex-direction: row;
-      align-items: center;
+      align-items: flex-start;
       gap: 5px;
-      span{
-        display: inline-block;
+      &>svg {
+        margin-top: 2px;
+        min-width: 16px;
+        height: 16px;
       }
-      svg {
-        // float: left;
-        // margin-top: 3px;
-        // margin-right: 5px;
-        // padding-bottom: -3px;
-      }
-
     }
 
     .right-arrow {
@@ -67,7 +60,7 @@
 
     img {
       max-width: 100%;
-      max-height: 300px;
+      max-height: 100px;
       object-fit: contain;
     }
   }

@@ -4,7 +4,7 @@ export const IconMap = {
   dir: <Icon type="dir" />,
   image: <Icon type="image" style={{ fontSize: 14 }} />,
   zip: <Icon type="zip" style={{ fontSize: 14 }} />,
-  file: <Icon type="file2" style={{ fontSize: 17, marginLeft: -1 }} />,
+  file: <Icon type="file2" style={{ fontSize: 32, marginLeft: -1 }} />,
   exe: <Icon type="exe" style={{ fontSize: 14 }} />,
   js: <Icon type="js" style={{ fontSize: 15 }} />,
   json: <Icon type="json" style={{ fontSize: 15 }} />,

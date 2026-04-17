@@ -3,8 +3,10 @@ import { sleep, useLoadings, useSetState } from '@/util'
 import { getData, FileNode, getFileType } from './helper'
 import { PageState } from './helper/type'
 import { isString } from 'asura-eye'
+import { Modal } from 'antd'
 
 export const usePageState = () => {
+  const [modal, contextHolder] = Modal.useModal()
   const [loadings, setLoadings] = useLoadings()
   const [pageState, setPageState] = useSetState<PageState>({
     drives: [],
@@ -93,7 +95,7 @@ export const usePageState = () => {
   const selectFileNode = async (item: FileNode) => {
     // console.log('selectFileNode: ', item)
     const { open = [] } = pageState
-    const { path, type } = item
+    const { path, type, parentPath } = item
 
     if (!isString(path)) return
     const fileType = getFileType(item)
@@ -118,15 +120,19 @@ export const usePageState = () => {
         await readCurrentDir?.(path)
         // console.log(path, ':', pageState?.pathMap?.[path]?.length || 0)
       }
+      setHeaderPaths(path, type)
+    }else{
+      setHeaderPaths(parentPath!, 'file')
     }
-    setHeaderPaths(path, type)
     setPageState?.(newPageState)
   }
 
   return {
     loadings,
     pageState,
+    contextHolder,
     handlePage: {
+      modal, 
       setLoadings,
       setPageState,
       init,

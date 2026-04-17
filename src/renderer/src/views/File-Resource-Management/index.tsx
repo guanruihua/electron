@@ -7,7 +7,7 @@ import { FileReview } from './modules/review/review'
 import { Setting } from './modules/setting/setting'
 
 export default function FileResourceManagement() {
-  const { pageState, loadings, handlePage } = usePageState()
+  const { pageState, contextHolder, loadings, handlePage } = usePageState()
   const cmm = {
     loadings,
     pageState,
@@ -24,6 +24,7 @@ export default function FileResourceManagement() {
         <FileInfo {...cmm} />
         <Setting {...cmm} />
       </div>
+      {contextHolder}
     </div>
   )
 }

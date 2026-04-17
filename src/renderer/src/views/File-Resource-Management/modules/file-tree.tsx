@@ -3,6 +3,7 @@ import { Loadings } from '@/util'
 import { FileNode, PageState, HandlePage } from '../helper'
 import './file-tree.less'
 import { Icon } from '@/components'
+import FRM_Dropdown from '../components/Dropdown'
 
 type Props = {
   pageState: PageState
@@ -43,24 +44,26 @@ export const FileTree = (props: Props) => {
                 zIndex: 1000 - currentDepth,
               }}
             >
-              <div
-                className="frm-file-tree-item-render"
-                title={item.name}
-                onClick={() => handlePage.selectFileNode(item)}
-              >
-                <Icon className="right-arrow transition" type="right-arrow" />
-                <Icon type="dir" />
-                <span className="frm-file-tree-item-render-name">
-                  {item.name}
-                </span>
-                <span
-                  data-hidden={!isDirectory}
-                  className="ml text-12"
-                  style={{ color: 'rgba(255,255,255, .4)' }}
+              <FRM_Dropdown file={item}>
+                <div
+                  className="frm-file-tree-item-render"
+                  title={item.name}
+                  onClick={() => handlePage.selectFileNode(item)}
                 >
-                  {child?.length || ''}
-                </span>
-              </div>
+                  <Icon className="right-arrow transition" type="right-arrow" />
+                  <Icon type="dir" />
+                  <span className="frm-file-tree-item-render-name">
+                    {item.name}
+                  </span>
+                  <span
+                    data-hidden={!isDirectory}
+                    className="ml text-12"
+                    style={{ color: 'rgba(255,255,255, .4)' }}
+                  >
+                    {child?.length || ''}
+                  </span>
+                </div>
+              </FRM_Dropdown>
             </div>
             {isDirectory && !isFold && !!child?.length && (
               <div

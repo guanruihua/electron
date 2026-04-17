@@ -1,5 +1,6 @@
 import { ObjectType } from '0type'
 import { SetLoadings } from '@/util'
+import { ModalStaticFunctions } from 'antd/lib/modal/confirm'
 import { Stats } from 'fs'
 
 export type FileNode = Partial<{
@@ -10,6 +11,7 @@ export type FileNode = Partial<{
   parentPath: string
   // 是否为文件夹
   type: 'dir' | 'file'
+  fileType: string
   children?: FileNode[]
 }>
 
@@ -38,6 +40,8 @@ export type PageState = Partial<{
 }>
 
 export type HandlePage = {
+  // modal: ModalStaticFunctions
+  modal: any
   setLoadings: SetLoadings
   setPageState(pageState: PageState): void
   init(): Promise<void>

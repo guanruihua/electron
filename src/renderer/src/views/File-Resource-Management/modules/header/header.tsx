@@ -60,7 +60,7 @@ export function Header(props: Props) {
         </div>
       </div>
       <div className="frm__header-right">
-        <Input
+        {/* <Input
           value={input}
           onChange={(e) => {
             const value = e.target.value || ''
@@ -70,7 +70,7 @@ export function Header(props: Props) {
             const value = e.target.value || ''
             console.log(value)
           }}
-        />
+        /> */}
         <Button onClick={() => window.api.invoke('toggleDevTools')}>
           Devtool
         </Button>

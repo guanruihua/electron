@@ -1,20 +1,31 @@
-import { Pagination } from 'antd'
-import {
-  PageState,
-  FileNode,
-  getFileType,
-  IconMap,
-  HandlePage,
-} from '../../helper'
+import { MenuProps, Pagination } from 'antd'
+import { PageState, FileNode, IconMap, HandlePage } from '../../helper'
 import './review.less'
 import { useState } from 'react'
 import { useEffect } from 'react'
 import { Image } from 'antd'
+import { Dropdown } from 'antd'
+import FRM_Dropdown from '../../components/Dropdown'
 
 type Props = {
   pageState: PageState
   handlePage: HandlePage
 }
+
+const items: MenuProps['items'] = [
+  {
+    label: <div>VS Code 打开</div>,
+    key: 'vscode-open',
+  },
+  {
+    label: <div>文件资源打开</div>,
+    key: 'frm-open',
+  },
+  {
+    label: <div style={{ color: 'red' }}>删除</div>,
+    key: 'del',
+  },
+]
 
 export const FileReview = (props: Props) => {
   const { pageState, handlePage } = props
@@ -22,7 +33,7 @@ export const FileReview = (props: Props) => {
 
   const [paging, setPaging] = useState({
     current: 1,
-    pageSize: 100,
+    pageSize: 50,
   })
   const tree: FileNode[] = pageState?.pathMap?.[select?.path || ''] || []
   const { current, pageSize } = paging
@@ -30,6 +41,8 @@ export const FileReview = (props: Props) => {
     (current - 1) * pageSize,
     current * pageSize,
   )
+
+  // console.log(tree)
 
   const [count, setCount] = useState(3)
   useEffect(() => {
@@ -40,7 +53,7 @@ export const FileReview = (props: Props) => {
       for (let entry of entries) {
         const { width } = entry.contentRect
         // console.log(`宽度变化：${width}px`)
-        const newCount = Math.max(1, Math.floor(width / 300))
+        const newCount = Math.max(2, Math.floor(width / 200))
         if (newCount === count) return
         setCount(newCount)
       }
@@ -74,35 +87,38 @@ export const FileReview = (props: Props) => {
         {cols.map((col, i) => (
           <div key={i} className="frm-review-container-col">
             {col.map((item: FileNode) => {
-              const { name, path } = item
-              const fileType = getFileType(item)
+              const { name, path, fileType = 'file' } = item
               if (fileType === 'image') {
                 return (
+                  <FRM_Dropdown key={path} file={item}>
+                    <div
+                      className="frm-review-item"
+                      // onClick={() => handlePage.selectFileNode(item)}
+                    >
+                      <Image src={`file://${path}`} />
+                      <div className="frm-review-item-box">
+                        {/* {IconMap[fileType] || IconMap.file} */}
+                        <span>{name}</span>
+                      </div>
+                    </div>
+                  </FRM_Dropdown>
+                )
+              }
+              return (
+                <FRM_Dropdown key={path} file={item}>
                   <div
-                    key={path}
                     className="frm-review-item"
-                    // onClick={() => handlePage.selectFileNode(item)}
+                    onContextMenu={() => {
+                      console.log('右击')
+                    }}
+                    onClick={() => handlePage.selectFileNode(item)}
                   >
-                    {/* <img src={`file://${path}`} /> */}
-                    <Image src={`file://${path}`} />
                     <div className="frm-review-item-box">
                       {IconMap[fileType] || IconMap.file}
                       <span>{name}</span>
                     </div>
                   </div>
-                )
-              }
-              return (
-                <div
-                  key={path}
-                  className="frm-review-item"
-                  onClick={() => handlePage.selectFileNode(item)}
-                >
-                  <div className="frm-review-item-box">
-                    {IconMap[fileType] || IconMap.file}
-                    <span>{name}</span>
-                  </div>
-                </div>
+                </FRM_Dropdown>
               )
             })}
           </div>

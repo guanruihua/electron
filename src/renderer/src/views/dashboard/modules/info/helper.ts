@@ -17,6 +17,9 @@ const Conf = {
     ['端午假期', '6.19', '6.21'],
     ['中秋假期', '9.25', '9.27'],
     ['国庆假期', '10.1', '10.7'],
+    ['元旦假期', '1.1', '1.3'],
+    ['春节假期', '2027.2.5', '2027.2.11'],
+    ['清明假期', '2027.4.4', '2027.4.6'],
   ],
   // 加班
   overtime: [],
@@ -94,16 +97,21 @@ export function updateCountdown(): string[] {
     res.push(`距离下班还有：${afterWorkMSG}`)
   }
 
-  if (![0, 6].includes(now.day())) {
+  if (now.day() === 5) {
+    res.push(`明天就是周末！！！！！`)
+  } else if (![0, 6].includes(now.day())) {
     res.push(`距离周末还有：${5 - now.day()}天`)
   }
-
   Conf?.holiday?.map((item) => {
     const [name, start = ''] = item
     const target = getDayjs(now, start)
     const diff = (target.valueOf() - now.valueOf()) / 86400000 - 1
-    if (diff < 1) return
-    res.push(`距离${name}还有：${diff}天`)
+
+    if (diff > 1) {
+      res.push(`距离${name}还有：${diff}天`)
+    } else if (diff === 1) {
+      res.push(`明天就是${name}！！！！`)
+    }
   })
 
   return res

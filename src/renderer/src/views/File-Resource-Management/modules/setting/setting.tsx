@@ -7,7 +7,7 @@ type Props = {
   handlePage: HandlePage
 }
 
-export const Setting = (props: Props) => {
+export default function Setting(props: Props) {
   const { pageState, handlePage } = props
   const { setting = {} } = pageState || {}
 

@@ -40,8 +40,7 @@ export type PageState = Partial<{
 }>
 
 export type HandlePage = {
-  // modal: ModalStaticFunctions
-  modal: any
+  confirm: ModalStaticFunctions['confirm']
   setLoadings: SetLoadings
   setPageState(pageState: PageState): void
   init(): Promise<void>

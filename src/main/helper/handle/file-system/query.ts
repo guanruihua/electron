@@ -97,7 +97,7 @@ export const readFile = async (payload: any) => {
   return new Promise((rs) => {
     fs.readFile(path, 'utf8', (error, data) => {
       if (error) {
-        console.log('@ ~ readFile ~ error:', error)
+        console.log('readFile ~ error:', error)
         return rs(-1)
       }
       // console.log(data)

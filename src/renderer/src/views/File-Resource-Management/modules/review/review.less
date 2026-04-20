@@ -1,8 +1,28 @@
 .file-resource-management .frm-review {
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: auto 1fr auto;
-  overflow: hidden;
+  .frm-review-layout {
+    overflow: hidden;
+    height: 100%;
+
+    &.frm-review-layout__dir {
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-template-rows: auto 1fr auto;
+      gap: 5px;
+    }
+
+    &.frm-review-layout__file {
+      position: relative;
+
+      .reload {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+      }
+
+      // .frm-review-header{
+      // }
+    }
+  }
 
   .frm-review-container {
     height: 100%;
@@ -47,9 +67,11 @@
       flex-direction: row;
       align-items: flex-start;
       gap: 5px;
+
       &>svg {
         margin-top: 2px;
         min-width: 16px;
+        width: 16px;
         height: 16px;
       }
     }
@@ -62,6 +84,16 @@
       max-width: 100%;
       max-height: 100px;
       object-fit: contain;
+    }
+  }
+
+  .frm-review-file-json {
+    margin-top: 30px;
+
+    &-render {
+      background-color: rgba(255, 255, 255, .1);
+      padding: 10px;
+      border-radius: 12px;
     }
   }
 }

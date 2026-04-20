@@ -1,11 +1,17 @@
 import React from 'react'
-import { sleep, useLoadings, useSetState } from '@/util'
+import { useLoadings, useSetState } from '@/util'
 import { getData, FileNode, getFileType } from './helper'
-import { PageState } from './helper/type'
+import { HandlePage, PageState } from './helper/type'
 import { isString } from 'asura-eye'
 import { Modal } from 'antd'
+import { ObjectType } from '0type'
 
-export const usePageState = () => {
+export function usePageState(): {
+  loadings: ObjectType<boolean>
+  pageState: PageState
+  contextHolder: React.ReactElement
+  handlePage: HandlePage
+} {
   const [modal, contextHolder] = Modal.useModal()
   const [loadings, setLoadings] = useLoadings()
   const [pageState, setPageState] = useSetState<PageState>({
@@ -121,7 +127,7 @@ export const usePageState = () => {
         // console.log(path, ':', pageState?.pathMap?.[path]?.length || 0)
       }
       setHeaderPaths(path, type)
-    }else{
+    } else {
       setHeaderPaths(parentPath!, 'file')
     }
     setPageState?.(newPageState)
@@ -132,7 +138,7 @@ export const usePageState = () => {
     pageState,
     contextHolder,
     handlePage: {
-      modal, 
+      confirm: modal.confirm,
       setLoadings,
       setPageState,
       init,

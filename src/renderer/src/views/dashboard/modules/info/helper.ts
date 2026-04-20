@@ -1,29 +1,13 @@
 import { isArray } from 'asura-eye'
 import dayjs from 'dayjs'
 import { Dayjs } from 'dayjs'
+import Conf from './conf'
 
 const fmt = (list) =>
   list
     .filter((_) => (_[0] as number) > 0)
     .map((_) => _.join(''))
     .join(' ')
-
-const Conf = {
-  // 下班时间
-  afterWork: '18:00',
-  // 假期
-  holiday: [
-    ['五一假期', '5.1', '5.4'],
-    ['端午假期', '6.19', '6.21'],
-    ['中秋假期', '9.25', '9.27'],
-    ['国庆假期', '10.1', '10.7'],
-    ['元旦假期', '1.1', '1.3'],
-    ['春节假期', '2027.2.5', '2027.2.11'],
-    ['清明假期', '2027.4.4', '2027.4.6'],
-  ],
-  // 加班
-  overtime: [],
-}
 
 const getAfterWorkMSG = (diffMs: number) => {
   if (diffMs < 1) return ''
@@ -110,7 +94,7 @@ export function updateCountdown(): string[] {
     if (diff > 1) {
       res.push(`距离${name}还有：${diff}天`)
     } else if (diff === 1) {
-      res.push(`明天就是${name}！！！！`)
+      res.push(`明天就是${name}！！！！！`)
     }
   })
 

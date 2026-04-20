@@ -32,11 +32,19 @@
     .stop {
       display: none;
     }
+
+    [data-key='url-review'] {
+      display: none;
+    }
   }
 
   &[data-start='1'] {
     .title {
       color: var(--success);
+    }
+
+    [data-key='url-review'] {
+      display: flex;
     }
 
     .run {

@@ -18,7 +18,15 @@ export default defineConfig({
         // '@renderer': resolve(__dirname, 'src/renderer/src')
       },
     },
-    plugins: [react()],
+    // plugins: [react()],
+    plugins: [
+      react(),
+      //   {
+      //   babel: {
+      //     plugins: ['babel-plugin-react-compiler'],
+      //   },
+      // }
+    ],
     // build: {
     //   rollupOptions: {
     //     // input 配置多个入口文件，key 是输出文件名，value 是源文件路径

@@ -25,7 +25,7 @@ export default function FRM_Dropdown(props: FRM_DropdownProps) {
       label: '文件资源打开',
       onClick: () => window.api.invoke('cmd', `explorer "${path}"`),
     },
-    {
+    type === 'dir' && {
       key: 'cmd-open',
       label: '终端打开',
       onClick: () => {
@@ -36,13 +36,15 @@ export default function FRM_Dropdown(props: FRM_DropdownProps) {
       key: 'del',
       label: '删除',
       onClick: () => {
-        handlePage?.modal?.error({
+        handlePage?.confirm({
           title: '确定要删除该文件/夹?',
+          async onOk() {
+            window.api.invoke('cmd', `rimraf ${path}`)
+          },
         })
-        // window.api.invoke('cmd', `rimraf ${path}`)
       },
     },
-  ].filter(Boolean)
+  ].filter(Boolean) as MenuProps['items']
 
   return (
     <Dropdown

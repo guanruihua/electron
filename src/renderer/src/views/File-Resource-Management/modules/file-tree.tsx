@@ -44,7 +44,11 @@ export const FileTree = (props: Props) => {
                 zIndex: 1000 - currentDepth,
               }}
             >
-              <FRM_Dropdown file={item}>
+              <FRM_Dropdown
+                file={item}
+                pageState={pageState}
+                handlePage={handlePage}
+              >
                 <div
                   className="frm-file-tree-item-render"
                   title={item.name}

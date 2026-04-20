@@ -89,20 +89,6 @@ export default function ProjectOperation(props: ModuleProps) {
               Stop
             </Button>
 
-            {item.web && (
-              <Button
-                icon={<Icon type="google" />}
-                loading={loadings.google}
-                onClick={() =>
-                  setLoadings(
-                    window.api.invoke('cmd', `start chrome ${item.web}`),
-                    'google',
-                  )
-                }
-              >
-                Google
-              </Button>
-            )}
             <Button
               loading={loadings.vscode}
               icon={<Icon type="vscode" />}
@@ -154,6 +140,7 @@ export default function ProjectOperation(props: ModuleProps) {
                     key={key}
                     icon={<Icon type="google" />}
                     className="text-10"
+                    data-key={key}
                     onClick={() =>
                       value && window.api.invoke('cmd', `explorer "${value}"`)
                     }

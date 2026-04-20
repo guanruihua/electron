@@ -2,18 +2,9 @@ import { ObjectType } from '0type'
 import { SetLoadings } from '@/util'
 import { ModalStaticFunctions } from 'antd/lib/modal/confirm'
 import { Stats } from 'fs'
+import { FileNode } from '@/type'
 
-export type FileNode = Partial<{
-  // 文件夹/文件名
-  name: string
-  // 完整路径
-  path: string
-  parentPath: string
-  // 是否为文件夹
-  type: 'dir' | 'file'
-  fileType: string
-  children?: FileNode[]
-}>
+export * from '@/type'
 
 export type PageState = Partial<{
   drives: string[]

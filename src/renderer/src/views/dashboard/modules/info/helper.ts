@@ -29,6 +29,9 @@ const getTime = () => {
   const afterWork = now.hour(h).minute(m).second(s).millisecond(0)
   const diffMs = afterWork.diff(now)
   return {
+    YYYY: now.year(),
+    MM: now.month() + 1,
+    DD: now.date(),
     now,
     afterWork,
     diffMs,
@@ -52,9 +55,10 @@ const getDayjs = (now: Dayjs, str: string): Dayjs => {
 }
 
 export function updateCountdown(): string[] {
-  const { now, diffMs } = getTime()
+  const { now, diffMs, YYYY, MM, DD } = getTime()
   const res: string[] = []
   const afterWorkMSG = getAfterWorkMSG(diffMs)
+
   const isHoliday = (() => {
     if (isArray(Conf.holiday))
       for (const item of Conf.holiday) {
@@ -81,11 +85,30 @@ export function updateCountdown(): string[] {
     res.push(`距离下班还有：${afterWorkMSG}`)
   }
 
+  if (isArray(Conf?.festival)) {
+    const MM_DD = `${MM}.${DD}`
+    const YYYY_MM_DD = `${YYYY}.${MM}.${DD}`
+    const festivals = Conf.festival
+      .filter((item) => {
+        const [_, start, end] = item
+        if (end && MM_DD !== start &&  YYYY_MM_DD !== start) {
+          const startTime = getDayjs(now, start).startOf('day')
+          const endTime = getDayjs(now, end).endOf('day')
+          if (startTime.isBefore(now) && endTime.isAfter(now)) return true
+        }
+        return MM_DD === start || YYYY_MM_DD === start
+      })
+      .map((_) => _[0])
+      .join(', ')
+    if (festivals) res.push(`今天是 ${festivals}`)
+  }
+
   if (now.day() === 5) {
     res.push(`明天就是周末！！！！！`)
   } else if (![0, 6].includes(now.day())) {
     res.push(`距离周末还有：${5 - now.day()}天`)
   }
+
   Conf?.holiday?.map((item) => {
     const [name, start = ''] = item
     const target = getDayjs(now, start)

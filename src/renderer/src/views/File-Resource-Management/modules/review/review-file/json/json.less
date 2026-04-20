@@ -1,0 +1,55 @@
+.frm-review-file-json {
+
+  &-render {
+    font-size: 12px;
+
+    &-num {
+      color: rgb(177, 205, 171);
+    }
+
+    &-str {
+      color: rgb(197, 139, 84);
+    }
+    &-array{
+      &[data-type='simple']{
+        // display: flex;
+        flex-direction: row;
+      }
+    }
+    &-object {
+
+      .render {
+        display: flex;
+        flex-direction: row;
+
+        &[data-value-type='Array'],
+        &[data-value-type='Object'] {
+          flex-direction: column;
+        }
+
+        .key {
+          display: flex;
+          flex-direction: row;
+          padding-left: 10px;
+          color: rgb(148, 218, 250);
+
+          &::after {
+            content: ':';
+            display: block;
+          }
+        }
+
+        .value {
+          display: flex;
+          flex-direction: row;
+          padding-left: 10px;
+
+          // &::after {
+          //   content: ',';
+          //   display: block;
+          // }
+        }
+      }
+    }
+  }
+}

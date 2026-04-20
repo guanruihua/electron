@@ -1,6 +1,6 @@
 import { Image } from 'antd'
 import { PageState, FileNode, HandlePage, IconMap } from '../../../helper'
-import ReviewFile_JSON from './json'
+import ReviewFile_JSON from './json/json'
 
 type Props = {
   pageState: PageState

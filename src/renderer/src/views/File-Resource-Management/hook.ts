@@ -130,6 +130,7 @@ export function usePageState(): {
     } else {
       setHeaderPaths(parentPath!, 'file')
     }
+    
     setPageState?.(newPageState)
   }
 

@@ -1,3 +1,5 @@
+export * from './file'
+
 import React from 'react'
 import { ObjectType } from '0type'
 import { SetLoadings } from '@/util'
@@ -84,17 +86,3 @@ export interface ModuleProps {
   [key: string]: any
 }
 
-export interface FileNode {
-  // 文件夹/文件名
-  name: string
-  // 完整路径
-  path: string
-  // 是否为文件夹
-  isDirectory: boolean
-  // 子节点（文件夹才有）
-  statusCode: string
-  statusDesc: string
-  children?: FileNode[]
-}
-
-export type FileTreeType = FileNode[]

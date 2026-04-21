@@ -1,6 +1,13 @@
 .frm-review-file-json {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr;
+  height: 100%;
+  overflow: hidden;
 
   &-render {
+    max-height: 100%;
+    overflow-y: auto;
     font-size: 12px;
 
     &-num {
@@ -10,17 +17,69 @@
     &-str {
       color: rgb(197, 139, 84);
     }
-    &-array{
-      &[data-type='simple']{
-        // display: flex;
-        flex-direction: row;
+
+    &-array {
+      width: 100%;
+    }
+
+    .show-rest {
+      display: inline-block;
+      margin-left: 2px;
+      padding: 0 10px 5px;
+      border-radius: 8px;
+      cursor: pointer;
+
+      &:hover {
+        background: rgba(0, 0, 0, .2);
       }
     }
+
+    .render {
+      padding-left: 10px;
+
+      .gap {
+        white-space: nowrap;
+      }
+
+      .key-label {
+        white-space: nowrap;
+      }
+
+      .key {
+        cursor: pointer;
+        white-space: nowrap;
+
+        &[data-simple-array="1"] {
+          display: flex;
+          flex-direction: row;
+
+          .frm-review-file-json-render-array {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            
+            .render{
+              white-space: nowrap;
+            }
+            .key {
+              padding-right: 5px;
+            }
+
+            &>.suffix {
+              padding-left: 10px;
+            }
+          }
+        }
+      }
+    }
+
     &-object {
+      width: 100%;
 
       .render {
         display: flex;
         flex-direction: row;
+        flex-wrap: wrap;
 
         &[data-value-type='Array'],
         &[data-value-type='Object'] {
@@ -30,12 +89,9 @@
         .key {
           display: flex;
           flex-direction: row;
-          padding-left: 10px;
-          color: rgb(148, 218, 250);
 
-          &::after {
-            content: ':';
-            display: block;
+          &-label {
+            color: rgb(148, 218, 250);
           }
         }
 
@@ -43,11 +99,6 @@
           display: flex;
           flex-direction: row;
           padding-left: 10px;
-
-          // &::after {
-          //   content: ',';
-          //   display: block;
-          // }
         }
       }
     }

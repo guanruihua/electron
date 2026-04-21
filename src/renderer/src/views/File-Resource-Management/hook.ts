@@ -47,7 +47,7 @@ export function usePageState(): {
   const setHeaderPaths = (path: string, type: any) => {
     if (!isString(path)) return
     let list = path.split('\\') || []
-    if (type === 'file') list = list.slice(0, list.length - 1)
+    // if (type === 'file') list = list.slice(0, list.length - 1)
 
     pageState.headerPaths = list
       .map((value, i) => {
@@ -101,7 +101,7 @@ export function usePageState(): {
   const selectFileNode = async (item: FileNode) => {
     // console.log('selectFileNode: ', item)
     const { open = [] } = pageState
-    const { path, type, parentPath } = item
+    const { path, type } = item
 
     if (!isString(path)) return
     const fileType = getFileType(item)
@@ -124,13 +124,10 @@ export function usePageState(): {
 
       if (newOpen.includes(path) && !pageState?.pathMap?.[path]?.length) {
         await readCurrentDir?.(path)
-        // console.log(path, ':', pageState?.pathMap?.[path]?.length || 0)
       }
-      setHeaderPaths(path, type)
-    } else {
-      setHeaderPaths(parentPath!, 'file')
     }
-    
+    setHeaderPaths(path, type)
+
     setPageState?.(newPageState)
   }
 

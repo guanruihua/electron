@@ -36,10 +36,14 @@
     transition: all .6s;
     line-height: 20px;
 
+    svg {
+      width: 24px;
+    }
+
     .right-arrow {
       display: none;
     }
-    
+
     &[data-type='path'] {
       cursor: pointer;
       font-size: 10px;
@@ -47,6 +51,7 @@
       padding: 0 10px;
       background: rgba(255, 255, 255, .2);
       white-space: wrap;
+
       &:hover {
         color: rgba(255, 255, 255, 1);
         background: rgba(255, 255, 255, .4);
@@ -54,7 +59,7 @@
     }
   }
 
-  &[data-file-type='dir'] .frm-card-info-row[data-key='size']{
+  &[data-file-type='dir'] .frm-card-info-row[data-key='size'] {
     display: none;
   }
 }

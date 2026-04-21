@@ -1,37 +1,69 @@
 .file-resource-management .frm-review {
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  .frm-review-header {
+    padding-bottom: 10px;
+    background: rgb(43, 43, 43);
+    border-radius: 12px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+    svg{
+      width: 24px;
+    }
+    svg,
+    svg>path{
+      font-size: 12px;
+    }
+  }
+
   .frm-review-layout {
-    overflow: hidden;
+    padding: 10px;
     height: 100%;
+    background: rgb(43, 43, 43);
+    border-radius: 12px;
+    overflow: hidden;
+
 
     &.frm-review-layout__dir {
       display: grid;
       grid-template-columns: 1fr;
-      grid-template-rows: auto 1fr auto;
+      grid-template-rows: 1fr auto;
       gap: 5px;
     }
 
     &.frm-review-layout__file {
       position: relative;
+      display: grid;
+      grid-template-columns: 1fr;
+      grid-template-rows: auto 1fr;
+      height: 100%;
+      overflow: hidden;
+      gap: 30px;
 
       .reload {
         position: absolute;
-        top: 10px;
+        top: 0px;
         right: 10px;
+        height: 24px;
       }
-
-      // .frm-review-header{
-      // }
     }
   }
 
   .frm-review-container {
     height: 100%;
-    overflow-y: auto;
     display: grid;
     // grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     grid-template-rows: 1fr;
     gap: 5px;
     align-content: start;
+    overflow: hidden;
+    overflow-y: auto;
 
     &-col {
       display: flex;
@@ -67,6 +99,11 @@
       flex-direction: row;
       align-items: flex-start;
       gap: 5px;
+      cursor: pointer;
+
+      span {
+        user-select: none;
+      }
 
       &>svg {
         margin-top: 2px;
@@ -88,7 +125,6 @@
   }
 
   .frm-review-file-json {
-    margin-top: 30px;
 
     &-render {
       background-color: rgba(255, 255, 255, .1);

@@ -8,6 +8,7 @@
 
   .header-status {
     background-color: var(--bg) !important;
+    // width: 100px;
 
     span {
       text-transform: uppercase;
@@ -18,8 +19,8 @@
 
     border: 2px solid rgba(0, 0, 0, .01);
     &:hover,
-    [data-select='true'] {
-      border-color: var(--color) !important;
+    &[data-select='true'] {
+      border: 2px solid var(--color) !important;
     }
   }
 

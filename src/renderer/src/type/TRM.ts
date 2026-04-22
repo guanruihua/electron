@@ -1,13 +1,17 @@
 import { Loadings, SetLoadings } from '@/util'
 
 export type TRMState = Partial<{
-  lastUpdate: string
-  list: any[]
+  status: 'idle' | 'running'
+  select: string[]
 }>
 
 export type UseTRMState = {
   state: TRMState
   loadings: Loadings
+  TRM: {
+    lastUpdate: string
+    list: any[]
+  }
   handlePage: {
     setLoadings: SetLoadings
     setState(newState: TRMState): void

@@ -100,7 +100,7 @@ export const format = (target: any) => {
     .sort((a, b) => b.total - a.total)
 }
 
-export function kbToMb(kb, decimals = 2) {
+export function kbToMb(kb: number, decimals = 2) {
   const mb = kb / 1024
   return parseFloat(mb.toFixed(decimals))
 }

@@ -7,7 +7,9 @@ type Props = {
 }
 
 export default function TRMList(props: Props) {
-  const { list = [] } = props.h.state
+  const { TRM, state } = props.h
+  const { list = [] } = TRM
+
   return (
     <div className="trm-list">
       <div className="trm-list-container">
@@ -15,13 +17,9 @@ export default function TRMList(props: Props) {
         <div className="header memory">内存占用</div>
         <div className="header">UIDs</div>
         {list?.map((item, i) => {
-          const {
-            name,
-            softwareName,
-            sum,
-            UIDs,
-            status = 'low',
-          } = item
+          const { name, softwareName, sum, UIDs, status = 'low' } = item
+          if (!state.select?.includes(status))
+            return <React.Fragment key={i}></React.Fragment>
           return (
             <React.Fragment key={i}>
               <div>{softwareName || name}</div>

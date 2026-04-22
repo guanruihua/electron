@@ -17,6 +17,11 @@ export const usePageState = () => {
         type: 'fsm',
         url: 'D:\\',
       },
+      {
+        id: '03',
+        title: 'TRM',
+        type: 'trm',
+      },
       // {
       //   id: '03',
       //   title: 'Terminal',

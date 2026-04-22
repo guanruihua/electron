@@ -1,3 +1,4 @@
+export * from './TRM'
 export * from './file'
 
 import React from 'react'

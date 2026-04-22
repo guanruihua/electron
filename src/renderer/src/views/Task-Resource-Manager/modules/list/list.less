@@ -1,0 +1,46 @@
+.trm-list {
+  overflow: hidden;
+  height: 100%;
+  padding: 12px 10px;
+  background: rgb(60, 60, 60);
+  border-radius: 12px;
+
+  &-container {
+    display: grid;
+    gap: 8px 10px;
+    grid-template-columns: auto auto auto;
+    overflow-y: auto;
+    max-height: 100%;
+    position: relative;
+
+    .header {
+      position: sticky;
+      top: 0;
+      display: inline;
+      background: rgb(60, 60, 60);
+      font-size: 14px;
+      font-weight: bold;
+      padding-bottom: 5px;
+    }
+
+    .memory {
+      min-width: 100px;
+      text-align: end;
+
+      &.tr {
+        color: var(--color);
+      }
+    }
+
+    .tr.uid {
+      // max-width: 400px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    div {
+      font-size: 12px;
+    }
+  }
+}

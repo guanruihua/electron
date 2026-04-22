@@ -1,5 +1,7 @@
+// import { isString } from 'asura-eye'
 import { exec, spawn } from 'child_process'
 import { BrowserWindow } from 'electron'
+// import iconv from 'iconv-lite'
 
 const send = (mainWindow: BrowserWindow, type: string, data: any) => {
   mainWindow.webContents.send(type, {
@@ -30,7 +32,12 @@ const cmdResult = (command: string): Promise<any> => {
       //   run_cmd('kill %1')
       // }
       // console.log(`Process termination, Exit Code: ${code}`)
-      rs(result)
+      // if (isString(result)) {
+      //   const a = iconv.decode(result, 'win1251')
+      //   rs(a)
+      // } else {
+        rs(result)
+      // }
     })
 
     cmd.on('error', (err) => {

@@ -1,0 +1,32 @@
+.trm {
+  width: 100%;
+  height: var(--h);
+  overflow: hidden;
+  background-color: #000;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr;
+
+  .container {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    padding: 10px;
+    overflow: hidden;
+  }
+
+  [data-status='low'] {
+    --color: rgb(25, 203, 108);
+    --bg: rgba(25, 203, 108, .2);
+  }
+
+  [data-status='medium'] {
+    --color: rgb(252, 172, 59);
+    --bg: rgba(252, 172, 59, .2);
+  }
+
+  [data-status='high'] {
+    --color: rgb(255, 91, 88);
+    --bg: rgba(255, 91, 88, .2);
+  }
+}

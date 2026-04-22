@@ -1,0 +1,37 @@
+.trm-header {
+  background: rgb(60, 60, 60);
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+
+  .header-status {
+    background-color: var(--bg) !important;
+
+    span {
+      text-transform: uppercase;
+      font-weight: bold;
+      letter-spacing: 2px;
+      color: var(--color);
+    }
+
+    border: 2px solid rgba(0, 0, 0, .01);
+    &:hover,
+    [data-select='true'] {
+      border-color: var(--color) !important;
+    }
+  }
+
+  .right,
+  .left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .lastUpdate {
+    font-size: 12px;
+    color: rgb(25, 203, 108);
+  }
+}

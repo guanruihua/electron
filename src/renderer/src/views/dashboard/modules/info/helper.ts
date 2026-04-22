@@ -100,7 +100,7 @@ export function updateCountdown(): string[] {
       })
       .map((_) => _[0])
       .join(', ')
-    if (festivals) res.push(`今天是 ${festivals}`)
+    if (festivals) res.push(`今天是${festivals}`)
   }
 
   if (now.day() === 5) {

@@ -1,0 +1,89 @@
+.trm-tab {
+  --bg-color: #000;
+  --indicator-size: 50px;
+  --gap: 20px;
+  // background-color: #1a1a1a;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+
+  .nav-container {
+    position: relative;
+    display: flex;
+    background-color: var(--bg-color);
+    padding: 10px;
+    border-radius: 100px;
+    gap: var(--gap);
+  }
+
+  /* 外层：只负责平滑位移 */
+  .indicator {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: var(--indicator-size);
+    height: var(--indicator-size);
+    z-index: 1;
+    pointer-events: none;
+    /* 使用硬件加速的 transition */
+    // transition: transform 0.5s ease-in-out;
+    transition: transform 0.5s cubic-bezier(0.68, 0, 0.26, 1.25);
+
+  }
+
+  /* 内层：只负责果冻形变 */
+  .indicator-blob {
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    border-radius: 15px;
+    /* 稍微圆角，更有质感 */
+  }
+
+  /* 触发果冻动画 */
+  .stretching .indicator-blob {
+    animation: jelly-anim 0.6s ease-in-out;
+  }
+
+  @keyframes jelly-anim {
+    0% {
+      transform: scale(1, 1);
+    }
+
+    40% {
+      transform: scale(1.3, 0.7);
+    }
+
+    60% {
+      transform: scale(1.3, 0.7);
+    }
+
+    /* 水平拉长 */
+    80% {
+      transform: scale(0.85, 1.15);
+    }
+
+    100% {
+      transform: scale(1, 1);
+    }
+  }
+
+  .icon-item {
+    width: var(--indicator-size);
+    height: var(--indicator-size);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 2;
+    mix-blend-mode: difference;
+  }
+
+  .icon-item svg {
+    width: 26px;
+    height: 26px;
+    fill: #fff;
+  }
+}

@@ -1,12 +1,15 @@
 .page__other {
   background: #000;
   height: var(--h);
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  padding: 10px;
+
+  &-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    padding: 10px;
+  }
 
   .other-card {
-    padding: 10px;
+    padding: 20px;
     background-color: #3c3c3c;
     border-radius: 12px;
     font-size: 12px;
@@ -14,6 +17,7 @@
     button span {
       font-size: 10px;
     }
+
     .title {
       width: 100%;
     }

@@ -6,6 +6,8 @@ import { ObjectType } from '0type'
 import { SetLoadings } from '@/util'
 
 export type Weather = {
+  code: number
+  timeName: string
   weather: string
   date: string
   min: number

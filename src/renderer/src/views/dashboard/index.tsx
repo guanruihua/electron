@@ -1,4 +1,3 @@
-import './style/index.less'
 import { NodeTread } from './modules/node-tread'
 import { SysSetting } from './modules/sys-setting'
 import { GitReview } from './modules/git-review/git-review'
@@ -10,7 +9,7 @@ import { UserSetting } from './modules/user-setting'
 import ClipboardDashboard from './modules/clipboard/clipboard'
 import ProjectDashboard from './modules/project/project'
 import ProjectOperation from './modules/project/operation'
-import WeatherModule from './modules/weather/weather'
+import './style/index.less'
 // import Log from './modules/log/log'
 
 export default function DashboardView() {
@@ -19,16 +18,16 @@ export default function DashboardView() {
     <div className="root-layout-home-view">
       <div className="root-layout-home-view-container">
         <div className="dashboard-layout-col">
-          <ProjectDashboard h={h} />
+          <Info h={h} />
           <QuickStart h={h} />
           <RunningApp h={h} />
         </div>
         <div className="dashboard-layout-col">
-          <ProjectOperation h={h} />
-          <GitReview h={h} />
+          <ProjectDashboard h={h} />
         </div>
         <div className="dashboard-layout-col">
-          <Info h={h} />
+          <ProjectOperation h={h} />
+          <GitReview h={h} />
           <NodeTread h={h} />
           {/* <Log h={h} /> */}
           <UserSetting h={h} />
@@ -39,10 +38,6 @@ export default function DashboardView() {
           <ClipboardDashboard h={h} />
         </div>
       </div>
-      <div style={{}}>
-        <WeatherModule />
-      </div>
-
       {h.context}
     </div>
   )

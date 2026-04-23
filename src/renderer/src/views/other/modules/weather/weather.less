@@ -1,0 +1,73 @@
+.weather-module {
+  background: rgb(41, 41, 41);
+
+  .weather-box {
+    display: grid;
+    grid-template-columns: repeat(16, 1fr);
+    grid-template-rows: auto 1fr;
+    position: relative;
+
+    .line {
+      grid-column: 1/-1;
+      position: absolute;
+      color: rgb(252, 198, 83);
+      width: 100%;
+      height: 260px;
+      bottom: 0;
+
+      path {
+        stroke: rgb(252, 198, 83);
+        background: transparent;
+
+      }
+    }
+  }
+
+  .weather-icon {
+    margin-bottom: 10px;
+    svg,
+    svg path {
+      font-size: 24px;
+      color: #fff;
+    }
+  }
+
+  .weather-chart {
+    grid-column: 1/-1;
+    width: 100% !important;
+    height: 150px !important;
+  }
+
+  .weather-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 10px;
+    background: rgb(41, 41, 41);
+
+    div {
+      font-size: 10px;
+    }
+
+    .time-name {
+      font-size: 15px;
+      font-weight: bold;
+      padding-top: 10px;
+    }
+
+    .date {
+      font-size: 8px;
+      color: rgba(255, 255, 255, .5);
+      margin-bottom: 10px;
+    }
+
+    .weather {
+      font-size: 12px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      letter-spacing: 2px;
+    }
+  }
+}

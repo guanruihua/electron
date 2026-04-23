@@ -34,9 +34,6 @@ export default function TRMHeader(props: Props) {
             {status}
           </Button>
         ))}
-        <Button onClick={() => window.api.invoke('toggleDevTools')}>
-          Devtool
-        </Button>
         <Button
           loading={loadings.reload || loadings.init}
           icon={<Icon type="reload" style={{ fontSize: 16 }} />}

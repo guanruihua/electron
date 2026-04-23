@@ -21,7 +21,7 @@ export default function Layout() {
       <div className="root-layout">
         <Header {...h} />
         <div className="root-view-container">
-          {h.state?.tabs?.map((tab) => (
+          {h.tabs?.map((tab) => (
             <View key={tab.id} tab={tab} h={h} />
           ))}
         </div>

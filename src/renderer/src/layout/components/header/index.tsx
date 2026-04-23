@@ -1,5 +1,6 @@
 import { Div } from 'aurad'
 import { State, ViewState } from '@/type'
+import { Button } from 'antd'
 // import { Icon } from '@/components'
 
 export interface HeaderProps {
@@ -11,7 +12,7 @@ export interface HeaderProps {
 }
 
 export function Header(props: HeaderProps) {
-  const { state, setState, handle, ...rest } = props
+  const { tabs, state, setState, handle, ...rest } = props
 
   return (
     <Div className="root-header" {...rest}>
@@ -24,7 +25,7 @@ export function Header(props: HeaderProps) {
         <span className="root-header-control-max" onClick={handle.max}></span>
       </div>
       <div className="root-header-tab">
-        {state?.tabs?.map((tab: ViewState) => {
+        {tabs?.map((tab: ViewState) => {
           const { id, title } = tab
           return (
             <div
@@ -70,6 +71,11 @@ export function Header(props: HeaderProps) {
         </div> */}
       </div>
       <div className="root-header-handle"></div>
+      <div className="root-header-right">
+        <div className='root-header-right-dev' onClick={() => window.api.invoke('toggleDevTools')}>
+          Devtool
+        </div>
+      </div>
     </Div>
   )
 }

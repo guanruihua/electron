@@ -2,37 +2,43 @@ import React from 'react'
 import { useSetState } from '0hook'
 import { State } from '@/type'
 
+const tabs = [
+  {
+    id: '01',
+    title: 'Dashboard',
+    type: 'dashboard',
+  },
+  {
+    id: '02',
+    title: 'FRM',
+    type: 'fsm',
+    url: 'D:\\',
+  },
+  {
+    id: '03',
+    title: 'TRM',
+    type: 'trm',
+  },
+  {
+    id: '99',
+    title: 'Other',
+    type: 'other',
+  },
+  // {
+  //   id: '03',
+  //   title: 'Terminal',
+  //   type: 'terminal',
+  // },
+  // {
+  //   id: '04',
+  //   title: 'Agent',
+  //   type: 'agent',
+  // },
+]
+
 export const usePageState = () => {
   const [state, _renderState] = useSetState<State>({
     activeTab: '01',
-    tabs: [
-      {
-        id: '01',
-        title: 'Dashboard',
-        type: 'dashboard',
-      },
-      {
-        id: '02',
-        title: 'FRM',
-        type: 'fsm',
-        url: 'D:\\',
-      },
-      {
-        id: '03',
-        title: 'TRM',
-        type: 'trm',
-      },
-      // {
-      //   id: '03',
-      //   title: 'Terminal',
-      //   type: 'terminal',
-      // },
-      // {
-      //   id: '04',
-      //   title: 'Agent',
-      //   type: 'agent',
-      // },
-    ],
   })
   const renderState = () => _renderState(state)
 
@@ -117,6 +123,7 @@ export const usePageState = () => {
   // console.log('@ ~ usePageState ~ state:', state)
 
   return {
+    tabs,
     state,
     handle,
   }

@@ -5,6 +5,17 @@ import React from 'react'
 import { ObjectType } from '0type'
 import { SetLoadings } from '@/util'
 
+export type Weather = {
+  weather: string
+  date: string
+  min: number
+  max: number
+  /**
+   * @description 降雨量
+   */
+  mm: number
+}
+
 export interface ViewState {
   id?: string
   url?: string
@@ -39,7 +50,7 @@ export interface State {
   initSuccess?: boolean
 
   activeTab?: string
-  tabs?: ViewState[]
+  // tabs?: ViewState[]
   NodeTreads?: ObjectType[]
   apps?: [string, string][]
   modules?: ProjectConf[]

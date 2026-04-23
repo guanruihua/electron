@@ -1,5 +1,7 @@
 import { ObjectType } from '0type'
+import { UseTRMState } from '@/type'
 import { isString } from 'asura-eye'
+import dayjs from 'dayjs'
 
 const getStatus = (total: number) => {
   if (total < 1024 * 100) return 'low'
@@ -48,8 +50,16 @@ const getRow = (row: string) => {
   }
 }
 
-export const format = (target: any) => {
-  if (!isString(target)) return []
+export const format = (target: any): UseTRMState['TRM'] => {
+  if (!isString(target))
+    return {
+      list: [],
+      count: {
+        total: 0,
+        uid: 0,
+      },
+      lastUpdate: '',
+    }
   // console.log(target)
   const list: string[] = target
     .split('\r\n')
@@ -82,22 +92,35 @@ export const format = (target: any) => {
       IDS[name].push(uid)
     }
   })
+  const count = {
+    total: 0,
+    uid: 0,
+  }
+  const res =
+    Object.keys(USE)
+      .map((name) => {
+        const use = USE[name]
+        const total = use.reduce((t, num) => t + Number(num), 0)
+        const sum = total > 1024 ? kbToMb(total).toLocaleString() + 'MB' : total.toLocaleString() + 'KB'
+        count.total += total
+        count.uid += IDS[name]?.length || 0
 
-  return Object.keys(USE)
-    .map((name) => {
-      const use = USE[name]
-      const total = use.reduce((t, num) => t + Number(num), 0)
-      const sum = total > 1024 ? kbToMb(total) + 'MB' : total + 'KB'
-      return {
-        name,
-        softwareName: MAP[name],
-        sum,
-        total,
-        status: getStatus(total),
-        UIDs: IDS[name].sort((a: any, b: any) => a - b).join(', '),
-      }
-    })
-    .sort((a, b) => b.total - a.total)
+        return {
+          name,
+          softwareName: MAP[name],
+          sum,
+          total,
+          status: getStatus(total),
+          UIDs: IDS[name].sort((a: any, b: any) => a - b).join(', '),
+        }
+      })
+      .sort((a, b) => b.total - a.total) || []
+
+  return {
+    lastUpdate: dayjs().format('YYYY-MM-DD HH:mm:ss'),
+    count,
+    list: res,
+  }
 }
 
 export function kbToMb(kb: number, decimals = 2) {

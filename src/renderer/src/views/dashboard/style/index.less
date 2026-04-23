@@ -3,10 +3,24 @@
 @import url(./opt.less);
 
 .root-layout-home-view {
-  h4{
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr auto;
+  height: var(--h);
+  background-color: #000000;
+  h4 {
     font-size: 14px;
   }
-  background-color: #000000;
+
+
+  &-container {
+    display: grid;
+    grid-template-columns: 2fr 4fr 4fr 4fr;
+    grid-template-rows: 1fr;
+    overflow-y: auto;
+    gap: 10px;
+    padding: 10px;
+  }
 
   .dashboard-layout-col {
     &>div {

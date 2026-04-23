@@ -71,9 +71,6 @@ export function Header(props: Props) {
             console.log(value)
           }}
         /> */}
-        <Button onClick={() => window.api.invoke('toggleDevTools')}>
-          Devtool
-        </Button>
         <Button
           loading={loadings.reload}
           icon={<Icon type="reload" style={{ fontSize: 16 }} />}

@@ -111,10 +111,6 @@ export const useHomeView = () => {
       renderState()
       saveToFile('setting')
     },
-    openDevtool: () => window.api.invoke('toggleDevTools'),
-    close: () => window.api.close(),
-    min: () => window.api.minimize(),
-    max: () => window.api.maximize(),
     reload: () => window.location.reload(),
     setDefaultState,
     success,

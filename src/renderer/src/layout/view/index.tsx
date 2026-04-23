@@ -6,6 +6,7 @@ import { ObjectType } from '0type'
 import DashboardView from '@/views/dashboard'
 import FileResourceManagement from '@/views/File-Resource-Management'
 import TaskResourceManager from '@/views/Task-Resource-Manager'
+import Other from '@/views/other'
 // import TerminalPage from '@/views/terminal'
 // import Agent from '@/views/agent'
 
@@ -29,6 +30,7 @@ export function View(props: ViewProps) {
         {/* {type === 'agent' && <Agent />} */}
         {type === 'fsm' && <FileResourceManagement />}
         {type === 'trm' && <TaskResourceManager />}
+        {type === 'other' && <Other />}
         {/* {type === 'terminal' && <TerminalPage />} */}
         {/* {!viewState.home && (
           <webview

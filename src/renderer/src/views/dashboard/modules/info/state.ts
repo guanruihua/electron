@@ -1,7 +1,7 @@
-import { useLoading } from '@/util'
-import { isBoolean, isString } from 'asura-eye'
 import React from 'react'
 import { updateCountdown } from './helper'
+import { useLoading } from '@/util'
+import { isBoolean, isString } from 'asura-eye'
 import './info.less'
 
 export const useMyState = () => {
@@ -19,11 +19,13 @@ export const useMyState = () => {
   }
 
   const init = async () => {
-    setDDL(updateCountdown())
-
-    timer.current = setInterval(() => {
-      setDDL(updateCountdown())
-    }, 1000)
+    setDDL(await updateCountdown())
+    const cb = async () => {
+      timer.current && clearInterval(timer.current)
+      setDDL(await updateCountdown())
+      timer.current = setInterval(cb, 1000)
+    }
+    timer.current = setInterval(cb, 1000)
 
     await updateNetworkName()
 

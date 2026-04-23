@@ -1,6 +1,6 @@
 .root-header {
   display: grid;
-  grid-template-columns: auto auto 1fr;
+  grid-template-columns: auto auto 1fr auto;
   align-items: center;
   height: var(--header-height);
   gap: 10px;
@@ -169,5 +169,21 @@
     min-width: 80px;
     cursor: grab;
     -webkit-app-region: drag;
+  }
+
+  &-right {
+    padding-right: 20px;
+
+    &-dev {
+      cursor: pointer;
+      color: rgba(255, 255, 255, .5);
+      font-weight: bold;
+      font-size: 10px;
+      user-select: none;
+      transition: all .6s;
+      &:hover {
+        color: #fcac3b;
+      }
+    }
   }
 }

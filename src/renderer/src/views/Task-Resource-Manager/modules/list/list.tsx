@@ -1,6 +1,7 @@
 import React from 'react'
 import './list.less'
 import { UseTRMState } from '@/type'
+import { kbToMb } from '../../helper'
 
 type Props = {
   h: UseTRMState
@@ -16,6 +17,7 @@ export default function TRMList(props: Props) {
         <div className="header">名称</div>
         <div className="header memory">内存占用</div>
         <div className="header">UIDs</div>
+
         {list?.map((item, i) => {
           const { name, softwareName, sum, UIDs, status = 'low' } = item
           if (!state.select?.includes(status))
@@ -32,6 +34,9 @@ export default function TRMList(props: Props) {
             </React.Fragment>
           )
         })}
+        <div className="footer">Total</div>
+        <div className="footer memory">{kbToMb(TRM.count.total).toLocaleString()}MB</div>
+        <div className="footer">{TRM.count.uid}</div>
       </div>
     </div>
   )

@@ -1,5 +1,4 @@
 import './style/index.less'
-import { Opt } from './modules/opt'
 import { NodeTread } from './modules/node-tread'
 import { SysSetting } from './modules/sys-setting'
 import { GitReview } from './modules/git-review/git-review'
@@ -11,40 +10,39 @@ import { UserSetting } from './modules/user-setting'
 import ClipboardDashboard from './modules/clipboard/clipboard'
 import ProjectDashboard from './modules/project/project'
 import ProjectOperation from './modules/project/operation'
+import WeatherModule from './modules/weather/weather'
 // import Log from './modules/log/log'
 
 export default function DashboardView() {
   const h = useHomeView()
   return (
-    <div
-      className="root-layout-home-view h w overflow-y grid gap p"
-      style={{
-        gridTemplateColumns: '2fr 4fr 4fr 4fr',
-        height: 'var(--h)',
-      }}
-    >
-      <div className="dashboard-layout-col">
-        <ProjectDashboard h={h} />
-        <Opt h={h} />
+    <div className="root-layout-home-view">
+      <div className="root-layout-home-view-container">
+        <div className="dashboard-layout-col">
+          <ProjectDashboard h={h} />
+          <QuickStart h={h} />
+          <RunningApp h={h} />
+        </div>
+        <div className="dashboard-layout-col">
+          <ProjectOperation h={h} />
+          <GitReview h={h} />
+        </div>
+        <div className="dashboard-layout-col">
+          <Info h={h} />
+          <NodeTread h={h} />
+          {/* <Log h={h} /> */}
+          <UserSetting h={h} />
+          <SysSetting h={h} />
+        </div>
+
+        <div className="flex gap col">
+          <ClipboardDashboard h={h} />
+        </div>
       </div>
-      <div className="dashboard-layout-col">
-        <ProjectOperation h={h} />
-        <GitReview h={h} />
-        <QuickStart h={h} />
-        <RunningApp h={h} />
+      <div style={{}}>
+        <WeatherModule />
       </div>
 
-      <div className="dashboard-layout-col">
-        <Info h={h}/>
-        <NodeTread h={h} />
-        {/* <Log h={h} /> */}
-        <UserSetting h={h} />
-        <SysSetting h={h} />
-      </div>
-
-      <div className="flex gap col">
-        <ClipboardDashboard h={h} />
-      </div>
       {h.context}
     </div>
   )

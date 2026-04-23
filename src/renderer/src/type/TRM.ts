@@ -9,6 +9,10 @@ export type UseTRMState = {
   state: TRMState
   loadings: Loadings
   TRM: {
+    count: {
+      total: number
+      uid: number
+    }
     lastUpdate: string
     list: any[]
   }

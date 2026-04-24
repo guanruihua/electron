@@ -24,6 +24,7 @@ export const useTRMState = (): UseTRMState => {
     setLoadings(true, 'init')
     const cmd = `powershell -Command "Get-Process | ForEach-Object { try { $p = $_.MainModule.FileVersionInfo.ProductName; $name = if ([string]::IsNullOrWhiteSpace($p)) { $_.ProcessName } else { $p } } catch { $name = $_.ProcessName }; [PSCustomObject]@{ ProcessName = $_.ProcessName; Id = $_.Id; 'PM(KB)' = [math]::Round($_.PrivateMemorySize64 / 1KB); SoftwareName = $name;  } } | Format-Table -AutoSize"`
     const res = await window.api.invoke('cmd', cmd)
+    // console.log(res)
     setTRM(format(res))
     setLoadings(false, 'init')
     return

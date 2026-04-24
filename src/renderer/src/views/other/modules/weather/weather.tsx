@@ -1,17 +1,12 @@
 import React from 'react'
 import { getWeather } from './helper'
 import { Weather } from '@/type'
-import './weather.less'
 import { ObjectType } from '0type'
 import { Chart } from 'aurad'
 import { WeatherIcon } from './icons'
+import './weather.less'
 
-export interface WeatherProps {
-  [key: string]: any
-}
-
-export default function WeatherModule(props: WeatherProps) {
-  const {} = props
+export default function WeatherModule() {
   const [weather, setWeather] = React.useState<Weather[]>([])
   const [count, setCount] = React.useState<ObjectType<number>>({})
 
@@ -97,7 +92,7 @@ export default function WeatherModule(props: WeatherProps) {
       <div className="weather-box">
         {weather.map((w: Weather) => {
           const { date, timeName, weather, code } = w
-          console.log(w)
+          // console.log(w)
           return (
             <div key={date} className="weather-item">
               <div className="time-name">{timeName}</div>

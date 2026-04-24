@@ -1,6 +1,7 @@
 import { Div } from 'aurad'
 import { State, ViewState } from '@/type'
 import { Button } from 'antd'
+import { Icon } from '@/components'
 // import { Icon } from '@/components'
 
 export interface HeaderProps {
@@ -72,8 +73,17 @@ export function Header(props: HeaderProps) {
       </div>
       <div className="root-header-handle"></div>
       <div className="root-header-right">
-        <div className='root-header-right-dev' onClick={() => window.api.invoke('toggleDevTools')}>
+        <div
+          className="root-header-right-dev"
+          onClick={() => window.api.invoke('toggleDevTools')}
+        >
           Devtool
+        </div>
+        <div
+          className="root-header-right-reload"
+          onClick={() => window.location.reload()}
+        >
+          <Icon type="reload" />
         </div>
       </div>
     </Div>

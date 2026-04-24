@@ -1,5 +1,4 @@
 .weather-module {
-  // background: rgb(41, 41, 41);
   background: rgb(60, 60, 60);
 
   .weather-box {
@@ -7,7 +6,8 @@
     grid-template-columns: repeat(16, 1fr);
     grid-template-rows: auto 1fr;
     position: relative;
-
+    min-height: 300px;
+    
     .line {
       grid-column: 1/-1;
       position: absolute;
@@ -55,7 +55,7 @@
     .time-name {
       font-size: 15px;
       font-weight: bold;
-      padding-top: 10px;
+      padding-top: 30px;
     }
 
     .date {

@@ -172,17 +172,35 @@
   }
 
   &-right {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
     padding-right: 20px;
 
-    &-dev {
+    &>div {
       cursor: pointer;
       color: rgba(255, 255, 255, .5);
       font-weight: bold;
       font-size: 10px;
       user-select: none;
       transition: all .6s;
+    }
+
+    &-dev {
       &:hover {
         color: #fcac3b;
+      }
+    }
+
+    &-reload {
+      path {
+        color: rgba(255, 255, 255, .5);
+      }
+
+      &:hover {
+        path {
+          color: #fcac3b;
+        }
       }
     }
   }

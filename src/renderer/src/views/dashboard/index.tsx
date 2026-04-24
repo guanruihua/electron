@@ -24,14 +24,14 @@ export default function DashboardView() {
         </div>
         <div className="dashboard-layout-col">
           <ProjectDashboard h={h} />
+          <UserSetting h={h} />
+          <SysSetting h={h} />
         </div>
         <div className="dashboard-layout-col">
           <ProjectOperation h={h} />
           <GitReview h={h} />
           <NodeTread h={h} />
           {/* <Log h={h} /> */}
-          <UserSetting h={h} />
-          <SysSetting h={h} />
         </div>
 
         <div className="flex gap col">

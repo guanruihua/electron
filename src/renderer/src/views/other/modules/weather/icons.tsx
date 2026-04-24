@@ -87,6 +87,7 @@ export function WeatherIcon(props: IconProps) {
       80, // 小雨
       81, // 中雨
       82, // 大雨
+      95, // 雷暴
     ].includes(code)
   )
     return (
@@ -113,7 +114,6 @@ export function WeatherIcon(props: IconProps) {
       77, // 雪粒
       85, // 小雪
       86, // 大雪
-      95, // 雷暴
       96, // 雷暴伴冰雹 (轻度)
       99, // 雷暴伴冰雹 (重度)
     ].includes(code)

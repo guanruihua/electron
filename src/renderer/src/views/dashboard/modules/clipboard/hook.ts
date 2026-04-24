@@ -136,6 +136,7 @@ export const usePageState = (props: ModuleProps) => {
       if (!res?.data) return
       res.time = Date.now()
       handleSelf.updateList(res)
+      // console.log('copy', res)
     }
     const timer = setInterval(run, 1000)
     return () => {

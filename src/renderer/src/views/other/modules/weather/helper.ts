@@ -50,8 +50,13 @@ const getTimeName = (time: string) => {
   if (time === str0) return '昨天'
   if (time === str1) return '今天'
   if (time === str2) return '明天'
-  const t = dayjs(time, 'YYYY-MM-DD').weekday()
-  return '周' + map[t]
+  try {
+    const [y, m, d] = time.split('-').map(Number)
+    const t = new Date(y, m - 1, d).getDay()
+    return '周' + map[t]
+  } catch {
+    return time
+  }
 }
 type WeatherRes = { list: Weather[]; count: ObjectType<number> }
 // 处理并显示天气数据的函数

@@ -1,3 +1,4 @@
+import { DiagonalLoading } from '@/components'
 import './index.less'
 import TRMHeader from './modules/header/header'
 import TRMList from './modules/list/list'
@@ -11,7 +12,7 @@ export default function TaskResourceManager() {
     <div className="trm">
       <TRMHeader h={h} />
       <div className="container">
-        <TRMList h={h} />
+        {h?.TRM?.list?.length ? <TRMList h={h} /> : <DiagonalLoading />}
         {/* <TRMTab /> */}
       </div>
     </div>

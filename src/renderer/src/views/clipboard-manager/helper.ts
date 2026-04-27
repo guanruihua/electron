@@ -69,16 +69,12 @@ export function formatRelativeTime(now: number, target: number): string {
   return `${absDiffYear}年${suffix}`
 }
 
-export const openSettingFile = async (state: ObjectType) => {
-  const path = state?.sysSetting?.path
+export const openSettingFile = async (path: string) => {
   if (!path) return
   return window.api.invoke('cmd', `code ${path}\\clipboard.json`)
 }
 
-export const getClipboardList = async (
-  state: ObjectType,
-): Promise<ObjectType[]> => {
-  const path = state?.sysSetting?.path
+export const getClipboardList = async (path: string): Promise<ObjectType[]> => {
   if (!path) return []
   return getJSON(
     await window.api.invoke('fs', {
@@ -90,10 +86,9 @@ export const getClipboardList = async (
 }
 
 export const saveClipboard2File = async (
-  state: ObjectType,
+  path: string,
   newState: ObjectType[],
 ) => {
-  const path = state?.sysSetting?.path
   if (!path) return
   return window.api.invoke('fs', {
     action: 'saveFile',

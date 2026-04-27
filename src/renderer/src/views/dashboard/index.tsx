@@ -4,7 +4,6 @@ import { useHomeView } from './hook'
 import { QuickStart } from './modules/quick-start'
 import { Info } from './modules/info/info'
 import RunningApp from './modules/running-app'
-import ClipboardDashboard from './modules/clipboard/clipboard'
 import ProjectDashboard from './modules/project/project'
 import ProjectOperation from './modules/project/operation'
 import './style/index.less'
@@ -28,14 +27,13 @@ export default function DashboardView() {
         </div>
         <div className="dashboard-layout-col">
           <ProjectOperation h={h} />
-          <GitReview h={h} />
+          <GitReview />
           <NodeTread h={h} />
           {/* <Log h={h} /> */}
         </div>
 
         <div className="flex gap col">
           <RunningApp h={h} />
-          <ClipboardDashboard h={h} />
         </div>
       </div>
       {h.context}

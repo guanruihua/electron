@@ -42,9 +42,10 @@
   }
 
   .dashboard-clipboard-container {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+
+    gap: 10px;
     overflow-y: auto;
     min-height: 100px;
     max-height: calc(var(--h) - 150px);
@@ -52,6 +53,11 @@
     border-radius: 12px;
     background: #000;
 
+    &-col{
+      display: flex;
+      flex-direction: column;
+      gap: 10px
+    }
 
     .clipboard-item {
       border: 2px solid rgba(255, 255, 255, .1);

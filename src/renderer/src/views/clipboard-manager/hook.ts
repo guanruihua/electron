@@ -1,7 +1,6 @@
 import React from 'react'
 import { ObjectType } from '0type'
-import { ModuleProps } from '@/type'
-import { useLoadings, useSetState } from '@/util'
+import { useLoadings, useMsg, useSetState } from '@/util'
 import { isArray, isObject } from 'asura-eye'
 import {
   getClipboardList,
@@ -10,10 +9,11 @@ import {
   saveClipboard2File,
 } from './helper'
 import type { PageState } from './type'
+import { SysState } from '@/type'
 
-export const usePageState = (props: ModuleProps) => {
-  const { h } = props
-  const { handle, state } = h
+export const usePageState = (sys: SysState) => {
+  const path: string = sys.path
+  const {context, success, error}= useMsg()
 
   const [pageState, setPageState] = useSetState<PageState>({
     counts: {
@@ -51,11 +51,11 @@ export const usePageState = (props: ModuleProps) => {
       // console.log('list: ', oldList)
       let newList: ObjectType[] = []
       if (isObject(payload)) {
-        const oldList: ObjectType[] = await getClipboardList(state)
+        const oldList: ObjectType[] = await getClipboardList(path)
         const uid = getUID(payload)
         for (let i = 0; i < oldList.length; i++)
           if (getUID(oldList[i]) === uid) return
-        // console.log('payload: ', payload, oldList)
+        console.log('payload: ', payload, oldList)
         newList = [payload, ...oldList]
       }
 
@@ -91,7 +91,7 @@ export const usePageState = (props: ModuleProps) => {
         counts: newCounts,
       })
 
-      saveClipboard2File(state, newList2)
+      saveClipboard2File(path, newList2)
     },
 
     async del(item: ObjectType) {
@@ -116,19 +116,19 @@ export const usePageState = (props: ModuleProps) => {
         }
       }
       const res = await run()
-      res ? handle.success('Copy Success...') : handle.error('Copy Error...')
+      res ? success('Copy Success...') : error('Copy Error...')
       return false
     },
 
     async reload() {
-      const list = await getClipboardList(state)
+      const list = await getClipboardList(path)
       isArray(list) && this.updateList(list)
       return
     },
   }
 
   React.useEffect(() => {
-    if (!state.initSysSettingSuccess || !state.initUserSettingSuccess) return
+    if (!sys.initSuccess) return
     handleSelf.reload()
 
     const run = async () => {
@@ -136,18 +136,18 @@ export const usePageState = (props: ModuleProps) => {
       if (!res?.data) return
       res.time = Date.now()
       handleSelf.updateList(res)
-      // console.log('copy', res)
+      console.log('copy', res)
     }
-    const timer = setInterval(run, 1000)
+    const timer = setInterval(run, 500)
     return () => {
       timer && clearInterval(timer)
     }
-  }, [state.initSysSettingSuccess, state.initUserSettingSuccess])
+  }, [sys.initSuccess])
 
   return {
-    state,
     loadings,
     pageState,
     handleSelf,
+    context,
   }
 }

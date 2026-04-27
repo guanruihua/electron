@@ -27,7 +27,12 @@ const Routes = [
   },
   { id: '02', type: 'fsm', children: <FileResourceManagement /> },
   { id: '03', type: 'trm', children: <TaskResourceManager /> },
-  { id: '04', type: 'clipboard', children: <ClipboardManager /> },
+  {
+    id: '04',
+    type: 'clipboard',
+    children: <ClipboardManager />,
+    destroyOnHidden: false,
+  },
   { id: '99', type: 'other', children: <Other /> },
   { id: '100', type: 'setting', children: <Setting />, destroyOnHidden: false },
   // { type: 'terminal', children: <TerminalPage /> },

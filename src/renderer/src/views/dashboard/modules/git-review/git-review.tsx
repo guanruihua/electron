@@ -1,5 +1,4 @@
 import { Button, Input } from 'antd'
-import { ModuleProps } from '@/type'
 import { FileTree } from './file-tree'
 import { Icon } from '@/components'
 import { usePageState } from './hook'
@@ -7,7 +6,7 @@ import './git-review.less'
 import { AutoComplete } from 'antd'
 import { useSysStore } from '@/store/sys'
 
-export function GitReview(props: ModuleProps) {
+export function GitReview() {
   const sys = useSysStore()
 
   const {

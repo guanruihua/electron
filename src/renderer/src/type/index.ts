@@ -47,26 +47,11 @@ export type ProjectConf = Partial<{
 }>
 
 export interface State {
-  initSysSettingSuccess?: boolean
-  initUserSettingSuccess?: boolean
+
   initSuccess?: boolean
 
   activeTab?: string
-  // tabs?: ViewState[]
-  NodeTreads?: ObjectType[]
-  apps?: [string, string][]
-  modules?: ProjectConf[]
-  sysSetting?: {
-    path?: string
-    [key: string]: any
-  }
-  setting?: Partial<{
-    ignoreApps: string
-    selectedQuickStart: number
-    quickStarts: string[][]
-    selectProject: ProjectConf
-    [key: string]: any
-  }>
+
   [key: string]: any
 }
 
@@ -75,10 +60,8 @@ export interface Handle {
   error(msg: string, ...rest: any[]): void
   renderState(): void
   setState(newState: Partial<State>): void
-  saveToFile(type: 'setting' | 'modules' | 'apps'): void
   setLoadings: SetLoadings
   setDefaultState(state: State): state is Required<State>
-  findAll_NodeThread(render?: boolean): Promise<void>
   [key: string]: any
 }
 

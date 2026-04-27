@@ -1,5 +1,5 @@
 import React from 'react'
-import { updateCountdown } from './helper'
+import { updateCountdown } from './helper/helper'
 import { useLoading } from '@/util'
 import { isBoolean, isString } from 'asura-eye'
 import './info.less'

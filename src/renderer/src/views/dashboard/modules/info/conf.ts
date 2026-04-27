@@ -12,7 +12,9 @@ const Conf = {
     ['清明假期', '2027.4.4', '2027.4.6'],
   ],
   // 加班
-  overtime: [],
+  overtime: [
+    // [start, end]
+  ],
   // 节日
   festival: [
     // 节气

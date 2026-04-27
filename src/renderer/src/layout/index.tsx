@@ -13,8 +13,9 @@ import DashboardView from '@/views/dashboard'
 import FileResourceManagement from '@/views/File-Resource-Management'
 import TaskResourceManager from '@/views/Task-Resource-Manager'
 import Other from '@/views/other'
+import Setting from '@/views/settting'
+import { ClipboardManager } from '@/views/clipboard-manager'
 // import TerminalPage from '@/views/terminal'
-// import Agent from '@/views/agent'
 // import { View } from '@/views/view'
 
 const Routes = [
@@ -26,16 +27,17 @@ const Routes = [
   },
   { id: '02', type: 'fsm', children: <FileResourceManagement /> },
   { id: '03', type: 'trm', children: <TaskResourceManager /> },
+  { id: '04', type: 'clipboard', children: <ClipboardManager /> },
   { id: '99', type: 'other', children: <Other /> },
+  { id: '100', type: 'setting', children: <Setting />, destroyOnHidden: false },
   // { type: 'terminal', children: <TerminalPage /> },
-  // { type: 'agent', children: <Agent /> },
   // { type: 'agent', children: <View /> },
 ]
 export default function Layout() {
   const h = usePageState()
   const { activeTab } = h.state
   // console.log(activeTab)
-  
+
   return (
     <ConfigProvider
       theme={{

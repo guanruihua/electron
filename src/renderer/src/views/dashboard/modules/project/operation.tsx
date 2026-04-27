@@ -4,15 +4,17 @@ import { ModuleProps, ProjectConf } from '@/type'
 import { Button } from 'antd'
 import { sleep, useLoadings } from '@/util'
 import './operation.less'
+import { useSysStore } from '@/store/sys'
+import { useState } from 'react'
 
 export default function ProjectOperation(props: ModuleProps) {
+  const sys = useSysStore()
   const { h } = props
-  const { handle, state } = h
   const viewLoadings = h.loadings || {}
 
   const [loadings, setLoadings] = useLoadings({})
-
-  const item: ProjectConf = state?.setting?.selectProject || {}
+  const [startStatus, setStartStatus] = useState(0)
+  const item: ProjectConf = sys?.selectProject || {}
   const ref = React.useRef<HTMLDivElement>(null)
   const timer = React.useRef<NodeJS.Timeout | null>(null)
 
@@ -35,7 +37,7 @@ export default function ProjectOperation(props: ModuleProps) {
   const init = () => {
     clear()
     load()
-    timer.current = setInterval(load, 3000)
+    timer.current = setInterval(load, 1000)
   }
   React.useEffect(() => {
     init()
@@ -49,7 +51,7 @@ export default function ProjectOperation(props: ModuleProps) {
     viewLoadings.findAll
 
   return (
-    <div ref={ref} className="project-operation" data-start="0">
+    <div ref={ref} className="project-operation" data-start={startStatus}>
       <div className="module-bg" style={{ padding: 0 }}>
         <div
           className="flex space-between items-center mb"
@@ -66,9 +68,14 @@ export default function ProjectOperation(props: ModuleProps) {
               loading={runningLoading}
               onClick={async () => {
                 setLoadings(true, 'run')
-                await handle?.NodeThread?.dev?.(item, true)
-                init()
+                await window.api.invoke(
+                  'dev',
+                  [`cd ${item.path}`, `npm.cmd run ${item.npm}`].join(' && '),
+                )
+                setStartStatus(1)
+                await sys.findNodeTreads()
                 await sleep(3000)
+                init()
                 setLoadings(false, 'run')
               }}
             >
@@ -80,9 +87,22 @@ export default function ProjectOperation(props: ModuleProps) {
               icon={<Icon type="stop" />}
               loading={runningLoading}
               onClick={async () => {
+                if (!item.path) return
+
                 setLoadings(true, 'stop')
-                await handle.NodeThread.stopModule(item, true)
+                const selector = `.opt-item[data-path="${item.path.replaceAll('\\', '>')}"]`
+                const dom: HTMLDivElement | null =
+                  document.querySelector(selector)
+                if (!dom) return
+                const pids = [...new Set(dom.dataset.pid?.split(' '))]
+                for (let i = 0; i < pids.length; i++) {
+                  const pid = pids[i]
+                  await window.api.invoke('cmd', `taskkill /PID ${pid} /F`)
+                }
+                setStartStatus(1)
+                await sys.findNodeTreads()
                 await sleep(3000)
+                init()
                 setLoadings(false, 'stop')
               }}
             >

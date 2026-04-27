@@ -1,12 +1,14 @@
 import { Icon } from '@/components'
 import { ModuleProps } from '@/type'
 import { Button } from 'antd'
-import { useLoadings, getModules } from '@/util'
+import { useLoadings } from '@/util'
 import { ProjectItem } from './project-item'
 import { openConfFile } from './helper'
 import './project.less'
+import { useSysStore } from '@/store/sys'
 
 export default function ProjectDashboard(props: ModuleProps) {
+  const sys = useSysStore()
   const { h } = props
   const { handle, state } = h
   const viewLoadings = h.loadings || {}
@@ -17,11 +19,6 @@ export default function ProjectDashboard(props: ModuleProps) {
   })
 
   const reload = async () => {
-    if (!state.sysSetting?.path) return
-    const modules = await getModules(state.sysSetting.path)
-    if (!state.selectGitModule?.path) state.selectGitModule = modules[0]
-    handle.setState({ modules })
-    handle.renderState()
     handle.setLoadings(handle.findAll_NodeThread(), 'findAll')
   }
 
@@ -50,8 +47,8 @@ export default function ProjectDashboard(props: ModuleProps) {
       </div>
       <div className="p" style={{ paddingTop: 10 }}>
         <div className="dashboard-project-container overflow-y">
-          {state?.modules?.map?.((item, i) => (
-            <ProjectItem key={i} item={item} h={props.h} />
+          {sys?.modules?.map?.((item, i) => (
+            <ProjectItem key={i} item={item} />
           ))}
         </div>
       </div>

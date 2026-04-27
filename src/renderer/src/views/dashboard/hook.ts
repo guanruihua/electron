@@ -79,16 +79,16 @@ export const useHomeView = () => {
       await this.findAll(render)
     },
     async stopModule(item: ObjectType, render: boolean = false) {
-      if (!item.path) return
-      const selector = `.opt-item[data-path="${item.path.replaceAll('\\', '>')}"]`
-      const dom: HTMLDivElement | null = document.querySelector(selector)
-      if (!dom) return
-      const pids = [...new Set(dom.dataset.pid?.split(' '))]
-      for (let i = 0; i < pids.length; i++) {
-        const pid = pids[i]
-        await window.api.invoke('cmd', `taskkill /PID ${pid} /F`)
-      }
-      await this.findAll(render)
+      // if (!item.path) return
+      // const selector = `.opt-item[data-path="${item.path.replaceAll('\\', '>')}"]`
+      // const dom: HTMLDivElement | null = document.querySelector(selector)
+      // if (!dom) return
+      // const pids = [...new Set(dom.dataset.pid?.split(' '))]
+      // for (let i = 0; i < pids.length; i++) {
+      //   const pid = pids[i]
+      //   await window.api.invoke('cmd', `taskkill /PID ${pid} /F`)
+      // }
+      // await this.findAll(render)
     },
     async stop(nodeTread: ObjectType, render: boolean = false) {
       if (!nodeTread.pid) return

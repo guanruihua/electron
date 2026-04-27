@@ -51,7 +51,7 @@ export const setStatus_NodeTread = async (NodeTreads: any[]) => {
     const path = await getPathByPID(pid)
     if (path) pathMap[path] = pid
   }
-  console.log(pathMap)
+  // console.log(pathMap)
   const doms: NodeListOf<HTMLDivElement> | null =
     document.querySelectorAll(`.opt-item[data-pid]`)
   if (!doms) return

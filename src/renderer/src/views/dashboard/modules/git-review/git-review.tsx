@@ -5,9 +5,10 @@ import { Icon } from '@/components'
 import { usePageState } from './hook'
 import './git-review.less'
 import { AutoComplete } from 'antd'
+import { useSysStore } from '@/store/sys'
 
 export function GitReview(props: ModuleProps) {
-  const { h } = props
+  const sys = useSysStore()
 
   const {
     init,
@@ -18,14 +19,14 @@ export function GitReview(props: ModuleProps) {
     handlePush,
     pageState,
     setPageState,
-  } = usePageState(h)
+  } = usePageState(sys.selectProject)
 
   const { simpleTree, tree, commitMsg, hty_options } = pageState
 
   return (
     <div
       className="root-layout-home-view-git-review"
-      data-hidden={h.state?.setting?.selectProject?.git === false}
+      data-hidden={sys.selectProject?.git === false}
     >
       <div className="module-bg w flex gap col root-layout-home-view-git-review-module-bg">
         <div

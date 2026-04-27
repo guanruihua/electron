@@ -1,10 +1,11 @@
 import React from 'react'
-import { ModuleProps, ProjectConf } from '@/type'
+import { ProjectConf } from '@/type'
 import { isString } from 'asura-eye'
+import { useSysStore } from '@/store/sys'
 
-export const ProjectItem = (props: ModuleProps & { item: ProjectConf }) => {
-  const { h, item } = props
-  const { handle } = h
+export const ProjectItem = (props: { item: ProjectConf }) => {
+  const sys = useSysStore()
+  const { item } = props
 
   if (isString(item?.type) && item.type.toLowerCase() === 'group')
     return (
@@ -27,7 +28,7 @@ export const ProjectItem = (props: ModuleProps & { item: ProjectConf }) => {
             }}
           >
             {item.children?.map?.((item, i) => (
-              <ProjectItem key={i} item={item} h={props.h} />
+              <ProjectItem key={i} item={item} />
             ))}
           </div>
         </div>
@@ -41,11 +42,11 @@ export const ProjectItem = (props: ModuleProps & { item: ProjectConf }) => {
       data-start
       data-pid
       title={item.label || item.path}
-      data-select={h?.state?.setting?.selectProject?.path === item?.path}
+      data-select={sys?.selectProject?.path === item?.path}
     >
       <span
         className="opt-item-name bold pointer"
-        onClick={() => handle.selectProject(item)}
+        onClick={() => sys.handleSelectProject(item)}
       >
         {item.label || item.path}
       </span>

@@ -10,19 +10,29 @@ const tabs = [
   },
   {
     id: '02',
-    title: 'FRM',
+    title: 'File Resource Management',
     type: 'fsm',
     url: 'D:\\',
   },
   {
     id: '03',
-    title: 'TRM',
+    title: 'Task Resource Manager',
     type: 'trm',
   },
+  // {
+  //   id: '04',
+  //   title: 'Clipboard Manager',
+  //   type: 'clipboard',
+  // },
   {
     id: '99',
     title: 'Other',
     type: 'other',
+  },
+  {
+    id: '100',
+    title: 'Setting',
+    type: 'setting',
   },
   // {
   //   id: '03',

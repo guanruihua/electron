@@ -100,3 +100,16 @@ export interface ModuleProps {
   [key: string]: any
 }
 
+export type SysState = {
+  initSuccess: boolean
+  path: string
+  ignoreApps: string
+  selectedQuickStart: number
+  quickStarts: string[][]
+  selectProject: ProjectConf
+
+  NodeTreads: ObjectType[]
+  apps: [string, string][]
+  modules: ProjectConf[]
+  [key: string]: any
+}

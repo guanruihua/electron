@@ -4,8 +4,11 @@ import { isString } from 'asura-eye'
 import { ModuleProps } from '../type'
 import { Icon } from '@/components'
 import { getJSON, useLoading } from '@/util'
+// import { useSysStore } from '@/store/sys'
 
 export function SysSetting(props: ModuleProps) {
+  // const sys = useSysStore()
+  // console.log(sys)
   const { state, handle } = props.h
   const [form]: any[] = Form.useForm()
   const [loading, setLoading] = useLoading()

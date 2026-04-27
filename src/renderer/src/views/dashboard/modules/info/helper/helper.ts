@@ -1,7 +1,13 @@
 import Conf from '../conf'
 import dayjs, { Dayjs } from 'dayjs'
 import { isArray } from 'asura-eye'
-import { isHoliday, isOvertimeWork, getAfterWorkMSG, getFestivals, getDayjs } from './util'
+import {
+  isHoliday,
+  isOvertimeWork,
+  getAfterWorkMSG,
+  getFestivals,
+  getDayjs,
+} from './util'
 
 type DayType = 'WorkingDay' | 'Weekend' | 'Holiday' | 'OvertimeWork'
 
@@ -67,9 +73,7 @@ export async function updateCountdown(): Promise<string[]> {
     res.push(`距离下班还有：${afterWorkMSG}`)
   }
 
-  if (now.day() === 5) {
-    res.push(`明天就是周末！！！！！`)
-  } else if (![0, 6].includes(now.day())) {
+  if (![0, 6].includes(now.day())) {
     let total = 0
     for (let i = 0; i < DAYs.length; i++) {
       const type = DAYs[i][1]
@@ -79,7 +83,8 @@ export async function updateCountdown(): Promise<string[]> {
       }
       break
     }
-    if (total > 0) res.push(`距离周末还有：${total}天`)
+    if (total === 1) res.push(`明天就是周末！！！！！`)
+    if (total > 1) res.push(`距离周末还有：${total - 1}天`)
   }
 
   // 今天节日

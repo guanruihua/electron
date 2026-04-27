@@ -29,22 +29,22 @@ export function UserSetting(props: ModuleProps) {
       initUserSettingSuccess: false,
     })
 
-    await window.api.invoke('fs', {
-      action: 'createPathIfNotExist',
-      payload: { path, isFile: false },
-    })
-    await window.api.invoke('fs', {
-      action: 'createPathIfNotExist',
-      payload: { path: path + '/setting.json', isFile: true },
-    })
-    await window.api.invoke('fs', {
-      action: 'createPathIfNotExist',
-      payload: { path: path + '/modules.json', isFile: true },
-    })
-    await window.api.invoke('fs', {
-      action: 'createPathIfNotExist',
-      payload: { path: path + '/apps.json', isFile: true },
-    })
+    // await window.api.invoke('fs', {
+    //   action: 'createPathIfNotExist',
+    //   payload: { path, isFile: false },
+    // })
+    // await window.api.invoke('fs', {
+    //   action: 'createPathIfNotExist',
+    //   payload: { path: path + '/setting.json', isFile: true },
+    // })
+    // await window.api.invoke('fs', {
+    //   action: 'createPathIfNotExist',
+    //   payload: { path: path + '/modules.json', isFile: true },
+    // })
+    // await window.api.invoke('fs', {
+    //   action: 'createPathIfNotExist',
+    //   payload: { path: path + '/apps.json', isFile: true },
+    // })
 
     const setting = await getSetting(path)
     const modules = await getModules(path)

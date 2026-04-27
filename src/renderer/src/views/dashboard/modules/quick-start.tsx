@@ -4,12 +4,16 @@ import { isArray, isNumber, isString } from 'asura-eye'
 import { ModuleProps } from '@/type'
 import { useLoading } from '@/util'
 import { Icon } from '@/components'
+import { useSysStore } from '@/store/sys'
 
 export const QuickStart = (props: ModuleProps) => {
-  const { handle, state } = props.h
+  const sys = useSysStore()
+
+  const { handle } = props.h
   const [loading, setLoading] = useLoading()
   const [edit, setEdit] = useState<boolean>(false)
   const [select, setSelect] = useState<string[]>([])
+
   const startApp = (path: string) => {
     if (!isString(path)) return
     window.api.invoke('cmd', `start "" "${path}"`)
@@ -18,49 +22,50 @@ export const QuickStart = (props: ModuleProps) => {
     startApp,
     async updateApps() {
       const apps: [string, string][] =
-        (await window.api.invoke('updateApps', state.sysSetting)) || []
-
-      state.apps = apps
-      handle.renderState()
+        (await window.api.invoke('updateApps', sys)) || []
+      sys.set({ apps })
     },
     addGroup() {
       setLoading(1000)
-      if (!handle.setDefaultState(state)) return
-      if (!state.setting.quickStarts) state.setting.quickStarts = [[]]
-      else state.setting.quickStarts.push([])
-      state.setting.selectedQuickStart = state.setting.quickStarts.length - 1
-      handle.renderState()
-      handle.saveToFile('setting')
+      if (!sys.quickStarts) sys.quickStarts = [[]]
+      else sys.quickStarts.push([])
+      sys.selectedQuickStart = sys.quickStarts.length - 1
+      sys.set({
+        selectedQuickStart: sys.selectedQuickStart,
+        quickStarts: sys.quickStarts,
+      })
+      sys.saveToFile('setting')
     },
     delGroup(i: number) {
       setLoading(1000)
-      if (i < 0 || !isNumber(i) || !handle.setDefaultState(state)) return
+      if (i < 0 || !isNumber(i)) return
 
-      state.setting.quickStarts = state.setting.quickStarts!.filter(
-        (_, j) => j !== i,
-      )
-      const selected: number = state.setting.selectedQuickStart!
-      if (selected === i) state.setting.selectedQuickStart = 0
-      handle.renderState()
-      handle.saveToFile('setting')
+      sys.quickStarts = sys.quickStarts!.filter((_, j) => j !== i)
+      const selected: number = sys.selectedQuickStart!
+      if (selected === i) sys.selectedQuickStart = 0
+      sys.set({
+        selectedQuickStart: sys.selectedQuickStart,
+        quickStarts: sys.quickStarts,
+      })
+      sys.saveToFile('setting')
     },
     setAppToGroup() {
       setLoading(1000)
-      if (handle.setDefaultState(state)) {
-        if (!state.setting.quickStarts) state.setting.quickStarts = []
-        if (!isNumber(state.setting?.selectedQuickStart)) return
-        const index: number = state.setting.selectedQuickStart!
-        state.setting.quickStarts[index] = select
-        handle.renderState()
-        setSelect([])
-        handle.saveToFile('setting')
-        handle.success('Update Quick Start Success...')
-      }
+      if (!sys.quickStarts) sys.quickStarts = []
+      if (!isNumber(sys?.selectedQuickStart)) return
+      const index: number = sys.selectedQuickStart!
+      sys.quickStarts[index] = select
+      setSelect([])
+      sys.set({
+        selectedQuickStart: sys.selectedQuickStart,
+        quickStarts: sys.quickStarts,
+      })
+      sys.saveToFile('setting')
+      handle.success('Update Quick Start Success...')
     },
     startGroup() {
-      if (!state?.setting) return
       setLoading(true)
-      const { quickStarts, selectedQuickStart } = state.setting
+      const { quickStarts, selectedQuickStart } = sys
       if (
         !isNumber(selectedQuickStart) ||
         !isArray(quickStarts) ||
@@ -73,39 +78,37 @@ export const QuickStart = (props: ModuleProps) => {
     },
     addApp() {
       setLoading(1000)
-      if (
-        !handle.setDefaultState(state) ||
-        !isNumber(state.setting?.selectGitModule)
-      )
-        return
-      if (!state.setting.quickStarts) state.setting.quickStarts = [select]
-      else state.setting.quickStarts.push(select)
-      handle.renderState()
-      handle.saveToFile('setting')
+      if (!isNumber(sys?.selectGitModule)) return
+      if (!sys.quickStarts) sys.quickStarts = [select]
+      else sys.quickStarts.push(select)
+      sys.set({
+        quickStarts: sys.quickStarts,
+      })
+      sys.saveToFile('setting')
     },
     select(i: number) {
-      if (!handle.setDefaultState(state)) return
-      state.setting.selectedQuickStart = i
-      setSelect(state.setting.quickStarts?.[i] || [])
-      handle.renderState()
-      handle.saveToFile('setting')
+      setSelect(sys.quickStarts?.[i] || [])
+      sys.set({
+        selectedQuickStart: i,
+      })
+      sys.saveToFile('setting')
     },
   }
 
-  const total = state.setting?.quickStarts?.reduce(
+  const total = sys?.quickStarts?.reduce(
     (sum, _) => sum + (isArray(_) ? _.length : 0),
     0,
   )
   const getRenderList = () => {
-    if (!state.apps?.length || !state.setting?.quickStarts?.length) return []
-    return state.setting.quickStarts
+    if (!sys.apps?.length || !sys?.quickStarts?.length) return []
+    return sys.quickStarts
   }
   const renderList = getRenderList()
 
   const getAppOptions = () => {
-    const ignoreApps = state.setting?.ignoreApps
+    const ignoreApps = sys.ignoreApps
     const ignoreNames = ignoreApps?.split(',').map((_) => _.trim())
-    return state.apps
+    return sys.apps
       ?.filter(([, label]) => {
         if (ignoreNames?.length) {
           for (let i = 0; i < ignoreNames.length; i++)
@@ -124,7 +127,7 @@ export const QuickStart = (props: ModuleProps) => {
     <div
       className="root-layout-home-view-quick-start"
       data-edit={edit}
-      data-disabled={!state?.sysSetting?.path}
+      data-disabled={!sys.initSuccess}
     >
       <div className="module-bg" style={{ padding: 0 }}>
         <div
@@ -134,30 +137,23 @@ export const QuickStart = (props: ModuleProps) => {
           <h4>Quick Start</h4>
           <div className="flex gap bold text-12 items-center">
             <span>
-              {total || 0} / {state.apps?.length}
+              {total || 0} / {sys.apps?.length}
             </span>
             <Button
               icon={<Icon type="edit" />}
               loading={loading}
               onClick={() => {
                 setEdit(!edit)
-                if (state?.setting)
-                  setSelect(
-                    state.setting.quickStarts?.[
-                      state.setting?.selectedQuickStart || 0
-                    ] || [],
-                  )
+                setSelect(sys.quickStarts?.[sys?.selectedQuickStart || 0] || [])
               }}
             />
-            {state.apps?.length && state.setting?.quickStarts && (
+            {sys.apps?.length && sys?.quickStarts && (
               <Button
                 icon={<Icon type="run" />}
                 loading={loading}
                 disabled={
-                  !isNumber(state.setting?.selectedQuickStart) ||
-                  !state?.setting?.quickStarts[
-                    state?.setting?.selectedQuickStart
-                  ]
+                  !isNumber(sys?.selectedQuickStart) ||
+                  !sys?.quickStarts[sys?.selectedQuickStart]
                 }
                 className="bold"
                 onClick={() => handleSelf.startGroup()}
@@ -176,7 +172,7 @@ export const QuickStart = (props: ModuleProps) => {
               return (
                 <div className="quickStart-group" key={qi}>
                   <Checkbox
-                    checked={qi === state?.setting?.selectedQuickStart}
+                    checked={qi === sys?.selectedQuickStart}
                     onChange={() => handleSelf.select(qi)}
                   >
                     <div className="quickStart-group-container">
@@ -189,7 +185,7 @@ export const QuickStart = (props: ModuleProps) => {
                         if (!isString(path) || !path)
                           return <React.Fragment key={pi} />
 
-                        const fileName = state.apps?.find(
+                        const fileName = sys.apps?.find(
                           (_) => _[0] === path,
                         )?.[1]
                         return (
@@ -231,9 +227,9 @@ export const QuickStart = (props: ModuleProps) => {
             </div>
           )}
           {edit &&
-            isNumber(state?.setting?.selectedQuickStart) &&
-            isArray(state?.setting?.quickStarts) &&
-            state.setting.quickStarts.length && (
+            isNumber(sys.selectedQuickStart) &&
+            isArray(sys.quickStarts) &&
+            sys.quickStarts.length && (
               <Space.Compact>
                 <Select
                   style={{ width: 'calc( 100% - 60px )' }}
@@ -246,7 +242,8 @@ export const QuickStart = (props: ModuleProps) => {
                 />
                 <Button
                   loading={loading}
-                  style={{ width: 100 }}
+                  icon={<Icon type="save" />}
+                  style={{ width: 110 }}
                   onClick={handleSelf.setAppToGroup}
                 >
                   Update

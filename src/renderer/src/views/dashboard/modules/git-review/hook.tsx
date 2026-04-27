@@ -1,12 +1,11 @@
 import React from 'react'
-import { Hook } from '@/type'
 import { useLoading, useSetState } from '@/util'
 import { PageState } from './type'
 import { getHty, gitPull, gitPush } from './helper'
+import { ProjectConf } from '@/type'
 
-export const usePageState = (h: Hook) => {
-  const { state } = h
-  const { label = '', path } = state?.setting?.selectProject || {}
+export const usePageState = (selectProject: ProjectConf) => {
+  const { label = '', path } = selectProject || {}
 
   const [pageState, setPageState] = useSetState<PageState>({
     commitMsg: 'feat: Improve the documentation',

@@ -1,4 +1,4 @@
-import { State } from '@/type'
+import { State, SysState } from '@/type'
 import { getJSON } from './get'
 
 export const getModules = async (path: string) =>
@@ -26,7 +26,7 @@ export const getSetting = async (path: string) =>
       payload: { path: path + '/setting.json' },
     }),
     {},
-  ) as State['setting']
+  ) as SysState
 
 export const saveSettingToFile = async (
   path: string,
@@ -39,3 +39,9 @@ export const saveSettingToFile = async (
     }),
     {},
   ) as State['setting']
+
+export const saveToFile = async (path: string, data) =>
+  await window.api.invoke('fs', {
+    action: 'saveFile',
+    payload: { path, data },
+  })

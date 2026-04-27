@@ -2,6 +2,7 @@ import { classNames } from 'harpe'
 import React from 'react'
 
 export type IconType =
+  | 'txt'
   | 'save'
   | 'back'
   | 'forward'
@@ -47,6 +48,7 @@ export type IconType =
   | 'image'
   | 'eye'
   | 'eye-close'
+  | 'md'
 
 interface IconProps extends React.DOMAttributes<SVGSVGElement> {
   style?: React.CSSProperties
@@ -96,6 +98,41 @@ export function Icon(props: IconProps) {
       </svg>
     )
   }
+  if (type === 'txt')
+    return (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="1em"
+        height="1em"
+        viewBox="0 0 16 16"
+        {...rest}
+      >
+        <path
+          fill="currentColor"
+          fillRule="evenodd"
+          d="M14 4.5V14a2 2 0 0 1-2 2h-2v-1h2a1 1 0 0 0 1-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5zM1.928 15.849v-3.337h1.136v-.662H0v.662h1.134v3.337zm4.689-3.999h-.894L4.9 13.289h-.035l-.832-1.439h-.932l1.228 1.983l-1.24 2.016h.862l.853-1.415h.035l.85 1.415h.907l-1.253-1.992zm1.93.662v3.337h-.794v-3.337H6.619v-.662h3.064v.662H8.546Z"
+        ></path>
+      </svg>
+    )
+  if (type === 'md')
+    return (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="1em"
+        height="1em"
+        viewBox="0 0 16 16"
+        {...rest}
+      >
+        <path
+          fill="none"
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="m9.25 8.25l2.25 2.25l2.25-2.25M3.5 11V5.5l2.04 3l1.96-3V11m4-.5V5M1.65 2.5h12.7c.59 0 1.15.49 1.15 1v9c0 .51-.56 1-1.15 1H1.65c-.59 0-1.15-.49-1.15-1V3.58c0-.5.56-1.08 1.15-1.08"
+          strokeWidth={1}
+        ></path>
+      </svg>
+    )
   if (type === 'image')
     return (
       <svg

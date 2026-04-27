@@ -5,6 +5,7 @@ import { Header } from './modules/header/header'
 import Review from './modules/review/review'
 import Setting from './modules/setting/setting'
 import './index.less'
+import { DiagonalLoading } from '@/components'
 
 export default function FileResourceManagement() {
   const { pageState, contextHolder, loadings, handlePage } = usePageState()
@@ -13,17 +14,23 @@ export default function FileResourceManagement() {
     pageState,
     handlePage,
   }
-
+  // console.log(pageState.select)
   return (
     <div className="file-resource-management">
       <Header {...cmm} />
       <div className="file-resource-management__container">
-        <div className="file-tree-container">
-          <FileTree {...cmm} path={pageState?.selectDrive || ''} />
-        </div>
-        <Review {...cmm} />
-        <FileInfo {...cmm} />
-        <Setting {...cmm} />
+        {pageState.drives?.length ? (
+          <>
+            <div className="file-tree-container">
+              <FileTree {...cmm} path={pageState?.selectDrive || ''} />
+            </div>
+            <Review {...cmm} />
+            <FileInfo {...cmm} />
+            <Setting {...cmm} />
+          </>
+        ) : (
+          <DiagonalLoading />
+        )}
       </div>
       {contextHolder}
     </div>

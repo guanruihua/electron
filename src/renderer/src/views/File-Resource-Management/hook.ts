@@ -78,6 +78,7 @@ export function usePageState(): {
       path,
       sortBy: 9000,
       type: 'dir',
+      fileType: 'dir',
     }))
 
     setPageState({
@@ -89,6 +90,7 @@ export function usePageState(): {
         path: selectDrive + '\\',
         sortBy: 9000,
         type: 'dir',
+        fileType: 'dir',
       },
     })
     return

@@ -1,7 +1,8 @@
 import { Image } from 'antd'
-import { PageState, FileNode, HandlePage, IconMap } from '../../../helper'
+import { PageState, FileNode, HandlePage } from '../../../helper'
 import ReviewFile_JSON from './json/json'
 import ReviewFile_SVG from './svg/svg'
+import ReviewFile_md from './md/md'
 
 type Props = {
   pageState: PageState
@@ -12,7 +13,6 @@ export default function ReviewFile(props: Props) {
   const { pageState } = props
   const { select } = pageState || {}
   const { path, fileType } = (select || {}) as FileNode
-
 
   const Render = () => {
     if (fileType === 'image')
@@ -37,9 +37,9 @@ export default function ReviewFile(props: Props) {
       )
     if (fileType === 'json')
       return <ReviewFile_JSON file={select as FileNode} />
-    if (fileType === 'svg')
-      return <ReviewFile_SVG file={select as FileNode} />
-
+    if (fileType === 'svg') return <ReviewFile_SVG file={select as FileNode} />
+    if (fileType === 'txt' || fileType === 'md') return <ReviewFile_md file={select as FileNode} />
+    console.warn('select: ', select)
     return (
       <div style={{ textAlign: 'center', paddingTop: 100 }}>No Review ...</div>
     )

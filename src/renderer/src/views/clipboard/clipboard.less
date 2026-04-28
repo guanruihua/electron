@@ -69,16 +69,16 @@
     }
 
     .clipboard-item {
-      border: 2px solid rgba(255, 255, 255, .1);
-      background: #141414;
+      background: #252525;
       border-radius: 12px;
-      transition: all .6s;
+      transition: all .3s;
       display: grid;
-      grid-template-columns: 1fr auto;
+      grid-template-columns: 1fr 26px;
+      content-visibility: auto;
 
       &[data-select='true'],
       &:hover {
-        border: 2px solid rgba(255, 255, 255, .3);
+        box-shadow: 0 0 6px rgba(255, 255, 255, .9);
 
         svg {
           --color: rgba(255, 255, 255, .5);
@@ -87,12 +87,13 @@
 
       &-right {
         padding: 5px;
+
         .btns {
           display: flex;
-          background-color: #111;
           gap: 5px;
           flex-direction: column;
-          svg{
+
+          svg {
             cursor: pointer;
           }
         }
@@ -119,15 +120,11 @@
     }
 
     .clipboard-item-content {
-      display: grid;
-      grid-template-rows: 1fr;
-      grid-template-columns: 1fr auto;
-      gap: 0;
       transition: all .6s;
       cursor: pointer;
 
       .content {
-        padding: 5px 6px;
+        padding: 10px 8px 0;
         padding-left: 12px;
         color: rgba(255, 255, 255, .8);
         font-size: 12px;
@@ -139,7 +136,8 @@
 
         &.image {
           img {
-            min-width: 500px;
+            // min-height: 500px;
+            // max-height: 100%;
             max-width: 100%;
           }
         }

@@ -99,8 +99,12 @@ export default function ProjectOperation(props: ModuleProps) {
               <div className="run-group-box">
                 <Icon type="run" />
                 <span>Run</span>
-                <Icon type="google" />
-                Review
+                {item['url-review'] && (
+                  <>
+                    <Icon type="google" />
+                    Review
+                  </>
+                )}
                 <Icon type="vscode" />
                 VS Code
               </div>

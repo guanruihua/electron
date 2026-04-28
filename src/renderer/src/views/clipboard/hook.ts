@@ -56,7 +56,7 @@ export const usePageState = (sys: SysState) => {
         const uid = getUID(payload)
         for (let i = 0; i < oldList.length; i++)
           if (getUID(oldList[i]) === uid) return
-        // console.log('payload: ', payload.data, oldList.length)
+        console.log('payload: ', payload.data, oldList.length)
         newList = [payload, ...oldList]
       }
 

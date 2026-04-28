@@ -16,7 +16,7 @@ export function ClipboardManager() {
   const { list = [], renderList = [] } = pageState
 
   // const [col, setCol] = useState(4)
-  const col=4
+  const col = 4
 
   return (
     <div className="clipboard-manager" data-disabled={!sys.path}>
@@ -51,12 +51,7 @@ export function ClipboardManager() {
         </div>
       </div>
       {loadings.init ? (
-        <DiagonalLoading
-          style={{
-            gridColumn: '1 / -1',
-            height: '100%',
-          }}
-        />
+        <DiagonalLoading />
       ) : (
         <div
           className="clipboard-manager-container"

@@ -1,6 +1,8 @@
 import { ObjectType } from '0type'
 import { Icon } from '@/components'
 import { formatRelativeTime } from './helper'
+import { Image } from 'antd'
+import { useState } from 'react'
 
 interface Props {
   item: ObjectType
@@ -12,6 +14,7 @@ export function ClipboardItem(props: Props) {
   const { handleSelf, item } = props
   const { type, data, time, star = 0, num } = item
   const now = Date.now()
+  const [open, setOpen] = useState(false)
 
   return (
     <div className="clipboard-item" data-star={!!star}>
@@ -63,6 +66,28 @@ export function ClipboardItem(props: Props) {
             type={star ? 'star-fill' : 'star'}
             onClick={() => handleSelf.star(item)}
           />
+          {type === 'image' && (
+            <>
+              <Icon
+                className="eye"
+                type={'eye'}
+                onClick={() => setOpen(true)}
+              />
+              <Image
+                width={200}
+                style={{ display: 'none' }}
+                alt="image"
+                src={data}
+                preview={{
+                  open,
+                  src: data,
+                  onOpenChange: (value) => {
+                    setOpen(value)
+                  },
+                }}
+              />
+            </>
+          )}
         </div>
       </div>
     </div>

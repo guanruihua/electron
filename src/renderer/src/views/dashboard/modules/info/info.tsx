@@ -20,7 +20,6 @@ export function Info(props: ModuleProps) {
             className="bolder absolute"
             onClick={() => setLoading(init())}
           />
-          <h4>Info</h4>
           <div
             className="ddl-info-box"
             title="Click Copy..."

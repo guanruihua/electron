@@ -55,7 +55,7 @@ export const usePageState = (sys: SysState) => {
         const uid = getUID(payload)
         for (let i = 0; i < oldList.length; i++)
           if (getUID(oldList[i]) === uid) return
-        console.log('payload: ', payload, oldList)
+        // console.log('payload: ', payload.data, oldList.length)
         newList = [payload, ...oldList]
       }
 
@@ -135,10 +135,10 @@ export const usePageState = (sys: SysState) => {
       const res = await window.api.invoke('getClipboard')
       if (!res?.data) return
       res.time = Date.now()
+      // console.log('copy', res)
       handleSelf.updateList(res)
-      console.log('copy', res)
     }
-    const timer = setInterval(run, 500)
+    const timer = setInterval(run, 1000)
     return () => {
       timer && clearInterval(timer)
     }

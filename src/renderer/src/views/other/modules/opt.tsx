@@ -53,6 +53,18 @@ export default function Opt() {
       ],
     },
     {
+      title: 'Win11',
+      children: [
+        ['CMD', 'start cmd'],
+        ['回收站', 'explorer.exe shell:RecycleBinFolder'],
+        [
+          'Edit Hosts',
+          'code C:\\Windows\\System32\\drivers\\etc\\hosts',
+          'edit',
+        ],
+      ],
+    },
+    {
       title: 'Nginx',
       children: [
         ['Start', 'cd D:\\env\\nginx\\nginx-1.28.2 && start .\\nginx.exe'],
@@ -69,18 +81,6 @@ export default function Opt() {
         [
           'Edit Conf',
           'code D:\\env\\nginx\\nginx-1.28.2\\conf\\nginx.conf',
-          'edit',
-        ],
-      ],
-    },
-    {
-      title: 'Win11',
-      children: [
-        ['CMD', 'start cmd'],
-        ['回收站', 'explorer.exe shell:RecycleBinFolder'],
-        [
-          'Edit Hosts',
-          'code C:\\Windows\\System32\\drivers\\etc\\hosts',
           'edit',
         ],
       ],

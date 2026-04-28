@@ -3,6 +3,7 @@ import { Icon } from '@/components'
 import { formatRelativeTime } from './helper'
 import { Image } from 'antd'
 import { useState } from 'react'
+import './clipboard-item.less'
 
 interface Props {
   item: ObjectType
@@ -45,12 +46,12 @@ export function ClipboardItem(props: Props) {
           )}
         </div>
         <div className="clipboard-item-footer">
-          <div className="data-time">{formatRelativeTime(now, time)}</div>
+          <div className="data-num">{num}</div>
           <div className="clipboard-item-footer-right">
             <div className="data-count">
-              {type === 'text' ? `Length: ${data.length}` : 'File'}
+              <div className="data-time">{formatRelativeTime(now, time)}</div>
             </div>
-            <div className="data-num">{num}</div>
+            {type === 'text' ? `Length: ${data.length}` : 'File'}
           </div>
         </div>
       </div>

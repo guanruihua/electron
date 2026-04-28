@@ -1,0 +1,41 @@
+.clipboard-item {
+  background: #252525;
+  border-radius: 12px;
+  transition: all .3s;
+  display: grid;
+  grid-template-columns: 1fr 32px;
+  content-visibility: auto;
+
+  &[data-select='true'],
+  &:hover {
+    box-shadow: 0 0 6px rgba(255, 255, 255, .9);
+
+    svg {
+      --color: rgba(255, 255, 255, .5);
+    }
+  }
+
+  &-right {
+    padding: 5px;
+
+    .btns {
+      display: flex;
+      gap: 5px;
+      flex-direction: column;
+
+      svg {
+        font-size: 18px;
+        cursor: pointer;
+
+        path {
+          transition: all .6s;
+          color: rgba(255, 255, 255, .5);
+        }
+
+        &:hover path {
+          color: rgba(255, 255, 255, .9);
+        }
+      }
+    }
+  }
+}

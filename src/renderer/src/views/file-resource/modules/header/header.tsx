@@ -1,9 +1,8 @@
 import React from 'react'
-import { Button, AutoComplete, Input } from 'antd'
+import { Button, AutoComplete } from 'antd'
 import { Icon } from '@/components'
 import { HandlePage, PageState } from '../../helper'
 import { Loadings } from '@/util'
-import {} from 'antd'
 import './header.less'
 
 type Props = {

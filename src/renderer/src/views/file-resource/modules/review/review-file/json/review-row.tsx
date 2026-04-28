@@ -35,7 +35,7 @@ function ReviewRowRender(props: ReviewRowProps) {
   //     </div>
   //   )
   // }
-  
+
   if (status.simpleArray) {
     return (
       <div className="render">
@@ -65,7 +65,7 @@ export default function ReviewRow(props: ReviewRowProps) {
   const { rowKey, row, depth = 0 } = props
   // console.log('row:', row)
   const nextDepth = depth + 1
-  const [showNum, setShowNum] = useState(5)
+  const [showNum, setShowNum] = useState(10)
   if (isString(rowKey) || isNumber(rowKey)) {
     return <ReviewRowRender {...props} />
   }
@@ -92,7 +92,7 @@ export default function ReviewRow(props: ReviewRowProps) {
             onClick={(e) => {
               e.stopPropagation()
               e.preventDefault()
-              setShowNum((n) => n + 5)
+              setShowNum((n) => n + 10)
             }}
           >
             ...

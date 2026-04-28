@@ -9,12 +9,13 @@ import { DiagonalLoading } from '@/components'
 
 export default function FileResourceManagement() {
   const { pageState, contextHolder, loadings, handlePage } = usePageState()
+
   const cmm = {
     loadings,
     pageState,
     handlePage,
   }
-  // console.log(pageState.select)
+
   return (
     <div className="file-resource-management">
       <Header {...cmm} />

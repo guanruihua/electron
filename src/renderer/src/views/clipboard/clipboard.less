@@ -57,11 +57,9 @@
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr;
     gap: 10px;
-    margin: 10px;
     padding: 10px;
     overflow-y: auto;
     min-height: 100px;
-    border-radius: 12px;
     background: #000;
 
     &-col {
@@ -85,7 +83,19 @@
         svg {
           --color: rgba(255, 255, 255, .5);
         }
+      }
 
+      &-right {
+        padding: 5px;
+        .btns {
+          display: flex;
+          background-color: #111;
+          gap: 5px;
+          flex-direction: column;
+          svg{
+            cursor: pointer;
+          }
+        }
       }
     }
 
@@ -98,8 +108,8 @@
 
       &-right {
         display: flex;
-        flex-direction: row;
         gap: 20px;
+        flex-direction: row;
       }
 
       div {
@@ -121,7 +131,7 @@
         padding-left: 12px;
         color: rgba(255, 255, 255, .8);
         font-size: 12px;
-        max-height: 200px;
+        max-height: 500px;
         overflow-y: auto;
 
         // &.text {
@@ -129,7 +139,7 @@
 
         &.image {
           img {
-            min-width: 300px;
+            min-width: 500px;
             max-width: 100%;
           }
         }

@@ -7,7 +7,7 @@ import { ClipboardItem } from './clipboard-item'
 import ClipboardType from './clipboard-type'
 import { openSettingFile } from './helper'
 import { useSysStore } from '@/store/sys'
-import { useState } from 'react'
+// import { useState } from 'react'
 
 export function ClipboardManager() {
   const sys = useSysStore()
@@ -15,7 +15,8 @@ export function ClipboardManager() {
   const { setLoadings } = handleSelf
   const { list = [], renderList = [] } = pageState
 
-  const [col, setCol] = useState(4)
+  // const [col, setCol] = useState(4)
+  const col=4
 
   return (
     <div className="clipboard-manager" data-disabled={!sys.path}>

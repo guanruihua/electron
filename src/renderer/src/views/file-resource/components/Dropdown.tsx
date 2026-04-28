@@ -1,19 +1,22 @@
 import { MenuProps } from 'antd'
 import { ReactNode } from 'react'
-import { FileNode, HandlePage, PageState } from '../helper'
+import { FileNode } from '../helper'
 import { Dropdown } from 'antd'
 import './Dropdown.less'
+import { Modal } from 'antd'
+import { FRMStore } from '../store'
 
-type FRM_DropdownProps = Partial<{
+type FRM_DropdownProps = {
   file: FileNode
-  pageState: PageState
-  handlePage: HandlePage
+  frm: FRMStore
   children: ReactNode
-}>
+}
 
 export default function FRM_Dropdown(props: FRM_DropdownProps) {
-  const { file, children, handlePage } = props
+  const { file, children, frm } = props
   const { path, type = 'file' } = file || {}
+  const [modal, contextHolder] = Modal.useModal()
+
   const items: MenuProps['items'] = [
     {
       key: 'vscode-open',
@@ -36,7 +39,7 @@ export default function FRM_Dropdown(props: FRM_DropdownProps) {
       key: 'del',
       label: '删除',
       onClick: () => {
-        handlePage?.confirm({
+        modal?.confirm({
           title: '确定要删除该文件/夹?',
           async onOk() {
             window.api.invoke('cmd', `rimraf ${path}`)
@@ -47,19 +50,22 @@ export default function FRM_Dropdown(props: FRM_DropdownProps) {
   ].filter(Boolean) as MenuProps['items']
 
   return (
-    <Dropdown
-      className="frm-dropdown"
-      classNames={{
-        root: 'frm-dropdown-root',
-      }}
-      menu={{
-        items,
-      }}
-      trigger={['contextMenu']}
-      destroyOnHidden
-      placement="bottomRight"
-    >
-      {children}
-    </Dropdown>
+    <>
+      <Dropdown
+        className="frm-dropdown"
+        classNames={{
+          root: 'frm-dropdown-root',
+        }}
+        menu={{
+          items,
+        }}
+        trigger={['contextMenu']}
+        destroyOnHidden
+        placement="bottomRight"
+      >
+        {children}
+      </Dropdown>
+      {contextHolder}
+    </>
   )
 }

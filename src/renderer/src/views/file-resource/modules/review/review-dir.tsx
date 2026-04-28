@@ -1,23 +1,19 @@
 import { Pagination } from 'antd'
-import { PageState, FileNode, IconMap, HandlePage } from '../../helper'
+import { FileNode, IconMap } from '../../helper'
 import { useState } from 'react'
 import { useEffect } from 'react'
 import FRM_Dropdown from '../../components/Dropdown'
+import { useFRMStore } from '../../store'
 
-type Props = {
-  pageState: PageState
-  handlePage: HandlePage
-}
-
-export default function ReviewDir(props: Props) {
-  const { pageState, handlePage } = props
-  const { select } = pageState || {}
+export default function ReviewDir() {
+  const frm = useFRMStore()
+  const { select } = frm || {}
 
   const [paging, setPaging] = useState({
     current: 1,
     pageSize: 50,
   })
-  const tree: FileNode[] = pageState?.pathMap?.[select?.path || ''] || []
+  const tree: FileNode[] = frm?.pathMap?.[select?.path || ''] || []
   const { current, pageSize } = paging
   const renderTree: FileNode[] = tree.slice(
     (current - 1) * pageSize,
@@ -25,6 +21,7 @@ export default function ReviewDir(props: Props) {
   )
 
   const [count, setCount] = useState(3)
+
   useEffect(() => {
     const q = '.frm-review'
     const dom = document.querySelector(q)
@@ -33,7 +30,7 @@ export default function ReviewDir(props: Props) {
       for (let entry of entries) {
         const { width } = entry.contentRect
         // console.log(`宽度变化：${width}px`)
-        const newCount = Math.max(2, Math.floor(width / 200))
+        const newCount = Math.max(2, Math.floor(width / 250))
         if (newCount === count) return
         setCount(newCount)
       }
@@ -67,12 +64,11 @@ export default function ReviewDir(props: Props) {
                     <FRM_Dropdown
                       key={path}
                       file={item}
-                      pageState={pageState}
-                      handlePage={handlePage}
+                      frm={frm}
                     >
                       <div
                         className="frm-review-item"
-                        onClick={() => handlePage.selectFileNode(item)}
+                        onClick={() => frm.selectFileNode(item)}
                       >
                         <img src={`file://${path}`} />
                         <div className="frm-review-item-box">
@@ -87,12 +83,11 @@ export default function ReviewDir(props: Props) {
                   <FRM_Dropdown
                     key={path}
                     file={item}
-                    pageState={pageState}
-                    handlePage={handlePage}
+                    frm={frm}
                   >
                     <div
                       className="frm-review-item"
-                      onClick={() => handlePage.selectFileNode(item)}
+                      onClick={() => frm.selectFileNode(item)}
                     >
                       <div className="frm-review-item-box">
                         {IconMap[fileType] || IconMap.file}

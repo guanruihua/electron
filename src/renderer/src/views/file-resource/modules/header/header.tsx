@@ -1,22 +1,21 @@
 import React from 'react'
 import { Button, AutoComplete } from 'antd'
 import { Icon } from '@/components'
-import { HandlePage, PageState } from '../../helper'
-import { Loadings } from '@/util'
+import { Loadings, SetLoadings } from '@/util'
+import { useFRMStore } from '../../store'
 import './header.less'
 
 type Props = {
   loadings: Loadings
-  pageState: PageState
-  handlePage: HandlePage
+  setLoadings: SetLoadings
 }
 
 export function Header(props: Props) {
-  const { loadings, pageState, handlePage } = props
-  const { pathMap, setting = {} } = pageState
-  const [input, setInput] = React.useState('')
-  // console.log(pageState.select?.path, paths)
-  const paths = pageState?.headerPaths || []
+  const frm = useFRMStore()
+  const { loadings, setLoadings } = props
+
+  const { pathMap, setting = {} } = frm
+  const paths = frm?.headerPaths || []
 
   return (
     <div className="file-resource-management__header">
@@ -48,7 +47,7 @@ export function Header(props: Props) {
                     },
                   }}
                   onSelect={(_, option: any) => {
-                    handlePage.selectFileNode(option)
+                    frm.selectFileNode(option)
                   }}
                 >
                   <div className="frm-path-item-value">{value}</div>
@@ -74,7 +73,7 @@ export function Header(props: Props) {
           loading={loadings.reload}
           icon={<Icon type="reload" style={{ fontSize: 16 }} />}
           className="bolder"
-          onClick={() => handlePage.setLoadings(handlePage?.init?.(), 'reload')}
+          onClick={() => setLoadings(frm?.init?.(), 'reload')}
         />
         <Button
           icon={
@@ -87,7 +86,7 @@ export function Header(props: Props) {
           type={setting.showInfo === 1 ? 'primary' : 'default'}
           onClick={() => {
             setting.showInfo = setting.showInfo === 1 ? 0 : 1
-            handlePage.setPageState({ setting })
+            frm.set({ setting })
           }}
         />
         <Button
@@ -96,7 +95,7 @@ export function Header(props: Props) {
           type={setting.show === 1 ? 'primary' : 'default'}
           onClick={() => {
             setting.show = setting.show === 1 ? 0 : 1
-            handlePage.setPageState({ setting })
+            frm.set({ setting })
           }}
         />
       </div>

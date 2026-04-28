@@ -1,35 +1,34 @@
 import React from 'react'
-import { Loadings } from '@/util'
-import { FileNode, PageState, HandlePage } from '../helper'
-import './file-tree.less'
+import { FileNode } from '../helper'
 import { Icon } from '@/components'
 import FRM_Dropdown from '../components/Dropdown'
+import { FRMStore } from '../store'
+import './file-tree.less'
 
 type Props = {
-  pageState: PageState
-  loadings: Loadings
   style?: React.CSSProperties
   path: string
   currentDepth?: number
-  handlePage: HandlePage
+
+  frm: FRMStore
 }
 
 export const FileTree = (props: Props) => {
-  const { path, currentDepth = 0, ...rest } = props
-  const { pageState, handlePage, loadings, ...rest2 } = rest
-  const { open = [] } = pageState || {}
+  const { frm, path, currentDepth = 0 } = props
+  const { open = [] } = frm || {}
+
   const renderTree: FileNode[] =
-    pageState?.pathMap?.[path]?.filter((_) => _.type === 'dir') || []
+    frm?.pathMap?.[path]?.filter((_) => _.type === 'dir') || []
 
   return (
-    <div className="frm-file-tree" {...rest2}>
+    <div className="frm-file-tree" >
       {renderTree?.map?.((item: FileNode, i) => {
         const { path, type } = item
         if (!path) return <React.Fragment key={i} />
 
         const isDirectory = type == 'dir'
         const isFold = !open.includes(path)
-        const child: FileNode[] = pageState?.pathMap?.[path]
+        const child: FileNode[] = frm?.pathMap?.[path]
 
         return (
           <div
@@ -46,13 +45,12 @@ export const FileTree = (props: Props) => {
             >
               <FRM_Dropdown
                 file={item}
-                pageState={pageState}
-                handlePage={handlePage}
+                frm={frm}
               >
                 <div
                   className="frm-file-tree-item-render"
                   title={item.name}
-                  onClick={() => handlePage.selectFileNode(item)}
+                  onClick={() => frm.selectFileNode(item)}
                 >
                   <Icon className="right-arrow transition" type="right-arrow" />
                   <Icon type="dir" />
@@ -75,7 +73,7 @@ export const FileTree = (props: Props) => {
                 style={{ paddingLeft: 15 }}
               >
                 <FileTree
-                  {...rest}
+                  frm={frm}
                   path={path}
                   currentDepth={currentDepth + 1}
                 />

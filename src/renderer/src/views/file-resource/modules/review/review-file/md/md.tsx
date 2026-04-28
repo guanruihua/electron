@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import { FileNode } from '@/type'
 import { isString } from 'asura-eye'
 import { Md } from '@/components'
-import './md.less'
 
 type Props = {
   file: FileNode

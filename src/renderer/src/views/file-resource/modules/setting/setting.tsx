@@ -1,15 +1,10 @@
-import { PageState, HandlePage } from '../../helper'
-import './setting.less'
+import { useFRMStore } from '../../store'
 import { Input } from 'antd'
+import './setting.less'
 
-type Props = {
-  pageState: PageState
-  handlePage: HandlePage
-}
-
-export default function Setting(props: Props) {
-  const { pageState, handlePage } = props
-  const { setting = {} } = pageState || {}
+export default function Setting() {
+  const frm = useFRMStore()
+  const { setting = {} } = frm || {}
 
   const Conf = [
     // { label: '仅包含文件夹', name: 'includeDir' },
@@ -20,7 +15,7 @@ export default function Setting(props: Props) {
 
   const handleInput = (name: string, value: string) => {
     setting[name] = value
-    handlePage.setPageState({ setting })
+    frm.set({ setting })
   }
 
   return (

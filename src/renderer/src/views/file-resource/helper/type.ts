@@ -7,6 +7,7 @@ import { FileNode } from '@/type'
 export * from '@/type'
 
 export type PageState = Partial<{
+  initSuccess: boolean
   drives: string[]
   selectDrive: string
   pathMap: ObjectType<any>

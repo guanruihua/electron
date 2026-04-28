@@ -1,27 +1,22 @@
-import { PageState, HandlePage, FileNode, IconMap } from '../../helper'
+import { IconMap } from '../../helper'
 import './review.less'
 import ReviewDir from './review-dir'
 import ReviewFile from './review-file/review-file'
+import { useFRMStore } from '../../store'
 
-type Props = {
-  pageState: PageState
-  handlePage: HandlePage
-}
-
-export default function Review(props: Props) {
-  const { pageState } = props
-  // console.log(pageState.select)
-  const { type } = pageState?.select || {}
-  const { select } = pageState || {}
+export default function Review() {
+  const frm = useFRMStore()
+  const { select } = frm || {}
+  const { type, path, fileType = '', name } = select || {}
 
   return (
-    <div className="frm-review" data-hidden={!pageState?.select?.path}>
+    <div className="frm-review" data-hidden={!path}>
       <div className="frm-review-header">
-        {IconMap[select?.fileType || ''] || IconMap.file}
-        <span>{select?.name}</span>
+        {IconMap[fileType] || IconMap.file}
+        <span>{name}</span>
       </div>
-      {type === 'dir' && <ReviewDir {...props} />}
-      {type === 'file' && <ReviewFile {...props} />}
+      {type === 'dir' && <ReviewDir />}
+      {type === 'file' && <ReviewFile />}
     </div>
   )
 }

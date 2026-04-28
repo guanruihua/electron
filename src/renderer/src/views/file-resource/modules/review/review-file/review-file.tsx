@@ -1,17 +1,13 @@
 import { Image } from 'antd'
-import { PageState, FileNode, HandlePage } from '../../../helper'
+import { FileNode } from '../../../helper'
 import ReviewFile_JSON from './json/json'
 import ReviewFile_SVG from './svg/svg'
 import ReviewFile_md from './md/md'
+import { useFRMStore } from '@/views/file-resource/store'
 
-type Props = {
-  pageState: PageState
-  handlePage: HandlePage
-}
-
-export default function ReviewFile(props: Props) {
-  const { pageState } = props
-  const { select } = pageState || {}
+export default function ReviewFile() {
+  const frm = useFRMStore()
+  const { select } = frm || {}
   const { path, fileType } = (select || {}) as FileNode
 
   const Render = () => {

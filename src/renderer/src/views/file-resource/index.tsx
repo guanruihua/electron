@@ -1,4 +1,3 @@
-import { usePageState } from './hook'
 import { FileTree } from './modules/file-tree'
 import { FileInfo } from './modules/file-info/file-info'
 import { Header } from './modules/header/header'
@@ -6,34 +5,40 @@ import Review from './modules/review/review'
 import Setting from './modules/setting/setting'
 import './index.less'
 import { DiagonalLoading } from '@/components'
+import { useFRMStore } from './store'
+import { useEffect } from 'react'
+import { useLoadings } from '@/util'
 
 export default function FileResourceManagement() {
-  const { pageState, contextHolder, loadings, handlePage } = usePageState()
+  const frm = useFRMStore()
+  const [loadings, setLoadings] = useLoadings()
 
   const cmm = {
     loadings,
-    pageState,
-    handlePage,
+    setLoadings,
   }
+
+  useEffect(() => {
+    !frm.initSuccess && frm.init()
+  }, [frm.initSuccess])
 
   return (
     <div className="file-resource-management">
       <Header {...cmm} />
       <div className="file-resource-management__container">
-        {pageState.drives?.length ? (
+        {frm.drives?.length ? (
           <>
             <div className="file-tree-container">
-              <FileTree {...cmm} path={pageState?.selectDrive || ''} />
+              <FileTree frm={frm} path={frm?.selectDrive || ''} />
             </div>
-            <Review {...cmm} />
-            <FileInfo {...cmm} />
-            <Setting {...cmm} />
+            <Review />
+            <FileInfo />
+            <Setting />
           </>
         ) : (
           <DiagonalLoading />
         )}
       </div>
-      {contextHolder}
     </div>
   )
 }

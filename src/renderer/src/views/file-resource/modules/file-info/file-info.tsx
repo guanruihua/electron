@@ -1,13 +1,9 @@
-import { PageState } from '../../helper'
 import './file-info.less'
 import { FileInfoBox } from './file-info-box'
+import { useFRMStore } from '../../store'
 
-type Props = {
-  pageState: PageState
-}
-
-export const FileInfo = (props: Props) => {
-  const { pageState } = props
+export const FileInfo = () => {
+  const frm = useFRMStore()
 
   const items = [
     ['name', 'Name'],
@@ -25,9 +21,15 @@ export const FileInfo = (props: Props) => {
   ]
 
   return (
-    <div className="frm-card frm-card-info" data-hidden={!pageState?.select?.parentPath || pageState?.setting?.showInfo !== 1} data-file-type={pageState?.select?.fileType || 'default'}>
-      <FileInfoBox items={items} pageState={pageState} />
-      <FileInfoBox type="stats" items={fileItems} pageState={pageState} />
+    <div
+      className="frm-card frm-card-info"
+      data-hidden={
+        !frm?.select?.parentPath || frm?.setting?.showInfo !== 1
+      }
+      data-file-type={frm?.select?.fileType || 'default'}
+    >
+      <FileInfoBox items={items} pageState={frm} />
+      <FileInfoBox type="stats" items={fileItems} pageState={frm} />
     </div>
   )
 }

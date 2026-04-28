@@ -1,6 +1,6 @@
 import { ObjectType } from '0type'
 import { useEffect, useState } from 'react'
-import { isArray, isBoolean, isNumber, isPromise, isString } from 'asura-eye'
+import { isArray, isBoolean, isNumber, isObject, isPromise, isString } from 'asura-eye'
 
 export type SetLoading = (
   target: number | boolean | Promise<any>,
@@ -94,7 +94,6 @@ export const useLoadings = (
       if (isBoolean(target)) {
         return set(target, key)
       }
-
       if (isNumber(target)) {
         set(true, key)
         return new Promise<boolean>((rs) => {

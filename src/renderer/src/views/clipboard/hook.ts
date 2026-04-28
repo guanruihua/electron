@@ -13,7 +13,7 @@ import { SysState } from '@/type'
 
 export const usePageState = (sys: SysState) => {
   const path: string = sys.path
-  const {context, success, error}= useMsg()
+  const { context, success, error } = useMsg()
 
   const [pageState, setPageState] = useSetState<PageState>({
     counts: {
@@ -29,6 +29,7 @@ export const usePageState = (sys: SysState) => {
   })
 
   const [loadings, setLoadings] = useLoadings({
+    init: true,
     edit: false,
     editFile: false,
     reload: false,
@@ -121,8 +122,10 @@ export const usePageState = (sys: SysState) => {
     },
 
     async reload() {
+      setLoadings(true, 'init')
       const list = await getClipboardList(path)
       isArray(list) && this.updateList(list)
+      setLoadings(false, 'init')
       return
     },
   }

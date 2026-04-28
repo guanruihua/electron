@@ -49,7 +49,35 @@ export default function ProjectOperation(props: ModuleProps) {
     loadings.run ||
     viewLoadings.stopAll ||
     viewLoadings.findAll
+  const runGroup = async () => {
+    setLoadings(true, 'run')
+    await window.api.invoke(
+      'dev',
+      [`cd ${item.path}`, `npm.cmd run ${item.npm}`].join(' && '),
+    )
+    setStartStatus(1)
+    await sys.findNodeTreads()
+    if (item['url-review'])
+      await window.api.invoke('cmd', `explorer "${item['url-review']}"`)
 
+    setLoadings(window.api.invoke('cmd', `code ${item.path}`), 'vscode')
+    await sleep(3000)
+    init()
+
+    setLoadings(false, 'run')
+  }
+  const run = async () => {
+    setLoadings(true, 'run')
+    await window.api.invoke(
+      'dev',
+      [`cd ${item.path}`, `npm.cmd run ${item.npm}`].join(' && '),
+    )
+    setStartStatus(1)
+    await sys.findNodeTreads()
+    await sleep(3000)
+    init()
+    setLoadings(false, 'run')
+  }
   return (
     <div ref={ref} className="project-operation" data-start={startStatus}>
       <div className="module-bg" style={{ padding: 0 }}>
@@ -62,25 +90,31 @@ export default function ProjectOperation(props: ModuleProps) {
         <div className="p" style={{ paddingTop: 10 }}>
           <div className="flex row gap wrap">
             <Button
+              className="run-group run"
+              data-hidden={!item.npm}
+              style={{ width: '100%' }}
+              loading={runningLoading}
+              onClick={runGroup}
+            >
+              <div className="run-group-box">
+                <Icon type="run" />
+                <span>Run</span>
+                <Icon type="google" />
+                Review
+                <Icon type="vscode" />
+                VS Code
+              </div>
+            </Button>
+            <Button
               className="run"
               data-hidden={!item.npm}
               icon={<Icon type="run" />}
               loading={runningLoading}
-              onClick={async () => {
-                setLoadings(true, 'run')
-                await window.api.invoke(
-                  'dev',
-                  [`cd ${item.path}`, `npm.cmd run ${item.npm}`].join(' && '),
-                )
-                setStartStatus(1)
-                await sys.findNodeTreads()
-                await sleep(3000)
-                init()
-                setLoadings(false, 'run')
-              }}
+              onClick={run}
             >
               Run
             </Button>
+
             <Button
               className="stop"
               data-hidden={!item.npm}

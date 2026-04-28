@@ -10,7 +10,7 @@ import { useSysStore } from '@/store/sys'
 export default function ProjectDashboard(props: ModuleProps) {
   const sys = useSysStore()
   const { h } = props
-  const { handle, state } = h
+  const { handle } = h
   const viewLoadings = h.loadings || {}
 
   const [loadings, setLoadings] = useLoadings({
@@ -19,7 +19,7 @@ export default function ProjectDashboard(props: ModuleProps) {
   })
 
   const reload = async () => {
-    handle.setLoadings(handle.findAll_NodeThread(), 'findAll')
+    handle.setLoadings(sys.findNodeTreads(), 'findAll')
   }
 
   return (
@@ -33,7 +33,7 @@ export default function ProjectDashboard(props: ModuleProps) {
           <Button
             icon={<Icon type="edit" />}
             loading={loadings.edit}
-            onClick={() => setLoadings(openConfFile(state), 'edit')}
+            onClick={() => setLoadings(openConfFile(sys.path), 'edit')}
           />
           <Button
             loading={

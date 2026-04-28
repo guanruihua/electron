@@ -1,22 +1,19 @@
 import { ObjectType } from '0type'
 import { Options } from './conf'
-import { ReactNode } from 'react'
 import { PageState } from './type'
 import { getRenderList } from './helper'
 
 interface Props {
   pageState: PageState
   handleSelf: ObjectType
-  children?: ReactNode
 }
 
 export default function ClipboardType(props: Props) {
-  const { children, pageState, handleSelf } = props
+  const { pageState, handleSelf } = props
   const { counts, selectType } = pageState
 
   return (
-    <div className="dashboard-clipboard-type-box">
-      <div className="left">
+    <div className="clipboard-manager-type-box">
         {Options.Clipboard.map((_) => (
           <div
             key={_.value}
@@ -29,7 +26,7 @@ export default function ClipboardType(props: Props) {
             }}
             data-disabled={!counts?.[_.value]}
             data-select={selectType === _.value}
-            className="dashboard-clipboard-type"
+            className="clipboard-manager-type"
           >
             {_.label}
             {_.value !== 'all' && counts?.[_.value] ? (
@@ -39,8 +36,6 @@ export default function ClipboardType(props: Props) {
             )}
           </div>
         ))}
-      </div>
-      <div className="right">{children}</div>
     </div>
   )
 }

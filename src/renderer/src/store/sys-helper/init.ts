@@ -43,10 +43,10 @@ export const getSysInitState = async (): Promise<SysState> => {
     setStatus_NodeTread(newState.NodeTreads)
   }
 
-  console.log({
-    setting,
-    modules,
-    apps,
-  })
+  // console.log({
+  //   setting,
+  //   modules,
+  //   apps,
+  // })
   return newState
 }

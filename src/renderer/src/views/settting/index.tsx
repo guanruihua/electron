@@ -19,7 +19,6 @@ export default function Setting() {
     sys.initSuccess && form.setFieldsValue(sys)
   }, [sys.initSuccess])
 
-  console.log(sys)
   return (
     <div className="page__setting">
       <div className="header">

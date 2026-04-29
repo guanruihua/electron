@@ -1,11 +1,11 @@
 import { Icon } from '@/components'
 import { Button } from 'antd'
 import './info.less'
-import { ModuleProps } from '@/type'
 import { useMyState } from './state'
+import { useMsg } from '@/util'
 
-export function Info(props: ModuleProps) {
-  const { handle } = props.h
+export function Info() {
+  const { context, success, error } = useMsg()
   const { loading, setLoading, LocalIP, batteryPower, ddl, networkName, init } =
     useMyState()
 
@@ -29,9 +29,7 @@ export function Info(props: ModuleProps) {
               const res = await window.api.invoke('copy', {
                 data: ddl.filter(Boolean).join('\n'),
               })
-              res
-                ? handle.success('Copy Success...')
-                : handle.error('Copy Error...')
+              res ? success('Copy Success...') : error('Copy Error...')
             }}
           >
             {ddl.map((val) => (
@@ -55,6 +53,7 @@ export function Info(props: ModuleProps) {
           </div>
         </div>
       </div>
+      {context}
     </div>
   )
 }

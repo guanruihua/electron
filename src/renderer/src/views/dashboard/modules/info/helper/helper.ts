@@ -107,9 +107,9 @@ export async function updateCountdown(): Promise<string[]> {
       const target = getDayjs(now, start)
       const diff = (target.valueOf() - now.valueOf()) / 86400000 - 1
 
-      if (diff > 1) {
+      if (diff > 0) {
         res.push(`距离${name}还有：${diff}天`)
-      } else if (diff === 1) {
+      } else if (diff === 0) {
         res.push(`明天就是${name}！！！！！`)
       }
     })

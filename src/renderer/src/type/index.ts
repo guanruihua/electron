@@ -47,7 +47,6 @@ export type ProjectConf = Partial<{
 }>
 
 export interface State {
-
   initSuccess?: boolean
 
   activeTab?: string
@@ -95,4 +94,37 @@ export type SysState = {
   apps: [string, string][]
   modules: ProjectConf[]
   [key: string]: any
+}
+
+export type Task = {
+  /**
+   * @default 'idle'
+   */
+  status?: 'success' | 'warning' | 'error' | 'running' | 'idle'
+  startTime?: number
+  endTime?: number
+  desc?: string
+  cmd?: string
+  name?: string
+  id?: string
+  group?: string
+  errorMsg?: string
+  exec(): Promise<any>
+  [key: string]: any
+}
+
+export type TaskState = {
+  initSuccess: boolean
+  loadings: {
+    nodeThread?: boolean
+    project?: boolean
+    projectOpt?: boolean
+  } & ObjectType<boolean>
+  loadingsGroup: {
+    nodeThread?: number
+    project?: number
+    projectOpt?: number
+  } & ObjectType<number>
+  tasks: Task[]
+  taskIndex: number
 }

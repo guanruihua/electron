@@ -1,0 +1,28 @@
+.dash-timeline {
+  background: rgb(43, 43, 43);
+  padding: 10px;
+  padding-left: 20px;
+  padding-top: 20px;
+  border-radius: 12px;
+  max-height: 80vh;
+  overflow-y: auto;
+
+  .ant-timeline-item-title {
+    padding-top: 2px;
+    font-size: 11px !important;
+  }
+
+  &-item-content {
+    font-size: 12px !important;
+    .errorMsg {
+      white-space: wrap;
+      max-height: 300px;
+      overflow-y: auto;
+      margin-bottom: 5px;
+    }
+    .endTime {
+      font-size: 10px;
+      color: rgba(255, 255, 255, .5);
+    }
+  }
+}

@@ -1,5 +1,5 @@
 import { Icon } from '@/components'
-import { ModuleProps } from '@/type'
+import { useSysStore } from '@/store/sys'
 import { useLoading, useLoadings } from '@/util'
 import { Button } from 'antd'
 import { isArray, isString } from 'asura-eye'
@@ -7,18 +7,17 @@ import React from 'react'
 
 type AppList = { name: string; id: string; title: string }[]
 
-export default function RunningApp(props: ModuleProps) {
-  const { state } = props.h
+export default function RunningApp() {
+  const sys = useSysStore()
   const [loadings, setLoadings] = useLoadings()
   const [loading, setLoading] = useLoading()
   const [appList, setAppList] = React.useState<AppList>([])
 
   const init = async () => {
     const res = await window.api.invoke('getRunningApp')
-    // console.log(res)
     if (!isArray(res)) return
-    const ignoreApps = state.setting?.ignoreApps
-    const ignoreNames = ignoreApps?.split(',').map((_) => _.trim())
+    const ignoreNames = sys?.ignoreApps?.split(',').map((_) => _.trim()) || []
+
     const newAppList = ignoreNames?.length
       ? res.filter((_) => {
           if (!isString(_.name)) return

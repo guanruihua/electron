@@ -1,15 +1,17 @@
 import React, { useState } from 'react'
 import { Space, Checkbox, Button, Select } from 'antd'
 import { isArray, isNumber, isString } from 'asura-eye'
-import { ModuleProps } from '@/type'
-import { useLoading } from '@/util'
+import { useLoading, useMsg } from '@/util'
 import { Icon } from '@/components'
 import { useSysStore } from '@/store/sys'
+import { useTaskStore } from '@/store/task'
 
-export const QuickStart = (props: ModuleProps) => {
+export const QuickStart = () => {
   const sys = useSysStore()
+  const task = useTaskStore()
+  const { loadings } = task
+  const { context, success } = useMsg()
 
-  const { handle } = props.h
   const [loading, setLoading] = useLoading()
   const [edit, setEdit] = useState<boolean>(false)
   const [select, setSelect] = useState<string[]>([])
@@ -21,9 +23,16 @@ export const QuickStart = (props: ModuleProps) => {
   const handleSelf = {
     startApp,
     async updateApps() {
-      const apps: [string, string][] =
-        (await window.api.invoke('updateApps', sys)) || []
-      sys.set({ apps })
+      task.add({
+        id: 'quickStart__update-app',
+        name: 'Quick Start Update Apps',
+        group: 'quickStart',
+        async exec() {
+          const apps: [string, string][] =
+            (await window.api.invoke('updateApps', sys)) || []
+          sys.set({ apps })
+        },
+      })
     },
     addGroup() {
       setLoading(1000)
@@ -61,9 +70,9 @@ export const QuickStart = (props: ModuleProps) => {
         quickStarts: sys.quickStarts,
       })
       sys.saveToFile('setting')
-      handle.success('Update Quick Start Success...')
+      success('Update Quick Start Success...')
     },
-    startGroup() {
+    runGroupApps() {
       setLoading(true)
       const { quickStarts, selectedQuickStart } = sys
       if (
@@ -74,7 +83,15 @@ export const QuickStart = (props: ModuleProps) => {
         return setLoading(false)
       const list = quickStarts[selectedQuickStart]
       if (!isArray(list) || list.length < 1) return setLoading(false)
-      return setLoading(Promise.all(list.map(startApp)))
+      task.add({
+        id: 'quickStart__start-group',
+        name: 'Quick Start / Run a group of apps',
+        async exec() {
+          await Promise.all(list.map(startApp))
+          setLoading(false)
+        },
+      })
+      return
     },
     addApp() {
       setLoading(1000)
@@ -150,13 +167,13 @@ export const QuickStart = (props: ModuleProps) => {
             {sys.apps?.length && sys?.quickStarts && (
               <Button
                 icon={<Icon type="run" />}
-                loading={loading}
+                loading={loading || loadings.quickStart}
                 disabled={
                   !isNumber(sys?.selectedQuickStart) ||
                   !sys?.quickStarts[sys?.selectedQuickStart]
                 }
                 className="bold"
-                onClick={() => handleSelf.startGroup()}
+                onClick={() => handleSelf.runGroupApps()}
               >
                 Start All
               </Button>
@@ -252,6 +269,7 @@ export const QuickStart = (props: ModuleProps) => {
             )}
         </div>
       </div>
+      {context}
     </div>
   )
 }

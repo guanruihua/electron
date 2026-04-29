@@ -1,8 +1,7 @@
 .project-operation {
-  &-timeLine{
-    padding: 10px;
-    padding-top: 20px;
-  }
+  background-color: rgb(43, 43, 43);
+  border-radius: 12px;
+  
   &-module {
     width: 100%;
 
@@ -22,6 +21,7 @@
 
       &-item {
         --color: #fff;
+        font-size: 10px;
 
         &.ant-btn:hover {
           border-color: var(--color) !important;
@@ -90,27 +90,14 @@
     }
   }
 
-  &[data-start='0'] {
-    .stop {
-      display: none;
-    }
-
-    // [data-key='url-review'] {
-    //   display: none;
-    // }
-  }
 
   &[data-start='1'] {
     .title {
       color: var(--success);
     }
+  }
 
-    // [data-key='url-review'] {
-    //   display: flex;
-    // }
-
-    .run {
-      display: none;
-    }
+  .ant-btn:disabled {
+    border: none !important;
   }
 }

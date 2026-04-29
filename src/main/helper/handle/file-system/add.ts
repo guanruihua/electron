@@ -1,15 +1,16 @@
 import { path, fs, _path } from './pkg'
+import { FS_Payload } from './type'
 
 /**
  * 路径不存在则创建（核心函数）
  * @param {Object} payload
  */
-export async function createPathIfNotExist(payload: any) {
-  if (!payload?.path) return
+export async function createPathIfNotExist(payload: FS_Payload) {
+  const { isFile } = payload
   //  * @param {string} targetPath - 目标路径（目录/文件路径均可）
   const targetPath = payload.path
   //  * @param {boolean} isFilePath - 是否为文件路径（默认 false，即目录路径）
-  const isFilePath = payload.isFile || false
+  const isFilePath = isFile || false
   return new Promise((rs) => {
     try {
       // 如果是文件路径，先提取其所在目录

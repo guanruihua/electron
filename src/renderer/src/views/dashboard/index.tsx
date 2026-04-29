@@ -5,7 +5,7 @@ import { QuickStart } from './modules/quick-start'
 import { Info } from './modules/info/info'
 import RunningApp from './modules/running-app'
 import ProjectDashboard from './modules/project/project'
-import ProjectOperation from './modules/project/operation'
+import ProjectOperation from './modules/project-operation/operation'
 import './style/index.less'
 
 export default function DashboardView() {

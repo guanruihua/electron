@@ -1,6 +1,7 @@
 import { contextBridge, ipcRenderer, shell } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
 import { ObjectType } from '0type'
+import { FS_Action, FS_Payload } from './type'
 
 // Custom APIs for renderer
 const api = {
@@ -29,6 +30,11 @@ const api = {
     // shell.openExternal(path)
     shell.openPath(path)
   },
+  fs: async (action: FS_Action, payload: FS_Payload) =>
+    await ipcRenderer.invoke('fs', {
+      action,
+      payload,
+    }),
   invoke: async (type: string, payload: ObjectType = {}) =>
     (await ipcRenderer.invoke(type, payload)) || {},
   test: async (data: any) => {

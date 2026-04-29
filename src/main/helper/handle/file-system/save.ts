@@ -1,16 +1,15 @@
-import { ObjectType } from '0type'
 import { ensureExists } from './check'
 import { fsp, fs, _path } from './pkg'
 import { isArray, isObject, isString } from 'asura-eye'
+import { FS_Payload } from './type'
 
-export async function saveJSON2File(
-  url: string,
-  value: ObjectType | any[],
-): Promise<boolean> {
+export async function saveJSON2File(payload: FS_Payload): Promise<boolean> {
+  const url = payload.path
   if (!url) return false
+  const { data = '{}' } = payload
   try {
-    await ensureExists(url)
-    await fsp.writeFile(url, JSON.stringify(value))
+    await ensureExists({ path: url })
+    await fsp.writeFile(url, isString(data) ? data : JSON.stringify(data))
     console.log('Handle saveJSON2File Success')
     return true
   } catch (error) {
@@ -19,7 +18,7 @@ export async function saveJSON2File(
   }
 }
 
-export const saveFile = async (payload) => {
+export const saveFile = async (payload: FS_Payload) => {
   const { path, data, format = true } = payload
   const getDataStr = () => {
     try {

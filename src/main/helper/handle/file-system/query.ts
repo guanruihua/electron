@@ -1,9 +1,12 @@
 import { ObjectType } from '0type'
 import { isString } from 'asura-eye'
 import { fsp, fs, _path } from './pkg'
-import { FileSystemSetting } from './type'
+import { FileSystemSetting, FS_Payload } from './type'
 
-export async function getJSONFileData(url: string): Promise<ObjectType> {
+export async function getJSONFileData(
+  payload: FS_Payload,
+): Promise<ObjectType> {
+  const url = payload.path
   if (!url) return {}
   try {
     const str = (await fsp.readFile(url)).toString()
@@ -12,9 +15,17 @@ export async function getJSONFileData(url: string): Promise<ObjectType> {
     return {}
   }
 }
+
 const getPaths = (url: any): string[] => {
   if (!isString(url)) return url
-  return url?.replace(/\\\\|\//gi, '\\\\')?.trim().split(',').filter(Boolean).map(_=>_.trim()) || []
+  return (
+    url
+      ?.replace(/\\\\|\//gi, '\\\\')
+      ?.trim()
+      .split(',')
+      .filter(Boolean)
+      .map((_) => _.trim()) || []
+  )
 }
 
 const match = (list: string[], currentPath: string): boolean => {
@@ -28,7 +39,7 @@ const match = (list: string[], currentPath: string): boolean => {
   return false
 }
 
-export const readCurrentDir = async (payload: any) => {
+export const readCurrentDir = async (payload: FS_Payload) => {
   const { path, setting = {} } = payload
 
   const { includeDir, excludeDir, includeFile, excludeFile } =
@@ -91,7 +102,7 @@ export const readCurrentDir = async (payload: any) => {
   }
 }
 
-export const readFile = async (payload: any) => {
+export const readFile = async (payload: FS_Payload) => {
   const { path } = payload
   if (!isString(path)) return
   return new Promise((rs) => {

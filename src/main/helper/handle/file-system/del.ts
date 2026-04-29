@@ -1,6 +1,8 @@
 import fsp from 'fs/promises'
+import { FS_Payload } from './type'
 
-export async function deleteFile(url: string): Promise<boolean> {
+export async function deleteFile(payload: FS_Payload): Promise<boolean> {
+  const url = payload.path
   if (!url) return false
   try {
     await fsp.unlink(url)

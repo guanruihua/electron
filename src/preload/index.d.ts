@@ -1,29 +1,13 @@
 import { ObjectType } from '0type'
 import { ElectronAPI } from '@electron-toolkit/preload'
-
-type InvokeType =
-  | 'window-minimize'
-  | 'window-unmaximize'
-  | 'window-maximize'
-  | 'window-close'
-  | 'toggleDevTools'
-  | 'cmd'
-  | 'dev'
-  | 'fs'
-  | 'cmdResult'
-  | 'updateApps'
-  | 'getSysInfo'
-  | 'getFileTree'
-  | 'getRunningApp'
-  | 'stopAppByName'
-  | 'getUserDataPath'
-  | 'copy'
-  | 'getClipboard'
+import { FileSystemSetting, FS_Action, FS_Payload, InvokeType } from './type'
 
 declare global {
   interface Window {
     electron: ElectronAPI
     api: {
+      // fs  文件系统
+      fs(action: FS_Action, payload?: FS_Payload): any
       on(eventName: string, callback: (data: ObjectType) => void): void
       off(eventName: string, callback: (data: ObjectType) => void): void
       onNewTab(callback: (data: ObjectType) => void): void

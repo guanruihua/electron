@@ -1,11 +1,22 @@
 import React from 'react'
 import { Icon } from '@/components'
 import { ModuleProps, ProjectConf } from '@/type'
-import { Button } from 'antd'
+import { Button, Timeline } from 'antd'
 import { sleep, useLoadings } from '@/util'
 import './operation.less'
 import { useSysStore } from '@/store/sys'
 import { useState } from 'react'
+import { isArray, isAsyncFunction, isString } from 'asura-eye'
+import { Frontend } from './conf'
+
+type Task = {
+  name: string
+  cmd: string
+  // color: 'var(--${type})'
+  type: 'success' | 'error' | 'warning'
+  starTime?: string
+  endTime?: string
+}
 
 export default function ProjectOperation(props: ModuleProps) {
   const sys = useSysStore()
@@ -15,6 +26,12 @@ export default function ProjectOperation(props: ModuleProps) {
   const [loadings, setLoadings] = useLoadings({})
   const [startStatus, setStartStatus] = useState(0)
   const item: ProjectConf = sys?.selectProject || {}
+  const [FSStatus, setFSState] = useState({
+    'package.json': false,
+    node_modules: false,
+  })
+  const [tasks, setTasks] = useState<Task[]>([])
+
   const ref = React.useRef<HTMLDivElement>(null)
   const timer = React.useRef<NodeJS.Timeout | null>(null)
 
@@ -34,9 +51,29 @@ export default function ProjectOperation(props: ModuleProps) {
     if (ref.current.dataset.start !== dom.dataset.start)
       ref.current.dataset.start = dom.dataset.start
   }
+
+  const initStatus = async () => {
+    if (!item.path) return
+    const res = await window.api.fs('readCurrentDir', { path: item.path })
+    if (!isArray(res)) return
+    const status = {
+      'package.json': false,
+      node_modules: false,
+    }
+    const keys = Object.keys(status)
+    for (let i = 0; i < res.length; i++) {
+      const item = res[i]
+      if (keys.includes(item.name)) {
+        status[item.name] = true
+      }
+    }
+    setFSState(status)
+  }
+
   const init = () => {
     clear()
     load()
+    initStatus()
     timer.current = setInterval(load, 1000)
   }
   React.useEffect(() => {
@@ -78,6 +115,7 @@ export default function ProjectOperation(props: ModuleProps) {
     init()
     setLoadings(false, 'run')
   }
+
   return (
     <div ref={ref} className="project-operation" data-start={startStatus}>
       <div className="module-bg" style={{ padding: 0 }}>
@@ -207,7 +245,69 @@ export default function ProjectOperation(props: ModuleProps) {
                   </Button>
                 )
               })}
+            {Frontend.map((module, mi) => {
+              const [name, child = []] = module
+              if (name === 'dependencies' && FSStatus['package.json'])
+                return (
+                  <div
+                    className="project-operation-module"
+                    key={mi}
+                    data-type={name}
+                  >
+                    <div className="project-operation-module-name">
+                      {name.slice(0, 1).toUpperCase() + name.slice(1)}
+                    </div>
+                    {isArray(child) && (
+                      <div className="project-operation-module-child">
+                        {child.map((cItem, i) => {
+                          const [name, icon = '', handle] = cItem
+                          if (!isString(name)) return <React.Fragment key={i} />
+                          return (
+                            <Button
+                              key={i}
+                              data-type={name}
+                              loading={loadings[name]}
+                              icon={<Icon type={(icon as any) || 'check'} />}
+                              className="project-operation-module-child-item text-10"
+                              onClick={() => {
+                                console.log(item)
+
+                                if (!isAsyncFunction(handle)) return
+                                setLoadings(handle(item), name)
+                              }}
+                            >
+                              {name.slice(0, 1).toUpperCase() + name.slice(1)}
+                            </Button>
+                          )
+                        })}
+                      </div>
+                    )}
+                  </div>
+                )
+              return <React.Fragment key={mi} />
+            })}
           </div>
+          <Timeline
+            className="project-operation-timeLine"
+            items={[
+              {
+                content: 'Create a services site 2015-09-01',
+                color: 'var(--error)',
+              },
+              {
+                content: 'Solve initial network problems 2015-09-01',
+                color: 'var(--warning)',
+              },
+              {
+                content: 'Technical testing 2015-09-01',
+                color: 'var(--success)',
+              },
+              {
+                loading: true,
+                content: 'Recording...',
+              },
+            ]}
+          />
         </div>
       </div>
     </div>

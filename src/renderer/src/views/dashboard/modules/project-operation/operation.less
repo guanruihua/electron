@@ -1,0 +1,116 @@
+.project-operation {
+  &-timeLine{
+    padding: 10px;
+    padding-top: 20px;
+  }
+  &-module {
+    width: 100%;
+
+    &-name {
+      letter-spacing: 1px;
+      font-size: 12px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      margin-left: 10px;
+    }
+
+    &-child {
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
+      flex-wrap: wrap;
+
+      &-item {
+        --color: #fff;
+
+        &.ant-btn:hover {
+          border-color: var(--color) !important;
+        }
+
+        span {
+          color: var(--color);
+        }
+
+        svg,
+        path {
+          color: var(--color);
+        }
+
+        &[data-type='install'] {
+          --color: var(--success);
+        }
+
+        &[data-type='uninstall'] {
+          --color: var(--error);
+        }
+
+        &[data-type='reinstall'] {
+          --color: var(--warning);
+        }
+      }
+    }
+  }
+
+  .run {
+
+    svg,
+    svg path,
+    span {
+      font-weight: bold;
+      color: var(--success) !important;
+    }
+
+    &:hover {
+      border-color: var(--success) !important;
+    }
+  }
+
+  .run-group {
+    width: 100%;
+
+    &-box {
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
+    }
+  }
+
+  .stop {
+
+    svg,
+    svg path,
+    svg rect,
+    span {
+      font-weight: bold;
+      color: var(--error) !important;
+    }
+
+    &:hover {
+      border-color: var(--error) !important;
+    }
+  }
+
+  &[data-start='0'] {
+    .stop {
+      display: none;
+    }
+
+    // [data-key='url-review'] {
+    //   display: none;
+    // }
+  }
+
+  &[data-start='1'] {
+    .title {
+      color: var(--success);
+    }
+
+    // [data-key='url-review'] {
+    //   display: flex;
+    // }
+
+    .run {
+      display: none;
+    }
+  }
+}

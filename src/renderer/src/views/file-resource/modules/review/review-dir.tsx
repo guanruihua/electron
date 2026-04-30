@@ -13,7 +13,11 @@ export default function ReviewDir() {
     current: 1,
     pageSize: 50,
   })
-  const tree: FileNode[] = frm?.pathMap?.[select?.path || ''] || []
+  const tree: FileNode[] = frm?.pathMap?.[select?.path?.replace(/\\$/, '') || ''] || []
+  // console.log(
+  //   frm?.pathMap?.[select?.path?.replace(/\\$/, '') || ''],
+  //   select?.path,
+  // )
   const { current, pageSize } = paging
   const renderTree: FileNode[] = tree.slice(
     (current - 1) * pageSize,
@@ -61,11 +65,7 @@ export default function ReviewDir() {
                 const { name, path, fileType = 'file' } = item
                 if (fileType === 'image') {
                   return (
-                    <FRM_Dropdown
-                      key={path}
-                      file={item}
-                      frm={frm}
-                    >
+                    <FRM_Dropdown key={path} file={item} frm={frm}>
                       <div
                         className="frm-review-item"
                         onClick={() => frm.selectFileNode(item)}
@@ -80,11 +80,7 @@ export default function ReviewDir() {
                   )
                 }
                 return (
-                  <FRM_Dropdown
-                    key={path}
-                    file={item}
-                    frm={frm}
-                  >
+                  <FRM_Dropdown key={path} file={item} frm={frm}>
                     <div
                       className="frm-review-item"
                       onClick={() => frm.selectFileNode(item)}

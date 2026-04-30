@@ -1,5 +1,6 @@
 .frm-file-tree-item {
   content-visibility: auto;
+
   &-render {
     display: flex;
     flex-direction: row;
@@ -8,15 +9,31 @@
     gap: 5px;
     overflow: hidden;
     text-overflow: ellipsis;
-    svg[data-icon-type='right-arrow']{
-      margin-top: 2px;
+    content-visibility: auto;
+    contain-intrinsic-height: 24px;
+    transition: all .3s;
+
+    &>div {
+      height: 24px;
+      white-space: nowrap;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
     }
-    svg[data-icon-type='dir']{
-      margin-top: 3px;
-      path{
-        font-size: 16px;
-      }
-    }
+
+    // svg[data-icon-type='right-arrow'] {
+    //   // margin-top: 2px;
+    // }
+
+    // svg[data-icon-type='dir'] {
+    //   // margin-top: 3px;
+
+    //   path {
+    //     font-size: 16px;
+    //   }
+    // }
+
     span,
     svg {
       white-space: nowrap;
@@ -26,6 +43,17 @@
       font-size: 12px;
       overflow: hidden;
       text-overflow: ellipsis;
+      margin-left: -3px;
+    }
+
+    .tree-logo {
+      gap: 5px;
+      padding: 0 4px;
+
+      svg,
+      path {
+        font-size: 18px !important;
+      }
     }
   }
 }

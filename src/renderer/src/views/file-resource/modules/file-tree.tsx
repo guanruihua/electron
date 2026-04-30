@@ -1,5 +1,5 @@
 import React from 'react'
-import { FileNode } from '../helper'
+import { FileNode, IconMap } from '../helper'
 import { Icon } from '@/components'
 import FRM_Dropdown from '../components/Dropdown'
 import { FRMStore } from '../store'
@@ -18,12 +18,13 @@ export const FileTree = (props: Props) => {
   const { open = [] } = frm || {}
 
   const renderTree: FileNode[] =
-    frm?.pathMap?.[path]?.filter((_) => _.type === 'dir') || []
+    // frm?.pathMap?.[path]?.filter((_) => _.type === 'dir') || []
+    frm?.pathMap?.[path] || []
 
   return (
-    <div className="frm-file-tree" >
+    <div className="frm-file-tree">
       {renderTree?.map?.((item: FileNode, i) => {
-        const { path, type } = item
+        const { path, type, fileType = '' } = item
         if (!path) return <React.Fragment key={i} />
 
         const isDirectory = type == 'dir'
@@ -43,27 +44,35 @@ export const FileTree = (props: Props) => {
                 zIndex: 1000 - currentDepth,
               }}
             >
-              <FRM_Dropdown
-                file={item}
-                frm={frm}
-              >
+              <FRM_Dropdown file={item} frm={frm}>
                 <div
                   className="frm-file-tree-item-render"
                   title={item.name}
                   onClick={() => frm.selectFileNode(item)}
                 >
-                  <Icon className="right-arrow transition" type="right-arrow" />
-                  <Icon type="dir" />
-                  <span className="frm-file-tree-item-render-name">
+                  <div className="tree-logo">
+                    {fileType === 'dir' ? (
+                      <>
+                        <Icon
+                          className="right-arrow transition"
+                          type="right-arrow"
+                        />
+                        <Icon type="dir" />
+                      </>
+                    ) : (
+                      IconMap[fileType] || IconMap.file
+                    )}
+                  </div>
+                  <div className="frm-file-tree-item-render-name">
                     {item.name}
-                  </span>
-                  <span
+                  </div>
+                  <div
                     data-hidden={!isDirectory}
                     className="ml text-12"
                     style={{ color: 'rgba(255,255,255, .4)' }}
                   >
                     {child?.length || ''}
-                  </span>
+                  </div>
                 </div>
               </FRM_Dropdown>
             </div>

@@ -21,6 +21,7 @@ export const usePageState = (selectProject: ProjectConf) => {
   const [loading, setLoading] = useLoading(false)
 
   const query = async () => {
+    if(selectProject.git === false) return
     setLoading(true)
     task.add({
       id: 'gitReview__init',

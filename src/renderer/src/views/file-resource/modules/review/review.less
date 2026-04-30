@@ -13,14 +13,27 @@
     align-items: center;
     gap: 10px;
     font-size: 14px;
+    position: relative;
 
-    svg {
+    &>svg {
       width: 24px;
     }
 
-    svg,
-    svg>path {
+    &>svg,
+    &>svg>path {
       font-size: 24px;
+    }
+
+    .right {
+      position: absolute;
+      right: 10px;
+      
+      .ant-select {
+        padding-top: 5px;
+        padding-bottom: 5px;
+        font-size: 12px;
+        width: 120px;
+      }
     }
   }
 

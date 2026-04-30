@@ -31,7 +31,8 @@ export const useFRMStore = create<FRMStore>(
     },
     headerPaths: [],
     async init() {
-      const drives = (await getData('driver')) || ['c:']
+      const drives = (await getData('driver')) || ['C:']
+
       const selectDrive =
         drives.length > 1 ? drives.find((_) => _ !== 'C:') : drives[0]
       const pathMap = await getPathMap(selectDrive, this)

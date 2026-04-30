@@ -24,8 +24,6 @@ export function Dash_Timeline() {
     return items.reverse()
   }
   const items = getItems()
-  
-  console.log(task.tasks)
 
   return (
     <div className="dash-timeline" data-hidden={!task.tasks.length}>

@@ -21,8 +21,7 @@ export const useTaskStore = create<TaskState & Actions<TaskState>>(
     taskIndex: 0,
     check(oldIndex = -1) {
       const findIndex = get().tasks.findIndex((_) => !_.endTime)
-      // console.log(findIndex, get().tasks[findIndex])
-      if (findIndex === oldIndex) return
+      if (findIndex === oldIndex || findIndex === -1) return
       this.run(findIndex)
     },
     async run(runIndex?: number) {

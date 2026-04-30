@@ -1,7 +1,6 @@
 import { Icon } from '@/components'
 import { useSysStore } from '@/store/sys'
 import { useTaskStore } from '@/store/task'
-import { sleep } from '@/util'
 import { Button } from 'antd'
 import { isArray, isString } from 'asura-eye'
 import React from 'react'
@@ -19,7 +18,6 @@ export default function RunningApp() {
       id: 'runningApp__query',
       name: 'Query All Running Apps',
       async exec() {
-        // await sleep(5000)
         const res = await window.api.invoke('getRunningApp')
         if (!isArray(res)) return
         const ignoreNames =
@@ -67,13 +65,8 @@ export default function RunningApp() {
     query()
     return
   }
-  const timer = async () => {
-    query()
-    // sleep(10_000).then(() => timer())
-  }
   React.useEffect(() => {
-    // query()
-    timer()
+    query()
   }, [])
 
   return (

@@ -6,13 +6,8 @@ export type Task = {
   group?: string
   exec(): Promise<any>
   [key: string]: any
-}
 
-export type TaskStatus = {
-  id?: string
-  name?: string
-  group?: string
-  /**
+   /**
    * @default 'idle'
    */
   status?: 'success' | 'warning' | 'error' | 'running' | 'idle'
@@ -34,6 +29,5 @@ export type TaskState = {
     projectOpt?: number
   } & ObjectType<number>
   tasks: Task[]
-  taskStatus: TaskStatus[]
   taskIndex: number
 }

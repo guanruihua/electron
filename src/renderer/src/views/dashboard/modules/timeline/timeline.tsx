@@ -8,9 +8,7 @@ export function Dash_Timeline() {
   const task = useTaskStore()
   const getItems = () => {
     const items: any[] = []
-    task.tasks?.forEach((taskItem, i) => {
-      const taskStatus = task.taskStatus[i]
-      const item = taskStatus ? taskStatus : taskItem
+    task.tasks?.forEach((item) => {
       const { id, endTime, status } = item
       const last = items.at(-1)
       if (endTime && last && id === last.id && status === last.status) {

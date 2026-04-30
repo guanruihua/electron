@@ -14,13 +14,13 @@ export default function DashboardView() {
       <div className="root-layout-home-view-container">
         <div className="dashboard-layout-col">
           <Info />
+          <Dash_Timeline />
         </div>
         <div className="dashboard-layout-col">
           <Dash_Project />
         </div>
         <div className="dashboard-layout-col">
           <ProjectOperation />
-          <Dash_Timeline />
           <GitReview />
         </div>
         <div className="flex gap col">

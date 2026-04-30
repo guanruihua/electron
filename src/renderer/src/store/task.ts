@@ -16,46 +16,44 @@ export const useTaskStore = create<TaskState & Actions<TaskState>>(
     loadings: {},
     loadingsGroup: {},
     tasks: [],
-    taskStatus: [],
+    task: [],
     taskIndex: 0,
     async run(runIndex?: number) {
       if (!runIndex && runIndex !== 0) runIndex = this.taskIndex ?? 0
       const state = get()
       const task = state.tasks[runIndex]
       if (!isObject<Task>(task)) return
-      const { exec, ...rest } = task
-      const taskStatus = state.taskStatus[runIndex] || { ...rest }
-      if (!exec || !taskStatus?.id || taskStatus?.endTime) return
+      if (!task?.exec || !task?.id || task?.endTime) return
 
-      const newTaskStatus = get().taskStatus
-      taskStatus.startTime = Date.now()
-      taskStatus.status = 'running'
-      newTaskStatus[runIndex] = taskStatus
+      const newTasks = get().tasks
+      task.startTime = Date.now()
+      task.status = 'running'
+      newTasks[runIndex] = task
       set({
-        taskStatus: newTaskStatus,
+        tasks: newTasks,
       })
 
       try {
-        await exec()
+        await task.exec()
       } catch (error) {
         console.error(error)
-        taskStatus.status = 'error'
-        taskStatus.errorMsg = JSON.stringify(error)
+        task.status = 'error'
+        task.errorMsg = JSON.stringify(error)
       }
       this.setLoading(task, false)
 
-      taskStatus.endTime = Date.now()
-      if (taskStatus.endTime - taskStatus.startTime > 30_000) {
-        taskStatus.status = 'warning'
+      task.endTime = Date.now()
+      if (task.endTime - task.startTime > 30_000) {
+        task.status = 'warning'
       } else {
-        taskStatus.status = 'success'
+        task.status = 'success'
       }
 
-      newTaskStatus[runIndex] = taskStatus
+      newTasks[runIndex] = task
 
       set({
         taskIndex: runIndex + 1,
-        taskStatus: newTaskStatus,
+        tasks: newTasks,
       })
 
       await this.run(runIndex + 1)

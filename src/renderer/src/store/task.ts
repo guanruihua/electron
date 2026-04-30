@@ -5,7 +5,7 @@ import { create } from 'zustand'
 type Actions<T> = {
   set(newState: Partial<T>): void
   get(): T
-  check(): void
+  check(oldIndex?: number): void
   add(task: Task): Promise<void>
   run(runIndex?: number): Promise<void>
   setLoading(task: Task, loading: boolean): void
@@ -19,20 +19,18 @@ export const useTaskStore = create<TaskState & Actions<TaskState>>(
     loadingsGroup: {},
     tasks: [],
     taskIndex: 0,
-    check(){
-      const findIndex= get().tasks.findIndex(_=> !_.endTime)
-      console.log(
-        findIndex,
-        get().tasks[findIndex]
-      )
-      // if(findIndex>)
+    check(oldIndex = -1) {
+      const findIndex = get().tasks.findIndex((_) => !_.endTime)
+      // console.log(findIndex, get().tasks[findIndex])
+      if (findIndex === oldIndex) return
+      this.run(findIndex)
     },
     async run(runIndex?: number) {
       if (!runIndex && runIndex !== 0) runIndex = this.taskIndex ?? 0
       const state = get()
       const task = state.tasks[runIndex]
-      if (!isObject<Task>(task)) return this.check()
-      if (!task?.exec || !task?.id || task?.endTime) return this.check()
+      if (!isObject<Task>(task)) return this.check(runIndex)
+      if (!task?.exec || !task?.id || task?.endTime) return this.check(runIndex)
 
       const newTasks = get().tasks
       task.startTime = Date.now()

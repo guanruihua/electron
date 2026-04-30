@@ -150,7 +150,7 @@ export default function ProjectOperation() {
               </Button>
               <Button
                 data-type={'reinstall'}
-                disabled={FSStatus.node_modules === true}
+                disabled={FSStatus.node_modules === false}
                 loading={loadings.projectOptDependencies}
                 icon={<Icon type={'install'} />}
                 className="project-operation-module-child-item"

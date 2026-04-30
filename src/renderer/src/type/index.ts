@@ -103,18 +103,30 @@ export type Task = {
   status?: 'success' | 'warning' | 'error' | 'running' | 'idle'
   startTime?: number
   endTime?: number
-  desc?: string
-  cmd?: string
-  name?: string
   id?: string
+  name?: string
   group?: string
   errorMsg?: string
   exec(): Promise<any>
   [key: string]: any
 }
 
+export type TaskStatus = {
+  /**
+   * @default 'idle'
+   */
+  status?: 'success' | 'warning' | 'error' | 'running' | 'idle'
+  startTime?: number
+  endTime?: number
+  name?: string
+  id?: string
+  group?: string
+  errorMsg?: string
+}
+
 export type TaskState = {
   initSuccess: boolean
+  running: boolean
   loadings: {
     nodeThread?: boolean
     project?: boolean
@@ -126,5 +138,6 @@ export type TaskState = {
     projectOpt?: number
   } & ObjectType<number>
   tasks: Task[]
+  taskStatus: TaskStatus[]
   taskIndex: number
 }

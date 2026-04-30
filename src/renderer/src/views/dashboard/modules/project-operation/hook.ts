@@ -156,8 +156,6 @@ export const useProjectOpt = () => {
         setStartStatus(1)
       },
     })
-
-    updateStatus()
   }
 
   const runGroup = async () => {

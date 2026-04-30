@@ -142,11 +142,10 @@ export const QuickStart = () => {
   const appOptions = getAppOptions()
   return (
     <div
-      className="root-layout-home-view-quick-start"
+      className="dash-quickStart"
       data-edit={edit}
       data-disabled={!sys.initSuccess}
     >
-      <div className="module-bg" style={{ padding: 0 }}>
         <div
           className="flex space-between items-center"
           style={{ padding: '20px 20px 0' }}
@@ -180,7 +179,7 @@ export const QuickStart = () => {
             )}
           </div>
         </div>
-        <div className="root-layout-home-view-quick-start-container grid overflow-y gap">
+        <div className="dash-quickStart-container grid overflow-y gap">
           <div className="quickStart-app-container flex row gap">
             {renderList.map((quickStart, qi) => {
               if (!isArray<string>(quickStart))
@@ -268,7 +267,6 @@ export const QuickStart = () => {
               </Space.Compact>
             )}
         </div>
-      </div>
       {context}
     </div>
   )

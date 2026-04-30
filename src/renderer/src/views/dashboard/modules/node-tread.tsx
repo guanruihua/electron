@@ -87,7 +87,7 @@ export function NodeTread() {
                     id: `nodeThread__stop-${row.pid}`,
                     name: `Stop Node Thread PID(${row.pid})`,
                     async exec() {
-                      await window.api.invoke(
+                      return await window.api.invoke(
                         'cmd',
                         `taskkill /PID ${row.pid} /F`,
                       )

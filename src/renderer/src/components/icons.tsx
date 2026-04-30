@@ -51,6 +51,7 @@ export type IconType =
   | 'eye'
   | 'eye-close'
   | 'md'
+  | 'loading'
 
 interface IconProps extends React.DOMAttributes<SVGSVGElement> {
   style?: React.CSSProperties
@@ -70,7 +71,7 @@ export function Icon(props: IconProps) {
 
   ;(rest as any)['data-icon-type'] = type
 
-  if (loading) {
+  if (loading || type === 'loading') {
     const { className, style, ...rest2 } = rest
     return (
       <svg

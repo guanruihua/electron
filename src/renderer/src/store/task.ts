@@ -12,15 +12,17 @@ type Actions<T> = {
 export const useTaskStore = create<TaskState & Actions<TaskState>>(
   (set, get) => ({
     initSuccess: false,
+    running: false,
     loadings: {},
     loadingsGroup: {},
     tasks: [],
+    taskStatus: [],
     taskIndex: 0,
     async run(runIndex?: number) {
       if (!runIndex && runIndex !== 0) runIndex = this.taskIndex ?? 0
       const task = get().tasks[runIndex] || {}
       const { id, exec } = task
-      if (!id) return
+      if (!id || !exec || task?.endTime) return
 
       const state = get()
       const newTasks = state.tasks
@@ -67,11 +69,13 @@ export const useTaskStore = create<TaskState & Actions<TaskState>>(
 
       newTasks[runIndex] = task
       set({
+        running: false,
         taskIndex: runIndex + 1,
         tasks: newTasks,
         loadings: newLoadings,
         loadingsGroup: newLoadingsGroup,
       })
+
       await this.run(runIndex + 1)
     },
     async add(task: Task) {
@@ -94,10 +98,7 @@ export const useTaskStore = create<TaskState & Actions<TaskState>>(
           newLoadingsGroup[group] = 1
         }
       }
-      newTasks.push({
-        ...task,
-        status: 'idle',
-      })
+      newTasks.push(task)
 
       set({
         tasks: newTasks,

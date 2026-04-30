@@ -1,28 +1,92 @@
 .dash-timeline {
   background: rgb(43, 43, 43);
   padding: 10px;
-  padding-left: 20px;
   padding-top: 20px;
   border-radius: 12px;
   max-height: 80vh;
   overflow-y: auto;
 
-  .ant-timeline-item-title {
-    padding-top: 2px;
-    font-size: 11px !important;
-  }
+  .timeline {
+    &-item {
+      display: grid;
+      grid-template-columns: 100px auto 1fr;
+      align-items: flex-start;
+      line-height: 16px;
+      gap: 0 10px;
+      font-size: 12px;
+      content-visibility: auto;
+      contain-intrinsic-height: 57px;
+      transition: all .6s;
 
-  &-item-content {
-    font-size: 12px !important;
-    .errorMsg {
-      white-space: wrap;
-      max-height: 300px;
-      overflow-y: auto;
-      margin-bottom: 5px;
+      .title {
+        text-align: end;
+        font-size: 12px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .dot-box {
+        display: flex;
+        align-items: center;
+        height: 100%;
+
+        .loading {
+          margin-left: -1px;
+
+          // font-size: 16px !important;
+          path {
+            color: #6ccaf0 !important;
+          }
+        }
+
+        .dot {
+          width: 12px;
+          height: 12px;
+          border-radius: 50%;
+          z-index: 2;
+        }
+      }
+
+      .message {
+        margin-top: 5px;
+        margin-bottom: 20px;
+        grid-column: 3 / 4;
+        font-size: 12px;
+        min-height: 16px;
+        max-height: 300px;
+        overflow-y: auto;
+        overflow-x: hidden;
+
+        .errorMsg {
+          white-space: wrap;
+          max-height: 300px;
+          overflow-y: auto;
+          margin-bottom: 5px;
+        }
+
+        .executionCount,
+        .endTime {
+          font-size: 10px;
+          color: rgba(255, 255, 255, .5);
+        }
+      }
+
     }
-    .endTime {
-      font-size: 10px;
-      color: rgba(255, 255, 255, .5);
+
+    .line-box {
+      grid-column: 2 / 3;
+      height: 100%;
+      min-height: 20px;
+
+      .line {
+        z-index: 1;
+        margin-top: -4px;
+        margin-left: 5px;
+        width: 2px;
+        height: calc(100% + 8px);
+        background: rgb(68, 68, 68);
+      }
     }
   }
 }

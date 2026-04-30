@@ -1,5 +1,6 @@
 export * from './TRM'
 export * from './file'
+export * from './task'
 
 import React from 'react'
 import { ObjectType } from '0type'
@@ -94,50 +95,4 @@ export type SysState = {
   apps: [string, string][]
   modules: ProjectConf[]
   [key: string]: any
-}
-
-export type Task = {
-  /**
-   * @default 'idle'
-   */
-  status?: 'success' | 'warning' | 'error' | 'running' | 'idle'
-  startTime?: number
-  endTime?: number
-  id?: string
-  name?: string
-  group?: string
-  errorMsg?: string
-  exec(): Promise<any>
-  [key: string]: any
-}
-
-export type TaskStatus = {
-  /**
-   * @default 'idle'
-   */
-  status?: 'success' | 'warning' | 'error' | 'running' | 'idle'
-  startTime?: number
-  endTime?: number
-  name?: string
-  id?: string
-  group?: string
-  errorMsg?: string
-}
-
-export type TaskState = {
-  initSuccess: boolean
-  running: boolean
-  loadings: {
-    nodeThread?: boolean
-    project?: boolean
-    projectOpt?: boolean
-  } & ObjectType<boolean>
-  loadingsGroup: {
-    nodeThread?: number
-    project?: number
-    projectOpt?: number
-  } & ObjectType<number>
-  tasks: Task[]
-  taskStatus: TaskStatus[]
-  taskIndex: number
 }

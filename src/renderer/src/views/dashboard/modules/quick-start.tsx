@@ -26,7 +26,6 @@ export const QuickStart = () => {
       task.add({
         id: 'quickStart__update-app',
         name: 'Quick Start Update Apps',
-        group: 'quickStart',
         async exec() {
           const apps: [string, string][] =
             (await window.api.invoke('updateApps', sys)) || []

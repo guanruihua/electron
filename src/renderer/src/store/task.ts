@@ -1,5 +1,5 @@
 import { Task, TaskState } from '@/type'
-import { isNumber } from 'asura-eye'
+import { isNumber, isObject } from 'asura-eye'
 import { create } from 'zustand'
 
 type Actions<T> = {
@@ -7,12 +7,12 @@ type Actions<T> = {
   get(): T
   add(task: Task): Promise<void>
   run(runIndex?: number): Promise<void>
+  setLoading(task: Task, loading: boolean): void
 }
 
 export const useTaskStore = create<TaskState & Actions<TaskState>>(
   (set, get) => ({
     initSuccess: false,
-    running: false,
     loadings: {},
     loadingsGroup: {},
     tasks: [],
@@ -20,91 +20,89 @@ export const useTaskStore = create<TaskState & Actions<TaskState>>(
     taskIndex: 0,
     async run(runIndex?: number) {
       if (!runIndex && runIndex !== 0) runIndex = this.taskIndex ?? 0
-      const task = get().tasks[runIndex] || {}
-      const { id, exec } = task
-      if (!id || !exec || task?.endTime) return
-
       const state = get()
-      const newTasks = state.tasks
-      const newLoadings = state.loadings
-      task.startTime = Date.now()
-      newTasks[runIndex] = task
-      task.status = 'running'
+      const task = state.tasks[runIndex]
+      if (!isObject<Task>(task)) return
+      const { exec, ...rest } = task
+      const taskStatus = state.taskStatus[runIndex] || { ...rest }
+      if (!exec || !taskStatus?.id || taskStatus?.endTime) return
+
+      const newTaskStatus = get().taskStatus
+      taskStatus.startTime = Date.now()
+      taskStatus.status = 'running'
+      newTaskStatus[runIndex] = taskStatus
       set({
-        tasks: newTasks,
+        taskStatus: newTaskStatus,
       })
+
       try {
         await exec()
       } catch (error) {
         console.error(error)
-        task.status = 'error'
-        task.errorMsg = JSON.stringify(error)
+        taskStatus.status = 'error'
+        taskStatus.errorMsg = JSON.stringify(error)
       }
+      this.setLoading(task, false)
 
-      if (id) newLoadings[id] = false
-
-      const newLoadingsGroup = state.loadingsGroup
-      let group = task.group
-      if (!group && id?.includes('__')) {
-        group = id.split('__').at(0)
-      }
-      if (group) {
-        if (isNumber(newLoadingsGroup[group])) {
-          --newLoadingsGroup[group]
-        } else {
-          newLoadingsGroup[group] = 0
-        }
-        if (newLoadingsGroup[group] < 1) {
-          newLoadingsGroup[group] = 0
-          newLoadings[group] = false
-        }
-      }
-
-      task.endTime = Date.now()
-      if (task.endTime - task.startTime > 30_000) {
-        task.status = 'warning'
+      taskStatus.endTime = Date.now()
+      if (taskStatus.endTime - taskStatus.startTime > 30_000) {
+        taskStatus.status = 'warning'
       } else {
-        task.status = 'success'
+        taskStatus.status = 'success'
       }
 
-      newTasks[runIndex] = task
+      newTaskStatus[runIndex] = taskStatus
+
       set({
-        running: false,
         taskIndex: runIndex + 1,
-        tasks: newTasks,
-        loadings: newLoadings,
-        loadingsGroup: newLoadingsGroup,
+        taskStatus: newTaskStatus,
       })
 
       await this.run(runIndex + 1)
     },
-    async add(task: Task) {
+    async setLoading(task: Task, loading: boolean) {
       const { id } = task
       const state = get()
-      const newTasks = state.tasks
       const newLoadings = state.loadings
       const newLoadingsGroup = state.loadingsGroup
-      if (id) newLoadings[id] = true
 
       let group = task.group
       if (!group && id?.includes('__')) {
         group = id.split('__').at(0)
       }
-      if (group) {
-        newLoadings[group] = true
-        if (isNumber(newLoadingsGroup[group])) {
-          ++newLoadingsGroup[group]
+      if (group)
+        if (loading) {
+          newLoadings[group] = true
+          if (isNumber(newLoadingsGroup[group])) {
+            ++newLoadingsGroup[group]
+          } else {
+            newLoadingsGroup[group] = 1
+          }
         } else {
-          newLoadingsGroup[group] = 1
+          if (isNumber(newLoadingsGroup[group])) {
+            --newLoadingsGroup[group]
+          } else {
+            newLoadingsGroup[group] = 0
+          }
+          if (newLoadingsGroup[group] < 1) {
+            newLoadingsGroup[group] = 0
+            newLoadings[group] = false
+          }
         }
-      }
-      newTasks.push(task)
 
       set({
-        tasks: newTasks,
         loadings: newLoadings,
         loadingsGroup: newLoadingsGroup,
       })
+    },
+    async add(task: Task) {
+      const state = get()
+      const newTasks = state.tasks
+      newTasks.push(task)
+      set({
+        tasks: newTasks,
+      })
+      this.setLoading(task, true)
       this.run()
     },
     set,

@@ -19,9 +19,10 @@ export default function RunningApp() {
       name: 'Query All Running Apps',
       async exec() {
         const res = await window.api.invoke('getRunningApp')
+        // console.log(res)
         if (!isArray(res)) return
         const ignoreNames =
-          sys?.ignoreApps?.split(',').map((_) => _.trim()) || []
+          sys?.ignoreApps?.split(',').filter(Boolean).map((_) => _.trim()) || []
 
         const newAppList = ignoreNames?.length
           ? res.filter((_) => {
@@ -31,40 +32,41 @@ export default function RunningApp() {
               return true
             })
           : res
+        // console.log(newAppList, ignoreNames)
 
         setAppList(newAppList)
         return
       },
     })
 
-  const stop = async (item) => {
+  const stop = (item) => {
     if (!isString(item?.name)) return
 
     task.add({
       id: `runningApp__stop-${item.id}`,
       name: `Running App / Stop the ${item.name} App(${item.id})`,
       async exec() {
-        return await window.api.invoke('stopAppByName', item.name)
+        await window.api.invoke('stopAppByName', item.name)
+        query()
+        return
       },
     })
-
-    query()
-    return
   }
-  const stopAll = async () => {
+
+  const stopAll = () =>
     task.add({
       id: `runningApp__stopAll`,
       name: `Stop All Running Apps`,
       async exec() {
-        return await window.api.invoke(
+        await window.api.invoke(
           'stopAppByName',
           appList.map((_) => _.name),
         )
+        query()
+        return
       },
     })
-    query()
-    return
-  }
+
   React.useEffect(() => {
     query()
   }, [])

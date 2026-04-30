@@ -3,10 +3,11 @@ import { useLoading, useSetState } from '@/util'
 import { PageState } from './type'
 import { getHty, gitPull, gitPush } from './helper'
 import { ProjectConf } from '@/type'
+import { useTaskStore } from '@/store/task'
 
 export const usePageState = (selectProject: ProjectConf) => {
   const { label = '', path } = selectProject || {}
-
+  const task = useTaskStore()
   const [pageState, setPageState] = useSetState<PageState>({
     commitMsg: 'feat: Improve the documentation',
     hty: [],
@@ -21,28 +22,42 @@ export const usePageState = (selectProject: ProjectConf) => {
 
   const init = async () => {
     setLoading(true)
-    const hty = (await getHty(path)) || []
-    const hty_commits: string[] = []
+    task.add({
+      id: 'gitReview__init',
+      name: 'Git Review Init State',
+      async exec() {
+        const hty = (await getHty(path)) || []
+        const hty_commits: string[] = []
 
-    if (hty?.length) {
-      hty.forEach((item) => {
-        const value = item.commit.trim()
-        if (hty_commits.includes(value)) return
-        hty_commits.push(value)
-      })
-    }
+        if (hty?.length) {
+          hty.forEach((item) => {
+            const value = item.commit.trim()
+            if (hty_commits.includes(value)) return
+            hty_commits.push(value)
+          })
+        }
 
-    setPageState({
-      ...(await gitPull(path)),
-      hty,
-      hty_options: hty_commits.map((value) => ({ value })),
+        setPageState({
+          ...(await gitPull(path)),
+          hty,
+          hty_options: hty_commits.map((value) => ({ value })),
+        })
+        setLoading(false)
+      },
     })
-    setLoading(false)
   }
 
   const handlePush = async () => {
     setLoading(true)
-    ;(await gitPush(path, pageState.commitMsg)) ? init() : setLoading(false)
+    task.add({
+      id: 'gitReview__push',
+      name: 'Git Review State Push',
+      async exec() {
+        const res = await gitPush(path, pageState.commitMsg)
+        res ? await init() : setLoading(false)
+        return
+      },
+    })
   }
 
   React.useEffect(() => {

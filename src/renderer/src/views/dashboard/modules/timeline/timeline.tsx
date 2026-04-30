@@ -51,7 +51,7 @@ export function Dash_Timeline() {
             <div className="timeline-item" key={i}>
               <div className="title" style={{ color }}>
                 {isNumber(startTime)
-                  ? dayjs(startTime).format('HH:mm:ss SSS')
+                  ? dayjs(startTime).format('HH:mm:ss.SSS')
                   : 'Pending'}
               </div>
               <div className="dot-box">
@@ -77,11 +77,7 @@ export function Dash_Timeline() {
               )}
               <div className="message">
                 {errorMsg && <pre className="errorMsg">{errorMsg}</pre>}
-                {isNumber(endTime) && (
-                  <div className="endTime">
-                    End Time: {dayjs(endTime).format('HH:mm:ss SSS')}
-                  </div>
-                )}
+
                 {count && (
                   <div className="executionCount">
                     Execution Count:{' '}
@@ -94,6 +90,11 @@ export function Dash_Timeline() {
                     >
                       {count}
                     </span>
+                  </div>
+                )}
+                {isNumber(endTime) && (
+                  <div className="endTime">
+                    {dayjs(endTime).format('HH:mm:ss.SSS')} / {(endTime - startTime) / 1000}s
                   </div>
                 )}
               </div>

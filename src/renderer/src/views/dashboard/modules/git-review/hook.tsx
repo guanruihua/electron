@@ -20,11 +20,11 @@ export const usePageState = (selectProject: ProjectConf) => {
 
   const [loading, setLoading] = useLoading(false)
 
-  const init = async () => {
+  const query = async () => {
     setLoading(true)
     task.add({
       id: 'gitReview__init',
-      name: 'Git Review Init State',
+      name: 'Git Review Query State',
       async exec() {
         const hty = (await getHty(path)) || []
         const hty_commits: string[] = []
@@ -54,18 +54,18 @@ export const usePageState = (selectProject: ProjectConf) => {
       name: 'Git Review State Push',
       async exec() {
         const res = await gitPush(path, pageState.commitMsg)
-        res ? await init() : setLoading(false)
+        res ? await query() : setLoading(false)
         return
       },
     })
   }
 
   React.useEffect(() => {
-    path && init()
+    path && query()
   }, [path])
 
   return {
-    init,
+    init: query,
     setLoading,
     loading,
     handlePush,

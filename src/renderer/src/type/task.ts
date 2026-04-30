@@ -18,6 +18,7 @@ export type Task = {
 
 export type TaskState = {
   initSuccess: boolean
+  running: boolean
   loadings: {
     nodeThread?: boolean
     project?: boolean

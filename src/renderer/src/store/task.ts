@@ -5,6 +5,7 @@ import { create } from 'zustand'
 type Actions<T> = {
   set(newState: Partial<T>): void
   get(): T
+  check(): void
   add(task: Task): Promise<void>
   run(runIndex?: number): Promise<void>
   setLoading(task: Task, loading: boolean): void
@@ -13,23 +14,32 @@ type Actions<T> = {
 export const useTaskStore = create<TaskState & Actions<TaskState>>(
   (set, get) => ({
     initSuccess: false,
+    running: false,
     loadings: {},
     loadingsGroup: {},
     tasks: [],
-    task: [],
     taskIndex: 0,
+    check(){
+      const findIndex= get().tasks.findIndex(_=> !_.endTime)
+      console.log(
+        findIndex,
+        get().tasks[findIndex]
+      )
+      // if(findIndex>)
+    },
     async run(runIndex?: number) {
       if (!runIndex && runIndex !== 0) runIndex = this.taskIndex ?? 0
       const state = get()
       const task = state.tasks[runIndex]
-      if (!isObject<Task>(task)) return
-      if (!task?.exec || !task?.id || task?.endTime) return
+      if (!isObject<Task>(task)) return this.check()
+      if (!task?.exec || !task?.id || task?.endTime) return this.check()
 
       const newTasks = get().tasks
       task.startTime = Date.now()
       task.status = 'running'
       newTasks[runIndex] = task
       set({
+        running: true,
         tasks: newTasks,
       })
 
@@ -52,6 +62,7 @@ export const useTaskStore = create<TaskState & Actions<TaskState>>(
       newTasks[runIndex] = task
 
       set({
+        running: true,
         taskIndex: runIndex + 1,
         tasks: newTasks,
       })

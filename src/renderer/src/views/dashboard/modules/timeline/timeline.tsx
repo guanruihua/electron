@@ -25,6 +25,8 @@ export function Dash_Timeline() {
   }
   const items = getItems()
 
+  console.log(task.tasks)
+
   return (
     <div className="dash-timeline" data-hidden={!task.tasks.length}>
       <div className="timeline">

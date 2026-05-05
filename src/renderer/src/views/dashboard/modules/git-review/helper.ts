@@ -1,14 +1,17 @@
 import { isString } from 'asura-eye'
 import { PageState } from './type'
 import { getFileTree, simplifyFileTree } from '@/util'
-
-export const getHty = async (path?: string): Promise<PageState['hty']> => {
-  if (!isString(path)) return []
+export const getHtyMsg = async (path?: string): Promise<string> => {
+  if (!isString(path)) return ''
   const history = await window.api.invoke(
     'cmdResult',
     // `cd ${path} && git log && exit`,
     `cd ${path} && git log --pretty=format:"%H|%an|%ae|%ad|%s" && exit`,
   )
+  if (!isString(history)) return ''
+  return history
+}
+export const getHty = async (history?: string): Promise<PageState['hty']> => {
   if (!isString(history)) return []
   return (
     history.split('\n').map((_) => {

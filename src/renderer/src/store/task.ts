@@ -1,5 +1,5 @@
 import { Task, TaskState } from '@/type'
-import { isNumber, isObject } from 'asura-eye'
+import { isArray, isNumber, isObject, isString } from 'asura-eye'
 import { create } from 'zustand'
 
 type Actions<T> = {
@@ -25,8 +25,9 @@ export const useTaskStore = create<TaskState & Actions<TaskState>>(
       this.run(findIndex)
     },
     async run(runIndex?: number) {
-      if (!runIndex && runIndex !== 0) runIndex = this.taskIndex ?? 0
       const state = get()
+      if (state.running) return
+      if (!runIndex && runIndex !== 0) runIndex = this.taskIndex ?? 0
       const task = state.tasks[runIndex]
       if (!isObject<Task>(task)) return this.check(runIndex)
       if (!task?.exec || !task?.id || task?.endTime) return this.check(runIndex)
@@ -41,7 +42,12 @@ export const useTaskStore = create<TaskState & Actions<TaskState>>(
       })
 
       try {
-        await task.exec()
+        const execMsg = await task.exec()
+        // console.log(execMsg)
+        if (execMsg)
+          if (isString(execMsg)) task.execMsg = execMsg
+          else if (isArray(execMsg))
+            task.execMsg = execMsg.map((v) => JSON.stringify(v)).join('\n')
       } catch (error) {
         console.error(error)
         task.status = 'error'
@@ -59,7 +65,7 @@ export const useTaskStore = create<TaskState & Actions<TaskState>>(
       newTasks[runIndex] = task
 
       set({
-        running: true,
+        running: false,
         taskIndex: runIndex + 1,
         tasks: newTasks,
       })

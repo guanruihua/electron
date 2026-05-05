@@ -31,10 +31,10 @@ export const useProjectOpt = () => {
     const dom: HTMLDivElement | null = document.querySelector(
       `.opt-item[data-path='${dataPath}']`,
     )
-    if(dom?.dataset?.start === '1'){
-      startStatus ===0 && setStartStatus(1)
-    }else{
-      startStatus ===1 && setStartStatus(0)
+    if (dom?.dataset?.start === '1') {
+      startStatus === 0 && setStartStatus(1)
+    } else {
+      startStatus === 1 && setStartStatus(0)
     }
   }
 
@@ -70,7 +70,8 @@ export const useProjectOpt = () => {
   const install = () =>
     task.add({
       id: `projectOptDependencies__install`,
-      name: `The ${projName} Project installation dependencies`,
+      name: `The Project installation dependencies`,
+      desc: `Project Name: ${projName}`,
       async exec() {
         return await window.api.invoke('cmd', `cd ${item.path} && cnpm i`)
       },
@@ -79,7 +80,8 @@ export const useProjectOpt = () => {
   const uninstall = () =>
     task.add({
       id: `projectOptDependencies__uninstall`,
-      name: `The ${projName} Project installation dependencies`,
+      name: `The Project installation dependencies`,
+      desc: `Project Name: ${projName}`,
       async exec() {
         return await window.api.invoke(
           'cmd',
@@ -123,7 +125,7 @@ export const useProjectOpt = () => {
       id: `nodeThread__${type}`,
       name: name || `Open the ${projName} Project in ${type}`,
       async exec() {
-        exec(value)
+        return exec(value)
       },
     })
   }
@@ -137,7 +139,8 @@ export const useProjectOpt = () => {
 
     task.add({
       id: 'projectOpt__updateStatus',
-      name: `Update the ${projName} Project Status`,
+      name: `Update the Project Status`,
+      desc: `Project Name: ${projName}`,
       async exec() {
         return await init()
       },
@@ -145,26 +148,32 @@ export const useProjectOpt = () => {
   }
 
   const run = async () => {
+    if (!item.npm) return
     task.add({
       id: 'projectOpt__run',
-      name: `Run the ${projName} Project`,
+      name: `Run the Project`,
+      desc: `Project Name: ${projName}`,
       async exec() {
-        await window.api.invoke(
+        const res = await window.api.invoke(
           'dev',
           `cd ${item.path} && npm.cmd run ${item.npm}`,
         )
         setStartStatus(1)
+        return res
       },
     })
   }
 
-  const runGroup = async () => {
+  const runGroup = async (e: any) => {
+    e?.stopPropagation()
+    e?.preventDefault()
     run()
 
     if (item['url-review'])
       task.add({
         id: 'projectOptRunGroup__explorer',
-        name: `Open the ${projName} Project in Google`,
+        name: `Open the Project in Google`,
+        desc: `Project Name: ${projName}`,
         async exec() {
           return await window.api.invoke(
             'cmd',
@@ -175,7 +184,8 @@ export const useProjectOpt = () => {
 
     task.add({
       id: 'projectOptRunGroup__vscode',
-      name: `Open the ${projName} Project in VSCode`,
+      name: `Open the Project in VSCode`,
+      desc: `Project Name: ${projName}`,
       async exec() {
         return await window.api.invoke('cmd', `code ${item.path}`)
       },
@@ -185,7 +195,8 @@ export const useProjectOpt = () => {
   const stop = async () => {
     task.add({
       id: 'projectOpt__stop',
-      name: `Stop the ${projName} Project`,
+      name: `Stop the Project`,
+      desc: `Project Name: ${projName}`,
       async exec() {
         if (!item.path) return
         const selector = `.opt-item[data-path="${item.path.replaceAll('\\', '>')}"]`

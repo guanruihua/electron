@@ -14,7 +14,8 @@ export default function DashboardView() {
       <div className="root-layout-home-view-container">
         <div className="dashboard-layout-col">
           <Info />
-          <Dash_Timeline />
+          <QuickStart />
+          <NodeTread />
         </div>
         <div className="dashboard-layout-col">
           <Dash_Project />
@@ -24,9 +25,8 @@ export default function DashboardView() {
           <GitReview />
         </div>
         <div className="flex gap col">
-          <QuickStart />
-          <NodeTread />
           <RunningApp />
+          <Dash_Timeline />
         </div>
       </div>
     </div>

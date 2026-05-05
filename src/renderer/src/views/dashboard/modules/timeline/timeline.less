@@ -18,6 +18,14 @@
       contain-intrinsic-height: 57px;
       transition: all .6s;
 
+
+
+      .name {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
       .title {
         text-align: end;
         font-size: 12px;
@@ -54,15 +62,32 @@
         grid-column: 3 / 4;
         font-size: 12px;
         min-height: 16px;
-        max-height: 300px;
+        // max-height: 300px;
         overflow-y: auto;
         overflow-x: hidden;
+
+        .desc {
+          color: rgba(255, 255, 255, .8);
+          font-size: 11px;
+          margin-bottom: 5px;
+          white-space: wrap;
+        }
+
+        .execMsg {
+          color: rgba(255, 255, 255, .8);
+          white-space: wrap;
+          max-height: 300px;
+          overflow-y: auto;
+          margin-bottom: 5px;
+          line-height: 18px;
+        }
 
         .errorMsg {
           white-space: wrap;
           max-height: 300px;
           overflow-y: auto;
           margin-bottom: 5px;
+          color: var(--error)
         }
 
         .executionCount,

@@ -4,6 +4,7 @@ export type Task = {
   id?: string
   name?: string
   group?: string
+  desc?: string
   exec(): Promise<any>
   [key: string]: any
 
@@ -13,6 +14,7 @@ export type Task = {
   status?: 'success' | 'warning' | 'error' | 'running' | 'idle'
   startTime?: number
   endTime?: number
+  execMsg?: string
   errorMsg?: string
 }
 

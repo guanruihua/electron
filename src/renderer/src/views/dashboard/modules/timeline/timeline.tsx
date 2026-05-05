@@ -1,17 +1,25 @@
 import { useTaskStore } from '@/store/task'
-import { isNumber } from 'asura-eye'
+import { isNumber, isString } from 'asura-eye'
 import dayjs from 'dayjs'
 import './timeline.less'
 import { Icon } from '@/components'
+import { Popconfirm } from 'antd'
 
 export function Dash_Timeline() {
   const task = useTaskStore()
   const getItems = () => {
     const items: any[] = []
     task.tasks?.forEach((item) => {
-      const { id, endTime, status } = item
+      const { id, endTime, status, execMsg } = item
       const last = items.at(-1)
-      if (endTime && last && id === last.id && status === last.status) {
+      if (
+        endTime &&
+        last &&
+        id === last.id &&
+        status === last.status &&
+        item.desc === last.desc &&
+        !execMsg
+      ) {
         items[items.length - 1] = {
           ...last,
           count: isNumber(last?.count) ? last.count + 1 : 2,
@@ -33,6 +41,7 @@ export function Dash_Timeline() {
             status = 'idle',
             startTime,
             name,
+            execMsg,
             errorMsg,
             endTime,
             count,
@@ -67,15 +76,42 @@ export function Dash_Timeline() {
                   <div className="dot" style={{ background: color }} />
                 )}
               </div>
-              <div className="content" style={{ color }}>
+              <div className="name" style={{ color }}>
                 {name}
               </div>
+
               {i + 1 !== items.length && (
                 <div className="line-box">
                   <div className="line"></div>
                 </div>
               )}
               <div className="message">
+                {item.desc && <div className="desc">{item.desc}</div>}
+                {isString(execMsg) &&
+                  (execMsg.length > 120 ? (
+                    <Popconfirm
+                      title="Exec Message"
+                      showCancel={false}
+                      okButtonProps={{ style: { display: 'none' } }}
+                      description={
+                        <div
+                          style={{
+                            maxHeight: '40vh',
+                            overflowY: 'auto',
+                            maxWidth: '50vw',
+                          }}
+                        >
+                          <pre style={{ whiteSpace: 'wrap' }}>{execMsg}</pre>
+                        </div>
+                      }
+                    >
+                      <pre className="execMsg" style={{ cursor: 'pointer' }}>
+                        Exec Message: {execMsg.slice(0, 120) + '...'}
+                      </pre>
+                    </Popconfirm>
+                  ) : (
+                    <pre className="execMsg">Exec Message: {execMsg}</pre>
+                  ))}
                 {errorMsg && <pre className="errorMsg">{errorMsg}</pre>}
 
                 {count && (
@@ -94,7 +130,8 @@ export function Dash_Timeline() {
                 )}
                 {isNumber(endTime) && (
                   <div className="endTime">
-                    {dayjs(endTime).format('HH:mm:ss.SSS')} / {(endTime - startTime) / 1000}s
+                    {dayjs(endTime).format('HH:mm:ss.SSS')} /{' '}
+                    {(endTime - startTime) / 1000}s
                   </div>
                 )}
               </div>

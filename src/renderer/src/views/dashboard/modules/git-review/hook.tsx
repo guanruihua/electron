@@ -1,7 +1,7 @@
 import React from 'react'
 import { useLoading, useSetState } from '@/util'
 import { PageState } from './type'
-import { getHty, gitPull, gitPush } from './helper'
+import { getHty, getHtyMsg, gitPull, gitPush } from './helper'
 import { ProjectConf } from '@/type'
 import { useTaskStore } from '@/store/task'
 
@@ -21,13 +21,15 @@ export const usePageState = (selectProject: ProjectConf) => {
   const [loading, setLoading] = useLoading(false)
 
   const query = async () => {
-    if(selectProject.git === false) return
+    if (selectProject.git === false) return
     setLoading(true)
     task.add({
       id: 'gitReview__init',
-      name: 'Git Review Query State',
+      name: 'Git Review / Pull State',
+      desc: `Project Name: ${label}`,
       async exec() {
-        const hty = (await getHty(path)) || []
+        const htyMsg = await getHtyMsg(path)
+        const hty = (await getHty(htyMsg)) || []
         const hty_commits: string[] = []
 
         if (hty?.length) {
@@ -44,6 +46,7 @@ export const usePageState = (selectProject: ProjectConf) => {
           hty_options: hty_commits.map((value) => ({ value })),
         })
         setLoading(false)
+        return htyMsg
       },
     })
   }
@@ -52,11 +55,12 @@ export const usePageState = (selectProject: ProjectConf) => {
     setLoading(true)
     task.add({
       id: 'gitReview__push',
-      name: 'Git Review State Push',
+      name: 'Git Review / Push State',
+      desc: `Project Name: ${label}`,
       async exec() {
         const res = await gitPush(path, pageState.commitMsg)
         res ? await query() : setLoading(false)
-        return
+        return res
       },
     })
   }

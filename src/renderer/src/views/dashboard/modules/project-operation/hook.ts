@@ -159,6 +159,7 @@ export const useProjectOpt = () => {
           `cd ${item.path} && npm.cmd run ${item.npm}`,
         )
         setStartStatus(1)
+        updateStatus()
         return res
       },
     })
@@ -187,7 +188,8 @@ export const useProjectOpt = () => {
       name: `Open the Project in VSCode`,
       desc: `Project Name: ${projName}`,
       async exec() {
-        return await window.api.invoke('cmd', `code ${item.path}`)
+        await window.api.invoke('cmd', `code ${item.path}`)
+        updateStatus()
       },
     })
   }
@@ -208,9 +210,9 @@ export const useProjectOpt = () => {
           await window.api.invoke('cmd', `taskkill /PID ${pid} /F`)
         }
         setStartStatus(0)
+        updateStatus()
       },
     })
-    updateStatus()
   }
 
   return {

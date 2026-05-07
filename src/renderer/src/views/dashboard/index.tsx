@@ -15,17 +15,17 @@ export default function DashboardView() {
         <div className="dashboard-layout-col">
           <Info />
           <QuickStart />
-          <NodeTread />
+          <RunningApp />
         </div>
         <div className="dashboard-layout-col">
           <Dash_Project />
         </div>
         <div className="dashboard-layout-col">
           <ProjectOperation />
-          <GitReview />
+          <NodeTread />
         </div>
         <div className="flex gap col">
-          <RunningApp />
+          <GitReview />
           <Dash_Timeline />
         </div>
       </div>

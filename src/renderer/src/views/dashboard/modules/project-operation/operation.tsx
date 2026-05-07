@@ -2,27 +2,36 @@ import { Button } from 'antd'
 import { Icon } from '@/components'
 import { useProjectOpt } from './hook'
 import './operation.less'
+import { isArray } from 'asura-eye'
 
 export default function ProjectOperation() {
   const {
     projName,
     loadings,
-    startStatus,
     FSStatus,
     item,
     run,
     runGroup,
     stop,
     execTask,
+    test,
   } = useProjectOpt()
+
+  const { running, pid } = item
+
   const webs = Object.keys(item).filter((key) => key.startsWith('url-'))
   return (
-    <div className="project-operation" data-start={startStatus}>
-      <div
-        className="flex space-between items-center mb"
-        style={{ padding: '20px 20px 15px' }}
-      >
+    <div className="project-operation" data-start={running}>
+      <div className="project-operation-header">
         <h4 className="title">{item?.label || 'Project Operation'}</h4>
+        {isArray(pid) && pid.length > 0 && (
+          <div className="pids">
+            <div>PIDs:</div>
+            {pid.map((p) => (
+              <div key={p}>{p}</div>
+            ))}
+          </div>
+        )}
       </div>
       <div className="p" style={{ paddingTop: 10 }}>
         <div className="flex row gap wrap">
@@ -32,7 +41,7 @@ export default function ProjectOperation() {
             }
             className="run-group run"
             disabled={FSStatus.node_modules === false}
-            data-hidden={!item.npm || startStatus === 1}
+            data-hidden={!item.npm || running}
             style={{ width: '100%' }}
             onClick={runGroup}
           >
@@ -55,7 +64,7 @@ export default function ProjectOperation() {
               loadings.projectOpt__run || loadings.projectOptDependencies
             }
             className="run"
-            data-hidden={!item.npm || startStatus === 1}
+            data-hidden={!item.npm || running}
             disabled={FSStatus.node_modules === false}
             icon={<Icon type="run" />}
             onClick={run}
@@ -68,7 +77,7 @@ export default function ProjectOperation() {
               loadings.projectOpt__stop || loadings.projectOptDependencies
             }
             className="stop"
-            data-hidden={!item.npm || startStatus === 0}
+            data-hidden={!item.npm || !running}
             icon={<Icon type="stop" />}
             onClick={stop}
           >
@@ -170,6 +179,7 @@ export default function ProjectOperation() {
               </Button>
             </div>
           </div>
+          {/* <Button onClick={test}>Test</Button> */}
         </div>
       </div>
     </div>

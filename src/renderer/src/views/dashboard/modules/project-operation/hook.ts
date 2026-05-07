@@ -4,39 +4,20 @@ import { useSysStore } from '@/store/sys'
 import { useState } from 'react'
 import { useTaskStore } from '@/store/task'
 import { isArray, isString } from 'asura-eye'
+import { getNodePids } from '@/util'
 
 export const useProjectOpt = () => {
   const sys = useSysStore()
   const task = useTaskStore()
   const { loadings } = task
 
-  const [startStatus, setStartStatus] = useState(0)
   const item: ProjectConf = sys?.selectProject || {}
-  const { label } = item
+  const { label, path, running } = item
   const projName = label
   const [FSStatus, setFSState] = useState({
     'package.json': false,
     node_modules: false,
   })
-
-  const timer = React.useRef<NodeJS.Timeout | null>(null)
-
-  const clear = () => {
-    timer.current && clearInterval(timer.current)
-  }
-
-  const load = () => {
-    if (!item?.path) return timer.current && clearInterval(timer.current)
-    const dataPath = item.path.replaceAll('\\', '>')
-    const dom: HTMLDivElement | null = document.querySelector(
-      `.opt-item[data-path='${dataPath}']`,
-    )
-    if (dom?.dataset?.start === '1') {
-      startStatus === 0 && setStartStatus(1)
-    } else {
-      startStatus === 1 && setStartStatus(0)
-    }
-  }
 
   const initStatus = async () => {
     if (!item.path) return
@@ -57,14 +38,10 @@ export const useProjectOpt = () => {
   }
 
   const init = async () => {
-    clear()
-    load()
     initStatus()
-    timer.current = setInterval(load, 1000)
   }
   React.useEffect(() => {
     init()
-    return clear
   }, [item.path])
 
   const install = () =>
@@ -123,7 +100,8 @@ export const useProjectOpt = () => {
 
     task.add({
       id: `nodeThread__${type}`,
-      name: name || `Open the ${projName} Project in ${type}`,
+      name: name || `Open the Project in ${type}`,
+      desc: `Project Name: ${projName}`,
       async exec() {
         return exec(value)
       },
@@ -152,13 +130,24 @@ export const useProjectOpt = () => {
     task.add({
       id: 'projectOpt__run',
       name: `Run the Project`,
+      type: 'running',
+      uid: path,
       desc: `Project Name: ${projName}`,
       async exec() {
+        const pids_start = await getNodePids()
+
         const res = await window.api.invoke(
           'dev',
           `cd ${item.path} && npm.cmd run ${item.npm}`,
         )
-        setStartStatus(1)
+        const pids_end = await getNodePids()
+        const pids = [
+          ...pids_end.filter((_) => !pids_start.includes(_)),
+          ...pids_start.filter((_) => !pids_end.includes(_)),
+        ].filter(Boolean)
+        const { runningUIDMapPID } = sys.get()
+        runningUIDMapPID[path!] = pids
+        sys.set({ runningUIDMapPID })
         updateStatus()
         return res
       },
@@ -198,27 +187,35 @@ export const useProjectOpt = () => {
     task.add({
       id: 'projectOpt__stop',
       name: `Stop the Project`,
+      type: 'stop',
+      uid: path,
       desc: `Project Name: ${projName}`,
       async exec() {
-        if (!item.path) return
-        const selector = `.opt-item[data-path="${item.path.replaceAll('\\', '>')}"]`
-        const dom: HTMLDivElement | null = document.querySelector(selector)
-        if (!dom) return
-        const pids = [...new Set(dom.dataset.pid?.split(' '))]
-        for (let i = 0; i < pids.length; i++) {
-          const pid = pids[i]
-          await window.api.invoke('cmd', `taskkill /PID ${pid} /F`)
-        }
-        setStartStatus(0)
+        if (!isArray(item.pid)) return
+        const cmd = `taskkill ${item.pid.map((p) => `/PID ${p}`).join(' ')} /F`
+        await window.api.invoke('cmd', cmd)
+        const { runningUIDMapPID } = sys.get()
+        delete runningUIDMapPID[path!]
+        sys.set({ runningUIDMapPID })
         updateStatus()
       },
     })
   }
 
+  const test = async () => {
+    // console.log(item)
+    const { path } = item
+    if (!isString(path)) return
+    const pids = await getNodePids()
+    console.log(pids)
+    // const res = await getAll_NodeThread()
+    // console.log(res)
+  }
+
   return {
+    test,
     projName,
     loadings,
-    startStatus,
     FSStatus,
     item,
     run,

@@ -6,9 +6,10 @@ export type Task = {
   group?: string
   desc?: string
   exec(): Promise<any>
-  [key: string]: any
 
-   /**
+  type?: 'running' | 'stop'
+  uid?: string
+  /**
    * @default 'idle'
    */
   status?: 'success' | 'warning' | 'error' | 'running' | 'idle'
@@ -16,6 +17,8 @@ export type Task = {
   endTime?: number
   execMsg?: string
   errorMsg?: string
+
+  [key: string]: any
 }
 
 export type TaskState = {

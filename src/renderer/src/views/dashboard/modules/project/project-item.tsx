@@ -6,7 +6,7 @@ import { useSysStore } from '@/store/sys'
 export const ProjectItem = (props: { item: ProjectConf }) => {
   const sys = useSysStore()
   const { item } = props
-
+  
   if (isString(item?.type) && item.type.toLowerCase() === 'group')
     return (
       <React.Fragment>
@@ -35,11 +35,13 @@ export const ProjectItem = (props: { item: ProjectConf }) => {
       </React.Fragment>
     )
 
+  let name = item.label || item.path
+
   return (
     <div
       className="opt-item flex"
       data-path={item?.path?.replaceAll('\\', '>')}
-      data-start
+      data-start={item.running ? 1 : 0}
       data-pid
       title={item.label || item.path}
       data-select={sys?.selectProject?.path === item?.path}
@@ -48,7 +50,7 @@ export const ProjectItem = (props: { item: ProjectConf }) => {
         className="opt-item-name bold pointer"
         onClick={() => sys.handleSelectProject(item)}
       >
-        {item.label || item.path}
+        {name}
       </span>
     </div>
   )

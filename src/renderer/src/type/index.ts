@@ -43,6 +43,9 @@ export type ProjectConf = Partial<{
     backend: string
     [key: string]: any
   }>
+  running: boolean
+  pid: string[]
+  memory: number
   children: ProjectConf[]
   [key: string]: any
 }>
@@ -83,6 +86,15 @@ export interface ModuleProps {
   [key: string]: any
 }
 
+export type NodeTread = Partial<{
+  title: string
+  dirPath: string
+  pid: string[]
+  memory: number
+  createTime: string
+  [key: string]: any
+}>
+
 export type SysState = {
   initSuccess: boolean
   path: string
@@ -91,8 +103,9 @@ export type SysState = {
   quickStarts: string[][]
   selectProject: ProjectConf
 
-  NodeTreads: ObjectType[]
+  NodeTreads: NodeTread[]
   apps: [string, string][]
   modules: ProjectConf[]
+  runningUIDMapPID: ObjectType<string[]>
   [key: string]: any
 }

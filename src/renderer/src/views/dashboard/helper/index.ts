@@ -43,34 +43,34 @@ export const getPathByPID = async (pid: string | number) => {
     .replaceAll('\\', '>')
 }
 
-export const setStatus_NodeTread = async (NodeTreads: any[]) => {
-  const pids = NodeTreads.map((_) => _.pid) || []
-  const pathMap = {}
-  for (let i = 0; i < pids.length; i++) {
-    const pid = pids[i]
-    const path = await getPathByPID(pid)
-    if (path) pathMap[path] = pid
-  }
-  // console.log(pathMap)
-  const doms: NodeListOf<HTMLDivElement> | null =
-    document.querySelectorAll(`.opt-item[data-pid]`)
-  if (!doms) return
-  doms.forEach((dom) => {
-    const path: string | undefined = dom.dataset.path
-    const pid = path && pathMap[path]
-    if (pid) {
-      if (dom.title) {
-        const d: HTMLDivElement | null = document.querySelector(
-          `.node-tread-row-title[data-pid="${pid}"]`,
-        )
-        if (d) d.innerText = dom.title
-      }
+// export const setStatus_NodeTread = async (NodeTreads: any[]) => {
+//   const pids = NodeTreads.map((_) => _.pid) || []
+//   const pathMap = {}
+//   for (let i = 0; i < pids.length; i++) {
+//     const pid = pids[i]
+//     const path = await getPathByPID(pid)
+//     if (path) pathMap[path] = pid
+//   }
+//   // console.log(pathMap)
+//   const doms: NodeListOf<HTMLDivElement> | null =
+//     document.querySelectorAll(`.opt-item[data-pid]`)
+//   if (!doms) return
+//   doms.forEach((dom) => {
+//     const path: string | undefined = dom.dataset.path
+//     const pid = path && pathMap[path]
+//     if (pid) {
+//       if (dom.title) {
+//         const d: HTMLDivElement | null = document.querySelector(
+//           `.node-tread-row-title[data-pid="${pid}"]`,
+//         )
+//         if (d) d.innerText = dom.title
+//       }
 
-      dom.dataset.pid = pid
-      dom.dataset.start = '1'
-    } else {
-      dom.dataset.pid = ''
-      dom.dataset.start = ''
-    }
-  })
-}
+//       dom.dataset.pid = pid
+//       dom.dataset.start = '1'
+//     } else {
+//       dom.dataset.pid = ''
+//       dom.dataset.start = ''
+//     }
+//   })
+// }

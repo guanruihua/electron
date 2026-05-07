@@ -1,12 +1,5 @@
 import { SysState } from '@/type'
-import {
-  getApps,
-  getModules,
-  getSetting,
-  setStatus_NodeTread,
-  toNodeTreads,
-} from '@/util'
-import { isString } from 'asura-eye'
+import { getApps, getModules, getSetting } from '@/util'
 
 export const getSysInitState = async (): Promise<SysState> => {
   const path = 'D:\\Data\\electron'
@@ -35,12 +28,6 @@ export const getSysInitState = async (): Promise<SysState> => {
     NodeTreads: [],
     modules,
     apps,
-  }
-
-  const res = await window.api.invoke('cmd', 'tasklist | findstr node')
-  if (isString(res)) {
-    newState.NodeTreads = toNodeTreads(res) || []
-    setStatus_NodeTread(newState.NodeTreads)
   }
 
   // console.log({

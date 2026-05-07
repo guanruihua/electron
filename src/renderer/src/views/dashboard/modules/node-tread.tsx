@@ -47,8 +47,9 @@ export function NodeTread() {
         <div
           className="grid all-node-tread border-radius"
           style={{
-            gridTemplateColumns: '1fr 100px 100px auto',
+            gridTemplateColumns: '1fr auto auto auto',
             paddingTop: 10,
+            gap: '0 10px',
           }}
         >
           {['项目', 'PID', '内存', ''].map((item, i) => (
@@ -71,13 +72,16 @@ export function NodeTread() {
               >
                 {row.title || 'Node'}
               </div>
-              <div className="flex items-center text-12">{row.pid}</div>
               <div className="flex items-center text-12">
-                {row.memory}
-                {row.unit || 'K'}
+                {isArray(row.pid) ? row.pid.join(', ') : row.pid}
+              </div>
+              <div className="flex items-center text-12">
+                {`${(Number(row.memory) / 1048576).toFixed(2)} ${row.unit || 'M'}`}
               </div>
               <Icon
-                loading={loadings.nodeThread || loadings[`nodeThread__stop-${row.pid}`]}
+                loading={
+                  loadings.nodeThread || loadings[`nodeThread__stop-${row.pid}`]
+                }
                 type="stop"
                 className="opt stop"
                 style={{ fontSize: 24 }}

@@ -4,6 +4,7 @@ export * from './set'
 export * from './setting'
 export * from './setupEventListeners'
 export * from './tree'
+export * from './node-thread/node-thread'
 
 import { isString } from 'asura-eye'
 
@@ -31,12 +32,12 @@ export const getPathByPID = async (pid: string | number) => {
   )
   if (!isString(res)) return
 
-  let value: string | undefined = res
+  const value: string | undefined = res
     .trim()
     .replaceAll('\r', '')
     .split(/\\node_modules|node\.exe/)
     .at(0)
-
+  // console.log(res.trim())
   if (!value || !value.includes('CommandLine=node')) return
 
   return value
@@ -48,12 +49,15 @@ export const getPathByPID = async (pid: string | number) => {
 
 export const setStatus_NodeTread = async (NodeTreads: any[]) => {
   const pids = NodeTreads.map((_) => _.pid) || []
+  // console.log(NodeTreads)
   const pathMap = {}
   for (let i = 0; i < pids.length; i++) {
     const pid = pids[i]
     const path = await getPathByPID(pid)
     if (path) pathMap[path] = pid
   }
+  // console.log(pathMap)
+
   const doms: NodeListOf<HTMLDivElement> | null =
     document.querySelectorAll(`.opt-item[data-pid]`)
   if (!doms) return

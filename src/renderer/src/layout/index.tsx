@@ -15,6 +15,7 @@ import TaskResourceManager from '@/views/task-resource'
 import Other from '@/views/other'
 import Setting from '@/views/settting'
 import { ClipboardManager } from '@/views/clipboard'
+import MusicPlayer from '@/views/music/music'
 // import TerminalPage from '@/views/terminal'
 // import { View } from '@/views/view'
 
@@ -31,6 +32,12 @@ const Routes = [
     id: '04',
     type: 'clipboard',
     children: <ClipboardManager />,
+    destroyOnHidden: false,
+  },
+  {
+    id: '05',
+    type: 'music-player',
+    children: <MusicPlayer />,
     destroyOnHidden: false,
   },
   { id: '99', type: 'other', children: <Other /> },

@@ -34,7 +34,7 @@ export default function ReviewDir() {
       for (let entry of entries) {
         const { width } = entry.contentRect
         // console.log(`宽度变化：${width}px`)
-        const newCount = Math.max(2, Math.floor(width / 250))
+        const newCount = Math.max(2, Math.floor(width / 350))
         if (newCount === count) return
         setCount(newCount)
       }

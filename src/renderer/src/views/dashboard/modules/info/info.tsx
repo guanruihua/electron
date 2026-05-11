@@ -3,11 +3,13 @@ import { Button } from 'antd'
 import './info.less'
 import { useMyState } from './state'
 import { useMsg } from '@/util'
+import { useSysStore } from '@/store/sys'
 
 export function Info() {
+  const sys = useSysStore()
   const { context, success, error } = useMsg()
-  const { loading, setLoading, LocalIP, batteryPower, ddl, networkName, init } =
-    useMyState()
+  const { loading, setLoading, LocalIP, batteryPower, ddl, networkName, reload } =
+    useMyState(sys)
 
   return (
     <div className="root-layout-home-view-info dashboard-info">
@@ -18,7 +20,7 @@ export function Info() {
             loading={loading}
             icon={<Icon type="reload" style={{ fontSize: 16 }} />}
             className="bolder absolute"
-            onClick={() => setLoading(init())}
+            onClick={() => setLoading(reload())}
           />
           <div
             className="ddl-info-box"

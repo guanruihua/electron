@@ -15,7 +15,6 @@ export default function DashboardView() {
         <div className="dashboard-layout-col">
           <Info />
           <QuickStart />
-          <RunningApp />
         </div>
         <div className="dashboard-layout-col">
           <Dash_Project />
@@ -23,6 +22,7 @@ export default function DashboardView() {
         <div className="dashboard-layout-col">
           <ProjectOperation />
           <NodeTread />
+          <RunningApp />
         </div>
         <div className="flex gap col">
           <GitReview />

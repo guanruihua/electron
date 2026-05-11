@@ -24,10 +24,10 @@
       font-size: 24px;
     }
 
-    .right {
+    &-right {
       position: absolute;
       right: 10px;
-      
+
       .ant-select {
         padding-top: 5px;
         padding-bottom: 5px;
@@ -43,30 +43,39 @@
     background: rgb(43, 43, 43);
     border-radius: 12px;
     overflow: hidden;
+  }
 
+  .frm-review-layout__dir {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    gap: 5px;
+  }
 
-    &.frm-review-layout__dir {
-      display: grid;
-      grid-template-columns: 1fr;
-      grid-template-rows: 1fr;
-      gap: 5px;
+  .frm-review-layout__file {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr;
+    height: 100%;
+    overflow: hidden;
+    gap: 30px;
+
+    .file-name {
+      display: inline-block;
+      font-weight: bold;
+      background: #555555;
+      margin-bottom: 10px;
+      padding: 5px 15px;
+      border-radius: 8px;
+      font-size: 14px;
     }
 
-    &.frm-review-layout__file {
-      position: relative;
-      display: grid;
-      grid-template-columns: 1fr;
-      grid-template-rows: 1fr;
-      height: 100%;
-      overflow: hidden;
-      gap: 30px;
-
-      .reload {
-        position: absolute;
-        top: 0px;
-        right: 10px;
-        height: 24px;
-      }
+    .reload {
+      position: absolute;
+      top: 0px;
+      right: 10px;
+      height: 24px;
     }
   }
 
@@ -141,12 +150,27 @@
     }
   }
 
-  .frm-review-file-json {
+  .file-review-btns {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
 
-    &-render {
-      background-color: rgba(255, 255, 255, .1);
-      padding: 10px;
-      border-radius: 12px;
+    .file-review-start-btn {
+      transition: all .6s;
+
+      svg,
+      svg path,
+      span {
+        transition: all .6s;
+        font-weight: bold;
+        color: var(--success) !important;
+      }
+
+      &:hover {
+        border-color: var(--success) !important;
+      }
     }
   }
 }

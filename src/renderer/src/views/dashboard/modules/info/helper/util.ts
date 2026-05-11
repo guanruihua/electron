@@ -1,6 +1,6 @@
+import { ObjectType } from '0type'
 import { isArray } from 'asura-eye'
 import { Dayjs } from 'dayjs'
-import Conf from '../conf'
 
 const fmt = (list) =>
   list
@@ -48,7 +48,7 @@ export const inBetweenTime = (
   return startTime.isBefore(time) && endTime.isAfter(time)
 }
 
-export const getFestivals = (now: Dayjs) => {
+export const getFestivals = (Conf: ObjectType, now: Dayjs) => {
   const MM_DD = now.format('M.D')
   const YYYY_MM_DD = now.format(`YYYY.M.D`)
   return Conf.festival
@@ -63,7 +63,7 @@ export const getFestivals = (now: Dayjs) => {
     .join(', ')
 }
 
-export const isHoliday = (now: Dayjs) => {
+export const isHoliday = (Conf: ObjectType, now: Dayjs) => {
   const list = Conf.holiday
   if (!isArray<string[]>(list)) return false
   for (let i = 0; i < list.length; i++) {
@@ -73,11 +73,11 @@ export const isHoliday = (now: Dayjs) => {
   return false
 }
 
-export const isOvertimeWork = (now: Dayjs) => {
+export const isOvertimeWork = (Conf: ObjectType, now: Dayjs) => {
   const list = Conf.overtime
   if (!isArray<string[]>(list)) return false
   for (let i = 0; i < list.length; i++) {
-    const [start, end]: [string, string] = list[i]
+    const [start, end]: string[] = list[i] as string[]
     if (inBetweenTime(now, start, end)) return true
   }
   return false

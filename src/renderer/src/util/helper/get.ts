@@ -5,10 +5,12 @@ export const getNodePids = async (): Promise<string[]> => {
     'cmd',
     'wmic process where name="node.exe" get ProcessId | findstr /r [0-9]',
   )
-  const pids = res
-    .split('\r\n')
-    .map((_) => _.trim())
-    .filter(Boolean) || []
+  if (!isString(res)) return []
+  const pids =
+    res
+      .split('\r\n')
+      .map((_) => _.trim())
+      .filter(Boolean) || []
   return pids
 }
 

@@ -81,7 +81,10 @@ export function Header(props: HeaderProps) {
         </div>
         <div
           className="root-header-right-reload"
-          onClick={() => window.location.reload()}
+          onClick={() => {
+            sessionStorage.clear()
+            window.location.reload()
+          }}
         >
           <Icon type="reload" />
         </div>

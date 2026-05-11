@@ -22,7 +22,10 @@ export default function RunningApp() {
         // console.log(res)
         if (!isArray(res)) return
         const ignoreNames =
-          sys?.ignoreApps?.split(',').filter(Boolean).map((_) => _.trim()) || []
+          sys?.ignoreApps
+            ?.split(',')
+            .filter(Boolean)
+            .map((_) => _.trim()) || []
 
         const newAppList = ignoreNames?.length
           ? res.filter((_) => {
@@ -44,8 +47,10 @@ export default function RunningApp() {
 
     task.add({
       id: `runningApp__stop-${item.id}`,
-      name: `Running App / Stop the ${item.name} App(${item.id})`,
+      name: `Running App / Stop the App`,
+      desc: `Name: ${item.name} (${item.id})`,
       async exec() {
+        console.log(item.name, item.id)
         await window.api.invoke('stopAppByName', item.name)
         query()
         return

@@ -12,7 +12,7 @@ export const useProjectOpt = () => {
   const { loadings } = task
 
   const item: ProjectConf = sys?.selectProject || {}
-  const { label, path, running } = item
+  const { label, path } = item
   const projName = label
   const [FSStatus, setFSState] = useState({
     'package.json': false,

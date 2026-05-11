@@ -59,7 +59,7 @@ export const getFileType = (item: FileNode) => {
   if (['.txt'].some((v) => match(v))) return 'txt'
   if (['.md', '.mdx'].some((v) => match(v))) return 'md'
   if (ImageType.some((v) => match(v))) return 'image'
-  if (['.mp3', '.ogg'].some((v) => match(v))) return 'music'
+  if (['.mp3', '.ogg', '.flac', '.lrc'].some((v) => match(v))) return 'music'
 
   if (['.svg'].some((v) => match(v))) return 'svg'
   if (['.zip', '.7z', '.rar'].some((v) => match(v))) return 'zip'

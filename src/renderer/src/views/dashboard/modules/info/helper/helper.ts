@@ -1,4 +1,3 @@
-import Conf from '../conf'
 import dayjs, { Dayjs } from 'dayjs'
 import { isArray } from 'asura-eye'
 import {
@@ -8,10 +7,11 @@ import {
   getFestivals,
   getDayjs,
 } from './util'
+import { ObjectType } from '0type'
 
 type DayType = 'WorkingDay' | 'Weekend' | 'Holiday' | 'OvertimeWork'
 
-export const getTime = () => {
+export const getTime = (Conf: ObjectType) => {
   const [h = 18, m = 0, s = 0] = Conf.afterWork.split(/:|\s/).map(Number)
   const now = dayjs()
   const afterWork = now.hour(h).minute(m).second(s).millisecond(0)
@@ -38,7 +38,7 @@ export const getTime = () => {
     DAYs.forEach((item, i) => {
       const [time, type] = item
       if (type === 'Holiday') return
-      if (isHoliday(time)) DAYs[i][1] = 'Holiday'
+      if (isHoliday(Conf, time)) DAYs[i][1] = 'Holiday'
     })
   }
   // 加班
@@ -46,7 +46,7 @@ export const getTime = () => {
     DAYs.forEach((item, i) => {
       const [time, type] = item
       if (type === 'OvertimeWork') return
-      if (isOvertimeWork(time)) DAYs[i][1] = 'OvertimeWork'
+      if (isOvertimeWork(Conf, time)) DAYs[i][1] = 'OvertimeWork'
     })
   }
 
@@ -58,8 +58,8 @@ export const getTime = () => {
   }
 }
 
-export async function updateCountdown(): Promise<string[]> {
-  const { now, diffMs, DAYs } = getTime()
+export async function updateCountdown(Conf: ObjectType): Promise<string[]> {
+  const { now, diffMs, DAYs } = getTime(Conf)
   const res: string[] = []
   const afterWorkMSG = getAfterWorkMSG(diffMs)
 
@@ -89,14 +89,14 @@ export async function updateCountdown(): Promise<string[]> {
 
   // 今天节日
   if (isArray(Conf?.festival)) {
-    const festivals = getFestivals(now)
+    const festivals = getFestivals(Conf, now)
     if (festivals) res.push(`今天是${festivals}`)
   }
 
   // 明天节日
   if (isArray(Conf?.festival)) {
     const nextDay = now.add(1, 'day')
-    const festivals = getFestivals(nextDay)
+    const festivals = getFestivals(Conf, nextDay)
     if (festivals) res.push(`明天是${festivals}`)
   }
 

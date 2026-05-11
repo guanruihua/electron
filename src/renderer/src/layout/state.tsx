@@ -25,6 +25,11 @@ const tabs = [
     type: 'clipboard',
   },
   {
+    id: '05',
+    title: 'Music Player',
+    type: 'music-player',
+  },
+  {
     id: '99',
     title: 'Other',
     type: 'other',

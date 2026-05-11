@@ -11,21 +11,13 @@ export default function Review() {
   const { select } = frm || {}
   const { type, path, fileType = '', name } = select || {}
 
-  // const Options = {
-  //   txt: [{ value: 'TXT' }, { value: 'MD' }],
-  //   md: [{ value: 'MD' }, { value: 'TXT' }],
-  // }
-  // const options = Options[fileType]
 
   return (
     <div className="frm-review" data-hidden={!path}>
-      <div className="frm-review-header">
+      {/* <div className="frm-review-header">
         {IconMap[fileType] || IconMap.file}
         <span>{name}</span>
-        {/* <div className="right">
-          {isArray(options) && <Select size="small" options={options} />}
-        </div> */}
-      </div>
+      </div> */}
       {type === 'dir' && <ReviewDir />}
       {type === 'file' && (
         <div

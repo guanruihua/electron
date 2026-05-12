@@ -1,7 +1,85 @@
 .page-music-player {
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
   justify-content: center;
   align-items: center;
   min-height: 90vh;
+
+  &-header {
+    height: 48px;
+    grid-column: 1 / -1;
+    background: #3c3c3c;
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    padding-left: 20px;
+
+    .header-item {
+      font-size: 12px;
+      border: 2px solid #fff;
+      border-radius: 8px;
+      padding: 3px 10px;
+      font-weight: bold;
+    }
+  }
+
+  .play-list {
+    padding: 0 20px;
+    overflow: hidden;
+
+    .song,
+    &-header {
+      display: grid;
+      grid-template-columns: 1fr 410px 100px 100px;
+      padding: 8px 0;
+      border-bottom: 2px solid #353535;
+    }
+
+    &-content {
+      max-height: calc(var(--h) - 94px);
+      overflow-y: auto;
+    }
+
+    .song {
+      content-visibility: auto;
+      contain-intrinsic-size: 46px;
+
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+
+    .length,
+    .song-name,
+    .singer {
+      font-size: 12px;
+      line-height: 24px;
+    }
+
+    .singer {
+      // max-width: 400px;
+      font-size: 12px;
+    }
+
+    .handle {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      font-size: 10px;
+
+      &>div {
+        cursor: pointer;
+      }
+
+      .add {
+        svg {
+          margin-top: 1px;
+          zoom: 1.3;
+        }
+      }
+    }
+  }
 }

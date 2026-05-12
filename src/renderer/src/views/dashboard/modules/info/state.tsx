@@ -24,7 +24,7 @@ export const useMyState = (sys: SysState) => {
   }
 
   const reload = async () => {
-    if (!sys.initSuccess) return
+    if (!sys.initSuccess || !sys.path) return
 
     await updateNetworkName()
     const [LIP, BatteryPower] = await window.api.invoke(
@@ -36,26 +36,24 @@ export const useMyState = (sys: SysState) => {
 
     const path = sys.path + '\\ddl.json'
     const res = await window.api.fs('readFile', { path })
-    if (!isString(res)) return
+    if (!isString(res)) {
+      return
+    }
     const Conf = getJSON(res)
 
     timer.current && clearInterval(timer.current)
-    console.log('run...')
     setDDL(await updateCountdown(Conf))
     const cb = async () => {
       setDDL(await updateCountdown(Conf))
-      timer.current = setInterval(cb, 1000)
     }
     timer.current = setInterval(cb, 1000)
   }
 
   React.useEffect(() => {
-    if (sys.initSuccess) {
-      reload()
-    }
-
+    // console.log(sys)
+    reload()
     return clear
-  }, [sys.initSuccess])
+  }, [sys.initSuccess, sys.path])
 
   return {
     loading,

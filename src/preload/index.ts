@@ -2,6 +2,7 @@ import { contextBridge, ipcRenderer, shell } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
 import { ObjectType } from '0type'
 import { FS_Action, FS_Payload } from './type'
+import { DBTarget, Result } from './db'
 
 // Custom APIs for renderer
 const api = {
@@ -30,6 +31,8 @@ const api = {
     // shell.openExternal(path)
     shell.openPath(path)
   },
+  db: async (target: DBTarget): Promise<Result> =>
+    await ipcRenderer.invoke('db', target),
   fs: async (action: FS_Action, payload: FS_Payload) =>
     await ipcRenderer.invoke('fs', {
       action,

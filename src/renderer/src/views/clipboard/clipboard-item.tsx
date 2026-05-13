@@ -13,7 +13,7 @@ interface Props {
 
 export function ClipboardItem(props: Props) {
   const { handleSelf, item } = props
-  const { type, data, time, star = 0, num } = item
+  const { type, data, createTime, star = 0, num } = item
   const now = Date.now()
   const [open, setOpen] = useState(false)
 
@@ -49,7 +49,7 @@ export function ClipboardItem(props: Props) {
           <div className="data-num">{num}</div>
           <div className="clipboard-item-footer-right">
             <div className="data-count">
-              <div className="data-time">{formatRelativeTime(now, time)}</div>
+              <div className="data-time">{formatRelativeTime(now, createTime)}</div>
             </div>
             {type === 'text' ? `Length: ${data.length}` : 'File'}
           </div>

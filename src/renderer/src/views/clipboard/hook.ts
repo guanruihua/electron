@@ -2,17 +2,12 @@ import React from 'react'
 import { ObjectType } from '0type'
 import { useLoadings, useMsg, useSetState } from '@/util'
 import { isArray, isObject } from 'asura-eye'
-import {
-  getClipboardList,
-  getRenderList,
-  getUID,
-  saveClipboard2File,
-} from './helper'
-import type { PageState } from './type'
+import { getRenderList, getUID } from './helper'
+import type { DataSchema, PageState } from './type'
 import { SysState } from '@/type'
 
+const tableName = 'clipboard'
 export const usePageState = (sys: SysState) => {
-  const path: string = sys.path
   const { context, success, error } = useMsg()
 
   const [pageState, setPageState] = useSetState<PageState>({
@@ -39,31 +34,26 @@ export const usePageState = (sys: SysState) => {
     setLoadings,
     setPageState,
     async star(target: ObjectType) {
-      const list =
-        pageState?.list?.map((item) => {
-          if (getUID(item) === getUID(target)) {
-            item.star = item?.star ? 0 : 1
-          }
-          return item
-        }) || []
-      this.updateList(list)
+      const res = await window.api.db({
+        action: 'update',
+        tableName,
+        payload: {
+          ...target,
+          star: target?.star ? 0 : 1,
+        },
+      })
+      !res.error && this.reload()
     },
-    async updateList(payload: any) {
+    async add(payload: Partial<DataSchema>) {
+      const res = await window.api.db({
+        action: 'add',
+        tableName,
+        payload,
+      })
+      !res.error && this.reload()
+    },
+    async updateList(newList: ObjectType[]) {
       // console.log('list: ', oldList)
-      let newList: ObjectType[] = []
-      if (isObject(payload)) {
-        const oldList: ObjectType[] = await getClipboardList(path)
-        const uid = getUID(payload)
-        for (let i = 0; i < oldList.length; i++)
-          if (getUID(oldList[i]) === uid) return
-        // console.log('payload: ', payload.data, oldList.length)
-        newList = [payload, ...oldList]
-      }
-
-      if (isArray(payload)) {
-        newList = payload
-      }
-
       const DataCount: string[] = []
       const newList2: ObjectType[] = []
 
@@ -91,15 +81,16 @@ export const usePageState = (sys: SysState) => {
         renderList: getRenderList(newList2, pageState.selectType),
         counts: newCounts,
       })
-
-      saveClipboard2File(path, newList2)
     },
 
     async del(item: ObjectType) {
       if (!isObject(item)) return
-      const list =
-        pageState?.list?.filter((_) => getUID(_) !== getUID(item)) || []
-      this.updateList(list)
+      const res = await window.api.db({
+        action: 'delete',
+        tableName,
+        payload: item,
+      })
+      !res.error && this.reload()
     },
     async copy(item: ObjectType) {
       if (!isObject(item)) return
@@ -123,8 +114,12 @@ export const usePageState = (sys: SysState) => {
 
     async reload() {
       setLoadings(true, 'init')
-      const list = await getClipboardList(path)
-      isArray(list) && this.updateList(list)
+      const res = await window.api.db({
+        action: 'find',
+        tableName,
+      })
+      if (res?.error) return setLoadings(false, 'init')
+      isArray(res.data) && this.updateList(res.data)
       setLoadings(false, 'init')
       return
     },
@@ -136,10 +131,9 @@ export const usePageState = (sys: SysState) => {
 
     const run = async () => {
       const res = await window.api.invoke('getClipboard')
-      if (!res?.data) return
-      res.time = Date.now()
-      // console.log('copy', res)
-      handleSelf.updateList(res)
+      if (!res?.data || res?.data.trim().length < 1) return
+      console.log('copy: ', res)
+      handleSelf.add(res)
     }
     const timer = setInterval(run, 1000)
     return () => {

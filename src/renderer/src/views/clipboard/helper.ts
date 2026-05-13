@@ -1,5 +1,4 @@
 import { ObjectType } from '0type'
-import { getJSON } from '@/util'
 import { isNumber } from 'asura-eye'
 
 export const getRenderList = (
@@ -8,9 +7,11 @@ export const getRenderList = (
 ) => {
   if (!selectType || selectType === 'all')
     return list.sort((a, b) => {
-      if (a.star && !b.star) return -10
-      if (!a.star && b.star) return 10
-      return 0
+      
+      // if (a.star && !b.star) return -10
+      // if (!a.star && b.star) return 10
+      // return 0
+      return b.createTime - a.createTime
     })
 
   if (selectType === 'star') return list.filter((_) => _.star)
@@ -71,33 +72,7 @@ export function formatRelativeTime(now: number, target: number): string {
 
 export const openSettingFile = async (path: string) => {
   if (!path) return
-  return window.api.invoke('cmd', `code ${path}\\clipboard.json`)
-}
-
-export const getClipboardList = async (path: string): Promise<ObjectType[]> => {
-  if (!path) return []
-  return getJSON(
-    await window.api.invoke('fs', {
-      action: 'readFile',
-      payload: { path: path + '/clipboard.json' },
-    }),
-    [],
-  )
-}
-
-export const saveClipboard2File = async (
-  path: string,
-  newState: ObjectType[],
-) => {
-  if (!path) return
-  return window.api.invoke('fs', {
-    action: 'saveFile',
-    payload: {
-      path: path + '/clipboard.json',
-      // data: JSON.stringify(newState, null, 2),
-      data: JSON.stringify(newState),
-    },
-  })
+  return window.api.invoke('cmd', `code ${path}\\lowdb-db.json`)
 }
 
 export const getUID = (item: ObjectType) => {

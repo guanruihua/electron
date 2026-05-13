@@ -16,8 +16,26 @@ export default function Setting() {
   }, [])
 
   React.useEffect(() => {
-    sys.initSuccess && form.setFieldsValue(sys)
-  }, [sys.initSuccess])
+    if (sys.initSuccess) {
+      form.setFieldsValue(sys)
+      const { path } = sys
+      path &&
+        window.api
+          .db({
+            action: 'init',
+            payload: {
+              path,
+            },
+          })
+          .then((res) => {
+            if (res.data) {
+              console.log('DB Init Success.')
+            } else {
+              console.log('DB Init Error.')
+            }
+          })
+    }
+  }, [sys.initSuccess, sys.path])
 
   return (
     <div className="page__setting">

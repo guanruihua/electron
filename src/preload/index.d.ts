@@ -1,12 +1,18 @@
 import { ObjectType } from '0type'
 import { ElectronAPI } from '@electron-toolkit/preload'
 import { FileSystemSetting, FS_Action, FS_Payload, InvokeType } from './type'
+import { DBAction, DBTarget, DataSchema, Result } from './db'
 
 declare global {
   interface Window {
     electron: ElectronAPI
     api: {
-      // fs  文件系统
+      db(target?: DBTarget): Promise<Result>
+      /**
+       *fs  文件系统
+       * @param action
+       * @param payload
+       */
       fs(action: FS_Action, payload?: FS_Payload): any
       on(eventName: string, callback: (data: ObjectType) => void): void
       off(eventName: string, callback: (data: ObjectType) => void): void

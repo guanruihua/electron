@@ -12,3 +12,10 @@ export interface PageState {
   list?: ObjectType[]
   renderList?: ObjectType[]
 }
+
+export interface DataSchema {
+  id: string
+  createTime?: number
+  updateTime?: number
+  [key: string]: any
+}

@@ -12,6 +12,7 @@ import { stopAppByName } from '../helper/handle/stop-app'
 import { getUserDataPath } from '../helper/get/user-info'
 import { copy } from '../helper/handle/clipboard'
 import { getSysInfo } from '../helper/get/sys-info/sys-info'
+import { db } from '../db'
 
 // import { Logger } from '../helper/logger'
 
@@ -19,6 +20,7 @@ export const ipcMainHandle = (mainWindow: BrowserWindow) => {
   // const logger = Logger(mainWindow)
 
   const Conf = {
+    db,
     copy,
     getSysInfo,
     getClipboard,

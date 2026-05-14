@@ -1,6 +1,7 @@
 import { ObjectType } from "0type"
 
 export interface PageState {
+  enable?: boolean
   counts?: {
     all: number
     text: number

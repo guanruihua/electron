@@ -15,25 +15,34 @@ export default function Setting() {
     setLoadings(sys.init(true), 'init')
   }, [])
 
+  const load = async () => {
+    const { path } = sys
+
+    const list = ['db', 'clipboard-db']
+    for (let val of list) {
+      const res = await window.api.db({
+        action: 'init',
+        DBName: val,
+        payload: {
+          path,
+        },
+      })
+
+      if (res.data) {
+        console.log(`Init DB/Success: ${val}.`)
+      } else {
+        console.log(`Init DB/Error: ${val}.`)
+      }
+    }
+  }
+
   React.useEffect(() => {
     if (sys.initSuccess) {
       form.setFieldsValue(sys)
       const { path } = sys
-      path &&
-        window.api
-          .db({
-            action: 'init',
-            payload: {
-              path,
-            },
-          })
-          .then((res) => {
-            if (res.data) {
-              console.log('DB Init Success.')
-            } else {
-              console.log('DB Init Error.')
-            }
-          })
+      if (path) {
+        load()
+      }
     }
   }, [sys.initSuccess, sys.path])
 
@@ -41,6 +50,7 @@ export default function Setting() {
     <div className="page__setting">
       <div className="header">
         <div className="flex gap">
+        
           <Button
             loading={loadings.edit}
             icon={<Icon type="edit" />}

@@ -1,5 +1,6 @@
 import { ObjectType } from '0type'
 import { isNumber } from 'asura-eye'
+import { DBName } from './conf'
 
 export const getRenderList = (
   list: ObjectType[],
@@ -7,7 +8,6 @@ export const getRenderList = (
 ) => {
   if (!selectType || selectType === 'all')
     return list.sort((a, b) => {
-      
       // if (a.star && !b.star) return -10
       // if (!a.star && b.star) return 10
       // return 0
@@ -72,9 +72,5 @@ export function formatRelativeTime(now: number, target: number): string {
 
 export const openSettingFile = async (path: string) => {
   if (!path) return
-  return window.api.invoke('cmd', `code ${path}\\lowdb-db.json`)
-}
-
-export const getUID = (item: ObjectType) => {
-  return item.type === 'image' ? item.data.slice(0, 100) : item.data
+  return window.api.invoke('cmd', `code ${path}\\lowdb\\${DBName}.json`)
 }

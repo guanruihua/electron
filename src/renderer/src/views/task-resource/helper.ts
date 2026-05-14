@@ -101,17 +101,21 @@ export const format = (target: any): UseTRMState['TRM'] => {
       .map((name) => {
         const use = USE[name]
         const total = use.reduce((t, num) => t + Number(num), 0)
-        const sum = total > 1024 ? kbToMb(total).toLocaleString() + 'MB' : total.toLocaleString() + 'KB'
+        const sum =
+          total > 1024
+            ? kbToMb(total).toLocaleString() + 'MB'
+            : total.toLocaleString() + 'KB'
         count.total += total
         count.uid += IDS[name]?.length || 0
-
+        const UID = IDS[name].sort((a: any, b: any) => a - b)
         return {
           name,
           softwareName: MAP[name],
           sum,
           total,
           status: getStatus(total),
-          UIDs: IDS[name].sort((a: any, b: any) => a - b).join(', '),
+          UIDsCount: UID.length,
+          UIDs: UID.join(', '),
         }
       })
       .sort((a, b) => b.total - a.total) || []

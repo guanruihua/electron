@@ -3,7 +3,7 @@ import { lowdb } from './lowdb'
 import { DBAction, Result, ResultType } from '../type'
 
 export const db = async (_e, conf: any): Promise<Result> => {
-  const { action, tableName, payload } = conf
+  const { action } = conf
   if (!isString(action))
     return {
       error: true,
@@ -14,7 +14,7 @@ export const db = async (_e, conf: any): Promise<Result> => {
       type: `db:${action as DBAction}`,
     }
     try {
-      const data = await lowdb[action](tableName, payload)
+      const data = await lowdb[action](conf)
       if (isObject(data) && data.error) {
         result.error = true
         if (isString(data.type)) result.type = data.type as ResultType

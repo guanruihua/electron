@@ -5,12 +5,14 @@ import { getRenderList } from './helper'
 
 interface Props {
   pageState: PageState
+  clipboardState: PageState
   handleSelf: ObjectType
 }
 
 export default function ClipboardType(props: Props) {
-  const { pageState, handleSelf } = props
-  const { counts, selectType } = pageState
+  const { clipboardState, pageState, handleSelf } = props
+  const { selectType } = pageState
+  const { counts} = clipboardState
 
   return (
     <div className="clipboard-manager-type-box">

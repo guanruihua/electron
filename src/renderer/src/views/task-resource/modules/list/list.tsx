@@ -16,10 +16,10 @@ export default function TRMList(props: Props) {
       <div className="trm-list-container">
         <div className="header">名称</div>
         <div className="header memory">内存占用</div>
-        <div className="header">UIDs</div>
+        <div className="header">UIDs Count</div>
 
-        {list?.map((item, i) => {
-          const { name, softwareName, sum, UIDs, status = 'low' } = item
+        {list?.map((_, i) => {
+          const { name, softwareName, sum, UIDs, status = 'low' } = _
           if (!state.select?.includes(status))
             return <React.Fragment key={i}></React.Fragment>
           return (
@@ -29,7 +29,8 @@ export default function TRMList(props: Props) {
                 {sum}
               </div>
               <div className="tr uid" title={UIDs}>
-                {UIDs}
+                {/* {UIDs} */}
+                {_.UIDsCount}
               </div>
             </React.Fragment>
           )

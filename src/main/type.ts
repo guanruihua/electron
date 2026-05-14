@@ -11,7 +11,6 @@ export type DBAction =
   | 'init'
   | 'add'
   | 'find'
-  | 'findAll'
   | 'update'
   | 'delete'
   | 'count'

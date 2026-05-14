@@ -11,7 +11,6 @@ export type DBAction =
   | 'init'
   | 'add'
   | 'find'
-  | 'findAll'
   | 'delete'
   | 'clear'
   | 'update'
@@ -37,6 +36,7 @@ export type DatabaseSchema = ObjectType<DataSchema[]>
 export type DBTarget = {
   action: DBAction
   tableName?: String
+  DBName?: String
   payload?: Partial<DataSchema>
   [key: string]: any
 }

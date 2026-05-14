@@ -7,13 +7,15 @@ import { ClipboardItem } from './clipboard-item'
 import ClipboardType from './clipboard-type'
 import { openSettingFile } from './helper'
 import { useSysStore } from '@/store/sys'
+import { Switch } from 'antd'
 // import { useState } from 'react'
 
 export function ClipboardManager() {
   const sys = useSysStore()
-  const { handleSelf, pageState, loadings, context } = usePageState(sys)
+  const { handleSelf, clipboardState, pageState, loadings, context } =
+    usePageState(sys)
   const { setLoadings } = handleSelf
-  const { list = [], renderList = [] } = pageState
+  const { list = [], renderList = [] } = clipboardState
 
   // const [col, setCol] = useState(4)
   const col = 4
@@ -22,12 +24,22 @@ export function ClipboardManager() {
     <div className="clipboard-manager" data-disabled={!sys.path}>
       <div className="clipboard-manager-header">
         <div className="left">
-          <ClipboardType pageState={pageState} handleSelf={handleSelf} />
+          <ClipboardType
+            clipboardState={clipboardState}
+            pageState={pageState}
+            handleSelf={handleSelf}
+          />
           <span className="flex items-center text-10 bold">
             Total: {list?.length || 0}
           </span>
         </div>
-        <div className="flex gap">
+        <div className="flex gap items-center">
+          <Switch
+            checked={pageState.enable}
+            checkedChildren={'Enabled'}
+            unCheckedChildren={'Disabled'}
+            onChange={(enable) => handleSelf.setPageState({ enable })}
+          />
           <Button
             icon={<Icon type="edit" />}
             loading={loadings.editFile}
@@ -77,9 +89,9 @@ export function ClipboardManager() {
                 <div className="clipboard-manager-container-col" key={ci}>
                   {renderList
                     .filter((_, i) => i % col === ci)
-                    .map((item, i) => (
+                    .map((item) => (
                       <ClipboardItem
-                        key={i}
+                        key={item.id}
                         item={item}
                         pageState={pageState}
                         handleSelf={handleSelf}

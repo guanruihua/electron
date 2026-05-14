@@ -7,3 +7,6 @@ export const Options = {
     { value: 'star', label: 'Star' },
   ],
 }
+
+export const tableName = 'clipboard'
+export const DBName = 'clipboard-db'

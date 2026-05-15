@@ -14,6 +14,7 @@ export interface PlayerControlProps {
 export function PlayerControl(props: PlayerControlProps) {
   const { music } = props
   const {
+    isPlaying,
     state,
     duration,
     seek,
@@ -25,14 +26,15 @@ export function PlayerControl(props: PlayerControlProps) {
     prev,
     next,
   } = music
-  const {} = state
+  const { name } = state.song
+  console.log(state.index,  name)
 
   return (
     <div className="music-player-control">
       <div className="music-player-control-container">
         <div className="left">
           <Icon type="prev" onClick={prev} />
-          {state.isPlaying ? (
+          {isPlaying ? (
             <Icon type="pause" onClick={pause} />
           ) : (
             <Icon type="play" onClick={play} />
@@ -41,7 +43,7 @@ export function PlayerControl(props: PlayerControlProps) {
         </div>
         <div className="center">
           <div className="info">
-            <div className="name">{state.name}</div>
+            <div className="name">{name}</div>
             <div className="time">
               {`${formatTime(seek)} / ${formatTime(duration)}`}
             </div>

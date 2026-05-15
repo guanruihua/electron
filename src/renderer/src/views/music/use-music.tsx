@@ -13,57 +13,91 @@ function randomRange(min, max) {
 }
 export const useMusic = (sys: SysState) => {
   const [songList, setSongList] = React.useState<Song[]>([])
+  const playingHistory = React.useRef<number[]>([])
 
   // 维护UI相关的状态
   const [state, setState] = useSetState({
     playbackMode: 'sequence',
-    index: 0,
-    isPlaying: false,
-    duration: 0,
-    seek: 0,
+    index: -1,
     volume: 0.1,
     favorite: false,
-    uid: '-1',
-    name: 'Lost in the City Lights - Sarah Johnson',
-    path: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
+    song: {
+      uid: '-1',
+      name: 'XXX - XXX',
+      // name: 'Lost in the City Lights - Sarah Johnson',
+      path: '',
+      // path: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
+    },
   })
+  const [isPlaying, setIsPlaying] = useState(false)
+  const [isEnd, setIsEnd] = useState(false)
   const [duration, setDuration] = useState(0)
   const [seek, setSeek] = useState(0)
   // 维持播放器实例的引用
   const soundRef = useRef<Howl>(null)
 
-  const onEnd = () => {
+  const getNextIndex = () => {
     switch (state.playbackMode) {
       // 列表循环
       case 'sequence':
-        if (state.index! + 1 === songList.length) {
-          return handlePlaySong(songList.at(0))
-        }
-        return handlePlaySong(songList.at(state.index! + 1))
+        if (state.index! + 1 === songList.length) return 0
+        return state.index! + 1
       // 顺序播放
       case 'repeat':
         if (state.index! + 1 === songList.length) {
-          setState({ isPlaying: false })
+          setIsPlaying(false)
           setSeek(0)
           return
         }
-        return handlePlaySong(songList.at(state.index! + 1))
+        return state.index! + 1
       // 单曲循环
       case 'repeat-one':
-        return handlePlaySong(songList.at(state.index!))
+        return state.index!
       // 随机播放
       case 'shuffle':
-        return handlePlaySong(songList.at(randomRange(0, songList.length)))
+        return randomRange(0, songList.length)
     }
   }
+
+  const prev = () => {
+    let newIndex = state.index! - 1
+    if (playingHistory.current.length) {
+      newIndex = playingHistory.current.at(-1)!
+      playingHistory.current = playingHistory.current.slice(
+        0,
+        playingHistory.current.length - 1,
+      )
+    }
+    handlePlaySong(songList.at(newIndex))
+  }
+  const next = () => {
+    const newIndex = getNextIndex()
+    if (!isNumber(newIndex)) return
+    playingHistory.current.push(newIndex)
+    handlePlaySong(songList.at(newIndex))
+  }
+
+  const onEnd = () => {
+    console.log('song / end')
+    next()
+  }
+
+  React.useEffect(() => {
+    if (isEnd) {
+      onEnd()
+      setIsEnd(false)
+    }
+  }, [isEnd])
 
   const handlePlaySong = (item?: Song, index?: number) => {
     if (!item) return
     setState({
+      song: {
+        ...item,
+      },
       index: isNumber(index)
         ? index
-        : songList.findIndex((_) => _.uid === item.uid),
-      ...item,
+        : songList.findIndex((_) => _.path === item.path),
     })
     const { path } = item
     const src = `file://${path}`
@@ -76,29 +110,40 @@ export const useMusic = (sys: SysState) => {
     // 当音频源发生变化时，重新创建 Howl 实例
     const sound = getSongEntity({
       src,
-      setState,
+      setIsPlaying,
       setDuration,
       setSeek,
-      onEnd,
+      setIsEnd,
     })
 
     soundRef.current = sound
+    soundRef.current.volume(state.volume)
     sound.play()
     console.log(item)
+    setTimeout(() => {
+      document
+        .querySelector(
+          '.page-music-player .play-list-content .song[data-play="true"]',
+        )
+        ?.scrollIntoView({
+          behavior: 'smooth', // 平滑滚动（去掉就是瞬间跳）
+          block: 'center', // 显示在屏幕中间
+        })
+    }, 1000)
   }
 
   // 播放
   const play = useCallback(() => {
     if (!soundRef.current) return
     soundRef.current.play()
-    setState({ isPlaying: true })
+    setIsPlaying(true)
   }, [])
 
   // 暂停
   const pause = useCallback(() => {
     if (!soundRef.current) return
     soundRef.current.pause()
-    setState({ isPlaying: false })
+    setIsPlaying(false)
   }, [])
 
   // 设置音量 (0-1)
@@ -138,11 +183,12 @@ export const useMusic = (sys: SysState) => {
 
   // 返回播放控制函数和UI状态
   return {
+    isPlaying,
     songList,
     state,
     setState,
-    prev: () => handlePlaySong(songList.at(state.index! - 1)),
-    next: () => handlePlaySong(songList.at(state.index! + 1)),
+    prev,
+    next,
     play,
     pause,
     setVolume,

@@ -83,7 +83,7 @@ const setRelatedData = async (
       continue
     }
   }
-  console.log(item)
+  // console.log(item)
 }
 
 export const readCurrentDir = async (payload: FS_Payload) => {
@@ -147,7 +147,7 @@ export const readCurrentDir = async (payload: FS_Payload) => {
       res.push(item)
     }
     // console.log(res.map(_=>_.name), excludeDirs, currentPath)
-    console.log(res)
+    // console.log(res)
     return res
   } catch (err) {
     console.error('读取目录失败:', err)

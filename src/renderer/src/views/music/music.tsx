@@ -30,6 +30,7 @@ export default function MusicPlayer() {
               <div
                 key={i}
                 className="song song-item"
+                data-index={i}
                 data-play={state.index === i}
               >
                 <div className="song-name">{name}</div>

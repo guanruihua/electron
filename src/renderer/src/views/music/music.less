@@ -1,9 +1,12 @@
 .page-music-player {
   display: grid;
-  grid-template-columns: 2fr 1fr;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr auto;
+
   justify-content: center;
   align-items: center;
-  min-height: 90vh;
+  height: var(--h);
+  // min-height: 90vh;
 
   &-header {
     height: 48px;
@@ -25,18 +28,21 @@
   }
 
   .play-list {
+
     padding: 0 20px;
+    height: 100%;
     overflow: hidden;
 
     .song,
     &-header {
       display: grid;
-      grid-template-columns: 1fr 410px 100px 100px;
-      padding: 8px 0;
+      grid-template-columns: 1fr 100px 100px;
+      padding: 8px 0 8px 10px;
       border-bottom: 2px solid #353535;
     }
 
     &-content {
+      height: calc(var(--h) - 94px);
       max-height: calc(var(--h) - 94px);
       overflow-y: auto;
     }
@@ -48,18 +54,16 @@
       &:last-child {
         border-bottom: none;
       }
+
+      &[data-play='true'] {
+        background-color: #000000;
+      }
     }
 
     .length,
-    .song-name,
-    .singer {
+    .song-name {
       font-size: 12px;
       line-height: 24px;
-    }
-
-    .singer {
-      // max-width: 400px;
-      font-size: 12px;
     }
 
     .handle {

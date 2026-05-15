@@ -4,7 +4,7 @@ import { isString } from 'asura-eye'
 import { getClipboard } from './clipboard'
 
 import { cmd } from '../helper/cmd'
-import { fileSystem } from '../helper/handle/file-system'
+import { fileSystem } from '../helper/file-system'
 import { updateApps } from '../helper/updateApps'
 import { getFileTree } from '../helper/get/file-tree'
 import { getRunningApp } from '../helper/get/running-app'

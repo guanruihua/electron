@@ -1,0 +1,86 @@
+.music-player-control {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr auto;
+  background-color: #3c3c3c;
+  padding: 15px 40px 10px 40px;
+
+  &-container {
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 40px;
+    align-items: center;
+  }
+
+  .left {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+
+    svg {
+      font-size: 24px;
+      cursor: pointer;
+    }
+  }
+
+  .center {
+    display: flex;
+    flex-direction: column;
+
+    .info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-direction: row;
+      gap: 10px;
+      font-size: 14px;
+      color: #9e9090;
+    }
+
+    .name {
+      padding-left: 10px;
+    }
+  }
+
+  .right {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+    width: 370px;
+
+    i {
+      line-height: .7;
+    }
+
+    i>svg,
+    svg {
+      font-size: 24px;
+      cursor: pointer;
+    }
+  }
+
+  .music-volume {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    &-control {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 5px;
+
+      &-value {
+        font-size: 14px;
+        color: #f6f6f6;
+        width: 36px;
+        padding-top: 2px;
+        white-space: nowrap;
+        user-select: none;
+      }
+    }
+  }
+}

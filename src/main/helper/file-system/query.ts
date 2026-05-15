@@ -1,7 +1,9 @@
 import { ObjectType } from '0type'
-import { isString } from 'asura-eye'
+import { isNumber, isString } from 'asura-eye'
 import { fsp, fs, _path } from './pkg'
 import { FileSystemSetting, FS_Payload } from './type'
+import { stat } from './check'
+import { parseFile } from 'music-metadata'
 
 export async function getJSONFileData(
   payload: FS_Payload,
@@ -39,10 +41,55 @@ const match = (list: string[], currentPath: string): boolean => {
   return false
 }
 
+const setRelatedData = async (
+  relatedData: string,
+  currentPath: string,
+  item: any,
+) => {
+  if (!isString(relatedData)) return
+  const list = relatedData.split(',').map((_) => _.trim())
+
+  const fileStat = await stat({ path: currentPath })
+  
+  for (const type of list) {
+    if (type === 'stat') {
+      item.stat = fileStat
+      continue
+    }
+    if (type === 'music-metadata') {
+      const ext = currentPath.split('.').at(-1)
+      if (!ext || !['mp3', 'flac', 'wav', 'm4a', 'ogg', 'wma'].includes(ext))
+        continue
+      try {
+        const metadata = await parseFile(currentPath)
+        const data = {
+          duration: metadata?.format?.duration,
+          bitrate: metadata?.format?.bitrate,
+        }
+        if (
+          !data.duration &&
+          isNumber(data.bitrate) &&
+          isNumber(fileStat?.size)
+        ) {
+          data.duration = Math.floor((fileStat.size * 8) / data.bitrate) + 1
+        }
+
+        // item['music_metadata'] = metadata
+        item['music_metadata'] = data
+        // console.log(data, metadata.common)
+      } catch (error) {
+        console.error(error)
+      }
+      continue
+    }
+  }
+  console.log(item)
+}
+
 export const readCurrentDir = async (payload: FS_Payload) => {
   const { path, setting = {} } = payload
 
-  const { includeDir, excludeDir, includeFile, excludeFile } =
+  const { includeDir, excludeDir, includeFile, excludeFile, relatedData } =
     setting as FileSystemSetting
   const includeDirs = getPaths(includeDir)
   const excludeDirs = getPaths(excludeDir)
@@ -57,11 +104,12 @@ export const readCurrentDir = async (payload: FS_Payload) => {
     const res: any[] = []
     for (const ent of entries) {
       const currentPath = _path.join(path, ent.name)
-      const item = {
+      const item: any = {
         ...ent,
         path: currentPath,
         type: 'file',
       }
+
       // console.log(
       //   item.name,
       //   excludeDirs,
@@ -84,7 +132,10 @@ export const readCurrentDir = async (payload: FS_Payload) => {
       } else {
         // includeFile
         if (includeFiles?.length) {
-          if (match(includeFiles, currentPath)) res.push(item)
+          if (match(includeFiles, currentPath)) {
+            await setRelatedData(relatedData, currentPath, item)
+            res.push(item)
+          }
           continue
         }
         // excludeFile
@@ -92,9 +143,11 @@ export const readCurrentDir = async (payload: FS_Payload) => {
           if (match(excludeFiles, currentPath)) continue
         }
       }
+      await setRelatedData(relatedData, currentPath, item)
       res.push(item)
     }
     // console.log(res.map(_=>_.name), excludeDirs, currentPath)
+    console.log(res)
     return res
   } catch (err) {
     console.error('读取目录失败:', err)

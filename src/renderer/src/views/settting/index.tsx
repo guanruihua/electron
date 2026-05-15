@@ -29,9 +29,9 @@ export default function Setting() {
       })
 
       if (res.data) {
-        console.log(`Init DB/Success: ${val}.`)
+        console.log(`[Success] Init DB: "${val}"`)
       } else {
-        console.log(`Init DB/Error: ${val}.`)
+        console.log(`[Error] Init DB: "${val}"`)
       }
     }
   }

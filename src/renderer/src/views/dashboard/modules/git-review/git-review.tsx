@@ -81,7 +81,7 @@ export function GitReview() {
           <div
             className="overflow-y bg border-radius"
             style={{
-              minHeight: 100,
+              minHeight: 50,
               maxHeight: `calc(var(--h) - 200px)`,
               padding: 10,
             }}

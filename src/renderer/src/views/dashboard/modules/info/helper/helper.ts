@@ -8,6 +8,7 @@ import {
   getDayjs,
 } from './util'
 import { ObjectType } from '0type'
+import { Solar } from 'lunar-javascript'
 
 type DayType = 'WorkingDay' | 'Weekend' | 'Holiday' | 'OvertimeWork'
 
@@ -87,6 +88,7 @@ export async function updateCountdown(Conf: ObjectType): Promise<string[]> {
     if (total > 1) res.push(`距离周末还有：${total - 1}天`)
   }
 
+  res.push('------------------------------------')
   // 今天节日
   if (isArray(Conf?.festival)) {
     const festivals = getFestivals(Conf, now)
@@ -99,7 +101,10 @@ export async function updateCountdown(Conf: ObjectType): Promise<string[]> {
     const festivals = getFestivals(Conf, nextDay)
     if (festivals) res.push(`明天是${festivals}`)
   }
-
+  res.push(`公历: ${now.format('YYYY年MM月DD日')}`)
+  const lunar = Solar.fromDate(new Date()).getLunar().toString()
+  res.push(`农历: ${lunar}`)
+  res.push('------------------------------------')
   // 假期
   if (isArray(Conf?.holiday))
     Conf.holiday.map((item) => {

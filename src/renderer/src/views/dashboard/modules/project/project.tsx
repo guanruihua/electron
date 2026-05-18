@@ -1,7 +1,6 @@
 import { Icon } from '@/components'
 import { Button } from 'antd'
 import { ProjectItem } from './project-item'
-import { openConfFile } from './helper'
 import { useSysStore } from '@/store/sys'
 import { useTaskStore } from '@/store/task'
 import './project.less'
@@ -27,7 +26,10 @@ export default function Dash_Project() {
                 id: 'project__edit-json-file',
                 name: 'Edit Project JSON File',
                 async exec() {
-                  return openConfFile(sys.path)
+                  return await window.api.invoke(
+                    'cmd',
+                    `code ${sys.path}\\modules.json`,
+                  )
                 },
               })
             }

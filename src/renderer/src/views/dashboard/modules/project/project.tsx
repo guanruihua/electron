@@ -13,8 +13,8 @@ export default function Dash_Project() {
   return (
     <div className="dashboard-project">
       <div
-        className="flex space-between items-center mb"
-        style={{ padding: '20px 20px 0' }}
+        className="flex space-between items-center"
+        style={{ padding: '10px 20px 0' }}
       >
         <h4>Project</h4>
         <div className="flex gap">

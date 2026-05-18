@@ -91,7 +91,7 @@ export function GitReview() {
             ) : (
               <div
                 className="text-12 text-center"
-                style={{ color: '#eee', paddingTop: 30 }}
+                style={{ color: '#eee', paddingTop: 10 }}
               >
                 No Data
               </div>

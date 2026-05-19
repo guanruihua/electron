@@ -14,7 +14,7 @@ export default function ProjectOperation() {
     runGroup,
     stop,
     execTask,
-    test,
+    // test,
   } = useProjectOpt()
 
   const { running, pid } = item

@@ -44,3 +44,5 @@ const imagePath = 'C:\\Users\\YourName\\Pictures\\photo.jpg';
 const fileUrl = 'file:///' + imagePath.replace(/\\/g, '/');
 document.getElementById('preview').src = fileUrl;
 ```
+
+- [ANSI Escape Codes](https://gist.github.com/fnky/458719343aabd01cfb17a3a4f7296797)

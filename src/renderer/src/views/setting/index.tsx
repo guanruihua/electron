@@ -41,12 +41,10 @@ export default function Setting() {
   }, [sys.initSuccess, sys.path])
 
   return (
-    <div className="page__setting">
-      <div className="page__setting-container">
-        <User />
-        <Opt />
-        <Email />
-      </div>
+    <div className="page__setting layout-grid">
+      <User />
+      <Opt />
+      <Email />
     </div>
   )
 }

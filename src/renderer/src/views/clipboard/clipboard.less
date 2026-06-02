@@ -1,30 +1,4 @@
 .clipboard-manager {
-  min-width: 400px;
-  border-radius: 12px;
-  background-color: rgb(43, 43, 43);
-  height: var(--h);
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: auto 1fr;
-
-
-  &-header {
-    height: var(--h-header);
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    background: rgb(60, 60, 60);
-    padding: 0 10px;
-
-    .left {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      gap: 10px;
-    }
-  }
-
   .clipboard-manager-type-box {
 
     display: flex;
@@ -55,14 +29,7 @@
   }
 
   .clipboard-manager-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1fr;
-    gap: 10px;
-    padding: 10px;
-    overflow-y: auto;
-    min-height: 100px;
-    background: #000;
+    background: var(--bg-content);
 
     &-col {
       display: flex;

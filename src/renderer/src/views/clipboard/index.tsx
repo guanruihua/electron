@@ -1,14 +1,12 @@
 import { DiagonalLoading, Icon } from '@/components'
-import { Button } from 'antd'
-import './clipboard.less'
-import './svg.less'
+import { Button, Switch } from 'antd'
 import { usePageState } from './hook'
 import { ClipboardItem } from './clipboard-item'
 import ClipboardType from './clipboard-type'
 import { openSettingFile } from './helper'
 import { useSysStore } from '@/store/sys'
-import { Switch } from 'antd'
-// import { useState } from 'react'
+import './clipboard.less'
+import './svg.less'
 
 export function ClipboardManager() {
   const sys = useSysStore()
@@ -17,22 +15,22 @@ export function ClipboardManager() {
   const { setLoadings } = handleSelf
   const { list = [], renderList = [] } = clipboardState
   // const [col, setCol] = useState(4)
-  const col = 4
+  const col = 1
 
   return (
     <div className="clipboard-manager" data-disabled={!sys.path}>
-      <div className="clipboard-manager-header">
-        <div className="left">
+      <div className="clipboard-manager-header w-layout-flex space-between p">
+        <div className="left layout-flex justify-start">
           <ClipboardType
             clipboardState={clipboardState}
             pageState={pageState}
             handleSelf={handleSelf}
           />
-          <span className="flex items-center text-10 bold">
+          <span className="layout-flex text-10 bold">
             Total: {list?.length || 0}
           </span>
         </div>
-        <div className="flex gap items-center">
+        <div className="right layout-flex justify-end">
           <Switch
             checked={pageState.enable}
             checkedChildren={'Enabled'}
@@ -65,7 +63,7 @@ export function ClipboardManager() {
         <DiagonalLoading />
       ) : (
         <div
-          className="clipboard-manager-container"
+          className="clipboard-manager-container layout-grid"
           style={{
             gridTemplateColumns: new Array(col).fill('1fr').join(' '),
           }}
@@ -85,7 +83,7 @@ export function ClipboardManager() {
             )}
             {new Array(col).fill('').map((_, ci) => {
               return (
-                <div className="clipboard-manager-container-col" key={ci}>
+                <div className="clipboard-manager-container-col scrollbar" key={ci}>
                   {renderList
                     .filter((_, i) => i % col === ci)
                     .map((item) => (

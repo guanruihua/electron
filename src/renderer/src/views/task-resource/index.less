@@ -1,28 +1,7 @@
 .trm {
   width: 100%;
-  height: var(--h);
-  overflow: hidden;
+  max-height: var(--h);
   background-color: #000;
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: auto 1fr;
-
-  .container {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    gap: 10px;
-    padding: 10px;
-    overflow: hidden;
-  }
-
-  .trm-card-timeline {
-    height: 100%;
-
-    .dash-timeline {
-      height: 100%;
-      max-height: calc(var(--h) - 68px);
-    }
-  }
 
   [data-status='low'] {
     --color: rgb(25, 203, 108);

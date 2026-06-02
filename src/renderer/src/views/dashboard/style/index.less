@@ -3,22 +3,8 @@
 @import url(./opt.less);
 
 .root-layout-home-view {
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 1fr auto;
-  // height: var(--h);
-  // background-color: #000000;
   h4 {
     font-size: 14px;
-  }
-
-
-  &-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, 420px);
-    overflow: hidden auto;
-    gap: 10px;
-    padding: 10px;
   }
 
   .dashboard-layout-col {
@@ -34,12 +20,13 @@
 
   .module-bg {
     border-radius: 12px;
-    background: var(--module-bg);
+    background: var(--bg-module);
     padding: 20px;
   }
+
   .dash-bg {
     border-radius: 12px;
-    background: var(--module-bg);
+    background: var(--bg-module);
   }
 }
 
@@ -50,8 +37,9 @@
 }
 
 .dash-quickStart {
-  background: var(--module-bg);
+  background: var(--bg-module);
   border-radius: 12px;
+
   &-container {
     padding: 20px;
   }
@@ -63,7 +51,7 @@
   }
 
   .quickStart-group {
-    background-color: #000;
+    background: var(--bg-content);
     width: 100%;
     min-height: 32px;
     padding: 10px;
@@ -100,6 +88,7 @@
     .quickStart-group {
       position: relative;
       padding-right: 40px;
+      background: var(--bg-content);
 
       &-del {
         display: block;
@@ -115,7 +104,7 @@
 
         &:hover {
           border-radius: 4px;
-          background: var(--error-bg);
+          background: var(--bg-error);
 
           path {
             color: rgba(255, 255, 255, .9);

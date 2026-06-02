@@ -17,7 +17,8 @@ export const useTRMState = (): UseTRMState => {
   })
   const [state, setState] = useSetState<TRMState>({
     status: 'idle',
-    select: ['high', 'medium', 'low'],
+    select: ['high', 'medium'],
+    // select: ['high', 'medium', 'low'],
   })
   const timer = useRef<NodeJS.Timeout | null>(null)
   async function init() {

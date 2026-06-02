@@ -1,27 +1,27 @@
 import React from 'react'
 import { getWeather } from './helper'
 import { Weather } from '@/type'
-import { ObjectType } from '0type'
-import { Chart } from 'aurad'
+// import { ObjectType } from '0type'
+// import { Chart } from 'aurad'
 import { WeatherIcon } from './icons'
 import './weather.less'
-import { toOptions } from './toOptions'
+// import { toOptions } from './toOptions'
 import { DiagonalLoading } from '@/components'
 
 export default function WeatherModule() {
   const [weather, setWeather] = React.useState<Weather[]>([])
-  const [count, setCount] = React.useState<ObjectType<number>>({})
+  // const [count, setCount] = React.useState<ObjectType<number>>({})
 
   const init = async () => {
     const { list = [], count = {} } = (await getWeather()) || {}
     setWeather(list || [])
-    setCount(count)
+    // setCount(count)
   }
   React.useEffect(() => {
     init()
   }, [])
 
-  const options = toOptions(weather, count)
+  // const options = toOptions(weather, count)
 
   return (
     <div className="weather-module">
@@ -46,11 +46,11 @@ export default function WeatherModule() {
               </div>
             )
           })}
-          <Chart
+          {/* <Chart
             className="weather-chart"
             options={options}
             key={JSON.stringify(options)}
-          />
+          /> */}
         </div>
       ) : (
         <DiagonalLoading style={{ height: 300 }} />

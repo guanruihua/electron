@@ -1,0 +1,30 @@
+:where(.w-layout-grid),
+.layout-grid {
+  min-height: var(--h);
+  max-height: var(--h);
+  width: 100%;
+  overflow: hidden auto;
+  padding: 10px;
+  scrollbar-gutter: stable;
+
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
+  gap: 10px;
+}
+
+:where(.w-scrollbar),
+.scrollbar {
+  max-height: var(--h);
+  overflow: hidden auto;
+  scrollbar-gutter: stable;
+}
+
+:where(.w-layout-flex),
+.layout-flex {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}

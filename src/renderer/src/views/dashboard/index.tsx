@@ -10,17 +10,16 @@ import './style/index.less'
 
 export default function DashboardView() {
   return (
-    <div className="root-layout-home-view">
-      <div className="root-layout-home-view-container">
-        <Info />
-        <QuickStart />
-        <RunningApp />
-        <Dash_Project />
-        <ProjectOperation />
-        <GitReview />
-        <NodeTread />
-        <Dash_Timeline />
-        {/* <div className="dashboard-layout-col">
+    <div className="root-layout-home-view layout-grid">
+      <Info />
+      <QuickStart />
+      <RunningApp />
+      <Dash_Project />
+      <ProjectOperation />
+      <GitReview />
+      <NodeTread />
+      <Dash_Timeline />
+      {/* <div className="dashboard-layout-col">
         </div>
         <div className="dashboard-layout-col">
         </div>
@@ -28,7 +27,6 @@ export default function DashboardView() {
         </div>
         <div className="flex gap col">
         </div> */}
-      </div>
     </div>
   )
 }

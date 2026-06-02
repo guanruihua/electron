@@ -102,7 +102,7 @@ export default function RunningApp() {
         <div
           className="flex col p border-radius"
           style={{
-            background: '#000',
+            background: 'var(--bg-content)',
             minHeight: 80,
             justifyContent: 'center',
           }}

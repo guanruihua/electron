@@ -79,10 +79,11 @@ export function GitReview() {
             </Button>
           </div>
           <div
-            className="overflow-y bg border-radius"
+            className="overflow-y border-radius"
             style={{
               minHeight: 50,
               maxHeight: `calc(var(--h) - 200px)`,
+              background: 'var(--bg-content)',
               padding: 10,
             }}
           >

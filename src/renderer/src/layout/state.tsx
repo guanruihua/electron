@@ -30,11 +30,6 @@ const tabs = [
     type: 'music-player',
   },
   {
-    id: '99',
-    title: 'Other',
-    type: 'other',
-  },
-  {
     id: '100',
     title: 'Setting',
     type: 'setting',

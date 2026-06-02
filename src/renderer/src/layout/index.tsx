@@ -1,19 +1,19 @@
-import { ConfigProvider, theme } from 'antd'
-import { usePageState } from './state'
-import { Header } from './components/header'
-import React from 'react'
-
+import './style/var.less'
 import './style/root.less'
 import './style/index.less'
 import './style/header.less'
 import './style/root-view.less'
 import './style/data.less'
 import './style/util/index.less'
+
+import { ConfigProvider, theme } from 'antd'
+import { usePageState } from './state'
+import { Header } from './components/header'
+import React from 'react'
 import DashboardView from '@/views/dashboard'
 // import FileResourceManagement from '@/views/file-resource'
 import TaskResourceManager from '@/views/task-resource'
-import Other from '@/views/other'
-import Setting from '@/views/settting'
+import Setting from '@/views/setting'
 import { ClipboardManager } from '@/views/clipboard'
 import MusicPlayer from '@/views/music/music'
 import { ViewState } from '@/type'
@@ -44,7 +44,6 @@ const Routes = [
     children: <MusicPlayer />,
     destroyOnHidden: false,
   },
-  { id: '99', type: 'other', children: <Other /> },
   { id: '100', type: 'setting', children: <Setting />, destroyOnHidden: false },
   // { type: 'terminal', children: <TerminalPage /> },
   // { type: 'agent', children: <View /> },
@@ -66,13 +65,14 @@ export default function Layout() {
         <div className="root-view-container">
           <div className="root-aside">
             {tabs?.map((tab: ViewState) => {
-              const { id, type } = tab
+              const { id, title, type } = tab
               return (
                 <div
                   key={id}
                   className="root-aside-item"
                   data-active={id === state.activeTab}
                   data-id={id}
+                  title={title || type}
                   onClick={(e) => {
                     e.stopPropagation()
                     e.preventDefault()

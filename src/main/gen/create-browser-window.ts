@@ -12,6 +12,7 @@ export function createBrowserWindow(): BrowserWindow {
   const mainWindow = new BrowserWindow({
     width: 500,
     height: 430,
+    minWidth: 500,
     resizable: true,
     icon,
     titleBarStyle: 'hidden',

@@ -27,7 +27,7 @@ export function PlayerControl(props: PlayerControlProps) {
     next,
   } = music
   const { name } = state.song
-  console.log(state.index,  name)
+  // console.log(state.index,  name)
 
   return (
     <div className="music-player-control">
@@ -61,6 +61,7 @@ export function PlayerControl(props: PlayerControlProps) {
             style={
               {
                 width: '100%',
+                paddingLeft: 2,
                 '--ant-slider-rail-bg': '#d0d8e6',
                 '--ant-slider-rail-hover-bg': '#d0d8e6',
                 '--ant-slider-rail-size': '3px',

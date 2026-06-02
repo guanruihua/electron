@@ -2,7 +2,6 @@ import React from 'react'
 import { ObjectType } from '0type'
 import { useLoadings, useMsg, useSetState } from '@/util'
 import { isArray, isObject } from 'asura-eye'
-import { getRenderList } from './helper'
 import type { DataSchema, PageState } from './type'
 import { SysState } from '@/type'
 import { tableName, DBName } from './conf'
@@ -24,7 +23,6 @@ export const usePageState = (sys: SysState) => {
       star: 0,
     },
     list: [],
-    renderList: [],
   })
 
   const [loadings, setLoadings] = useLoadings({
@@ -111,7 +109,6 @@ export const usePageState = (sys: SysState) => {
 
       setClipboardState({
         list: newList2,
-        renderList: getRenderList(newList2, pageState.selectType),
         counts: newCounts,
       })
     },

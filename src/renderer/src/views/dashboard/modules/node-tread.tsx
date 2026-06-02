@@ -11,7 +11,7 @@ export function NodeTread() {
   const loadings = task.loadings
 
   return (
-    <div className="root-layout-home-view-node-tread overflow-y flex col gap module-bg w">
+    <div className="root-layout-home-view-node-tread overflow-y flex col gap layout-module w">
       <div className="flex space-between items-center w">
         <h4>Node Thread</h4>
         <div className="flex gap">

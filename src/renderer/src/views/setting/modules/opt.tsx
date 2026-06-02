@@ -88,7 +88,7 @@ export default function Opt() {
   ]
 
   return (
-    <div className="card module-opt other-card">
+    <div className="layout-module card module-opt other-card">
       <div className="flex gap wrap">
         {Conf.map((item, i) => {
           const { title, children } = item

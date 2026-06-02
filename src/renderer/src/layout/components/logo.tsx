@@ -1,18 +1,43 @@
 export const Logo = {
+  project: (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="1em"
+      height="1em"
+      viewBox="0 0 512 512"
+      style={{ zoom: 1.15 }}
+    >
+      <path
+        fill="currentColor"
+        fillRule="evenodd"
+        d="m256 34.347l192 110.851v221.703L256 477.752L64 366.901V145.198zM106.666 192.001v150.266l128 73.9V265.902zm298.667.001l-128 73.9v150.265l128-73.9zM256 83.614l-125.867 72.67L256 228.952l125.867-72.67z"
+      ></path>
+    </svg>
+  ),
+  app: (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="1em"
+      height="1em"
+      viewBox="0 0 24 24"
+    >
+      <path
+        fill="currentColor"
+        d="M1 3v2h22V3a2 2 0 0 0-2-2H3a2 2 0 0 0-2 2m3 1a.987.987 0 0 1-.993-.992A1 1 0 0 1 4 2a1.013 1.013 0 0 1 1.006 1.008A1 1 0 0 1 4 4m3 0a1 1 0 1 1 1-1a1.004 1.004 0 0 1-1 1M1 6v14a2 2 0 0 0 2 2h18a2 2 0 0 0 2-2V6Zm20 14H3V8h18Z"
+      ></path>
+    </svg>
+  ),
   dashboard: (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="1em"
       height="1em"
-      viewBox="0 0 32 32"
+      viewBox="0 0 24 24"
+      style={{ zoom: 1.15 }}
     >
       <path
         fill="currentColor"
-        d="M24 21h2v5h-2zm-4-5h2v10h-2zm-9 10a5.006 5.006 0 0 1-5-5h2a3 3 0 1 0 3-3v-2a5 5 0 0 1 0 10"
-      ></path>
-      <path
-        fill="currentColor"
-        d="M28 2H4a2 2 0 0 0-2 2v24a2 2 0 0 0 2 2h24a2.003 2.003 0 0 0 2-2V4a2 2 0 0 0-2-2m0 9H14V4h14ZM12 4v7H4V4ZM4 28V13h24l.002 15Z"
+        d="M5 21q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h14q.825 0 1.413.588T21 5v14q0 .825-.587 1.413T19 21zm0-2h6V5H5zm8 0h6v-7h-6zm0-9h6V5h-6z"
       ></path>
     </svg>
   ),
@@ -22,6 +47,7 @@ export const Logo = {
       width="1em"
       height="1em"
       viewBox="0 0 24 24"
+      style={{ zoom: 1.15 }}
     >
       <g
         fill="none"
@@ -41,6 +67,7 @@ export const Logo = {
       width="1em"
       height="1em"
       viewBox="0 0 24 24"
+      style={{ zoom: 1.15 }}
     >
       <g
         fill="none"
@@ -74,6 +101,7 @@ export const Logo = {
       width="1em"
       height="1em"
       viewBox="0 0 24 24"
+      style={{ zoom: 1.15 }}
     >
       <path
         fill="none"

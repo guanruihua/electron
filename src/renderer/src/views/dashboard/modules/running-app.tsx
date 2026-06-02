@@ -77,11 +77,8 @@ export default function RunningApp() {
   }, [])
 
   return (
-    <div className="dash-running-app dash-bg">
-      <div
-        className="flex space-between items-center"
-        style={{ padding: '20px 20px 0' }}
-      >
+    <div className="dash-running-app layout-module">
+      <div className="flex space-between items-center">
         <h4>Running App</h4>
         <div className="flex gap">
           <Button
@@ -98,7 +95,7 @@ export default function RunningApp() {
           />
         </div>
       </div>
-      <div className="p">
+      <div className="pt">
         <div
           className="flex col p border-radius"
           style={{

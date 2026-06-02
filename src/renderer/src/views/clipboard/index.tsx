@@ -1,9 +1,10 @@
+import React from 'react'
 import { DiagonalLoading, Icon } from '@/components'
 import { Button, Switch } from 'antd'
 import { usePageState } from './hook'
 import { ClipboardItem } from './clipboard-item'
 import ClipboardType from './clipboard-type'
-import { openSettingFile } from './helper'
+import { getRenderList, openSettingFile } from './helper'
 import { useSysStore } from '@/store/sys'
 import './clipboard.less'
 import './svg.less'
@@ -13,13 +14,40 @@ export function ClipboardManager() {
   const { handleSelf, clipboardState, pageState, loadings, context } =
     usePageState(sys)
   const { setLoadings } = handleSelf
-  const { list = [], renderList = [] } = clipboardState
-  // const [col, setCol] = useState(4)
-  const col = 1
+  const { list = [] } = clipboardState
+  const [width, setWidth] = React.useState(window.innerWidth)
+  const [col, setCol] = React.useState(1)
+
+  console.log(list)
+  const  renderList = getRenderList(list, pageState)
+
+  React.useEffect(() => {
+    // 获取要监听的元素
+    const element = document.querySelector('.clipboard-manager')
+    if (!element) return
+
+    // 创建 ResizeObserver 实例
+    const resizeObserver = new ResizeObserver((entries) => {
+      for (let entry of entries) {
+        // 元素内容盒子的宽度（不含 padding/border）
+        const width = entry.contentRect.width
+        const newCol = Math.max(1, Math.floor(width / 450))
+        setWidth(width)
+        // console.log(width, newCol, col)
+        setCol(newCol)
+      }
+    })
+
+    // 开始监听
+    resizeObserver.observe(element)
+    return () => {
+      resizeObserver.disconnect()
+    }
+  }, [])
 
   return (
     <div className="clipboard-manager" data-disabled={!sys.path}>
-      <div className="clipboard-manager-header w-layout-flex space-between p">
+      <div className="clipboard-manager-header w-layout-flex space-between p grid-span-full">
         <div className="left layout-flex justify-start">
           <ClipboardType
             clipboardState={clipboardState}
@@ -63,7 +91,7 @@ export function ClipboardManager() {
         <DiagonalLoading />
       ) : (
         <div
-          className="clipboard-manager-container layout-grid"
+          className="clipboard-manager-container layout-grid scrollbar"
           style={{
             gridTemplateColumns: new Array(col).fill('1fr').join(' '),
           }}
@@ -83,8 +111,12 @@ export function ClipboardManager() {
             )}
             {new Array(col).fill('').map((_, ci) => {
               return (
-                <div className="clipboard-manager-container-col scrollbar" key={ci}>
+                <div
+                  className="clipboard-manager-container-col"
+                  key={`${col}_${width}_${ci}`}
+                >
                   {renderList
+                    .slice(0, 100)
                     .filter((_, i) => i % col === ci)
                     .map((item) => (
                       <ClipboardItem
@@ -97,6 +129,7 @@ export function ClipboardManager() {
                 </div>
               )
             })}
+            {/* <div className="vr-dom"></div> */}
           </>
         </div>
       )}

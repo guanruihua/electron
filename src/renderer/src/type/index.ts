@@ -52,9 +52,7 @@ export type ProjectConf = Partial<{
 
 export interface State {
   initSuccess?: boolean
-
   activeTab?: string
-
   [key: string]: any
 }
 

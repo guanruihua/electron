@@ -138,7 +138,7 @@ export const Volume = ({ volume, setVolume }) => {
         onChange={handleVolumeChange}
         style={
           {
-            width: 250,
+            width: 150,
             '--ant-slider-rail-bg': '#d0d8e6',
             '--ant-slider-rail-hover-bg': '#d0d8e6',
             '--ant-slider-rail-size': '3px',

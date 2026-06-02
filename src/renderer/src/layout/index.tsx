@@ -18,6 +18,8 @@ import { ClipboardManager } from '@/views/clipboard'
 import MusicPlayer from '@/views/music/music'
 import { ViewState } from '@/type'
 import { Logo } from './components/logo'
+import Project from '@/views/project/project'
+import App from '@/views/app/app'
 // import TerminalPage from '@/views/terminal'
 // import { View } from '@/views/view'
 
@@ -31,7 +33,9 @@ const Routes = [
     destroyOnHidden: false,
   },
   // { id: '02', type: 'fsm', children: <FileResourceManagement /> },
-  { id: '03', type: 'trm', children: <TaskResourceManager /> },
+  { id: '02', type: 'project', children: <Project /> },
+  { id: '03', type: 'app', children: <App /> },
+  { id: '200', type: 'trm', children: <TaskResourceManager /> },
   {
     id: '04',
     type: 'clipboard',

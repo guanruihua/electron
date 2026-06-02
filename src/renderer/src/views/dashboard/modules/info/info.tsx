@@ -22,8 +22,8 @@ export function Info() {
   } = useMyState(sys)
 
   return (
-    <div className="root-layout-home-view-info dashboard-info">
-      <div className="module-bg gap">
+    <div className="layout-module root-layout-home-view-info dashboard-info">
+      <div className="">
         <div className="flex col gap relative">
           <div className="flex gap absolute" style={{ top: -10, right: 0 }}>
             <Button

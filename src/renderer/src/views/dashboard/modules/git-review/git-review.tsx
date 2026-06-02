@@ -27,7 +27,7 @@ export function GitReview() {
       className="root-layout-home-view-git-review"
       data-hidden={sys.selectProject?.git === false}
     >
-      <div className="module-bg w flex gap col root-layout-home-view-git-review-module-bg">
+      <div className="layout-module w flex gap col root-layout-home-view-git-review-layout-module">
         <div
           className="flex space-between items-center"
           style={{ paddingBottom: 10 }}

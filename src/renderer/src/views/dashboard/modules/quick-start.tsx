@@ -141,13 +141,12 @@ export const QuickStart = () => {
   const appOptions = getAppOptions()
   return (
     <div
-      className="dash-quickStart"
+      className="dash-quickStart layout-module"
       data-edit={edit}
       data-disabled={!sys.initSuccess}
     >
         <div
           className="flex space-between items-center"
-          style={{ padding: '20px 20px 0' }}
         >
           <h4>Quick Start</h4>
           <div className="flex gap bold text-12 items-center">

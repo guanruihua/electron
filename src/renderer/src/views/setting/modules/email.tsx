@@ -44,7 +44,7 @@ export function Email() {
     console.log(res)
   }
   return (
-    <div className="card" data-running={running}>
+    <div className="layout-module card" data-running={running}>
       <div className="flex gap col">
         <div className="title">
           <Icon type="check" />

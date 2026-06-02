@@ -16,7 +16,7 @@ export function User() {
   }, [sys.initSuccess, sys.path])
 
   return (
-    <div className="card user-setting relative">
+    <div className="user-setting relative layout-module">
       <div
         className="flex gap absolute"
         style={{

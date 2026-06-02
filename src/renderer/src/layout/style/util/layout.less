@@ -1,6 +1,5 @@
 :where(.w-layout-grid),
 .layout-grid {
-  min-height: var(--h);
   max-height: var(--h);
   width: 100%;
   overflow: hidden auto;
@@ -27,4 +26,11 @@
   justify-content: center;
   align-items: center;
   gap: 10px;
+}
+
+.layout-module {
+  height: min-content;
+  border-radius: 12px;
+  background: var(--bg-module);
+  padding: 10px 12px;
 }

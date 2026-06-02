@@ -21,7 +21,7 @@ export default function ProjectOperation() {
 
   const webs = Object.keys(item).filter((key) => key.startsWith('url-'))
   return (
-    <div className="project-operation" data-start={running}>
+    <div className="project-operation layout-module" data-start={running}>
       <div className="project-operation-header">
         <h4 className="title">{item?.label || 'Project Operation'}</h4>
         {isArray(pid) && pid.length > 0 && (
@@ -33,7 +33,7 @@ export default function ProjectOperation() {
           </div>
         )}
       </div>
-      <div className="p" style={{ paddingTop: 10 }}>
+      <div style={{ paddingTop: 10 }}>
         <div className="flex row gap wrap">
           <Button
             loading={

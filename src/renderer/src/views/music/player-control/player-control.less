@@ -3,13 +3,13 @@
   grid-template-columns: 1fr;
   grid-template-rows: 1fr auto;
   background-color: #3c3c3c;
-  padding: 15px 40px 10px 40px;
+  padding: 15px 20px 10px 20px;
 
   &-container {
     overflow: hidden;
     display: grid;
     grid-template-columns: auto 1fr auto;
-    gap: 40px;
+    gap: 10px 40px;
     align-items: center;
   }
 
@@ -37,6 +37,7 @@
       gap: 10px;
       font-size: 14px;
       color: #9e9090;
+
     }
 
     .name {
@@ -49,7 +50,7 @@
     justify-content: flex-end;
     align-items: center;
     gap: 10px;
-    width: 370px;
+    // width: 370px;
 
     i {
       line-height: .7;
@@ -82,5 +83,20 @@
         user-select: none;
       }
     }
+  }
+}
+
+@media (max-width: 950px) {
+  .music-player-control {
+    &-container {
+      grid-template-columns: auto auto;
+      gap: 0 10px;
+    }
+
+    .center {
+      grid-row: 1 / 2;
+      grid-column: 1 / -1; 
+    }
+
   }
 }

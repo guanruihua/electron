@@ -8,17 +8,22 @@ const tabs = [
     title: 'Dashboard',
     type: 'dashboard',
   },
+  {
+    id: '02',
+    title: 'Project',
+    type: 'project',
+  },
+  {
+    id: '03',
+    title: 'App',
+    type: 'app',
+  },
   // {
   //   id: '02',
   //   title: 'File Resource',
   //   type: 'fsm',
   //   url: 'D:\\',
   // },
-  {
-    id: '03',
-    title: 'Task Resource',
-    type: 'trm',
-  },
   {
     id: '04',
     title: 'Clipboard',
@@ -33,6 +38,11 @@ const tabs = [
     id: '100',
     title: 'Setting',
     type: 'setting',
+  },
+  {
+    id: '200',
+    title: 'Task Resource',
+    type: 'trm',
   },
   // {
   //   id: '03',

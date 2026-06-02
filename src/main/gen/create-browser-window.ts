@@ -8,8 +8,9 @@ export function createBrowserWindow(): BrowserWindow {
   const persistentSession = session.fromPartition('persist:mycache', {
     cache: true,
   })
+
   const mainWindow = new BrowserWindow({
-    width: 900,
+    width: 500,
     height: 430,
     resizable: true,
     icon,
@@ -23,7 +24,7 @@ export function createBrowserWindow(): BrowserWindow {
       preload: path.join(__dirname, '../preload/index.js'),
     },
   })
-  mainWindow.maximize()
+  // mainWindow.maximize()
 
   mainWindow.on('ready-to-show', () => {
     mainWindow.show()

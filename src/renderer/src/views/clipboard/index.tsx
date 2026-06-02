@@ -16,7 +16,6 @@ export function ClipboardManager() {
     usePageState(sys)
   const { setLoadings } = handleSelf
   const { list = [], renderList = [] } = clipboardState
-
   // const [col, setCol] = useState(4)
   const col = 4
 

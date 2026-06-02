@@ -2,21 +2,17 @@ import { ObjectType } from '0type'
 import { isNumber } from 'asura-eye'
 import { DBName } from './conf'
 
-export const getRenderList = (
-  list: ObjectType[],
-  selectType: string = 'all',
-) => {
-  if (!selectType || selectType === 'all')
-    return list.sort((a, b) => {
-      // if (a.star && !b.star) return -10
-      // if (!a.star && b.star) return 10
-      // return 0
-      return b.createTime - a.createTime
-    })
-
-  if (selectType === 'star') return list.filter((_) => _.star)
-
-  return list.filter((_) => _.type === selectType)
+export const getRenderList = (list: ObjectType[], type: string = 'all') => {
+  console.log(type)
+  return list.filter(_=>{
+    console.log((_))
+    return true
+  }).sort((a, b) => {
+    // if (a.star && !b.star) return -10
+    // if (!a.star && b.star) return 10
+    // return 0
+    return b.createTime - a.createTime
+  })
 }
 
 /**

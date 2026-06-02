@@ -8,12 +8,12 @@ const tabs = [
     title: 'Dashboard',
     type: 'dashboard',
   },
-  {
-    id: '02',
-    title: 'File Resource',
-    type: 'fsm',
-    url: 'D:\\',
-  },
+  // {
+  //   id: '02',
+  //   title: 'File Resource',
+  //   type: 'fsm',
+  //   url: 'D:\\',
+  // },
   {
     id: '03',
     title: 'Task Resource',

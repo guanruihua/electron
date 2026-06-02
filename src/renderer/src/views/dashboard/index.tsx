@@ -12,22 +12,22 @@ export default function DashboardView() {
   return (
     <div className="root-layout-home-view">
       <div className="root-layout-home-view-container">
-        <div className="dashboard-layout-col">
-          <Info />
-          <QuickStart />
-          <RunningApp />
+        <Info />
+        <QuickStart />
+        <RunningApp />
+        <Dash_Project />
+        <ProjectOperation />
+        <GitReview />
+        <NodeTread />
+        <Dash_Timeline />
+        {/* <div className="dashboard-layout-col">
         </div>
         <div className="dashboard-layout-col">
-          <Dash_Project />
         </div>
         <div className="dashboard-layout-col">
-          <ProjectOperation />
-          <GitReview />
-          <NodeTread />
         </div>
         <div className="flex gap col">
-          <Dash_Timeline />
-        </div>
+        </div> */}
       </div>
     </div>
   )

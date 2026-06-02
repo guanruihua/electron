@@ -12,32 +12,32 @@ interface Props {
 export default function ClipboardType(props: Props) {
   const { clipboardState, pageState, handleSelf } = props
   const { selectType } = pageState
-  const { counts} = clipboardState
+  const { counts } = clipboardState
 
   return (
     <div className="clipboard-manager-type-box">
-        {Options.Clipboard.map((_) => (
-          <div
-            key={_.value}
-            onClick={(e) => {
-              e.preventDefault()
-              handleSelf.setPageState({
-                selectType: _.value,
-                renderList: getRenderList(pageState.list || [], _.value),
-              })
-            }}
-            data-disabled={!counts?.[_.value]}
-            data-select={selectType === _.value}
-            className="clipboard-manager-type"
-          >
-            {_.label}
-            {_.value !== 'all' && counts?.[_.value] ? (
-              <span> · {counts[_.value] > 99 ? '99+' : counts[_.value]}</span>
-            ) : (
-              <span />
-            )}
-          </div>
-        ))}
+      {Options.Clipboard.map((_) => (
+        <div
+          key={_.value}
+          onClick={(e) => {
+            e.preventDefault()
+            handleSelf.setPageState({
+              selectType: _.value,
+              renderList: getRenderList(pageState.list || [], _.value),
+            })
+          }}
+          data-disabled={!counts?.[_.value]}
+          data-select={selectType === _.value}
+          className="clipboard-manager-type"
+        >
+          {_.label}
+          {_.value !== 'all' && counts?.[_.value] ? (
+            <span> · {counts[_.value] > 99 ? '99+' : counts[_.value]}</span>
+          ) : (
+            <span />
+          )}
+        </div>
+      ))}
     </div>
   )
 }

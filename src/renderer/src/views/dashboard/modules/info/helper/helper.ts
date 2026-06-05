@@ -101,8 +101,8 @@ export async function updateCountdown(Conf: ObjectType): Promise<string[]> {
   res.push('---------------')
   if (Conf?.weatherInfo?.length) {
     res.push(...Conf.weatherInfo)
+    res.push('---------------')
   }
-  res.push('---------------')
   // 今天节日
   if (isArray(Conf?.festival)) {
     const festivals = getFestivals(Conf, now)

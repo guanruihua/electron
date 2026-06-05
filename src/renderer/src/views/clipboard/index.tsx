@@ -18,7 +18,6 @@ export function ClipboardManager() {
   const [width, setWidth] = React.useState(window.innerWidth)
   const [col, setCol] = React.useState(1)
 
-  console.log(list)
   const  renderList = getRenderList(list, pageState)
 
   React.useEffect(() => {

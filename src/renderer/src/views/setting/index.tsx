@@ -16,7 +16,7 @@ export default function Setting() {
   const load = async () => {
     const { path } = sys
 
-    const list = ['db', 'clipboard-db']
+    const list = ['db', 'clipboard-db', 'weather-db']
     for (let val of list) {
       const res = await window.api.db({
         action: 'init',

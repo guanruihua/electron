@@ -1,6 +1,6 @@
 import { ipcMain, BrowserWindow } from 'electron'
 import { createScreenMask } from '../gen/create-screen-mask'
-import { isString } from 'asura-eye'
+import { isObject, isString } from 'asura-eye'
 import { getClipboard } from './clipboard'
 
 import { cmd } from '../helper/cmd'
@@ -30,6 +30,12 @@ export const ipcMainHandle = (mainWindow: BrowserWindow) => {
     getFileTree,
     updateApps,
     fs: fileSystem,
+    setSize: async (_e, conf: any) => {
+      if (!isObject(conf)) return
+      const { width, height } = conf
+      const size = mainWindow.getSize()
+      mainWindow.setSize(width || size[0], height || size[1])
+    },
     cmd: async (_e, conf: any) => {
       // console.log('Command:', conf)
       if (isString(conf)) return await cmd.run(conf)

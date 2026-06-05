@@ -57,6 +57,7 @@ const tabs = [
 ]
 
 export const usePageState = () => {
+  const [col, setCol] = React.useState(1)
   const [state, _renderState] = useSetState<State>({
     activeTab: '01',
   })
@@ -138,6 +139,10 @@ export const usePageState = () => {
     //   // }
     //   // setInfo(info)
     // })
+    window.addEventListener('resize', () => {
+      const col = Math.floor((window.innerWidth + 50) / 500)
+      setCol(col )
+    })
   }, [])
 
   // console.log('@ ~ usePageState ~ state:', state)
@@ -145,6 +150,8 @@ export const usePageState = () => {
   return {
     tabs,
     state,
+    col,
+    setCol,
     handle,
   }
 }

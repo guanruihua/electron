@@ -4,6 +4,8 @@ import { getJSON, useLoading } from '@/util'
 import { isBoolean, isString } from 'asura-eye'
 import './info.less'
 import { SysState } from '@/type'
+import { resolveWeather } from './helper/resolve-weather'
+
 
 export const useMyState = (sys: SysState) => {
   const [loading, setLoading] = useLoading()
@@ -25,7 +27,7 @@ export const useMyState = (sys: SysState) => {
 
   const reload = async () => {
     if (!sys.initSuccess || !sys.path) return
-
+    const weatherInfo = await resolveWeather()
     await updateNetworkName()
     const [LIP, BatteryPower] = await window.api.invoke(
       'getSysInfo',
@@ -40,6 +42,7 @@ export const useMyState = (sys: SysState) => {
       return
     }
     const Conf = getJSON(res)
+    Conf.weatherInfo = weatherInfo
 
     timer.current && clearInterval(timer.current)
     setDDL(await updateCountdown(Conf))
@@ -51,6 +54,7 @@ export const useMyState = (sys: SysState) => {
 
   React.useEffect(() => {
     // console.log(sys)
+    resolveWeather()
     reload()
     return clear
   }, [sys.initSuccess, sys.path])

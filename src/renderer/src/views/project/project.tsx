@@ -6,8 +6,10 @@ export default function Project() {
   return (
     <div className="layout-grid">
       <Dash_Project />
-      <ProjectOperation />
-      <GitReview />
+      <div className="flex col gap">
+        <ProjectOperation />
+        <GitReview />
+      </div>
     </div>
   )
 }

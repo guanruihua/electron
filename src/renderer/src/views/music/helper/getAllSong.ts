@@ -30,6 +30,6 @@ export const getAllSong = async () => {
     }
     list.push(song)
   })
-  console.log(list.slice(0, 10))
+  // console.log(list.slice(0, 10))
   return list
 }

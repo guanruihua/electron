@@ -61,7 +61,17 @@ export const getTime = (Conf: ObjectType) => {
 
 export async function updateCountdown(Conf: ObjectType): Promise<string[]> {
   const { now, diffMs, DAYs } = getTime(Conf)
-  const res: string[] = []
+  const res: string[] = [
+    {
+      0: '星期日🐱',
+      1: '星期一🌱',
+      2: '星期二🍞',
+      3: '星期三🐸',
+      4: '星期四🍀',
+      5: '星期五🎉',
+      6: '星期六🎈',
+    }[now.day()] + '也要开开心心地过呀 (｡•ᴗ•｡)♡',
+  ]
   const afterWorkMSG = getAfterWorkMSG(diffMs)
 
   const isHoliday = !['WorkingDay', 'OvertimeWork'].includes(DAYs[0][1])
@@ -88,7 +98,11 @@ export async function updateCountdown(Conf: ObjectType): Promise<string[]> {
     if (total > 1) res.push(`距离周末还有：${total - 1}天`)
   }
 
-  res.push('------------------------------------')
+  res.push('---------------')
+  if (Conf?.weatherInfo?.length) {
+    res.push(...Conf.weatherInfo)
+  }
+  res.push('---------------')
   // 今天节日
   if (isArray(Conf?.festival)) {
     const festivals = getFestivals(Conf, now)
@@ -104,7 +118,7 @@ export async function updateCountdown(Conf: ObjectType): Promise<string[]> {
   res.push(`公历: ${now.format('YYYY年MM月DD日')}`)
   const lunar = Solar.fromDate(new Date()).getLunar().toString()
   res.push(`农历: ${lunar}`)
-  res.push('------------------------------------')
+  res.push('---------------')
   // 假期
   if (isArray(Conf?.holiday))
     Conf.holiday.map((item) => {

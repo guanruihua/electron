@@ -18,6 +18,7 @@ export type InvokeType =
   | 'getUserDataPath'
   | 'copy'
   | 'getClipboard'
+  | 'setSize'
 
 export type FS_Action =
   | 'createPathIfNotExist'

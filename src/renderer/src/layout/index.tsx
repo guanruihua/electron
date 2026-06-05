@@ -10,51 +10,13 @@ import { ConfigProvider, theme } from 'antd'
 import { usePageState } from './state'
 import { Header } from './components/header'
 import React from 'react'
-import DashboardView from '@/views/dashboard'
-// import FileResourceManagement from '@/views/file-resource'
-import TaskResourceManager from '@/views/task-resource'
-import Setting from '@/views/setting'
-import { ClipboardManager } from '@/views/clipboard'
-import MusicPlayer from '@/views/music/music'
 import { ViewState } from '@/type'
 import { Logo } from './components/logo'
-import Project from '@/views/project/project'
-import App from '@/views/app/app'
-// import TerminalPage from '@/views/terminal'
-// import { View } from '@/views/view'
+import { Routes } from './routes'
 
-
-
-const Routes = [
-  {
-    id: '01',
-    type: 'dashboard',
-    children: <DashboardView />,
-    destroyOnHidden: false,
-  },
-  // { id: '02', type: 'fsm', children: <FileResourceManagement /> },
-  { id: '02', type: 'project', children: <Project /> },
-  { id: '03', type: 'app', children: <App /> },
-  { id: '200', type: 'trm', children: <TaskResourceManager /> },
-  {
-    id: '04',
-    type: 'clipboard',
-    children: <ClipboardManager />,
-    destroyOnHidden: false,
-  },
-  {
-    id: '05',
-    type: 'music-player',
-    children: <MusicPlayer />,
-    destroyOnHidden: false,
-  },
-  { id: '100', type: 'setting', children: <Setting />, destroyOnHidden: false },
-  // { type: 'terminal', children: <TerminalPage /> },
-  // { type: 'agent', children: <View /> },
-]
 export default function Layout() {
   const h = usePageState()
-  const { tabs, state, handle } = h
+  const { tabs, state, handle, col, setCol } = h
   const { activeTab } = h.state
   // console.log(activeTab)
 
@@ -88,6 +50,30 @@ export default function Layout() {
                 </div>
               )
             })}
+            <div
+              className="root-aside-item switch-screen-size"
+              onClick={() => {
+                const newCol = col === 3 ? 1 : col + 1
+                window.api.invoke('setSize', { width: 500 * newCol })
+                setCol(newCol)
+              }}
+            >
+              <div
+                className="logo"
+                style={{
+                  gridTemplateColumns: new Array(col || 2)
+                    .fill('1fr')
+                    .join(' '),
+                }}
+              >
+                {new Array(col || 2).fill('').map((_, i) => (
+                  <div
+                    key={state.col + '_' + i}
+                    className="switch-screen-size-render"
+                  />
+                ))}
+              </div>
+            </div>
           </div>
           <div className="root-view">
             <div className="root-view-content">

@@ -1,9 +1,11 @@
-.root-layout-home-view-git-review {
+.git-review {
+  .git-review-header {
+    min-height: var(--h-header);
+    padding: 10px;
+  }
 
-  .root-layout-home-view-git-review-layout-module.layout-module {
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
-    padding-bottom: 0;
+  .git-container {
+    background: var(--bg-module);
   }
 
   &-container {
@@ -14,11 +16,6 @@
       padding-bottom: 10px;
     }
 
-    &>.git-container {
-      background: var(--bg-module);
-      border-top-left-radius: 0;
-      border-top-right-radius: 0;
-    }
 
     &>.left-children {
       margin-right: 5px;

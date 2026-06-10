@@ -1,32 +1,15 @@
-import { NodeTread } from './modules/node-tread'
-// import { GitReview } from './modules/git-review/git-review'
-// import { QuickStart } from './modules/quick-start'
-// import RunningApp from './modules/running-app'
-import { Info } from './modules/info/info'
-// import Dash_Project from './modules/project/project'
-// import ProjectOperation from './modules/project-operation/operation'
-import { Dash_Timeline } from './modules/timeline/timeline'
 import './style/index.less'
+import { NodeTread } from './modules/node-tread'
+import { Info } from './modules/info/info'
+import { DDL } from './modules/info/ddl'
+import { ContentLayout } from '@/components/layout'
 
 export default function DashboardView() {
   return (
-    <div className="root-layout-home-view layout-grid">
+    <ContentLayout name='dashboard' className="page__dashboard">
+      <DDL />
       <Info />
-      {/* <QuickStart /> */}
-      {/* <RunningApp /> */}
-      {/* <Dash_Project />
-      <ProjectOperation />
-      <GitReview /> */}
       <NodeTread />
-      <Dash_Timeline />
-      {/* <div className="dashboard-layout-col">
-        </div>
-        <div className="dashboard-layout-col">
-        </div>
-        <div className="dashboard-layout-col">
-        </div>
-        <div className="flex gap col">
-        </div> */}
-    </div>
+    </ContentLayout>
   )
 }

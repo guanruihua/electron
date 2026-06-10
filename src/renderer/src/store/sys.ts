@@ -30,6 +30,10 @@ export const useSysStore = create(
       modules: [],
       apps: [],
       runningUIDMapPID: {},
+
+      innerCol: 1,
+      contentLayout: {},
+      
       async handleSelectProject(selectProject: ObjectType) {
         set({ selectProject })
         await this.saveToFile('setting')

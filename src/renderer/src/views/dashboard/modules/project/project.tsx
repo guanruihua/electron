@@ -12,10 +12,7 @@ export default function Dash_Project() {
 
   return (
     <div className="dashboard-project">
-      <div
-        className="flex space-between items-center"
-        style={{ padding: '10px 20px 0' }}
-      >
+      <div className="dashboard-project-header flex space-between items-center p">
         <h4>Project</h4>
         <div className="flex gap">
           <Button
@@ -47,12 +44,43 @@ export default function Dash_Project() {
           />
         </div>
       </div>
-      <div className="p" style={{ paddingTop: 10 }}>
-        <div className="dashboard-project-container overflow-y">
-          {sys?.modules?.map?.((item, i) => (
-            <ProjectItem key={i} item={item} />
-          ))}
+      <div className="dashboard-project-container">
+        <div className="dashboard-project-group">
+          {sys?.modules
+            ?.filter((_) => _?.type?.toLowerCase() !== 'group')
+            ?.map?.((item, i) => {
+              return <ProjectItem key={i} item={item} />
+            })}
         </div>
+        {sys?.modules
+          ?.filter((_) => _?.type?.toLowerCase() === 'group')
+          ?.map?.((item, i) => {
+            return (
+              <div className="dashboard-project-group" key={i}>
+                <div
+                  style={{
+                    marginBottom: 10,
+                    marginTop: 5,
+                  }}
+                />
+                <div>
+                  <div className="bold text-12 pointer border-bottom">
+                    {item.label || item.path}
+                  </div>
+                  <div
+                    className="grid-layout grid"
+                    style={{
+                      marginTop: 5,
+                    }}
+                  >
+                    {item.children?.map?.((item, i) => (
+                      <ProjectItem key={i} item={item} />
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )
+          })}
       </div>
     </div>
   )

@@ -1,6 +1,7 @@
 import React from 'react'
 import { useSetState } from '0hook'
 import { State } from '@/type'
+import { useLayoutStore } from '@/store/layout'
 
 const tabs = [
   {
@@ -57,7 +58,7 @@ const tabs = [
 ]
 
 export const usePageState = () => {
-  const [col, setCol] = React.useState(1)
+  const ly = useLayoutStore()
   const [state, _renderState] = useSetState<State>({
     activeTab: '01',
   })
@@ -140,18 +141,20 @@ export const usePageState = () => {
     //   // setInfo(info)
     // })
     window.addEventListener('resize', () => {
-      const col = Math.floor((window.innerWidth + 50) / 500)
-      setCol(col )
+      const col = Math.floor((window.innerWidth + 50) / 420)
+      // console.log('resize: ', col)
+      if (ly.innerCol !== col) {
+        ly.set({ innerCol: col })
+      }
     })
   }, [])
 
   // console.log('@ ~ usePageState ~ state:', state)
 
   return {
+    ly,
     tabs,
     state,
-    col,
-    setCol,
     handle,
   }
 }

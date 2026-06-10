@@ -1,13 +1,22 @@
 .dashboard-project {
   min-width: 100px;
-  background: var(--bg-module);
-  border-radius: 12px;
+
+  &-header {
+    min-height: var(--h-module);
+  }
+
+  &-group {
+    padding: 5px 10px;
+    border-radius: 12px;
+    background: var(--bg-module);
+    margin-bottom: 10px;
+  }
 
   &-container {
     min-height: 100px;
     // max-height: calc(var(--h) - 10px);
-    max-height: 90vh;
-    padding: 10px;
+    // max-height: 90vh;
+    // max-height: var(--h);
     border-radius: 12px;
     background: var(--bg-content);
   }

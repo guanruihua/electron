@@ -97,6 +97,7 @@ export type SysState = {
   initSuccess: boolean
   path: string
   ignoreApps: string
+  innerCol: number
   selectedQuickStart: number
   quickStarts: string[][]
   selectProject: ProjectConf

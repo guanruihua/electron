@@ -4,8 +4,102 @@ export * from './hook/use-msg'
 export * from './helper'
 export * from './req'
 
+import { isArray, isNumber, isObject, isString } from 'asura-eye'
 import { message } from 'aurad'
 import { copyText } from 'harpe'
+
+/**
+ * @title isChange
+ * @description Comparison value
+ * @param {Object} a
+ * @param {Object} b
+ * @returns {boolean} true: change, false: no-change
+ *
+ */
+export const isChange = (a, b) => {
+  if (isArray(a) && isArray(b)) {
+    if (a.length !== b.length) return true
+    for (let i = 0; i < a.length; i++) if (isChange(a[i], b[i])) return true
+    return false
+  }
+
+  if (isObject(a) && isObject(b)) {
+    if (Object.keys(a).length !== Object.keys(b).length) return true
+
+    for (const key in a) if (isChange(a[key], b[key])) return true
+
+    return false
+  }
+
+  return a !== b
+}
+
+/**
+ * @title firstUpperCase
+ * @description Capitalized first letter
+ * @param {String} target
+ * @returns {String}
+ */
+export const firstUpperCase = (target) => {
+  if (isString(target))
+    return target.slice(0, 1).toUpperCase() + target.slice(1)
+  return ''
+}
+
+/**
+ * @title isEffectValue
+ * @description To be valid, the items of the array values are valid, and the values of the object are also valid.
+ * @param {any} target
+ * @returns {Boolean}
+ */
+export const isEffectValue = (target) => {
+  if (isArray(target)) {
+    if (!target.length) return false
+    return !!target.some(isEffectValue)
+  }
+  if (isObject(target)) {
+    const keys = Object.keys(target)
+    if (!keys.length) return false
+    return !!keys.some((key) => isEffectValue(target[key]))
+  }
+  if (isNumber(target) && target < 1) {
+    return true
+  }
+  if (isString(target)) {
+    return !!target.trim()
+  }
+  return !!target
+}
+
+/**
+ * @title likeValue
+ * @description Search for similar values
+ * @param {Object} param
+ * @returns {boolean}
+ */
+export const likeValue = ({ value, record, keys }: any) => {
+  if (isString(value)) {
+    if (isString(record))
+      return record.toLowerCase().includes(value.trim().toLowerCase())
+    if (isObject(record)) {
+      if (isArray(keys))
+        return keys.some((key) =>
+          likeValue({
+            value,
+            record: record[key],
+          }),
+        )
+
+      return Object.keys(record).some((key) =>
+        likeValue({
+          value,
+          record: record[key],
+        }),
+      )
+    }
+  }
+  return false
+}
 
 export const sleep = async (timeout: number = 500) =>
   new Promise<void>((rs) => {

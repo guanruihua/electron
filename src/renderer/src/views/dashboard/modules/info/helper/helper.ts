@@ -104,20 +104,19 @@ export async function updateCountdown(Conf: ObjectType): Promise<string[]> {
     res.push('---------------')
   }
   // 今天节日
-  if (isArray(Conf?.festival)) {
-    const festivals = getFestivals(Conf, now)
-    if (festivals) res.push(`今天是${festivals}`)
-  }
+
+  const festivals = getFestivals(Conf, now)
+  if (festivals) res.push(`今天是${festivals}`)
 
   // 明天节日
-  if (isArray(Conf?.festival)) {
-    const nextDay = now.add(1, 'day')
-    const festivals = getFestivals(Conf, nextDay)
-    if (festivals) res.push(`明天是${festivals}`)
-  }
+  const nextDay = now.add(1, 'day')
+  const nFestivals = getFestivals(Conf, nextDay)
+  if (nFestivals) res.push(`明天是${nFestivals}`)
+
   res.push(`公历: ${now.format('YYYY年MM月DD日')}`)
-  const lunar = Solar.fromDate(new Date()).getLunar().toString()
-  res.push(`农历: ${lunar}`)
+  const lunar = Solar.fromDate(new Date()).getLunar()
+  res.push(`农历: ${lunar.toString()}`)
+
   res.push('---------------')
   // 假期
   if (isArray(Conf?.holiday))

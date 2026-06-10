@@ -1,15 +1,14 @@
 import Dash_Project from '../dashboard/modules/project/project'
 import ProjectOperation from '../dashboard/modules/project-operation/operation'
 import { GitReview } from '../dashboard/modules/git-review/git-review'
+import { ContentLayout } from '@/components/layout'
 
 export default function Project() {
   return (
-    <div className="layout-grid">
+    <ContentLayout name='project'>
       <Dash_Project />
-      <div className="flex col gap">
-        <ProjectOperation />
-        <GitReview />
-      </div>
-    </div>
+      <ProjectOperation />
+      <GitReview />
+    </ContentLayout>
   )
 }

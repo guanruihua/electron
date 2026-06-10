@@ -14,7 +14,7 @@ export const Routes = [
     id: '01',
     type: 'dashboard',
     children: <DashboardView />,
-    destroyOnHidden: false,
+    // destroyOnHidden: false,
   },
   // { id: '02', type: 'fsm', children: <FileResourceManagement /> },
   { id: '02', type: 'project', children: <Project /> },

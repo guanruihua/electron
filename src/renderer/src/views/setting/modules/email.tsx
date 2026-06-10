@@ -8,7 +8,7 @@ export function Email() {
   const check = async () => {
     try {
       const res: any = await req('get', '/check')
-      if (res.data.data) {
+      if (res?.data?.data) {
         setRunning(true)
       }
       console.log(res)

@@ -23,81 +23,71 @@ export function GitReview() {
   const { simpleTree, tree, commitMsg, hty_options } = pageState
 
   return (
-    <div
-      className="root-layout-home-view-git-review"
-      data-hidden={sys.selectProject?.git === false}
-    >
-      <div className="layout-module w flex gap col root-layout-home-view-git-review-layout-module">
-        <div
-          className="flex space-between items-center"
-          style={{ paddingBottom: 10 }}
-        >
-          <div className="flex row gap">
-            <Icon type="git" />
-            <div className="bold text-14">{label}</div>
-          </div>
-          <div className="flex gap">
-            <Button
-              title="Pull"
-              loading={loading}
-              className="bolder"
-              icon={<Icon type="reload" style={{ fontSize: 16 }} />}
-              onClick={() => init()}
-            />
-          </div>
+    <div className="git-review" data-hidden={sys.selectProject?.git === false}>
+      <div className="flex gap row items-center space-between git-review-header ">
+        <div className="flex row gap">
+          <Icon type="git" />
+          <div className="bold text-14">{label}</div>
+        </div>
+        <div className="flex gap">
+          <Button
+            title="Pull"
+            loading={loading}
+            className="bolder"
+            icon={<Icon type="reload" style={{ fontSize: 16 }} />}
+            onClick={() => init()}
+          />
         </div>
       </div>
-      <div className="root-layout-home-view-git-review-container">
-        <div className="git-container p border-radius">
-          <div className="controls">
-            <AutoComplete
-              options={hty_options}
-              onSelect={(value: string = '') => {
+      <div className="git-review-container git-container p border-radius">
+        <div className="controls">
+          <AutoComplete
+            options={hty_options}
+            onSelect={(value: string = '') => {
+              setPageState({
+                commitMsg: value || '',
+              })
+            }}
+          >
+            <Input.TextArea
+              readOnly={loading}
+              autoSize={{ minRows: 1, maxRows: 10 }}
+              value={commitMsg}
+              onChange={(e) => {
+                const value = e.target.value
                 setPageState({
                   commitMsg: value || '',
                 })
               }}
-            >
-              <Input.TextArea
-                readOnly={loading}
-                autoSize={{ minRows: 1, maxRows: 10 }}
-                value={commitMsg}
-                onChange={(e) => {
-                  const value = e.target.value
-                  setPageState({
-                    commitMsg: value || '',
-                  })
-                }}
-              />
-            </AutoComplete>
-            <Button
-              loading={loading}
-              icon={<Icon type="check" style={{ fontSize: 16 }} />}
-              onClick={() => handlePush()}
-            >
-              Push
-            </Button>
-          </div>
-          <div
-            className="overflow-y border-radius"
-            style={{
-              minHeight: 50,
-              maxHeight: `calc(var(--h) - 200px)`,
-              background: 'var(--bg-content)',
-              padding: 10,
-            }}
+            />
+          </AutoComplete>
+          <Button
+            loading={loading}
+            icon={<Icon type="check" style={{ fontSize: 16 }} />}
+            onClick={() => handlePush()}
           >
-            {tree?.length ? (
-              <FileTree tree={simpleTree || []} fold={fold} setFold={setFold} />
-            ) : (
-              <div
-                className="text-12 text-center"
-                style={{ color: '#eee', paddingTop: 10 }}
-              >
-                No Data
-              </div>
-            )}
-          </div>
+            Push
+          </Button>
+        </div>
+        <div
+          className="overflow-y border-radius"
+          style={{
+            minHeight: 50,
+            maxHeight: `calc(var(--h) - 100px)`,
+            background: 'var(--bg-content)',
+            padding: 10,
+          }}
+        >
+          {tree?.length ? (
+            <FileTree tree={simpleTree || []} fold={fold} setFold={setFold} />
+          ) : (
+            <div
+              className="text-12 text-center"
+              style={{ color: '#eee', paddingTop: 10 }}
+            >
+              No Data
+            </div>
+          )}
         </div>
       </div>
     </div>

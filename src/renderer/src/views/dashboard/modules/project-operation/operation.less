@@ -1,12 +1,22 @@
 .project-operation {
   border-radius: 12px;
-  background: var(--bg-module);
 
   &-header {
-    // padding: 20px 10px 10px;
+    display: flex;
+    align-items: center;
+    min-height: var(--h-module);
+
+  }
+
+  &-container {
+
+    background: var(--bg-module);
+    padding: 10px;
+    border-radius: 12px;
 
     .pids {
-      margin-top: 20px;
+      margin-top: 0;
+      margin-bottom: 10px;
       display: flex;
       flex-direction: row;
       gap: 10px;

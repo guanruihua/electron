@@ -4,6 +4,7 @@ import Opt from './modules/opt'
 import './index.less'
 import { User } from './modules/user'
 import { Email } from './modules/email'
+import { ContentLayout } from '@/components/layout'
 
 export default function Setting() {
   const sys = useSysStore()
@@ -41,10 +42,10 @@ export default function Setting() {
   }, [sys.initSuccess, sys.path])
 
   return (
-    <div className="page__setting layout-grid">
+    <ContentLayout name='setting' className="page__setting layout-grid">
       <User />
       <Opt />
       <Email />
-    </div>
+    </ContentLayout>
   )
 }

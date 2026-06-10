@@ -1,6 +1,7 @@
 import { ObjectType } from '0type'
 import { isArray } from 'asura-eye'
 import { Dayjs } from 'dayjs'
+import { Solar } from 'lunar-javascript'
 
 const fmt = (list) =>
   list
@@ -49,17 +50,25 @@ export const inBetweenTime = (
 }
 
 export const getFestivals = (Conf: ObjectType, now: Dayjs) => {
+  const d = Solar.fromYmd(now.year(), now.month() + 1, now.date())
+  const fe = d.getFestivals().concat(d.getOtherFestivals())
   const MM_DD = now.format('M.D')
   const YYYY_MM_DD = now.format(`YYYY.M.D`)
-  return Conf.festival
-    .filter((item) => {
-      const [_, start, end] = item
-      if (end && MM_DD !== start && YYYY_MM_DD !== start) {
-        if (inBetweenTime(now, start, end)) return true
-      }
-      return MM_DD === start || YYYY_MM_DD === start
-    })
-    .map((_) => _[0])
+
+  const cFestival: string[] =
+    Conf?.festival
+      ?.filter((item) => {
+        const [_, start, end] = item
+        if (end && MM_DD !== start && YYYY_MM_DD !== start) {
+          if (inBetweenTime(now, start, end)) return true
+        }
+        return MM_DD === start || YYYY_MM_DD === start
+      })
+      .map((_) => _[0]) || []
+
+  return fe
+    .filter((_) => !cFestival.includes(_))
+    .concat(cFestival)
     .join(', ')
 }
 

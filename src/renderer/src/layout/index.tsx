@@ -16,9 +16,9 @@ import { Routes } from './routes'
 
 export default function Layout() {
   const h = usePageState()
-  const { tabs, state, handle, col, setCol } = h
+  const { tabs, state, handle, ly } = h
   const { activeTab } = h.state
-  // console.log(activeTab)
+  const col = ly.innerCol || 1
 
   return (
     <ConfigProvider
@@ -55,7 +55,7 @@ export default function Layout() {
               onClick={() => {
                 const newCol = col === 3 ? 1 : col + 1
                 window.api.invoke('setSize', { width: 500 * newCol })
-                setCol(newCol)
+                if (ly.innerCol !== newCol) ly.set({ innerCol: newCol })
               }}
             >
               <div

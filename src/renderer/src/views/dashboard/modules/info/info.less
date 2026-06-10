@@ -1,10 +1,10 @@
-.dashboard-info {
-  // overflow-y: auto;
-  // height: auto;
+.dashboard-info-ddl {
+  padding: 20px;
+  border-radius: 12px;
+  background: var(--bg-module);
 
   .ddl-info-box {
     cursor: pointer;
-    border-bottom: 2px solid rgba(255, 255, 255, .2);
   }
 
   .ddl-info {
@@ -12,6 +12,24 @@
     padding-bottom: 7px;
     letter-spacing: 2px;
   }
+
+  &-row {
+    display: flex;
+    justify-content: space-between;
+
+    &>h4,
+    &>div {
+      font-size: 12px;
+      white-space: nowrap;
+    }
+  }
+}
+
+.dashboard-info {
+  padding: 20px;
+  border-radius: 12px;
+  background: var(--bg-module);
+  padding-right: 50px;
 
   &-row {
     display: flex;

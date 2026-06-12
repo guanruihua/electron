@@ -1,5 +1,5 @@
-appId: com.ruihuag.app
-productName: ruihuag
+appId: com.yueyue.app
+productName: yueyue
 directories:
   buildResources: build
 files:
@@ -12,7 +12,8 @@ files:
 asarUnpack:
   - resources/**
 win:
-  executableName: ruihuag
+  executableName: yueyue
+  icon: build/icon.ico 
 nsis:
   artifactName: ${name}-${version}-setup.${ext}
   shortcutName: ${productName}

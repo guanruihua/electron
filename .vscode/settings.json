@@ -24,7 +24,9 @@
     "pids",
     "Plyr",
     "taskkill",
-    "tasklist"
+    "tasklist",
+    "yueyue",
+    "yueyyue"
   ],
   "path-intellisense.mappings": {
     "@": "${workspaceRoot}/src/renderer/src"

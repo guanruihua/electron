@@ -112,7 +112,7 @@ export function ContentLayout(props: LayoutProps) {
     return () => {
       timer.current && clearTimeout(timer.current)
     }
-  }, [lastUpdate])
+  }, [lastUpdate, children])
 
   return (
     <Div className={['layout-grid', className]} {...rest}>

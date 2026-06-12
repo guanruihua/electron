@@ -66,23 +66,25 @@ function summarizeWeather(weatherData) {
 // 2026-06-05: 少云，气温 29.41℃ / 19.19℃
 // 2026-06-06: 晴，气温 26.85℃ / 17.76℃
 // 2026-06-07: 少云，气温 27.83℃ / 19.5℃
-
-const weather_tableName = 'weather'
-const weather_DBName = 'weather-db'
+import { tableName, DBName } from '@/views/dashboard/conf'
 
 // https://platform.caiyunapp.com/api/manage
 // https://platform.caiyunapp.com/application/manage
 export const resolveWeather = async () => {
+  const date = dayjs().format('YYYY-MM-DD')
+
   const query = await window.api.db({
     action: 'find',
-    tableName: weather_tableName,
-    DBName: weather_DBName,
+    tableName,
+    DBName,
     payload: {
-      uid: dayjs().format('YYYY-MM-DD'),
+      uid: 'ruihuag',
+      date,
     },
   })
-  if (!query.error && query.data?.length) {
-    return query.data.at(0)?.data || []
+  console.log(query)
+  if (!query.error && query.data?.at(0)?.weatherInfo) {
+    return query.data.at(0).weatherInfo
   }
   const res = await req(
     'get',
@@ -91,16 +93,16 @@ export const resolveWeather = async () => {
   if (res.status !== 'ok') return []
 
   const data = summarizeWeather(res)
-
   await window.api.db({
-    action: 'add',
-    tableName: weather_tableName,
-    DBName: weather_DBName,
+    action: 'update',
+    tableName,
+    DBName,
     payload: {
-      uid: dayjs().format('YYYY-MM-DD'),
-      data,
+      uid: 'ruihuag',
+      date,
+      weatherInfo: data,
     },
   })
-
+  console.log('resolveWeather', data)
   return data
 }

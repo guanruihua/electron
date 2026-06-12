@@ -18,7 +18,7 @@ export function ClipboardManager() {
   const [width, setWidth] = React.useState(window.innerWidth)
   const [col, setCol] = React.useState(1)
 
-  const  renderList = getRenderList(list, pageState)
+  const renderList = getRenderList(list, pageState)
 
   React.useEffect(() => {
     // 获取要监听的元素
@@ -44,8 +44,35 @@ export function ClipboardManager() {
     }
   }, [])
 
+  const load = async () => {
+    const { path } = sys
+
+    const list = ['clipboard-db']
+    for (let val of list) {
+      const res = await window.api.db({
+        action: 'init',
+        DBName: val,
+        payload: {
+          path,
+        },
+      })
+
+      if (res.data) {
+        console.log(`[Success] Init DB: "${val}"`)
+      } else {
+        console.log(`[Error] Init DB: "${val}"`)
+      }
+    }
+  }
+
+  React.useEffect(() => {
+    if (sys.initSuccess && sys.path) {
+      load()
+    }
+  }, [sys.initSuccess, sys.path])
+
   return (
-    <div className="clipboard-manager" data-disabled={!sys.path}>
+    <div className="clipboard-manager relative" data-disabled={!sys.path}>
       <div className="clipboard-manager-header w-layout-flex space-between p grid-span-full">
         <div className="left layout-flex justify-start">
           <ClipboardType
@@ -74,7 +101,7 @@ export function ClipboardManager() {
           <Button
             icon={<Icon type="del" />}
             loading={loadings.edit}
-            onClick={() => handleSelf.updateList([])}
+            onClick={() => handleSelf.clearAll()}
           >
             Clear All
           </Button>
@@ -95,41 +122,28 @@ export function ClipboardManager() {
             gridTemplateColumns: new Array(col).fill('1fr').join(' '),
           }}
         >
-          <>
-            {!list.length && (
+          {!list.length && <div className="empty">Empty</div>}
+          {new Array(col).fill('').map((_, ci) => {
+            return (
               <div
-                style={{
-                  gridColumn: '1 / -1',
-                  width: '100%',
-                  textAlign: 'center',
-                  lineHeight: '80px',
-                }}
+                className="clipboard-manager-container-col"
+                key={`${col}_${width}_${ci}`}
               >
-                Empty
+                {renderList
+                  .slice(0, 100)
+                  .filter((_, i) => i % col === ci)
+                  .map((item) => (
+                    <ClipboardItem
+                      key={item.id}
+                      item={item}
+                      pageState={pageState}
+                      handleSelf={handleSelf}
+                    />
+                  ))}
               </div>
-            )}
-            {new Array(col).fill('').map((_, ci) => {
-              return (
-                <div
-                  className="clipboard-manager-container-col"
-                  key={`${col}_${width}_${ci}`}
-                >
-                  {renderList
-                    .slice(0, 100)
-                    .filter((_, i) => i % col === ci)
-                    .map((item) => (
-                      <ClipboardItem
-                        key={item.id}
-                        item={item}
-                        pageState={pageState}
-                        handleSelf={handleSelf}
-                      />
-                    ))}
-                </div>
-              )
-            })}
-            {/* <div className="vr-dom"></div> */}
-          </>
+            )
+          })}
+          {/* <div className="vr-dom"></div> */}
         </div>
       )}
       {context}

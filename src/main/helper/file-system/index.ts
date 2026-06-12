@@ -3,6 +3,7 @@ import * as del from './del'
 import * as save from './save'
 import * as query from './query'
 import * as check from './check'
+import * as sort from './sort'
 import { isObject, isString } from 'asura-eye'
 
 const FileSystemMap = {
@@ -11,6 +12,7 @@ const FileSystemMap = {
   ...save,
   ...query,
   ...check,
+  ...sort,
 }
 
 export const fileSystem = async (_, target: any) => {

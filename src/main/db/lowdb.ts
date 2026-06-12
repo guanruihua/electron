@@ -1,6 +1,9 @@
 import { isArray, isObject, isString } from 'asura-eye'
 import { JSONFilePreset } from 'lowdb/node'
 import type { DataSchema, DatabaseSchema, Result } from '../type'
+import { createDirIfNotExist } from '../helper/file-system/check'
+import { saveFile } from '../helper/file-system/save'
+import { deleteFile } from '../helper/file-system/del'
 
 type Params = {
   action?: string
@@ -21,6 +24,9 @@ export class LowDB {
   } = {
     db: null,
   }
+  private ImagePathMAP: {
+    [key: string]: string
+  } = {}
 
   async init(params: Params): Promise<boolean | Result> {
     const { payload, DBName = 'db' } = params
@@ -31,25 +37,54 @@ export class LowDB {
       `${path}\\lowdb\\${DBName}.json`,
       defaultValue,
     )
+    createDirIfNotExist(`${path}\\lowdb\\image\\${DBName}`)
+    this.ImagePathMAP[DBName] = `${path}\\lowdb\\image\\${DBName}`
     return true
   }
 
-  // 创建
-  async add(params: Params): Promise<DataSchema | false> {
-    const { payload, tableName, DBName = 'db' } = params
-    if (!isString(tableName) || !isString(DBName)) return false
-
+  async getItem(params: Params): Promise<DataSchema> {
+    const { payload, DBName = 'db' } = params
     const now = Date.now()
-    const item: DataSchema = {
+
+    const imagePath = this.ImagePathMAP[DBName]
+
+    if (payload?.type === 'image' && payload.data && imagePath) {
+      const { type, data, ...payload2 } = payload
+      const path = `${imagePath}\\${now}.png`
+
+      await saveFile({
+        data,
+        path,
+      })
+
+      return {
+        id: now.toString(),
+        createTime: now,
+        updateTime: now,
+        type,
+        data: path,
+        path,
+        ...payload2,
+      }
+    }
+
+    return {
       id: now.toString(),
       createTime: now,
       updateTime: now,
       ...payload,
     }
+  }
 
-    if (!this.MAP[DBName]) return false
+  // 创建
+  async add(params: Params): Promise<DataSchema | false> {
+    const { tableName, DBName = 'db' } = params
+    if (!isString(tableName) || !isString(DBName) || !this.MAP[DBName])
+      return false
 
-    if (isArray(this.MAP[DBName].data[tableName])) {
+    const item: DataSchema = await this.getItem(params)
+
+    if (isArray(this.MAP[DBName].data?.[tableName])) {
       this.MAP[DBName].data[tableName].push(item)
     } else {
       this.MAP[DBName].data[tableName] = [item]
@@ -86,19 +121,25 @@ export class LowDB {
 
     if (!isString(DBName) || !isString(tableName) || !isObject(payload))
       return false
-    const { id } = payload
-    if (!id) return false
 
-    if (!isArray(this.MAP[DBName].data?.[tableName])) return false
+    // if (!this.MAP[DBName]) return false
+    
+    const { id } = payload
+    if (!id || !isArray(this.MAP?.[DBName]?.data?.[tableName]))
+      return await this.add(params)
 
     const index = this.MAP[DBName].data[tableName].findIndex((_) => _.id === id)
-    if (index === -1) return false
+    if (index === -1) return await this.add(params)
 
-    this.MAP[DBName].data[tableName][index] = {
-      ...this.MAP[DBName].data[tableName][index],
-      ...payload,
-      updateTime: Date.now(),
-    }
+    this.MAP[DBName].data[tableName][index] = await this.getItem({
+      ...params,
+      payload: {
+        ...this.MAP[DBName].data[tableName][index],
+        ...payload,
+        updateTime: Date.now(),
+      },
+    })
+
     await this.MAP[DBName].write()
 
     return true
@@ -119,11 +160,13 @@ export class LowDB {
     const list = this.MAP[DBName].data[tableName]
     const beforeLen = list.length
 
+    let imagePath: null | string = null
     this.MAP[DBName].data[tableName] = list.filter((item) => {
+      if (item.type === 'image' && item.path) imagePath = item.path
       if (item.id === payload.id) return false
       return true
     })
-
+    imagePath && (await deleteFile({ path: imagePath }))
     if (this.MAP[DBName].data[tableName].length === beforeLen) return false
 
     await this.MAP[DBName].write()
@@ -147,10 +190,19 @@ export class LowDB {
     const { tableName, DBName = 'db' } = params
     if (!isString(DBName) || !isString(tableName)) return false
 
-    if (!isArray(this.MAP?.[DBName]?.data?.[tableName])) return false
-    
+    const list = this.MAP?.[DBName]?.data?.[tableName]
+    if (!isArray(list)) return false
+
+    for (let i = list.length - 1; i >= 0; i--) {
+      const { type, path } = list[i]
+      if (type === 'image' && path) {
+        await deleteFile({ path })
+      }
+    }
     this.MAP[DBName].data[tableName] = []
     await this.MAP[DBName].write()
+
+    console.log(`lowdb/clear DBName:${DBName} TableName:${tableName}`)
     return true
   }
 }

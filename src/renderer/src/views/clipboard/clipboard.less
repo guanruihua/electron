@@ -1,10 +1,11 @@
 .clipboard-manager {
   display: grid;
   grid-template-columns: auto 1fr;
-  overflow: visible;
+  overflow: hidden;
+  position: relative;
+  height: var(--h);
 
   .clipboard-manager-type-box {
-
     display: flex;
     flex-direction: row;
     gap: 10px;
@@ -38,6 +39,14 @@
     width: 100%;
     padding: 0 5px;
     gap: 0;
+    max-height: 100%;
+    overflow-y: auto;
+
+    &>.empty {
+      position: absolute;
+      inset: 45vh 0;
+      text-align: center;
+    }
 
     &-col {
       display: flex;

@@ -54,7 +54,7 @@ export default function Layout() {
               className="root-aside-item switch-screen-size"
               onClick={() => {
                 const newCol = col === 3 ? 1 : col + 1
-                window.api.invoke('setSize', { width: 500 * newCol })
+                window.api.invoke('setSize', { width: 500 * newCol + 10 })
                 if (ly.innerCol !== newCol) ly.set({ innerCol: newCol })
               }}
             >

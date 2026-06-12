@@ -33,10 +33,17 @@ export const usePageState = (sys: SysState) => {
   })
 
   const copy = async (item: ObjectType) => {
+    console.log(item)
     if (!isObject(item)) return
-    const { type, data } = item
+    const { type, data, path } = item
     const run = async () => {
+      if (!data) return
       if (type === 'image') {
+        if (path) {
+          const cmd = `powershell -command "Set-Clipboard -Path '${path}'"`
+          window.api.invoke('cmd', cmd)
+          return
+        }
         return window.api.invoke('copy', {
           base64: data,
         })
@@ -69,6 +76,7 @@ export const usePageState = (sys: SysState) => {
       !res.error && this.reload()
     },
     async add(payload: Partial<DataSchema>) {
+      console.log('add/payload', payload)
       if (isArray(clipboardState.list)) {
         for (const item of clipboardState.list) {
           if (payload.type !== item.type) continue
@@ -111,6 +119,16 @@ export const usePageState = (sys: SysState) => {
         list: newList2,
         counts: newCounts,
       })
+    },
+
+    async clearAll() {
+      const res = await window.api.db({
+        action: 'clear',
+        tableName,
+        DBName,
+      })
+      if (res.error) return
+      this.reload()
     },
 
     async del(item: ObjectType) {

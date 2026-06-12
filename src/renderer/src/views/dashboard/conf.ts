@@ -9,3 +9,6 @@ export const DefaultState = {
     },
   },
 }
+
+export const tableName = 'conf'
+export const DBName = 'db'

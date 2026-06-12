@@ -6,7 +6,6 @@ import './info.less'
 import { SysState } from '@/type'
 import { resolveWeather } from './helper/resolve-weather'
 
-
 export const useMyState = (sys: SysState) => {
   const [loading, setLoading] = useLoading()
   const [LocalIP, setLocalIP] = React.useState('0.0.0.0')
@@ -28,6 +27,7 @@ export const useMyState = (sys: SysState) => {
   const reload = async () => {
     if (!sys.initSuccess || !sys.path) return
     const weatherInfo = await resolveWeather()
+
     await updateNetworkName()
     const [LIP, BatteryPower] = await window.api.invoke(
       'getSysInfo',
@@ -54,7 +54,7 @@ export const useMyState = (sys: SysState) => {
 
   React.useEffect(() => {
     // console.log(sys)
-    resolveWeather()
+    // resolveWeather()
     reload()
     return clear
   }, [sys.initSuccess, sys.path])

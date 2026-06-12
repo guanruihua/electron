@@ -1,4 +1,5 @@
 import { isString } from 'asura-eye'
+import fs from 'fs'
 import { fsp, _path } from './pkg'
 import { FS_Payload } from './type'
 
@@ -36,4 +37,10 @@ export const stat = async (payload: any) => {
 
   if (!isString(path)) return
   return await fsp.stat(path)
+}
+
+export function createDirIfNotExist(dirPath: string) {
+  if (!fs.existsSync(dirPath)) {
+    fs.mkdirSync(dirPath, { recursive: true })
+  }
 }

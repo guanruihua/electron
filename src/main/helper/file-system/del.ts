@@ -6,10 +6,10 @@ export async function deleteFile(payload: FS_Payload): Promise<boolean> {
   if (!url) return false
   try {
     await fsp.unlink(url)
-    console.log('Handle Delete File Success')
+    console.log(`Handle Delete File Success. Path: ${url}`)
     return true
   } catch (error) {
-    console.log('Handle Delete File Error')
+    console.log(`Handle Delete File Error. Path: ${url}`)
     return false
   }
 }

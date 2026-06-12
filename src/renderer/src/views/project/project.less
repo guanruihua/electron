@@ -1,0 +1,70 @@
+.project {
+  padding: 10px;
+  max-height: var(--h);
+  overflow-y: auto;
+
+  &-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  &-item,
+  &-group {
+    // background: var(--bg-module);
+    border-radius: 12px;
+    padding: 0 10px;
+  }
+
+  &-item {
+    &-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 32px;
+      cursor: pointer;
+    }
+
+    &-right {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    &-fold {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 32px;
+      height: 32px;
+
+      svg {
+        transition: all .3s;
+        transform-origin: center;
+      }
+    }
+
+    &-content {}
+
+    &[data-start="1"] {
+
+      .project-item-name {
+        font-weight: bold;
+        color: var(--success);
+      }
+    }
+
+    &[data-fold="true"] {
+
+      .project-item-fold svg {
+        transform: rotate(-180deg);
+      }
+
+      .project-item-content {
+        display: none;
+      }
+    }
+
+  }
+
+}

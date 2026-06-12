@@ -10,7 +10,7 @@ export function createBrowserWindow(): BrowserWindow {
   })
 
   const mainWindow = new BrowserWindow({
-    width: 500,
+    width: 510,
     height: 640,
     minWidth: 500,
     resizable: true,

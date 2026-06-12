@@ -73,7 +73,7 @@ export function ClipboardManager() {
 
   return (
     <div className="clipboard-manager relative" data-disabled={!sys.path}>
-      <div className="clipboard-manager-header w-layout-flex space-between p grid-span-full">
+      <div className="clipboard-manager-header w-layout-flex">
         <div className="left layout-flex justify-start">
           <ClipboardType
             clipboardState={clipboardState}

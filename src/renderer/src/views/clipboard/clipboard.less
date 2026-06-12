@@ -1,9 +1,16 @@
 .clipboard-manager {
   display: grid;
   grid-template-columns: auto 1fr;
+  grid-template-rows: auto 1fr;
   overflow: hidden;
   position: relative;
   height: var(--h);
+
+  .clipboard-manager-header{
+    padding: 10px;
+    justify-content: space-between;
+    grid-column: 1/-1;
+  }
 
   .clipboard-manager-type-box {
     display: flex;

@@ -2,8 +2,6 @@ import { useRef, useEffect } from 'react'
 import { Terminal } from '@xterm/xterm'
 import { Button } from 'antd'
 import '@xterm/xterm/css/xterm.css'
-// import { FitAddon } from 'xterm-addon-fit'
-// import { ClipboardAddon } from '@xterm/addon-clipboard'
 import { copy } from '@/util'
 import './index.less'
 

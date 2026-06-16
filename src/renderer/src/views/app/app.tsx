@@ -1,5 +1,5 @@
-import { QuickStart } from '../dashboard/modules/quick-start'
-import RunningApp from '../dashboard/modules/running-app'
+import { QuickStart } from '@/modules/quick-start'
+import RunningApp from '@/modules/running-app'
 
 export default function App() {
   return (

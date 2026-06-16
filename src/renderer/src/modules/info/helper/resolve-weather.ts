@@ -31,6 +31,7 @@ function summarizeWeather(weatherData) {
     MODERATE_RAIN: '中雨',
     HEAVY_RAIN: '大雨',
     OVERCAST: '阴',
+    STORM_RAIN: '雷暴雨',
     // 可继续添加其他类型
   }
 
@@ -83,26 +84,26 @@ export const resolveWeather = async () => {
     },
   })
   console.log(query)
-  if (!query.error && query.data?.at(0)?.weatherInfo) {
-    return query.data.at(0).weatherInfo
-  }
-  const res = await req(
-    'get',
-    'https://api.caiyunapp.com/v2.6/j8KFHg2u7asmu9hT/113.579,22.269/daily?dailysteps=3',
-  )
-  if (res.status !== 'ok') return []
+  // if (!query.error && query.data?.at(0)?.weatherInfo) {
+  //   return query.data.at(0).weatherInfo
+  // }
+  // const res = await req(
+  //   'get',
+  //   'https://api.caiyunapp.com/v2.6/j8KFHg2u7asmu9hT/113.579,22.269/daily?dailysteps=3',
+  // )
+  // if (res.status !== 'ok') return []
 
-  const data = summarizeWeather(res)
-  await window.api.db({
-    action: 'update',
-    tableName,
-    DBName,
-    payload: {
-      uid: 'ruihuag',
-      date,
-      weatherInfo: data,
-    },
-  })
-  console.log('resolveWeather', data)
-  return data
+  // const data = summarizeWeather(res)
+  // await window.api.db({
+  //   action: 'update',
+  //   tableName,
+  //   DBName,
+  //   payload: {
+  //     uid: 'ruihuag',
+  //     date,
+  //     weatherInfo: data,
+  //   },
+  // })
+  // console.log('resolveWeather', data)
+  // return data
 }

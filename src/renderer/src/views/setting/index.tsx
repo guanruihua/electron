@@ -14,35 +14,8 @@ export default function Setting() {
     sys.init(true)
   }, [])
 
-  const load = async () => {
-    const { path } = sys
-
-    const list = ['db', 'weather-db']
-    for (let val of list) {
-      const res = await window.api.db({
-        action: 'init',
-        DBName: val,
-        payload: {
-          path,
-        },
-      })
-
-      if (res.data) {
-        console.log(`[Success] Init DB: "${val}"`)
-      } else {
-        console.log(`[Error] Init DB: "${val}"`)
-      }
-    }
-  }
-
-  React.useEffect(() => {
-    if (sys.initSuccess && sys.path) {
-      load()
-    }
-  }, [sys.initSuccess, sys.path])
-
   return (
-    <ContentLayout name='setting' className="page__setting layout-grid">
+    <ContentLayout name="setting" className="page__setting layout-grid">
       <User />
       <Opt />
       <Email />

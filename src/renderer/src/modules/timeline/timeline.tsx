@@ -5,7 +5,7 @@ import './timeline.less'
 import { Icon } from '@/components'
 import { Popconfirm } from 'antd'
 
-export function Dash_Timeline() {
+export function Timeline() {
   const task = useTaskStore()
   const getItems = () => {
     const items: any[] = []

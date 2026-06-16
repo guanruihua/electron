@@ -5,8 +5,9 @@ import { usePageState } from './hook'
 import './git-review.less'
 import { AutoComplete } from 'antd'
 import { useSysStore } from '@/store/sys'
+import { ProjectConf } from '@/type'
 
-export function GitReview() {
+export function GitReview({ item }: { item: ProjectConf }) {
   const sys = useSysStore()
 
   const {
@@ -18,7 +19,7 @@ export function GitReview() {
     handlePush,
     pageState,
     setPageState,
-  } = usePageState(sys.selectProject)
+  } = usePageState(item)
 
   const { simpleTree, tree, commitMsg, hty_options } = pageState
 
@@ -39,7 +40,7 @@ export function GitReview() {
           />
         </div>
       </div>
-      <div className="git-review-container git-container p border-radius">
+      <div className="git-review-container git-container">
         <div className="controls">
           <AutoComplete
             options={hty_options}
@@ -74,7 +75,6 @@ export function GitReview() {
           style={{
             minHeight: 50,
             maxHeight: `calc(var(--h) - 100px)`,
-            background: 'var(--bg-content)',
             padding: 10,
           }}
         >

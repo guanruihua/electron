@@ -2,8 +2,10 @@ import React from 'react'
 import { Button } from 'antd'
 import { req } from '@/util'
 import { Icon } from '@/components'
+import { Switch } from 'antd'
 
 export function Email() {
+  const [status, setStatus] = React.useState<boolean>(false)
   const [running, setRunning] = React.useState(false)
   const check = async () => {
     try {
@@ -19,8 +21,8 @@ export function Email() {
   }
 
   React.useEffect(() => {
-    check()
-  }, [])
+    if (status) check()
+  }, [status])
 
   const sendTextEmail = async () => {
     const res = await req('post', '/email/post', {
@@ -51,8 +53,9 @@ export function Email() {
           <Icon type="close" />
           Backend Server
         </div>
-        <div className="flex gap">
+        <div className="flex gap items-center">
           <Button onClick={check}>Check</Button>
+          <Switch checked={status} onChange={setStatus} />
         </div>
         <div className="flex gap col">
           <div className="title">Email</div>

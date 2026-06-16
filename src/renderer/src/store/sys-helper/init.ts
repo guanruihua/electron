@@ -28,7 +28,50 @@ export const getSysInitState = async (): Promise<SysState> => {
     NodeTreads: [],
     modules,
     apps,
+
+    innerCol: 1,
+    runningUIDMapPID: {},
   }
+
+  const list = ['db', 'weather-db']
+  for (let val of list) {
+    const res = await window.api.db({
+      action: 'init',
+      DBName: val,
+      payload: {
+        path,
+      },
+    })
+
+    if (res.data) {
+      console.log(`[Success] Init DB: "${val}"`)
+    } else {
+      console.log(`[Error] Init DB: "${val}"`)
+    }
+  }
+  const res = await window.api.db({
+    action: 'find',
+    tableName: 'db',
+    DBName: 'conf',
+    payload: {
+      uid: 'ruihuag',
+    },
+  })
+
+  if (res.error || !res.data?.length) {
+    const userInfo = res.data.at(0)
+    // console.log('User Info No init')
+  }
+
+  const query = await window.api.db({
+    action: 'update',
+    tableName: 'db',
+    DBName: 'conf',
+    payload: {
+      uid: 'ruihuag',
+    },
+  })
+  console.log('User Info init Success')
 
   // console.log({
   //   setting,

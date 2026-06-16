@@ -28,7 +28,7 @@ const getHeight = (children: React.ReactNode, col: number = 1) => {
     return [
       {
         total: 1,
-        show: new Array(len).fill('').map((_, i) => i ),
+        show: new Array(len).fill('').map((_, i) => i),
       },
     ]
   }
@@ -103,11 +103,14 @@ export function ContentLayout(props: LayoutProps) {
 
   React.useEffect(() => {
     init()
+  }, [lastUpdate, children])
+
+  React.useEffect(() => {
     timer.current && clearTimeout(timer.current)
     timer.current = setTimeout(() => {
       setLastUpdate(Date.now())
       timer.current && clearTimeout(timer.current)
-    }, 2000)
+    }, 500)
 
     return () => {
       timer.current && clearTimeout(timer.current)

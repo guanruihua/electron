@@ -2,6 +2,7 @@ import { ProjectConf } from '@/type'
 import { useSysStore } from '@/store/sys'
 import React from 'react'
 import { ProjectItemContent } from './project-item-content'
+import { GitReview } from './git-review/git-review'
 
 export const ProjectItem = (props: { item: ProjectConf }) => {
   const sys = useSysStore()
@@ -48,9 +49,10 @@ export const ProjectItem = (props: { item: ProjectConf }) => {
         </div>
       </div>
 
-      <div className="project-item-content">
+      {!fold && <div className="project-item-content">
         <ProjectItemContent item={item} />
-      </div>
+        <GitReview item={item}/>
+      </div>}
     </div>
   )
 }

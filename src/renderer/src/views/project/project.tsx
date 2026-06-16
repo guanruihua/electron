@@ -1,4 +1,3 @@
-import { GitReview } from '../dashboard/modules/git-review/git-review'
 import { ContentLayout } from '@/components/layout'
 
 import { ProjectItem } from './project/project-item'
@@ -13,8 +12,11 @@ export default function Project() {
   const task = useTaskStore()
   console.log(sys.modules)
   return (
-    // <div className="project" key={sys.modules.length}>
-    <ContentLayout name="root-project" className="project" key={sys.modules.length}>
+    <ContentLayout
+      name="root-project"
+      className="project"
+      key={sys.modules.length}
+    >
       <ProjectHeader sys={sys} task={task} />
       {sys.modules?.map?.((item, i) => {
         if (item.type !== 'group') return <ProjectItem key={i} item={item} />
@@ -36,8 +38,6 @@ export default function Project() {
           </div>
         )
       })}
-      <GitReview />
-      {/* </div> */}
     </ContentLayout>
   )
 }

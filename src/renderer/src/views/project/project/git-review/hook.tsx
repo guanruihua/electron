@@ -60,6 +60,7 @@ export const usePageState = (selectProject: ProjectConf) => {
       desc: `Project Name: ${label}`,
       async exec() {
         const res = await gitPush(path, pageState.commitMsg)
+        console.log('---', res)
         res ? await query() : setLoading(false)
         return res
       },

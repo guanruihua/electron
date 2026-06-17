@@ -38,12 +38,6 @@ export const gitPull = async (path?: string): Promise<PageState> => {
     D: 0,
     A: 0,
   }
-  res.split('\n').forEach((_) => {
-    const str: string = _.trim()
-    if (str.indexOf('M') === 0) repoStatus.M++
-    if (str.indexOf('D') === 0) repoStatus.D++
-    if (str.indexOf('??') === 0) repoStatus.A++
-  })
 
   if (!isString(res))
     return {
@@ -52,7 +46,15 @@ export const gitPull = async (path?: string): Promise<PageState> => {
       simpleTree: [],
     }
 
+  res.split('\n').forEach((_) => {
+    const str: string = _.trim()
+    if (str.indexOf('M') === 0) repoStatus.M++
+    if (str.indexOf('D') === 0) repoStatus.D++
+    if (str.indexOf('??') === 0) repoStatus.A++
+  })
+
   const fileTree = getFileTree(res) || []
+  
   return {
     repoStatus,
     tree: fileTree || [],

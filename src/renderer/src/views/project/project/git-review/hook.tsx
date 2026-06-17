@@ -59,10 +59,14 @@ export const usePageState = (selectProject: ProjectConf) => {
       name: 'Git Review / Push State',
       desc: `Project Name: ${label}`,
       async exec() {
-        const res = await gitPush(path, pageState.commitMsg)
-        console.log('---', res)
-        res ? await query() : setLoading(false)
-        return res
+        try {
+          const res = await gitPush(path, pageState.commitMsg)
+          console.log('---', res)
+          res ? await query() : setLoading(false)
+          return res
+        } catch (error) {
+          return 1
+        }
       },
     })
   }

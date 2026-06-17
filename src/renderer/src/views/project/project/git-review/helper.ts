@@ -33,16 +33,28 @@ export const gitPull = async (path?: string): Promise<PageState> => {
     'cmdResult',
     `cd ${path} && git status --porcelain=v1 -M1 && exit`,
   )
-  // console.log('git status: ', res)
+  const repoStatus = {
+    M: 0,
+    D: 0,
+    A: 0,
+  }
+  res.split('\n').forEach((_) => {
+    const str: string = _.trim()
+    if (str.indexOf('M') === 0) repoStatus.M++
+    if (str.indexOf('D') === 0) repoStatus.D++
+    if (str.indexOf('??') === 0) repoStatus.A++
+  })
 
   if (!isString(res))
     return {
+      repoStatus,
       tree: [],
       simpleTree: [],
     }
 
   const fileTree = getFileTree(res) || []
   return {
+    repoStatus,
     tree: fileTree || [],
     simpleTree: simplifyFileTree(fileTree) || [],
   }

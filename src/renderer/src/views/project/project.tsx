@@ -10,7 +10,9 @@ import './project.less'
 export default function Project() {
   const sys = useSysStore()
   const task = useTaskStore()
-  console.log(sys.modules)
+
+  // console.log(sys.modules)
+  
   return (
     <ContentLayout
       name="root-project"

@@ -1,12 +1,12 @@
 .git-review {
   .git-review-header {
     min-height: var(--h-header);
-    padding: 10px;
+    padding: 10px 0;
   }
 
-  .git-container {
-    // background: var(--bg-module);
-  }
+  // .git-container {
+  // background: var(--bg-module);
+  // }
 
   &-container {
     .controls {
@@ -19,6 +19,25 @@
 
     &>.left-children {
       margin-right: 5px;
+    }
+  }
+
+  .repo-status {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+
+    .update {
+      color: var(--warning);
+    }
+
+    .add {
+      color: var(--success);
+    }
+
+    .delete {
+      color: var(--error);
     }
   }
 }

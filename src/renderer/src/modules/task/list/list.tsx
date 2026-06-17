@@ -1,7 +1,7 @@
 import React from 'react'
 import './list.less'
 import { UseTRMState } from '@/type'
-import { kbToMb } from '../../helper'
+import { kbToMb } from '../helper'
 import { Button } from 'antd'
 import { Icon } from '@/components'
 import { isArray } from 'asura-eye'

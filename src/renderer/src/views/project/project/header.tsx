@@ -11,7 +11,8 @@ export function ProjectHeader(props: ProjectHeaderProps) {
 
   return (
     <div className="project-header">
-      <h4>Project</h4>
+      {/* <h4>Project</h4> */}
+      <h4></h4>
       <div className="flex gap">
         <Button
           icon={<Icon type="edit" />}

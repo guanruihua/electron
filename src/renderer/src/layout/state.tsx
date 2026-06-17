@@ -95,10 +95,7 @@ export const usePageState = () => {
     })
   }, [])
 
-  // console.log('@ ~ usePageState ~ state:', state)
-
   return {
-    ly,
     state,
     handle,
   }

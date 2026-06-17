@@ -6,6 +6,7 @@ import './git-review.less'
 import { AutoComplete } from 'antd'
 import { useSysStore } from '@/store/sys'
 import { ProjectConf } from '@/type'
+import { Switch } from 'antd'
 
 export function GitReview({ item }: { item: ProjectConf }) {
   const sys = useSysStore()
@@ -30,7 +31,13 @@ export function GitReview({ item }: { item: ProjectConf }) {
           <Icon type="git" />
           <div className="bold text-14">{label}</div>
         </div>
-        <div className="flex gap">
+        <div className="flex gap items-center">
+          <Switch
+            checked={pageState.detail}
+            checkedChildren="Detail"
+            unCheckedChildren="Summarize"
+            onChange={(val) => setPageState({ detail: val })}
+          />
           <Button
             title="Pull"
             loading={loading}
@@ -70,25 +77,37 @@ export function GitReview({ item }: { item: ProjectConf }) {
             Push
           </Button>
         </div>
-        <div
-          className="overflow-y border-radius"
-          style={{
-            minHeight: 50,
-            maxHeight: `calc(var(--h) - 100px)`,
-            padding: 10,
-          }}
-        >
-          {tree?.length ? (
-            <FileTree tree={simpleTree || []} fold={fold} setFold={setFold} />
-          ) : (
-            <div
-              className="text-12 text-center"
-              style={{ color: '#eee', paddingTop: 10 }}
-            >
-              No Data
+        {pageState.detail ? (
+          <div
+            className="overflow-y border-radius"
+            style={{
+              minHeight: 50,
+              maxHeight: `calc(var(--h) - 100px)`,
+              padding: 10,
+            }}
+          >
+            {tree?.length ? (
+              <FileTree tree={simpleTree || []} fold={fold} setFold={setFold} />
+            ) : (
+              <div
+                className="text-12 text-center"
+                style={{ color: '#eee', paddingTop: 10 }}
+              >
+                No Data
+              </div>
+            )}
+          </div>
+        ) : (
+          <div className="repo-status">
+            <div className="update">
+              Update: {pageState?.repoStatus?.M || 0}
             </div>
-          )}
-        </div>
+            <div className="add">Add: {pageState?.repoStatus?.A || 0}</div>
+            <div className="delete">
+              Delete: {pageState?.repoStatus?.D || 0}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   )

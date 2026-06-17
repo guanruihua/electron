@@ -1,6 +1,5 @@
 import DashboardView from '@/views/dashboard'
 // import FileResourceManagement from '@/views/file-resource'
-import TaskResourceManager from '@/views/task-resource'
 import Setting from '@/views/setting'
 import { ClipboardManager } from '@/views/clipboard'
 import MusicPlayer from '@/views/music/music'
@@ -27,12 +26,6 @@ export const Routes = [
     children: <Project />,
   },
   { id: '03', title: 'App', type: 'app', children: <App /> },
-  {
-    id: '200',
-    title: 'Task Resource',
-    type: 'trm',
-    children: <TaskResourceManager />,
-  },
   {
     id: '04',
     title: 'Clipboard',

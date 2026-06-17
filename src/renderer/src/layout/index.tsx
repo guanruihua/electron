@@ -16,9 +16,8 @@ import { Routes } from './routes'
 
 export default function Layout() {
   const h = usePageState()
-  const { state, handle, ly } = h
+  const { state, handle } = h
   const { activeTab } = h.state
-  const col = ly.innerCol || 1
 
   return (
     <ConfigProvider
@@ -50,30 +49,6 @@ export default function Layout() {
                 </div>
               )
             })}
-            <div
-              className="root-aside-item switch-screen-size"
-              onClick={() => {
-                const newCol = col === 3 ? 1 : col + 1
-                window.api.invoke('setSize', { width: 500 * newCol + 10 })
-                if (ly.innerCol !== newCol) ly.set({ innerCol: newCol })
-              }}
-            >
-              <div
-                className="logo"
-                style={{
-                  gridTemplateColumns: new Array(col || 2)
-                    .fill('1fr')
-                    .join(' '),
-                }}
-              >
-                {new Array(col || 2).fill('').map((_, i) => (
-                  <div
-                    key={state.col + '_' + i}
-                    className="switch-screen-size-render"
-                  />
-                ))}
-              </div>
-            </div>
           </div>
           <div className="root-view">
             <div className="root-view-content">

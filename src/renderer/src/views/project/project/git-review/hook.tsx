@@ -13,6 +13,7 @@ export const usePageState = (selectProject: ProjectConf) => {
     hty: [],
     hty_options: [],
     tree: [],
+    repoStatus: {},
     simpleTree: [],
   })
 

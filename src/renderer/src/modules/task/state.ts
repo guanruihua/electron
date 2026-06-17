@@ -1,9 +1,7 @@
-import { useEffect } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { format } from './helper'
 import { useLoadings, useSetState } from '@/util'
 import { TRMState, UseTRMState } from '@/type'
-import { useState } from 'react'
-import { useRef } from 'react'
 
 export const useTRMState = (): UseTRMState => {
   const [loadings, setLoadings] = useLoadings()

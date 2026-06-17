@@ -56,8 +56,9 @@ export const useTaskStore = create(
           console.error(error)
           task.status = 'error'
           task.errorMsg = JSON.stringify(error)
+        } finally {
+          this.setLoading(task, false)
         }
-        this.setLoading(task, false)
 
         task.endTime = Date.now()
         if (task.endTime - task.startTime > 30_000) {

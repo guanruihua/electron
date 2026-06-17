@@ -16,7 +16,7 @@ import { Routes } from './routes'
 
 export default function Layout() {
   const h = usePageState()
-  const { tabs, state, handle, ly } = h
+  const { state, handle, ly } = h
   const { activeTab } = h.state
   const col = ly.innerCol || 1
 
@@ -30,7 +30,7 @@ export default function Layout() {
         <Header {...h} />
         <div className="root-view-container">
           <div className="root-aside">
-            {tabs?.map((tab: ViewState) => {
+            {Routes?.map((tab: ViewState) => {
               const { id, title, type } = tab
               return (
                 <div

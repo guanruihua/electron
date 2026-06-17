@@ -93,8 +93,20 @@ export type NodeTread = Partial<{
   [key: string]: any
 }>
 
+export type UserInfo = Partial<{
+  id: string
+  uid: string
+  date: string
+  weatherInfo: string[]
+  setting: Partial<{
+    enableEmail: boolean
+  }>
+  [key: string]: any
+}>
+
 export type SysState = {
   initSuccess: boolean
+  userInfo: UserInfo
   path: string
   ignoreApps: string
   innerCol: number

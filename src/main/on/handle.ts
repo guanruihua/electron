@@ -57,7 +57,8 @@ export const ipcMainHandle = (mainWindow: BrowserWindow) => {
         mainWindow.webContents.closeDevTools()
       } else {
         mainWindow.webContents.openDevTools({
-          mode: 'bottom',
+          // mode: 'bottom',
+          mode: 'detach',
         })
       }
     },

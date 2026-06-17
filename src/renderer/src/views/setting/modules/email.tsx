@@ -3,14 +3,16 @@ import { Button } from 'antd'
 import { req } from '@/util'
 import { Icon } from '@/components'
 import { Switch } from 'antd'
+import { useSysStore } from '@/store/sys'
 
 export function Email() {
-  const [status, setStatus] = React.useState<boolean>(false)
+  const sys = useSysStore()
+  const status = sys.userInfo?.setting?.enableEmail || false
   const [running, setRunning] = React.useState(false)
   const check = async () => {
     try {
       const res: any = await req('get', '/check')
-      if (res?.data?.data) {
+      if (res?.data?.data?.data) {
         setRunning(true)
       }
       console.log(res)
@@ -55,7 +57,17 @@ export function Email() {
         </div>
         <div className="flex gap items-center">
           <Button onClick={check}>Check</Button>
-          <Switch checked={status} onChange={setStatus} />
+          <Switch
+            checked={status}
+            onChange={(newStatus) => {
+              sys.setUserInfo(
+                {
+                  enableEmail: newStatus,
+                },
+                'setting',
+              )
+            }}
+          />
         </div>
         <div className="flex gap col">
           <div className="title">Email</div>

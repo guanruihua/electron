@@ -3,60 +3,6 @@ import { useSetState } from '0hook'
 import { State } from '@/type'
 import { useLayoutStore } from '@/store/layout'
 
-const tabs = [
-  {
-    id: '01',
-    title: 'Dashboard',
-    type: 'dashboard',
-  },
-  {
-    id: '02',
-    title: 'Project',
-    type: 'project',
-  },
-  {
-    id: '03',
-    title: 'App',
-    type: 'app',
-  },
-  // {
-  //   id: '02',
-  //   title: 'File Resource',
-  //   type: 'fsm',
-  //   url: 'D:\\',
-  // },
-  {
-    id: '04',
-    title: 'Clipboard',
-    type: 'clipboard',
-  },
-  {
-    id: '05',
-    title: 'Music Player',
-    type: 'music-player',
-  },
-  {
-    id: '100',
-    title: 'Setting',
-    type: 'setting',
-  },
-  {
-    id: '200',
-    title: 'Task Resource',
-    type: 'trm',
-  },
-  // {
-  //   id: '03',
-  //   title: 'Terminal',
-  //   type: 'terminal',
-  // },
-  // {
-  //   id: '04',
-  //   title: 'Agent',
-  //   type: 'agent',
-  // },
-]
-
 export const usePageState = () => {
   const ly = useLayoutStore()
   const [state, _renderState] = useSetState<State>({
@@ -153,7 +99,6 @@ export const usePageState = () => {
 
   return {
     ly,
-    tabs,
     state,
     handle,
   }

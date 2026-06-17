@@ -84,11 +84,11 @@ export class LowDB {
 
     const item: DataSchema = await this.getItem(params)
 
-    if (isArray(this.MAP[DBName].data?.[tableName])) {
-      this.MAP[DBName].data[tableName].push(item)
-    } else {
-      this.MAP[DBName].data[tableName] = [item]
+    if (!isArray(this.MAP[DBName].data?.[tableName])) {
+      this.MAP[DBName].data[tableName] = []
     }
+    this.MAP[DBName].data[tableName].push(item)
+
     await this.MAP[DBName].write()
 
     return item
@@ -123,7 +123,7 @@ export class LowDB {
       return false
 
     // if (!this.MAP[DBName]) return false
-    
+
     const { id } = payload
     if (!id || !isArray(this.MAP?.[DBName]?.data?.[tableName]))
       return await this.add(params)

@@ -1,14 +1,14 @@
 import './style/index.less'
 import { NodeTread } from '@/modules/node-tread'
-import { Info } from '@/modules/info/info'
-import { DDL } from '@/modules/info/ddl'
+import { DDL } from '@/modules/ddl'
 import { ContentLayout } from '@/components/layout'
+import { WinInfo } from '@/modules/win-info'
 
 export default function DashboardView() {
   return (
     <ContentLayout name='dashboard' className="page__dashboard">
       <DDL />
-      <Info />
+      <WinInfo />
       <NodeTread />
     </ContentLayout>
   )

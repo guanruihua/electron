@@ -8,7 +8,7 @@ export const ProjectItem = (props: { item: ProjectConf }) => {
   const sys = useSysStore()
   const { item } = props
   const name = item.label || item.path
-  console.log(item)
+  // console.log(item)
   const [fold, setFold] = React.useState(true)
 
   return (

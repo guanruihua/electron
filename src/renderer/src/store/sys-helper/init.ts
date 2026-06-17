@@ -1,5 +1,6 @@
 import { SysState } from '@/type'
 import { getApps, getModules, getSetting } from '@/util'
+import { initUserInfo } from './user-info'
 
 export const getSysInitState = async (): Promise<SysState> => {
   const path = 'D:\\Data\\electron'
@@ -20,6 +21,10 @@ export const getSysInitState = async (): Promise<SysState> => {
   const newState: SysState = {
     initSuccess: true,
     path,
+    userInfo: {
+      uid: 'ruihuag',
+      weatherInfo: [],
+    },
     ignoreApps,
     quickStarts,
     selectedQuickStart,
@@ -49,30 +54,8 @@ export const getSysInitState = async (): Promise<SysState> => {
       console.log(`[Error] Init DB: "${val}"`)
     }
   }
-  const res = await window.api.db({
-    action: 'find',
-    tableName: 'db',
-    DBName: 'conf',
-    payload: {
-      uid: 'ruihuag',
-    },
-  })
 
-  if (res.error || !res.data?.length) {
-    const userInfo = res.data.at(0)
-    // console.log('User Info No init')
-  }
-
-  const query = await window.api.db({
-    action: 'update',
-    tableName: 'db',
-    DBName: 'conf',
-    payload: {
-      uid: 'ruihuag',
-    },
-  })
-  console.log('User Info init Success')
-
+  await initUserInfo(newState)
   // console.log({
   //   setting,
   //   modules,

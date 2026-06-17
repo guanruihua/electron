@@ -1,13 +1,13 @@
 import { Icon } from '@/components'
 import { Button } from 'antd'
 import './info.less'
-import { useMyState } from './state'
+import { useWinInfoState } from './state'
 import { useSysStore } from '@/store/sys'
 
-export function Info() {
+export function WinInfo() {
   const sys = useSysStore()
   const { loading, setLoading, LocalIP, batteryPower, networkName, reload } =
-    useMyState(sys)
+    useWinInfoState(sys)
 
   return (
     <div className="dashboard-info flex col gap relative">

@@ -1,26 +1,16 @@
 import React from 'react'
 import { updateCountdown } from './helper/helper'
 import { getJSON, useLoading } from '@/util'
-import { isBoolean, isString } from 'asura-eye'
+import { isString } from 'asura-eye'
 import { SysState } from '@/type'
 import './info.less'
 
 export const useMyState = (sys: SysState) => {
   const { userInfo } = sys
-  console.log('sys/userInfo', userInfo)
   const { weatherInfo } = userInfo
   const [loading, setLoading] = useLoading()
-  const [LocalIP, setLocalIP] = React.useState('0.0.0.0')
-  const [batteryPower, setBatteryPower] = React.useState(false)
   const [ddl, setDDL] = React.useState<string[]>(['今天不用上班！'])
-  const [networkName, setNetworkName] = React.useState('')
   const timer = React.useRef<NodeJS.Timeout | null>(null)
-
-  async function updateNetworkName() {
-    const cmd = `powershell -Command "Get-NetConnectionProfile | Select-Object -ExpandProperty Name"`
-    const res = await window.api.invoke('cmdResult', cmd)
-    if (isString(res)) setNetworkName(res)
-  }
 
   const clear = () => {
     timer.current && clearInterval(timer.current)
@@ -28,14 +18,6 @@ export const useMyState = (sys: SysState) => {
 
   const reload = async () => {
     if (!sys.initSuccess || !sys.path) return
-
-    await updateNetworkName()
-    const [LIP, BatteryPower] = await window.api.invoke(
-      'getSysInfo',
-      'LocalIP,BatteryPower',
-    )
-    if (isString(LIP)) setLocalIP(LIP)
-    if (isBoolean(BatteryPower)) setBatteryPower(BatteryPower)
 
     const path = sys.path + '\\ddl.json'
     const res = await window.api.fs('readFile', { path })
@@ -65,10 +47,7 @@ export const useMyState = (sys: SysState) => {
   return {
     loading,
     setLoading,
-    LocalIP,
-    batteryPower,
     ddl,
-    networkName,
     reload,
   }
 }

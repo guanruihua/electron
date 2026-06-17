@@ -12,9 +12,7 @@ export default function TaskResourceManager() {
     <div className="trm layout-grid">
       {h?.TRM?.list?.length ? <TRMList h={h} /> : <DiagonalLoading />}
       {/* <TRMTab /> */}
-      <div className="trm-card-timeline">
-        <Timeline />
-      </div>
+      <Timeline />
     </div>
   )
 }

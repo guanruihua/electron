@@ -76,7 +76,7 @@ export const usePageState = (sys: SysState) => {
       !res.error && this.reload()
     },
     async add(payload: Partial<DataSchema>) {
-      console.log('add/payload', payload)
+      // console.log('add/payload', payload)
       if (isArray(clipboardState.list)) {
         for (const item of clipboardState.list) {
           if (payload.type !== item.type) continue

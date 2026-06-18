@@ -1,12 +1,13 @@
 import { SysState } from '@/type'
-import { getApps, getModules, getSetting } from '@/util'
+import { getApps, getFile, getModules, getSetting } from '@/util'
 import { initUserInfo } from './user-info'
 
 export const getSysInitState = async (): Promise<SysState> => {
   const path = 'D:\\Data\\electron'
-
+  const env = await getFile(path + '\\env.json')
+  if (!env.uid) env.uid = 'ruihuag'
+  // console.log(env)
   const setting = await getSetting(path)
-
   const modules = await getModules(path)
   const apps = await getApps(path)
 
@@ -21,8 +22,9 @@ export const getSysInitState = async (): Promise<SysState> => {
   const newState: SysState = {
     initSuccess: true,
     path,
+    env,
     userInfo: {
-      uid: 'ruihuag',
+      uid: env.uid,
       weatherInfo: [],
     },
     ignoreApps,

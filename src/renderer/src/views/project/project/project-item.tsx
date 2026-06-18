@@ -3,6 +3,7 @@ import { useSysStore } from '@/store/sys'
 import React from 'react'
 import { ProjectItemContent } from './project-item-content'
 import { GitReview } from './git-review/git-review'
+import { Icon } from '@/components'
 
 export const ProjectItem = (props: { item: ProjectConf }) => {
   const sys = useSysStore()
@@ -31,28 +32,17 @@ export const ProjectItem = (props: { item: ProjectConf }) => {
         <span className="project-item-name">{name}</span>
         <div className="project-item-right">
           <div className="project-item-fold">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 1024 1024"
-              width="1em"
-              height="1em"
-            >
-              <path
-                fill="currentColor"
-                stroke="currentColor"
-                strokeWidth="48"
-                strokeLinejoin="round"
-                d="M831.872 340.864 512 652.672 192.128 340.864a30.59 30.59 0 0 0-42.752 0 29.12 29.12 0 0 0 0 41.6L489.664 714.24a32 32 0 0 0 44.672 0l340.288-331.712a29.12 29.12 0 0 0 0-41.728 30.59 30.59 0 0 0-42.752 0z"
-              />
-            </svg>
+            <Icon type="fold" />
           </div>
         </div>
       </div>
 
-      {!fold && <div className="project-item-content">
-        <ProjectItemContent item={item} />
-        <GitReview item={item}/>
-      </div>}
+      {!fold && (
+        <div className="project-item-content">
+          <ProjectItemContent item={item} />
+          <GitReview item={item} />
+        </div>
+      )}
     </div>
   )
 }

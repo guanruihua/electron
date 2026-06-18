@@ -10,7 +10,7 @@ import { isString } from 'asura-eye'
 type Actions<T> = {
   set(newState: Partial<T>): void
   get(): T
-  init(force: boolean): Promise<void>
+  init(force?: boolean): Promise<void>
   setUserInfo(info: UserInfo, key?: string): Promise<void>
   saveToFile(type: 'setting' | 'modules' | 'apps'): Promise<void>
   findNodeTreads(): Promise<void>
@@ -26,6 +26,7 @@ export const useSysStore = create(
       userInfo: {
         uid: 'ruihuag',
       },
+      env: {},
       path: '',
       ignoreApps: '',
       selectedQuickStart: 0,

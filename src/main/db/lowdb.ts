@@ -124,11 +124,11 @@ export class LowDB {
 
     // if (!this.MAP[DBName]) return false
 
-    const { id } = payload
-    if (!id || !isArray(this.MAP?.[DBName]?.data?.[tableName]))
+    const { id, uid } = payload
+    if ((!id && !uid) || !isArray(this.MAP?.[DBName]?.data?.[tableName]))
       return await this.add(params)
 
-    const index = this.MAP[DBName].data[tableName].findIndex((_) => _.id === id)
+    const index = this.MAP[DBName].data[tableName].findIndex((_) => _.id === id || _.uid === uid )
     if (index === -1) return await this.add(params)
 
     this.MAP[DBName].data[tableName][index] = await this.getItem({

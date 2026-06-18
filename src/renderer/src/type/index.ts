@@ -113,7 +113,11 @@ export type SysState = {
   selectedQuickStart: number
   quickStarts: string[][]
   selectProject: ProjectConf
-
+  env: Partial<{
+    room_ids: number[]
+    uid: string
+    [key: string]: any
+  }>
   NodeTreads: NodeTread[]
   apps: [string, string][]
   modules: ProjectConf[]

@@ -20,7 +20,7 @@ export const resolveWeather = async (): Promise<string[]> => {
     'https://api.caiyunapp.com/v2.6/j8KFHg2u7asmu9hT/113.579,22.269/daily?dailysteps=3',
   )
   const { status, data } = res || {}
-  if (status === 'success' && data.status !== 'ok') {
+  if (status === 'success' && data.status === 'ok') {
     const weatherInfo = summarizeWeather(data)
    
     return weatherInfo

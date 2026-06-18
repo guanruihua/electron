@@ -27,6 +27,7 @@ export const initUserInfo = async (newState: SysState) => {
   if (userInfo.date !== date || !userInfo.weatherInfo?.length) {
     needUpdateDB = true
     userInfo.weatherInfo = await resolveWeather()
+    console.log(userInfo.weatherInfo)
     userInfo.date = date
     console.log('Weather info init Success')
   }
@@ -38,7 +39,7 @@ export const initUserInfo = async (newState: SysState) => {
       action: 'update',
       tableName,
       DBName,
-      payload: newState.userInfo,
+      payload: userInfo,
     })
     // console.log('res_add:', res_add)
 
@@ -47,7 +48,7 @@ export const initUserInfo = async (newState: SysState) => {
       tableName,
       DBName,
       payload: {
-        uid: newState.userInfo.uid,
+        uid: userInfo.uid,
       },
     })
     // console.log('res2:', res2)

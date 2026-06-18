@@ -1,22 +1,29 @@
 .project-item-content {
   border-radius: 12px;
-  border-radius: 12px;
+
+  .project-fold {
+    svg {
+      transition: all .3s;
+    }
+
+    &[data-fold='true'] svg {
+      transform: rotate(-180deg);
+    }
+  }
 
   .pids {
-    padding: 10px 0 15px;
+    padding: 0 0 5px;
     display: flex;
     flex-direction: row;
     gap: 10px;
-    font-size: 12px;
+    font-size: 10px;
     font-weight: bold;
-  }
 
-  &-header {
-    display: flex;
-    align-items: center;
-    min-height: var(--h-module);
+    div {
+      letter-spacing: 1px;
+      color: #ffffff60;
+    }
   }
-
 
   &-module {
     width: 100%;

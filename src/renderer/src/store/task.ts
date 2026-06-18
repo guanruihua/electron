@@ -45,6 +45,7 @@ export const useTaskStore = create(
         })
 
         try {
+          // let runTime = Date.now()
           const execMsg = await task.exec()
           // console.log(execMsg)
 

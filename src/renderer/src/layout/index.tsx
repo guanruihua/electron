@@ -13,11 +13,17 @@ import React from 'react'
 import { ViewState } from '@/type'
 import { Logo } from './components/logo'
 import { Routes } from './routes'
+import { useSysStore } from '@/store/sys'
 
 export default function Layout() {
   const h = usePageState()
   const { state, handle } = h
   const { activeTab } = h.state
+  const sys = useSysStore()
+
+  React.useEffect(() => {
+    sys.init()
+  }, [])
 
   return (
     <ConfigProvider

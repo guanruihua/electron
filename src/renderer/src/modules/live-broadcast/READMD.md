@@ -1,3 +1,7 @@
+<https://uapis.cn/pricing>
+<https://sessionhu.github.io/bilibili-API-collect/docs/live/info.html#%E8%8E%B7%E5%8F%96%E6%88%BF%E9%97%B4%E9%A1%B5%E5%88%9D%E5%A7%8B%E5%8C%96%E4%BF%A1%E6%81%AF>
+<https://sessionhu.github.io/bilibili-API-collect/docs/live/info.html#%E8%8E%B7%E5%8F%96%E4%B8%BB%E6%92%AD%E4%BF%A1%E6%81%AF>
+
 ```js
 // 该代码适用于 Node.js 环境，运行时需要安装 axios 库：npm install axios
 const axios = require('axios')

@@ -201,18 +201,7 @@ export const useProjectOpt = ({ item }: { item: ProjectConf }) => {
     })
   }
 
-  const test = async () => {
-    // console.log(item)
-    const { path } = item
-    if (!isString(path)) return
-    const pids = await getNodePids()
-    console.log(pids)
-    // const res = await getAll_NodeThread()
-    // console.log(res)
-  }
-
   return {
-    test,
     projName,
     loadings,
     FSStatus,

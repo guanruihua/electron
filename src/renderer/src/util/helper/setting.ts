@@ -1,6 +1,15 @@
 import { State, SysState } from '@/type'
 import { getJSON } from './get'
 
+export const getFile = async (path: string) =>
+  getJSON(
+    await window.api.invoke('fs', {
+      action: 'readFile',
+      payload: { path },
+    }),
+    {},
+  )
+
 export const getModules = async (path: string) =>
   getJSON(
     await window.api.invoke('fs', {

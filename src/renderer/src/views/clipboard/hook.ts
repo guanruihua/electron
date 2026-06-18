@@ -7,11 +7,12 @@ import { SysState } from '@/type'
 import { tableName, DBName } from './conf'
 
 export const usePageState = (sys: SysState) => {
+  const enableClipboard = sys?.userInfo?.setting?.enableClipboard || false
+
   const { context, success, error } = useMsg()
 
   const [pageState, setPageState] = useSetState({
     selectType: 'all',
-    enable: true,
   })
 
   const [clipboardState, setClipboardState] = useSetState<PageState>({
@@ -164,7 +165,7 @@ export const usePageState = (sys: SysState) => {
   const timer = React.useRef<NodeJS.Timeout | null>(null)
 
   React.useEffect(() => {
-    if (pageState.enable) {
+    if (enableClipboard) {
       if (!timer.current) timer.current = setInterval(watchCopy, 1000)
     } else {
       timer.current && clearInterval(timer.current)
@@ -174,7 +175,7 @@ export const usePageState = (sys: SysState) => {
       timer.current && clearInterval(timer.current)
       timer.current = null
     }
-  }, [sys.initSuccess, pageState.enable])
+  }, [sys.initSuccess, enableClipboard])
 
   React.useEffect(() => {
     if (!sys.initSuccess) return

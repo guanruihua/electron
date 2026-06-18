@@ -6,7 +6,7 @@ export const getSysInitState = async (): Promise<SysState> => {
   const path = 'D:\\Data\\electron'
   const env = await getFile(path + '\\env.json')
   if (!env.uid) env.uid = 'ruihuag'
-  // console.log(env)
+  console.log(env)
   const setting = await getSetting(path)
   const modules = await getModules(path)
   const apps = await getApps(path)

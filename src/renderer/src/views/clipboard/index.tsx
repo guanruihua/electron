@@ -1,6 +1,6 @@
 import React from 'react'
 import { DiagonalLoading, Icon } from '@/components'
-import { Button, Switch } from 'antd'
+import { Button } from 'antd'
 import { usePageState } from './hook'
 import { ClipboardItem } from './clipboard-item'
 import ClipboardType from './clipboard-type'
@@ -73,45 +73,31 @@ export function ClipboardManager() {
 
   return (
     <div className="clipboard-manager relative" data-disabled={!sys.path}>
-      <div className="clipboard-manager-header w-layout-flex">
-        <div className="left layout-flex justify-start">
-          <ClipboardType
-            clipboardState={clipboardState}
-            pageState={pageState}
-            handleSelf={handleSelf}
-          />
-          <span className="layout-flex text-10 bold">
-            Total: {list?.length || 0}
-          </span>
-        </div>
-        <div className="right layout-flex justify-end">
-          <Switch
-            checked={pageState.enable}
-            checkedChildren={'Enabled'}
-            unCheckedChildren={'Disabled'}
-            onChange={(enable) => handleSelf.setPageState({ enable })}
-          />
-          <Button
-            icon={<Icon type="edit" />}
-            loading={loadings.editFile}
-            onClick={() => setLoadings(openSettingFile(sys.path), 'editFile')}
-          >
-            File
-          </Button>
-          <Button
-            icon={<Icon type="del" />}
-            loading={loadings.edit}
-            onClick={() => handleSelf.clearAll()}
-          >
-            Clear All
-          </Button>
-          <Button
-            loading={loadings.reload}
-            icon={<Icon type="reload" style={{ fontSize: 16 }} />}
-            className="bolder"
-            onClick={() => setLoadings(handleSelf.reload(), 'reload')}
-          />
-        </div>
+      <div className="clipboard-manager-header">
+        <ClipboardType
+          clipboardState={clipboardState}
+          pageState={pageState}
+          handleSelf={handleSelf}
+        />
+        <div className="total text-10 bold">Total: {list?.length || 0}</div>
+      </div>
+      <div className="root-badge">
+        <Button
+          icon={<Icon type="edit" />}
+          loading={loadings.editFile}
+          onClick={() => setLoadings(openSettingFile(sys.path), 'editFile')}
+        />
+        <Button
+          icon={<Icon type="del" />}
+          loading={loadings.edit}
+          onClick={() => handleSelf.clearAll()}
+        />
+        <Button
+          loading={loadings.reload}
+          icon={<Icon type="reload" style={{ fontSize: 16 }} />}
+          className="bolder"
+          onClick={() => setLoadings(handleSelf.reload(), 'reload')}
+        />
       </div>
       {loadings.init ? (
         <DiagonalLoading />

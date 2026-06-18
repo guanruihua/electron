@@ -13,6 +13,7 @@ export function createBrowserWindow(): BrowserWindow {
     width: 510,
     height: 640,
     minWidth: 500,
+    minHeight: 640,
     resizable: true,
     icon,
     titleBarStyle: 'hidden',

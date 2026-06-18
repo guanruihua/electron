@@ -4,6 +4,8 @@ import { isFunction, isString } from 'asura-eye'
 import { useLoading } from '@/util'
 import { Icon } from '@/components'
 import { useEffect } from 'react'
+import { Switch } from 'antd'
+import { useSysStore } from '@/store/sys'
 
 const MyButton = ({ child }: { child: [string, string | any, string] }) => {
   const [name, cmd, icon] = child
@@ -36,6 +38,9 @@ const MyButton = ({ child }: { child: [string, string | any, string] }) => {
 }
 
 export default function Opt() {
+  const sys = useSysStore()
+  const enableClipboard = sys?.userInfo?.setting?.enableClipboard || false
+
   const Conf: {
     title: string
     children: (string | any)[]
@@ -90,6 +95,20 @@ export default function Opt() {
   return (
     <div className="layout-module card module-opt other-card">
       <div className="flex gap wrap">
+        <div className="layout-flex">Clipboard</div>
+        <Switch
+          checked={enableClipboard}
+          checkedChildren={'Enabled'}
+          unCheckedChildren={'Disabled'}
+          onChange={(enableClipboard) => {
+            sys.setUserInfo(
+              {
+                enableClipboard,
+              },
+              'setting',
+            )
+          }}
+        />
         {Conf.map((item, i) => {
           const { title, children } = item
           return (

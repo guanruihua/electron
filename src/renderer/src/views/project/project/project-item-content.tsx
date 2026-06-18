@@ -93,6 +93,7 @@ export const ProjectItemContent = (props: { item: ProjectConf }) => {
         'data-fold': show,
         icon: <Icon type="fold" />,
         onClick: () => setShow((v) => !v),
+        hidden: !webs?.length && !FSStatus['package.json']
       },
     ].filter((_) => !_.hidden),
     show &&

@@ -17,6 +17,13 @@ export const initUserInfo = async (newState: SysState) => {
 
   const userInfo: UserInfo = res?.data?.at(0) || {}
 
+  if(!userInfo?.setting){
+    userInfo.setting = {
+      enableClipboard: true,
+      enableEmail: true,
+    }
+  }
+
   // uid
   if (!userInfo.uid) {
     needUpdateDB = true

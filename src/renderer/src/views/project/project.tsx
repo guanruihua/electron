@@ -12,7 +12,7 @@ export default function Project() {
   const task = useTaskStore()
 
   // console.log(sys.modules)
-  
+
   return (
     <ContentLayout
       name="root-project"
@@ -20,26 +20,9 @@ export default function Project() {
       key={sys.modules.length}
     >
       <ProjectHeader sys={sys} task={task} />
-      {sys.modules?.map?.((item, i) => {
-        if (item.type !== 'group') return <ProjectItem key={i} item={item} />
-        return (
-          <div className="project-group" key={i}>
-            <div className="bold text-12 pointer border-bottom">
-              {item.label || item.path}
-            </div>
-            <div
-              className="grid-layout grid"
-              style={{
-                marginTop: 5,
-              }}
-            >
-              {item.children?.map?.((item, i) => (
-                <ProjectItem key={i} item={item} />
-              ))}
-            </div>
-          </div>
-        )
-      })}
+      {sys.modules?.map?.((item, i) => (
+        <ProjectItem key={i} item={item} />
+      ))}
     </ContentLayout>
   )
 }

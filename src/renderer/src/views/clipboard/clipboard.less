@@ -6,10 +6,20 @@
   position: relative;
   height: var(--h);
 
-  .clipboard-manager-header{
+  .clipboard-manager-header {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
     padding: 10px;
     justify-content: space-between;
     grid-column: 1/-1;
+    gap: 10px;
+
+    .total {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
   }
 
   .clipboard-manager-type-box {

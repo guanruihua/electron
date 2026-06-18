@@ -34,7 +34,7 @@ export type ViewStates = ViewState[]
 export type ProjectConf = Partial<{
   label: string
   path: string
-  type: 'group' | string
+  type: string
   npm: string
   web: string
   git: boolean
@@ -100,6 +100,7 @@ export type UserInfo = Partial<{
   weatherInfo: string[]
   setting: Partial<{
     enableEmail: boolean
+    enableClipboard: boolean
   }>
   [key: string]: any
 }>

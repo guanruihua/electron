@@ -7,6 +7,11 @@ export * from './req'
 import { isArray, isNumber, isObject, isString } from 'asura-eye'
 import { message } from 'aurad'
 import { copyText } from 'harpe'
+import { v4 as getUUID }  from 'uuid'
+
+export {
+  getUUID
+}
 
 /**
  * @title isChange

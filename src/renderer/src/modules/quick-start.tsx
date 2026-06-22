@@ -23,7 +23,7 @@ export const QuickStart = () => {
   const handleSelf = {
     startApp,
     async updateApps() {
-      task.add({
+      task.run({
         id: 'quickStart__update-app',
         name: 'Quick Start Update Apps',
         async exec() {
@@ -82,7 +82,7 @@ export const QuickStart = () => {
         return setLoading(false)
       const list = quickStarts[selectedQuickStart]
       if (!isArray(list) || list.length < 1) return setLoading(false)
-      task.add({
+      task.run({
         id: 'quickStart__start-group',
         name: 'Quick Start / Run a group of apps',
         async exec() {

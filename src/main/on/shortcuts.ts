@@ -77,7 +77,7 @@ export const registerShortcuts = (mainWindow: BrowserWindow) => {
   }
 
   const Conf = {
-    'Ctrl+Q': () => {
+    'Ctrl+Y': () => {
       if (isMoving) return
       isMoving = true
       try {

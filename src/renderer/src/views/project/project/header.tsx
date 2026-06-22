@@ -16,7 +16,7 @@ export function ProjectHeader(props: ProjectHeaderProps) {
         icon={<Icon type="edit" />}
         loading={loadings.project}
         onClick={() =>
-          task.add({
+          task.run({
             id: 'project__edit-json-file',
             name: 'Edit Project JSON File',
             async exec() {
@@ -33,7 +33,7 @@ export function ProjectHeader(props: ProjectHeaderProps) {
         loading={loadings.nodeThread}
         icon={<Icon type="reload" style={{ fontSize: 16 }} />}
         onClick={() =>
-          task.add({
+          task.run({
             id: 'nodeThread__query',
             name: 'Query Node Thread',
             exec: sys.findNodeTreads,

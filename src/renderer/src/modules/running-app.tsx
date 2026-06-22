@@ -14,7 +14,7 @@ export default function RunningApp() {
   const [appList, setAppList] = React.useState<AppList>([])
 
   const query = () =>
-    task.add({
+    task.run({
       id: 'runningApp__query',
       name: 'Query All Running Apps',
       async exec() {
@@ -45,7 +45,7 @@ export default function RunningApp() {
   const stop = (item) => {
     if (!isString(item?.name)) return
 
-    task.add({
+    task.run({
       id: `runningApp__stop-${item.id}`,
       name: `Running App / Stop the App`,
       desc: `Name: ${item.name} (${item.id})`,
@@ -59,7 +59,7 @@ export default function RunningApp() {
   }
 
   const stopAll = () =>
-    task.add({
+    task.run({
       id: `runningApp__stopAll`,
       name: `Stop All Running Apps`,
       async exec() {

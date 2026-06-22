@@ -23,18 +23,27 @@
       font-style: normal;
     }
     * {
-      font-family: 'xyy', 'xyy_cn' ,sans-serif !important;
+      font-family: 'xyy', 'xyy_cn', sans-serif !important;
     }
-    html,
-    body {
-      /* background: transparent; */
-      /* font-family: 'XYYFont' !important; */
-      background-color: #252526;
+    body > .root > .bg {
+      position: fixed;
+      inset: 0;
+      margin: auto;
+      background-image: url('../../resources/bg.jpg');
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      background-size: cover;
+      background-origin: center center;
+      z-index: 0;
+      opacity: .3;
     }
   </style>
 
   <body>
-    <div class="root"></div>
+    <div class="root">
+      <div class="bg"></div>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

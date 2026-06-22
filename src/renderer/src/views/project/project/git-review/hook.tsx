@@ -24,7 +24,7 @@ export const usePageState = (selectProject: ProjectConf) => {
   const query = async () => {
     if (selectProject.git === false) return
     setLoading(true)
-    task.add({
+    task.run({
       id: 'gitReview__init',
       name: 'Git Review / Pull State',
       desc: `Project Name: ${label}`,
@@ -54,7 +54,7 @@ export const usePageState = (selectProject: ProjectConf) => {
 
   const handlePush = async () => {
     setLoading(true)
-    task.add({
+    task.run({
       id: 'gitReview__push',
       name: 'Git Review / Push State',
       desc: `Project Name: ${label}`,

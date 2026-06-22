@@ -9,7 +9,6 @@ export function NodeTread() {
   const sys = useSysStore()
   const task = useTaskStore()
   const loadings = task.loadings
-
   return (
     <div className="root-layout-home-view-node-tread overflow-y flex col gap layout-module w">
       <div className="flex space-between items-center w">
@@ -19,7 +18,7 @@ export function NodeTread() {
             loading={loadings.nodeThread}
             icon={<Icon type="run" />}
             onClick={() =>
-              task.add({
+              task.run({
                 id: 'nodeThread__query',
                 name: 'Query Node Thread',
                 exec: sys.findNodeTreads,
@@ -32,7 +31,7 @@ export function NodeTread() {
             icon={<Icon type="stop" />}
             loading={loadings.nodeThread}
             onClick={() =>
-              task.add({
+              task.run({
                 id: 'nodeThread__stopAll',
                 name: 'Stop All Node Thread',
                 exec: sys.stopNodeTreads,
@@ -87,7 +86,7 @@ export function NodeTread() {
                 style={{ fontSize: 24 }}
                 onClick={async () => {
                   if (!row.pid) return
-                  task.add({
+                  task.run({
                     id: `nodeThread__stop-${row.pid}`,
                     name: `Stop Node Thread PID(${row.pid})`,
                     async exec() {
@@ -97,7 +96,7 @@ export function NodeTread() {
                       )
                     },
                   })
-                  task.add({
+                  task.run({
                     id: 'nodeThread__query',
                     name: 'Query Node Thread',
                     exec: sys.findNodeTreads,

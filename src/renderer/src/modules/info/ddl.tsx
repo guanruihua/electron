@@ -21,7 +21,7 @@ export function DDL() {
             icon={<Icon type="edit" />}
             loading={loadings.info}
             onClick={() =>
-              task.add({
+              task.run({
                 id: 'info__edit-ddl-json-file',
                 name: 'Edit Info/ddl JSON File',
                 async exec() {

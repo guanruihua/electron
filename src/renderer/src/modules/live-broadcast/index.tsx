@@ -1,39 +1,19 @@
 import React from 'react'
 import { getReqStatus } from './helper'
-import { useLoading, useSetState } from '@/util'
-import { DiagonalLoading, Icon } from '@/components'
-import dayjs from 'dayjs'
-import { Button } from 'antd'
 import { useSysStore } from '@/store/sys'
 import { DBName } from '@/store/conf'
+import { isArray, isObject } from 'asura-eye'
+import { Item } from './item'
 import './index.less'
-import { isArray, isNumber } from 'asura-eye'
-import { ObjectType } from '0type'
 
-const LiveStatus = ['未开播', '直播中', '轮播中']
 const tableName = 'Live-broadcast'
 
-const getDuration = (live_status: any, live_time: any) => {
-  if (live_status !== 1) return ''
-  const diff = dayjs().valueOf() - dayjs(live_time).valueOf()
-  const minutes = Math.floor(diff / 1000 / 60)
-  const h = Math.floor(minutes / 60)
-  const m = Math.floor(minutes - h * 60)
-  if (h && m) return `${h}h${m}m`
-  if (h && !m) return `${h}h`
-  if (!h && m) return `${m}m`
-  return ''
-}
-
 export function LiveBroadcast() {
-  const date = dayjs().format('YYYY-MM-DD')
   const sys = useSysStore()
   const { env } = sys || {}
   const { room_ids = [] } = env || {}
 
-  const [loading, setLoading] = useLoading()
-  const [list, setList] = useSetState([])
-
+  const [list, setList] = React.useState<any[]>([])
 
   const updateRoom = async (room_id: number) => {
     if (!room_id) return
@@ -49,7 +29,7 @@ export function LiveBroadcast() {
     }
   }
 
-  const query = async () => {
+  const query = async (): Promise<any[]> => {
     const res = await window.api.db({
       action: 'find',
       tableName,
@@ -57,8 +37,11 @@ export function LiveBroadcast() {
     })
     if (res.error) return []
     const list = res.data || []
-    setList(list)
-    return list
+    if (isArray(list)) {
+      setList(list)
+      return list
+    }
+    return []
   }
 
   const init = async () => {
@@ -83,72 +66,10 @@ export function LiveBroadcast() {
       className="live-broadcast"
       data-hidden={sys.initSuccess === false || !room_ids?.length}
     >
-      {isArray(list) && list.map((data, i) => {
-        const {
-          id = i,
-          room_id,
-          live_time,
-          live_status = 0,
-          title,
-          description,
-          parent_area_name,
-          area_name,
-          user_cover,
-        }: any = data || {}
-
-        const badges = [parent_area_name, area_name].filter(Boolean)
-
-        const duration = getDuration(live_status, live_time)
-        if (!data) return <React.Fragment key={id} />
-        return (
-          <div key={id} className="live-broadcast-item">
-            {data ? (
-              <div
-                className="live-broadcast-item-content"
-                data-live-status={live_status}
-              >
-                <img
-                  className="bg"
-                  src={user_cover}
-                  referrerPolicy="no-referrer"
-                />
-                <div className="header">
-                  <div className="live_status">
-                    <div className="dot"></div>
-                    <div className="content">{LiveStatus[live_status]}</div>
-                  </div>
-                  <div className="badge">
-                    {badges.map((badge, i) => {
-                      return (
-                        <div key={i} className="badge-item">
-                          {i !== 0 && <div>/</div>}
-                          <div>{badge}</div>
-                        </div>
-                      )
-                    })}
-                    <Button
-                      loading={loading}
-                      icon={<Icon type="reload" style={{ fontSize: 16 }} />}
-                      onClick={() => setLoading(updateRoom(room_id))}
-                    />
-                  </div>
-                </div>
-
-                <div className="title">{title}</div>
-                <div className="desc">{description}</div>
-                {live_status === 1 && (
-                  <>
-                    <div className="live_time">开播时间: {live_time}</div>
-                    <div className="live_duration">直播时长: {duration}</div>
-                  </>
-                )}
-              </div>
-            ) : (
-              <DiagonalLoading />
-            )}
-          </div>
-        )
-      })}
+      {isArray(list) &&
+        list.map((data, i) => (
+          <Item key={i} data={data} i={i} updateRoom={updateRoom} />
+        ))}
     </div>
   )
 }

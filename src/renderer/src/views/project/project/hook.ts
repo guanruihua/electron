@@ -44,7 +44,7 @@ export const useProjectOpt = ({ item }: { item: ProjectConf }) => {
   }, [item.path])
 
   const install = () =>
-    task.add({
+    task.run({
       id: `projectOptDependencies__install`,
       name: `The Project installation dependencies`,
       desc: `Project Name: ${projName}`,
@@ -54,7 +54,7 @@ export const useProjectOpt = ({ item }: { item: ProjectConf }) => {
     })
 
   const uninstall = () =>
-    task.add({
+    task.run({
       id: `projectOptDependencies__uninstall`,
       name: `The Project installation dependencies`,
       desc: `Project Name: ${projName}`,
@@ -97,8 +97,8 @@ export const useProjectOpt = ({ item }: { item: ProjectConf }) => {
     const exec = CMD[type]
     if (!exec) return
 
-    task.add({
-      id: `nodeThread__${type}`,
+    task.run({
+      id: `cmd__${type}`,
       name: name || `Open the Project in ${type}`,
       desc: `Project Name: ${projName}`,
       async exec() {
@@ -108,13 +108,13 @@ export const useProjectOpt = ({ item }: { item: ProjectConf }) => {
   }
 
   const updateStatus = () => {
-    task.add({
+    task.run({
       id: 'nodeThread__query',
       name: 'Query Node Thread',
       exec: sys.findNodeTreads,
     })
 
-    task.add({
+    task.run({
       id: 'projectOpt__updateStatus',
       name: `Update the Project Status`,
       desc: `Project Name: ${projName}`,
@@ -126,7 +126,7 @@ export const useProjectOpt = ({ item }: { item: ProjectConf }) => {
 
   const run = async () => {
     if (!item.npm) return
-    task.add({
+    task.run({
       id: 'projectOpt__run',
       name: `Run the Project`,
       type: 'running',
@@ -159,7 +159,7 @@ export const useProjectOpt = ({ item }: { item: ProjectConf }) => {
     run()
 
     if (item['url-review'])
-      task.add({
+      task.run({
         id: 'projectOptRunGroup__explorer',
         name: `Open the Project in Google`,
         desc: `Project Name: ${projName}`,
@@ -171,7 +171,7 @@ export const useProjectOpt = ({ item }: { item: ProjectConf }) => {
         },
       })
 
-    task.add({
+    task.run({
       id: 'projectOptRunGroup__vscode',
       name: `Open the Project in VSCode`,
       desc: `Project Name: ${projName}`,
@@ -183,7 +183,7 @@ export const useProjectOpt = ({ item }: { item: ProjectConf }) => {
   }
 
   const stop = async () => {
-    task.add({
+    task.run({
       id: 'projectOpt__stop',
       name: `Stop the Project`,
       type: 'stop',

@@ -1,4 +1,5 @@
 import { Task, TaskState } from '@/type'
+// import { getUUID } from '@/util'
 import { isArray, isNumber, isObject, isString } from 'asura-eye'
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
@@ -7,8 +8,8 @@ type Actions<T> = {
   set(newState: Partial<T>): void
   get(): T
   check(oldIndex?: number): void
-  add(task: Task): Promise<void>
-  run(runIndex?: number): Promise<void>
+  run(task: Task): Promise<void>
+  runIndex(runIndex?: number): Promise<void>
   setLoading(task: Task, loading: boolean): void
 }
 
@@ -24,9 +25,9 @@ export const useTaskStore = create(
       check(oldIndex = -1) {
         const findIndex = get().tasks.findIndex((_) => !_.endTime)
         if (findIndex === oldIndex || findIndex === -1) return
-        this.run(findIndex)
+        this.runIndex(findIndex)
       },
-      async run(runIndex?: number) {
+      async runIndex(runIndex?: number) {
         const state = get()
         if (state.running) return
         if (!runIndex && runIndex !== 0) runIndex = this.taskIndex ?? 0
@@ -76,7 +77,7 @@ export const useTaskStore = create(
           taskIndex: runIndex + 1,
         })
 
-        await this.run(runIndex + 1)
+        await this.runIndex(runIndex + 1)
       },
       async setLoading(task: Task, loading: boolean) {
         const { id } = task
@@ -113,7 +114,9 @@ export const useTaskStore = create(
           loadingsGroup: newLoadingsGroup,
         })
       },
-      async add(task: Task) {
+      async run(task: Task) {
+        // const uuid = getUUID()
+        // console.log(uuid)
         const state = get()
         const newTasks = state.tasks
         newTasks.push(task)
@@ -121,7 +124,7 @@ export const useTaskStore = create(
           tasks: newTasks,
         })
         this.setLoading(task, true)
-        this.run()
+        this.runIndex()
       },
       set,
       get,

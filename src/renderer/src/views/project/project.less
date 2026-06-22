@@ -9,31 +9,32 @@
   }
 
   &-item {
+    &-name {
+      font-size: 13px;
+      display: inline-block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      cursor: pointer;
+    }
+
     &-header {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      flex-wrap: nowrap;
       height: 32px;
-      cursor: pointer;
     }
 
     &-right {
       display: flex;
-      justify-content: center;
+      justify-content: flex-end;
       align-items: center;
-    }
-
-    &-fold {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 32px;
-      height: 32px;
 
       svg {
         transition: all .3s;
         transform-origin: center;
       }
+
     }
 
     &[data-start="1"] {
@@ -46,13 +47,17 @@
 
     &[data-fold="true"] {
 
-      .project-item-fold svg {
-        transform: rotate(-180deg);
-      }
+      // .project-item-fold svg {
+      //   transform: rotate(-180deg);
+      // }
 
       .project-item-content {
         display: none;
       }
+    }
+
+    [data-show-git="true"]{
+      background-color: #40cc7030;
     }
 
   }

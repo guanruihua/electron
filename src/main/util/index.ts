@@ -1,5 +1,9 @@
 import { isArray, isObject } from 'asura-eye'
+import { v4 as getUUID }  from 'uuid'
 
+export {
+  getUUID
+}
 /**
  * @title isChange
  * @description Comparison value

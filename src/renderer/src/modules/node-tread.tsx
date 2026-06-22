@@ -19,8 +19,7 @@ export function NodeTread() {
             icon={<Icon type="run" />}
             onClick={() =>
               task.run({
-                id: 'nodeThread__query',
-                name: 'Query Node Thread',
+                id: 'nodeThread/query',
                 exec: sys.findNodeTreads,
               })
             }
@@ -32,8 +31,7 @@ export function NodeTread() {
             loading={loadings.nodeThread}
             onClick={() =>
               task.run({
-                id: 'nodeThread__stopAll',
-                name: 'Stop All Node Thread',
+                id: 'nodeThread/stopAll',
                 exec: sys.stopNodeTreads,
               })
             }
@@ -79,16 +77,15 @@ export function NodeTread() {
               </div>
               <Icon
                 loading={
-                  loadings.nodeThread || loadings[`nodeThread__stop-${row.pid}`]
+                  loadings.nodeThread || loadings[`nodeThread/stop-${row.pid}`]
                 }
                 type="stop"
                 className="opt stop"
                 style={{ fontSize: 24 }}
                 onClick={async () => {
                   if (!row.pid) return
-                  task.run({
-                    id: `nodeThread__stop-${row.pid}`,
-                    name: `Stop Node Thread PID(${row.pid})`,
+                  await task.run({
+                    id: `nodeThread/stop-${row.pid}`,
                     async exec() {
                       return await window.api.invoke(
                         'cmd',
@@ -96,9 +93,8 @@ export function NodeTread() {
                       )
                     },
                   })
-                  task.run({
-                    id: 'nodeThread__query',
-                    name: 'Query Node Thread',
+                  await task.run({
+                    id: 'nodeThread/query',
                     exec: sys.findNodeTreads,
                   })
                 }}

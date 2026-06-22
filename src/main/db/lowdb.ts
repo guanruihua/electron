@@ -4,7 +4,7 @@ import type { DataSchema, DatabaseSchema, Result } from '../type'
 import { createDirIfNotExist } from '../helper/file-system/check'
 import { saveFile } from '../helper/file-system/save'
 import { deleteFile } from '../helper/file-system/del'
-import { isChange, isEmptyRecord } from '../util'
+import { getUUID, isChange, isEmptyRecord } from '../util'
 
 type Params = {
   action?: string
@@ -59,7 +59,7 @@ export class LowDB {
       })
 
       return {
-        id: now.toString(),
+        id: getUUID(),
         createTime: now,
         updateTime: now,
         type,
@@ -70,7 +70,7 @@ export class LowDB {
     }
 
     return {
-      id: now.toString(),
+      id: getUUID(),
       createTime: now,
       updateTime: now,
       ...payload,

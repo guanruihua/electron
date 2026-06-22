@@ -1,6 +1,24 @@
 .project-item-content {
   border-radius: 12px;
 
+  &-header {
+    display: flex;
+    flex-direction: column;
+
+    .pids {
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
+      font-size: 10px;
+      font-weight: bold;
+
+      div {
+        letter-spacing: 1px;
+        color: #ffffff60;
+      }
+    }
+  }
+
   .project-fold {
     svg {
       transition: all .3s;
@@ -11,19 +29,7 @@
     }
   }
 
-  .pids {
-    padding: 0 0 5px;
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
-    font-size: 10px;
-    font-weight: bold;
 
-    div {
-      letter-spacing: 1px;
-      color: #ffffff60;
-    }
-  }
 
   &-module {
     width: 100%;
@@ -74,20 +80,6 @@
     }
   }
 
-  .run {
-
-    svg,
-    svg path,
-    span {
-      font-weight: bold;
-      color: var(--success) !important;
-    }
-
-    &:hover {
-      border-color: var(--success) !important;
-    }
-  }
-
   .run-group {
     width: 100%;
 
@@ -95,21 +87,6 @@
       display: flex;
       flex-direction: row;
       gap: 10px;
-    }
-  }
-
-  .stop {
-
-    svg,
-    svg path,
-    svg rect,
-    span {
-      font-weight: bold;
-      color: var(--error) !important;
-    }
-
-    &:hover {
-      border-color: var(--error) !important;
     }
   }
 

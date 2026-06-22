@@ -18,9 +18,10 @@ type Actions<T> = {
   stopNodeTread(item: ObjectType): Promise<void>
   handleSelectProject(item: ObjectType): Promise<void>
 }
+export type UseSysState = SysState & Actions<SysState>
 
 export const useSysStore = create(
-  persist<SysState & Actions<SysState>>(
+  persist<UseSysState>(
     (set, get) => ({
       initSuccess: false,
       userInfo: {

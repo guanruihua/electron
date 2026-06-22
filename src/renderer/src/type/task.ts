@@ -5,8 +5,9 @@ export type Task = {
   name?: string
   group?: string
   desc?: string
-  exec(): Promise<any>
-
+  exec?(): Promise<any>
+  cmd?: string
+  
   type?: 'running' | 'stop'
   uid?: string
   /**

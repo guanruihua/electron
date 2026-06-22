@@ -15,8 +15,7 @@ export default function RunningApp() {
 
   const query = () =>
     task.run({
-      id: 'runningApp__query',
-      name: 'Query All Running Apps',
+      id: 'runningApp/query',
       async exec() {
         const res = await window.api.invoke('getRunningApp')
         // console.log(res)
@@ -46,9 +45,7 @@ export default function RunningApp() {
     if (!isString(item?.name)) return
 
     task.run({
-      id: `runningApp__stop-${item.id}`,
-      name: `Running App / Stop the App`,
-      desc: `Name: ${item.name} (${item.id})`,
+      id: `runningApp/stop-${item.id}`,
       async exec() {
         console.log(item.name, item.id)
         await window.api.invoke('stopAppByName', item.name)
@@ -60,8 +57,7 @@ export default function RunningApp() {
 
   const stopAll = () =>
     task.run({
-      id: `runningApp__stopAll`,
-      name: `Stop All Running Apps`,
+      id: `runningApp/stopAll`,
       async exec() {
         await window.api.invoke(
           'stopAppByName',

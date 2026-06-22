@@ -25,7 +25,7 @@ export function GitReview({ item }: { item: ProjectConf }) {
   const { simpleTree, tree, commitMsg, hty_options } = pageState
 
   return (
-    <div className="git-review" data-hidden={sys.selectProject?.git === false}>
+    <div className="git-review" data-hidden={item?.git === false}>
       <div className="flex gap row items-center space-between git-review-header ">
         <div className="flex row gap">
           <Icon type="git" />

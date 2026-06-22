@@ -24,8 +24,7 @@ export const QuickStart = () => {
     startApp,
     async updateApps() {
       task.run({
-        id: 'quickStart__update-app',
-        name: 'Quick Start Update Apps',
+        id: 'quickStart/update-app',
         async exec() {
           const apps: [string, string][] =
             (await window.api.invoke('updateApps', sys)) || []
@@ -83,8 +82,7 @@ export const QuickStart = () => {
       const list = quickStarts[selectedQuickStart]
       if (!isArray(list) || list.length < 1) return setLoading(false)
       task.run({
-        id: 'quickStart__start-group',
-        name: 'Quick Start / Run a group of apps',
+        id: 'quickStart/start-group',
         async exec() {
           await Promise.all(list.map(startApp))
           setLoading(false)

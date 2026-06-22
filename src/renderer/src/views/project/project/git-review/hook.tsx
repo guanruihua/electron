@@ -25,9 +25,7 @@ export const usePageState = (selectProject: ProjectConf) => {
     if (selectProject.git === false) return
     setLoading(true)
     task.run({
-      id: 'gitReview__init',
-      name: 'Git Review / Pull State',
-      desc: `Project Name: ${label}`,
+      id: 'gitReview/init',
       async exec() {
         const htyMsg = await getHtyMsg(path)
         const hty = (await getHty(htyMsg)) || []
@@ -55,9 +53,7 @@ export const usePageState = (selectProject: ProjectConf) => {
   const handlePush = async () => {
     setLoading(true)
     task.run({
-      id: 'gitReview__push',
-      name: 'Git Review / Push State',
-      desc: `Project Name: ${label}`,
+      id: 'gitReview/push',
       async exec() {
         try {
           const res = await gitPush(path, pageState.commitMsg)

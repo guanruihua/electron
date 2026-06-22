@@ -20,3 +20,34 @@
 // &[data-hidden-render='true'] {
 //   display: none !important;
 // }
+
+
+.run {
+
+  svg,
+  svg path,
+  svg rect,
+  span {
+    font-weight: bold;
+    color: var(--success) !important;
+  }
+
+  &:hover {
+    border-color: var(--success) !important;
+  }
+}
+
+.stop {
+
+  svg,
+  svg path,
+  svg rect,
+  span {
+    font-weight: bold;
+    color: var(--error) !important;
+  }
+
+  &:hover {
+    border-color: var(--error) !important;
+  }
+}

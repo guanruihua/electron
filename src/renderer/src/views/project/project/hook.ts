@@ -1,14 +1,18 @@
 import React from 'react'
 import { ProjectConf } from '@/type'
-import { useSysStore } from '@/store/sys'
+import { UseSysState } from '@/store/sys'
 import { useState } from 'react'
-import { useTaskStore } from '@/store/task'
-import { isArray, isString } from 'asura-eye'
+import { UseTaskState } from '@/store/task'
+import { isArray } from 'asura-eye'
 import { getNodePids } from '@/util'
 
-export const useProjectOpt = ({ item }: { item: ProjectConf }) => {
-  const sys = useSysStore()
-  const task = useTaskStore()
+type UseProjectOpt = {
+  item: ProjectConf
+  task: UseTaskState
+  sys: UseSysState
+}
+export const useProjectOpt = (params: UseProjectOpt) => {
+  const { item, task, sys } = params
   const { loadings } = task
 
   const { label, path } = item
@@ -43,39 +47,19 @@ export const useProjectOpt = ({ item }: { item: ProjectConf }) => {
     init()
   }, [item.path])
 
-  const install = () =>
+  const install = async () =>
     task.run({
-      id: `projectOptDependencies__install`,
-      name: `The Project installation dependencies`,
-      desc: `Project Name: ${projName}`,
-      async exec() {
-        return await window.api.invoke('cmd', `cd ${item.path} && cnpm i`)
-      },
+      id: `projectOptDependencies/install`,
+      cmd: `cd ${item.path} && cnpm i`,
     })
 
-  const uninstall = () =>
+  const uninstall = async () =>
     task.run({
-      id: `projectOptDependencies__uninstall`,
-      name: `The Project installation dependencies`,
-      desc: `Project Name: ${projName}`,
-      async exec() {
-        return await window.api.invoke(
-          'cmd',
-          `cd ${item.path} && rimraf node_modules`,
-        )
-      },
+      id: `projectOptDependencies/uninstall`,
+      cmd: `cd ${item.path} && rimraf node_modules`,
     })
 
-  const CMD = {
-    Web: async (value: any) =>
-      isString(value) && window.api.invoke('cmd', `explorer "${value}"`),
-    FRM: async () => window.api.invoke('cmd', `explorer "${item.path}"`),
-    VSCode: async () => window.api.invoke('cmd', `code ${item.path}`),
-    Cmd: async () =>
-      window.api.invoke('cmd', `start cmd /k "cd /d \"${item.path}\""`),
-  }
-
-  const execTask = (
+  const execTask = async (
     type:
       | 'Web'
       | 'VSCode'
@@ -85,53 +69,46 @@ export const useProjectOpt = ({ item }: { item: ProjectConf }) => {
       | 'uninstall'
       | 'reinstall',
     value?: any,
-    name?: string,
-  ): any => {
+  ): Promise<any> => {
     if (type === 'install') return install()
     if (type === 'uninstall') return uninstall()
     if (type === 'reinstall') {
-      uninstall()
-      install()
+      await uninstall()
+      await install()
       return
     }
-    const exec = CMD[type]
-    if (!exec) return
+    const CMD = {
+      Web: `explorer "${value}"`,
+      FRM: `explorer "${item.path}"`,
+      VSCode: `code ${item.path}`,
+      Cmd: `start cmd /k "cd /d \"${item.path}\""`,
+    }
+    const cmd = CMD[type]
+    if (!cmd) return
 
     task.run({
-      id: `cmd__${type}`,
-      name: name || `Open the Project in ${type}`,
+      id: `cmd/${type}`,
       desc: `Project Name: ${projName}`,
-      async exec() {
-        return exec(value)
-      },
+      cmd,
     })
   }
 
-  const updateStatus = () => {
-    task.run({
-      id: 'nodeThread__query',
-      name: 'Query Node Thread',
+  const updateStatus = async () => {
+    await task.run({
+      id: 'nodeThread/query',
       exec: sys.findNodeTreads,
     })
 
-    task.run({
-      id: 'projectOpt__updateStatus',
-      name: `Update the Project Status`,
-      desc: `Project Name: ${projName}`,
-      async exec() {
-        return await init()
-      },
+    await task.run({
+      id: 'projectOpt/updateStatus',
+      exec: init,
     })
   }
 
   const run = async () => {
     if (!item.npm) return
-    task.run({
-      id: 'projectOpt__run',
-      name: `Run the Project`,
-      type: 'running',
-      uid: path,
-      desc: `Project Name: ${projName}`,
+    return task.run({
+      id: 'projectOpt/run',
       async exec() {
         const pids_start = await getNodePids()
 
@@ -156,39 +133,24 @@ export const useProjectOpt = ({ item }: { item: ProjectConf }) => {
   const runGroup = async (e: any) => {
     e?.stopPropagation()
     e?.preventDefault()
-    run()
+    await run()
 
     if (item['url-review'])
-      task.run({
-        id: 'projectOptRunGroup__explorer',
-        name: `Open the Project in Google`,
-        desc: `Project Name: ${projName}`,
-        async exec() {
-          return await window.api.invoke(
-            'cmd',
-            `explorer "${item['url-review']}"`,
-          )
-        },
+      await task.run({
+        id: 'projectOptRunGroup/explorer',
+        cmd: `explorer "${item['url-review']}"`,
       })
 
-    task.run({
-      id: 'projectOptRunGroup__vscode',
-      name: `Open the Project in VSCode`,
-      desc: `Project Name: ${projName}`,
-      async exec() {
-        await window.api.invoke('cmd', `code ${item.path}`)
-        updateStatus()
-      },
+    await task.run({
+      id: 'projectOptRunGroup/vscode',
+      cmd: `code ${item.path}`,
     })
+    await updateStatus()
   }
 
-  const stop = async () => {
+  const stop = async () =>
     task.run({
       id: 'projectOpt__stop',
-      name: `Stop the Project`,
-      type: 'stop',
-      uid: path,
-      desc: `Project Name: ${projName}`,
       async exec() {
         if (!isArray(item.pid)) return
         const cmd = `taskkill ${item.pid.map((p) => `/PID ${p}`).join(' ')} /F`
@@ -199,13 +161,10 @@ export const useProjectOpt = ({ item }: { item: ProjectConf }) => {
         updateStatus()
       },
     })
-  }
 
   return {
     projName,
-    loadings,
     FSStatus,
-    item,
     run,
     runGroup,
     stop,

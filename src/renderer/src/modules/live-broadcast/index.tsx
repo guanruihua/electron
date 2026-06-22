@@ -8,69 +8,70 @@ import { useSysStore } from '@/store/sys'
 import { DBName } from '@/store/conf'
 import './index.less'
 import { isArray, isNumber } from 'asura-eye'
+import { ObjectType } from '0type'
 
 const LiveStatus = ['未开播', '直播中', '轮播中']
 const tableName = 'Live-broadcast'
 
+const getDuration = (live_status: any, live_time: any) => {
+  if (live_status !== 1) return ''
+  const diff = dayjs().valueOf() - dayjs(live_time).valueOf()
+  const minutes = Math.floor(diff / 1000 / 60)
+  const h = Math.floor(minutes / 60)
+  const m = Math.floor(minutes - h * 60)
+  if (h && m) return `${h}h${m}m`
+  if (h && !m) return `${h}h`
+  if (!h && m) return `${m}m`
+  return ''
+}
+
 export function LiveBroadcast() {
+  const date = dayjs().format('YYYY-MM-DD')
   const sys = useSysStore()
   const { env } = sys || {}
-  const { uid, room_ids = [] } = env || {}
-  // console.log(sys.userInfo)
+  const { room_ids = [] } = env || {}
 
   const [loading, setLoading] = useLoading()
-  const [state, setState] = useSetState({})
+  const [list, setList] = useSetState([])
 
-  const reload = async (room_id: number) => {
-    if (!isNumber(room_id)) return
 
+  const updateRoom = async (room_id: number) => {
+    if (!room_id) return
+    const data = await getReqStatus(room_id)
+    if (data) {
+      data.id = room_id
+      await window.api.db({
+        action: 'update',
+        tableName,
+        DBName,
+        payload: data,
+      })
+    }
+  }
+
+  const query = async () => {
     const res = await window.api.db({
       action: 'find',
       tableName,
       DBName,
-      payload: { uid },
     })
-    const live = res?.data?.at(0)
-
-    const newState = live?.info || {}
-
-    const data = await getReqStatus(room_id)
-    if (data) newState[room_id] = data
-    await window.api.db({
-      action: 'update',
-      tableName,
-      DBName,
-      payload: { id: live?.id, uid, info: newState },
-    })
-    setState(newState)
+    if (res.error) return []
+    const list = res.data || []
+    setList(list)
+    return list
   }
 
   const init = async () => {
     if (!isArray(room_ids)) return
-
-    const res = await window.api.db({
-      action: 'find',
-      tableName,
-      DBName,
-      payload: { uid },
-    })
-    const live = res?.data?.at(0)
-
-    const newState = live?.info || {}
-    setState(newState)
-
-    for (const room_id of room_ids) {
-      if (state[room_id]) continue
-      const data = await getReqStatus(room_id)
-      if (data) newState[room_id] = data
+    const list = await query()
+    if (list.length !== room_ids.length) {
+      const list_room_ids: number[] = list.map((_) => _.room_id)
+      for (const room_id of room_ids) {
+        if (list_room_ids.includes(room_id)) continue
+        await updateRoom(room_id)
+      }
+      await query()
     }
-    await window.api.db({
-      action: 'update',
-      tableName,
-      DBName,
-      payload: { id: live?.id, uid, info: newState },
-    })
-    setState(newState)
   }
 
   React.useEffect(() => {
@@ -82,9 +83,10 @@ export function LiveBroadcast() {
       className="live-broadcast"
       data-hidden={sys.initSuccess === false || !room_ids?.length}
     >
-      {room_ids.map((room_id) => {
-        const data = state[room_id]
+      {isArray(list) && list.map((data, i) => {
         const {
+          id = i,
+          room_id,
           live_time,
           live_status = 0,
           title,
@@ -95,21 +97,11 @@ export function LiveBroadcast() {
         }: any = data || {}
 
         const badges = [parent_area_name, area_name].filter(Boolean)
-        const getDuration = () => {
-          if (live_status !== 1) return ''
-          const diff = dayjs().valueOf() - dayjs(live_time).valueOf()
-          const minutes = Math.floor(diff / 1000 / 60)
-          const h = Math.floor(minutes / 60)
-          const m = Math.floor(minutes - h * 60)
-          if (h && m) return `${h}h${m}m`
-          if (h && !m) return `${h}h`
-          if (!h && m) return `${m}m`
-          return ''
-        }
-        const duration = getDuration()
-        if (!data) return <React.Fragment key={room_id} />
+
+        const duration = getDuration(live_status, live_time)
+        if (!data) return <React.Fragment key={id} />
         return (
-          <div key={room_id} className="live-broadcast-item">
+          <div key={id} className="live-broadcast-item">
             {data ? (
               <div
                 className="live-broadcast-item-content"
@@ -137,7 +129,7 @@ export function LiveBroadcast() {
                     <Button
                       loading={loading}
                       icon={<Icon type="reload" style={{ fontSize: 16 }} />}
-                      onClick={() => setLoading(reload(room_id))}
+                      onClick={() => setLoading(updateRoom(room_id))}
                     />
                   </div>
                 </div>

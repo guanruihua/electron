@@ -12,8 +12,9 @@ export type DBAction =
   | 'add'
   | 'find'
   | 'delete'
-  | 'clear'
   | 'update'
+  | 'clear'
+  | 'clearEmptyRecord'
   | 'count'
 
 export type ResultType =

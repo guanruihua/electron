@@ -19,12 +19,14 @@ import { copyText } from 'harpe'
 export const isChange = (a, b) => {
   if (isArray(a) && isArray(b)) {
     if (a.length !== b.length) return true
+    if (a.length === 0) return false
     for (let i = 0; i < a.length; i++) if (isChange(a[i], b[i])) return true
     return false
   }
 
   if (isObject(a) && isObject(b)) {
     if (Object.keys(a).length !== Object.keys(b).length) return true
+    if (Object.keys(a).length === 0) return false
 
     for (const key in a) if (isChange(a[key], b[key])) return true
 

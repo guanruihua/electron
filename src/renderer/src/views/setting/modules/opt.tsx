@@ -109,6 +109,28 @@ export default function Opt() {
             )
           }}
         />
+        <Button
+          onClick={() => {
+            window.api.db({
+              action: 'clearEmptyRecord',
+              DBName: 'db',
+              tableName: 'conf',
+            })
+          }}
+        >
+          清除 db/conf 空数据集
+        </Button>
+        <Button
+          onClick={() => {
+            window.api.db({
+              action: 'clearEmptyRecord',
+              DBName: 'db',
+              tableName: 'Live-broadcast',
+            })
+          }}
+        >
+          清除 db/Live-broadcast 空数据集
+        </Button>
         {Conf.map((item, i) => {
           const { title, children } = item
           return (

@@ -4,6 +4,7 @@ import type { DataSchema, DatabaseSchema, Result } from '../type'
 import { createDirIfNotExist } from '../helper/file-system/check'
 import { saveFile } from '../helper/file-system/save'
 import { deleteFile } from '../helper/file-system/del'
+import { isChange, isEmptyRecord } from '../util'
 
 type Params = {
   action?: string
@@ -106,7 +107,7 @@ export class LowDB {
       if (!isObject(payload)) return data
       return data.filter((item) => {
         for (const key in payload) {
-          if (item[key] !== payload[key]) return false
+          if (isChange(item[key], payload[key])) return false
         }
         return true
       })
@@ -128,7 +129,9 @@ export class LowDB {
     if ((!id && !uid) || !isArray(this.MAP?.[DBName]?.data?.[tableName]))
       return await this.add(params)
 
-    const index = this.MAP[DBName].data[tableName].findIndex((_) => _.id === id || _.uid === uid )
+    const index = this.MAP[DBName].data[tableName].findIndex(
+      (_) => _.id === id || _.uid === uid,
+    )
     if (index === -1) return await this.add(params)
 
     this.MAP[DBName].data[tableName][index] = await this.getItem({
@@ -184,7 +187,34 @@ export class LowDB {
     if (isObject(payload)) return this.find(params)?.length || 0
     return list.length
   }
+  // 清除空数据
+  async clearEmptyRecord(params: Params): Promise<boolean> {
+    const { tableName, DBName = 'db' } = params
+    if (!isString(DBName) || !isString(tableName)) return false
 
+    const list = this.MAP?.[DBName]?.data?.[tableName]
+    if (!isArray(list)) return false
+
+    this.MAP[DBName].data[tableName] = list.filter((item) => {
+      const keys = Object.keys(item).filter(
+        (key) => !['id', 'uid', 'createTime', 'updateTime'].includes(key),
+      )
+      if (keys.length === 0) return false
+      for (const key of keys) {
+        const val = item[key]
+        if (!isEmptyRecord(val)) {
+          return true
+        }
+      }
+      return false
+    })
+    await this.MAP[DBName].write()
+
+    console.log(
+      `lowdb/clearEmptyRecord DBName:${DBName} TableName:${tableName}`,
+    )
+    return true
+  }
   // 清空
   async clear(params: Params): Promise<boolean> {
     const { tableName, DBName = 'db' } = params

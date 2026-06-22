@@ -17,9 +17,8 @@ import { useSysStore } from '@/store/sys'
 
 export default function Layout() {
   const h = usePageState()
-  const { state, handle } = h
-  const { activeTab } = h.state
   const sys = useSysStore()
+  const activeTab = sys?.userInfo?.setting?.activeTab || '01'
 
   React.useEffect(() => {
     sys.init()
@@ -41,14 +40,18 @@ export default function Layout() {
                 <div
                   key={id}
                   className="root-aside-item"
-                  data-active={id === state.activeTab}
+                  data-active={id === activeTab}
                   data-id={id}
                   title={title || type}
                   onClick={(e) => {
                     e.stopPropagation()
                     e.preventDefault()
-                    handle.setState({ activeTab: id })
-                    handle.renderState()
+                    sys.setUserInfo(
+                      {
+                        activeTab: id,
+                      },
+                      'setting',
+                    )
                   }}
                 >
                   {Logo[type] || Logo.dashboard}

@@ -99,8 +99,10 @@ export type UserInfo = Partial<{
   date: string
   weatherInfo: string[]
   setting: Partial<{
+    activeTab: string
     enableEmail: boolean
     enableClipboard: boolean
+    [key: string]: any
   }>
   [key: string]: any
 }>

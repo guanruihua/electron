@@ -14,5 +14,24 @@ export const getReqStatus = async (room_id: number) => {
   )
   if (res.status !== 'success') return
   const data = res?.data?.data
+  if (data?.uid) {
+    const res2 = await req(
+      'get',
+      'https://api.live.bilibili.com/live_user/v1/Master/info',
+      {
+        params: {
+          uid: data.uid,
+        },
+      },
+    )
+    if (res2.status === 'success') {
+      const { face, uname } = res2?.data?.data?.info || {}
+      if (uname) {
+        data.face = face
+        data.uname = uname
+      }
+      // console.log(res2)
+    }
+  }
   return data
 }

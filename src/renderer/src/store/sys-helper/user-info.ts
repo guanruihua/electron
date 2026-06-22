@@ -17,8 +17,9 @@ export const initUserInfo = async (newState: SysState) => {
 
   const userInfo: UserInfo = res?.data?.at(0) || {}
 
-  if(!userInfo?.setting){
+  if (!userInfo?.setting) {
     userInfo.setting = {
+      activeTab: '01',
       enableClipboard: true,
       enableEmail: true,
     }
@@ -34,7 +35,7 @@ export const initUserInfo = async (newState: SysState) => {
   if (userInfo.date !== date || !userInfo.weatherInfo?.length) {
     needUpdateDB = true
     userInfo.weatherInfo = await resolveWeather()
-    console.log(userInfo.weatherInfo)
+    // console.log(userInfo.weatherInfo)
     userInfo.date = date
     console.log('Weather info init Success')
   }

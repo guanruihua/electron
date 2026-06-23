@@ -195,7 +195,7 @@ export const ProjectItem = (props: { item: ProjectConf }) => {
               {list.map((row, i) =>
                 isArray(row) ? (
                   <Space.Compact
-                    style={{ justifyContent: 'flex-end' }}
+                    style={{ justifyContent: 'flex-start' }}
                     block
                     key={i}
                   >

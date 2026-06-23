@@ -35,11 +35,11 @@ export class LowDB {
 
     if (!isString(DBName)) return false
     this.MAP[DBName] = await JSONFilePreset<DatabaseSchema>(
-      `${path}\\lowdb\\${DBName}.json`,
+      `${path}\\db\\${DBName}.json`,
       defaultValue,
     )
-    createDirIfNotExist(`${path}\\lowdb\\image\\${DBName}`)
-    this.ImagePathMAP[DBName] = `${path}\\lowdb\\image\\${DBName}`
+    createDirIfNotExist(`${path}\\db\\image\\${DBName}`)
+    this.ImagePathMAP[DBName] = `${path}\\db\\image\\${DBName}`
     return true
   }
 

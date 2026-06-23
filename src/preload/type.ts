@@ -30,6 +30,7 @@ export type FS_Action =
   | 'readFile'
   | 'saveJSON2File'
   | 'saveFile'
+  | 'saveUrlImg2File'
 
 export type FileSystemSetting = Partial<{
   includeDir: string
@@ -40,6 +41,8 @@ export type FileSystemSetting = Partial<{
 }>
 
 export type FS_Payload = {
+  url?: string
+  cover?: boolean
   path: string
   isFile?: boolean
   data?: string | ObjectType<any> | any[]

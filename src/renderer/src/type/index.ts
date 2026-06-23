@@ -119,6 +119,7 @@ export type SysState = {
   env: Partial<{
     room_ids: number[]
     uid: string
+    bilibili_up_UIDs: number[]
     [key: string]: any
   }>
   NodeTreads: NodeTread[]

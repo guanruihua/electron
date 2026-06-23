@@ -9,6 +9,9 @@
     overflow: hidden;
     position: relative;
     min-height: 160px;
+    z-index: 10;
+    padding: 20px;
+    --color: var(--idle);
 
     .bg {
       position: absolute;
@@ -28,75 +31,99 @@
       color: var(--idle);
     }
 
-    &-content {
-      z-index: 10;
-      padding: 20px;
-      --color: var(--idle);
-
-      .header {
-        display: flex;
-        justify-content: space-between;
-
-        .live_status {
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          gap: 6px;
-          font-size: 10px;
-
-          .dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 4px;
-            background: var(--color);
-          }
-        }
-
-        .badge {
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          gap: 5px;
-
-          &-item {
-            display: flex;
-            flex-direction: row;
-            gap: 5px;
-            font-size: 10px;
-
-          }
-        }
-      }
 
 
-      .title {
-        display: inline-block;
-        padding: 5px 10px;
-        border-radius: 12px;
-        color: #fff;
-        margin-top: 10px;
-        font-size: 14px;
-        font-weight: 600;
-        background: #141414;
-        letter-spacing: 1px;
-      }
+    .live_status {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 6px;
+      font-size: 10px;
+      margin-left: 10px;
 
-      .desc {
-        padding: 5px 10px;
-        border-radius: 12px;
-        color: #fff;
-        margin-top: 10px;
-        font-size: 12px;
-        background: #141414;
-        letter-spacing: 1px;
-      }
-
-
-      &[data-live-status='1'] {
-        --color: var(--success);
-        border: 2px solid var(--color);
-        border-radius: 12px;
+      .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 4px;
+        background: var(--color);
       }
     }
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+
+      &-right {
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+      }
+    }
+
+    .badge {
+      position: absolute;
+      bottom: 20px;
+      right: 20px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 5px;
+
+      &-item {
+        display: flex;
+        flex-direction: row;
+        gap: 5px;
+        font-size: 10px;
+
+      }
+    }
+
+
+    .title {
+      display: inline-block;
+      padding: 5px 10px;
+      border-radius: 12px;
+      color: #fff;
+      margin-top: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      background: #141414;
+      letter-spacing: 1px;
+    }
+
+    &[data-live-status='0'] {
+      height: 50px;
+      min-height: 50px;
+      padding: 10px 20px;
+      overflow: hidden;
+
+      .bg {
+        height: 50px;
+      }
+
+      .badge,
+      .title {
+        display: none;
+      }
+    }
+
+    &[data-live-status='1'] {
+      --color: var(--success);
+      border: 2px solid var(--color);
+      border-radius: 12px;
+    }
+  }
+
+  .b-up-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+  }
+
+  .b-up-logo {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
   }
 }

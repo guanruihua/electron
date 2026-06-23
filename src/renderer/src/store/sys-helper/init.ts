@@ -40,7 +40,7 @@ export const getSysInitState = async (): Promise<SysState> => {
     runningUIDMapPID: {},
   }
 
-  const list = ['db', 'weather-db']
+  const list = ['db', 'img', 'weather-db']
   for (let val of list) {
     const res = await window.api.db({
       action: 'init',

@@ -68,5 +68,5 @@ export function formatRelativeTime(now: number, target: number): string {
 
 export const openSettingFile = async (path: string) => {
   if (!path) return
-  return window.api.invoke('cmd', `code ${path}\\lowdb\\${DBName}.json`)
+  return window.api.invoke('cmd', `code ${path}\\db\\${DBName}.json`)
 }

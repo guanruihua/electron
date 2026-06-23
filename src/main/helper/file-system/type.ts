@@ -9,6 +9,11 @@ export type FileSystemSetting = Partial<{
 }>
 
 export type FS_Payload = {
+  url?: string
+  /**
+   * 覆盖
+   */
+  cover?: boolean
   path: string
   isFile?: boolean
   data?: string | ObjectType<any> | any[]

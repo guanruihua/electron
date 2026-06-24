@@ -1,26 +1,25 @@
+import React from 'react'
 import { ProjectConf } from '@/type'
 import { useSysStore } from '@/store/sys'
-import React from 'react'
 import { GitReview } from './git-review/git-review'
 import { Icon } from '@/components'
-import { Button } from 'antd'
+import { Button, Space } from 'antd'
 import { isArray, isObject } from 'asura-eye'
-import './project-item-content.less'
 import { useProjectOpt } from './hook'
-import { Space } from 'antd'
 import { useTaskStore } from '@/store/task'
+import './project-item-content.less'
+import { copy } from '@/util'
 
 export const ProjectItem = (props: { item: ProjectConf }) => {
   const sys = useSysStore()
   const task = useTaskStore()
   const { item } = props
-  const name = item.label || item.path
+  const { label, path, running, pid } = item
+  const name = label || path
   const { loadings } = task
   const params = { item, sys, task }
   const { FSStatus, run, runGroup, stop, execTask } = useProjectOpt(params)
-  const { running, pid } = item
 
-  const [show, setShow] = React.useState(false)
   const [showGit, setShowGit] = React.useState(false)
   const [fold, setFold] = React.useState(true)
 
@@ -42,7 +41,8 @@ export const ProjectItem = (props: { item: ProjectConf }) => {
       icon: <Icon type="run" />,
       title: 'Run',
       onClick: run,
-      loading: loadings['projectOpt/run'] || loadings.projectOptDependencies,
+      loading:
+        loadings[`projectOpt/run-${path}`] || loadings.projectOptDependencies,
       disabled: FSStatus.node_modules === false,
       hidden: !item.npm || running,
     },
@@ -50,14 +50,15 @@ export const ProjectItem = (props: { item: ProjectConf }) => {
       className: 'stop',
       icon: <Icon type="stop" />,
       onClick: stop,
-      loading: loadings['projectOpt/stop'] || loadings.projectOptDependencies,
+      loading:
+        loadings[`projectOpt/stop-${path}`] || loadings.projectOptDependencies,
       title: 'Stop',
       hidden: !item.npm || !running,
     },
     {
       icon: <Icon type="google" />,
       title: 'Review',
-      onClick: () => execTask('Web'),
+      onClick: () => execTask('Web', item['url-review']),
       hidden: !item['url-review'],
     },
     {
@@ -70,6 +71,13 @@ export const ProjectItem = (props: { item: ProjectConf }) => {
 
   const list = [
     [
+      {
+        icon: <Icon type="copy" />,
+        title: 'Copy Path',
+        onClick() {
+          copy(path)
+        },
+      },
       {
         loading: loadings.projectOpt__Cmd,
         icon: <Icon type="cmd" />,
@@ -89,65 +97,58 @@ export const ProjectItem = (props: { item: ProjectConf }) => {
         onClick: () => setShowGit((v) => !v),
         hidden: item.git === false,
       },
-      {
-        className: 'project-fold',
-        'data-fold': show,
-        icon: <Icon type="fold" />,
-        onClick: () => setShow((v) => !v),
-        hidden: !webs?.length && !FSStatus['package.json'],
-      },
     ].filter((_) => !_.hidden),
-    show &&
-      webs?.length && [
-        {
-          disabled: true,
-          icon: <Icon type="google" />,
-        },
-        ...webs.map((key) => {
-          const value = item[key]
-          const tmp = key.replace('url-', '')
-          const label = tmp.slice(0, 1).toUpperCase() + tmp.slice(1)
-          return {
-            className: 'text-10',
-            'data-key': key,
-            loading: loadings[`projectOpt__Web-${value}`],
-            onClick: () => value && execTask('Web', value),
-            label,
-          }
-        }),
-      ],
-    show &&
-      FSStatus['package.json'] && [
-        {
-          disabled: true,
-          icon: <Icon type="install" />,
-        },
-        {
-          'data-type': 'install',
-          disabled: FSStatus.node_modules === true,
-          loading: loadings.projectOptDependencies,
-          className: 'project-item-content-module-child-item',
-          onClick: () => execTask('install'),
-          label: 'Install',
-        },
-        {
-          'data-type': 'reinstall',
-          disabled: FSStatus.node_modules === false,
-          loading: loadings.projectOptDependencies,
-          className: 'project-item-content-module-child-item',
-          onClick: () => execTask('reinstall'),
-          label: 'Reinstall',
-        },
-        {
-          'data-type': 'uninstall',
-          disabled: FSStatus.node_modules === false,
-          loading: loadings.projectOptDependencies,
-          className: 'project-item-content-module-child-item',
-          onClick: () => execTask('uninstall'),
-          label: 'Uninstall',
-        },
-      ],
+    webs?.length && [
+      {
+        disabled: true,
+        icon: <Icon type="google" />,
+      },
+      ...webs.map((key) => {
+        const value = item[key]
+        const tmp = key.replace('url-', '')
+        const label = tmp.slice(0, 1).toUpperCase() + tmp.slice(1)
+        return {
+          className: 'text-10',
+          'data-key': key,
+          loading: loadings[`projectOpt__Web-${value}`],
+          onClick: () => value && execTask('Web', value),
+          label,
+        }
+      }),
+    ],
+    FSStatus['package.json'] && [
+      {
+        disabled: true,
+        icon: <Icon type="install" />,
+      },
+      {
+        'data-type': 'install',
+        disabled: FSStatus.node_modules === true,
+        loading: loadings.projectOptDependencies,
+        className: 'project-item-content-module-child-item',
+        onClick: () => execTask('install'),
+        label: 'Install',
+      },
+      {
+        'data-type': 'reinstall',
+        disabled: FSStatus.node_modules === false,
+        loading: loadings.projectOptDependencies,
+        className: 'project-item-content-module-child-item',
+        onClick: () => execTask('reinstall'),
+        label: 'Reinstall',
+      },
+      {
+        'data-type': 'uninstall',
+        disabled: FSStatus.node_modules === false,
+        loading: loadings.projectOptDependencies,
+        className: 'project-item-content-module-child-item',
+        onClick: () => execTask('uninstall'),
+        label: 'Uninstall',
+      },
+    ],
   ].filter(Boolean)
+
+
 
   return (
     <div
@@ -156,7 +157,6 @@ export const ProjectItem = (props: { item: ProjectConf }) => {
       data-start={item.running ? 1 : 0}
       data-pid
       title={item.label || item.path}
-      data-select={sys?.selectProject?.path === item?.path}
       data-fold={fold}
     >
       <div className="project-item-header">

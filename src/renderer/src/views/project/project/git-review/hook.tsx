@@ -25,7 +25,7 @@ export const usePageState = (selectProject: ProjectConf) => {
     if (selectProject.git === false) return
     setLoading(true)
     task.run({
-      id: 'gitReview/init',
+      uid: 'gitReview/init',
       async exec() {
         const htyMsg = await getHtyMsg(path)
         const hty = (await getHty(htyMsg)) || []
@@ -53,7 +53,7 @@ export const usePageState = (selectProject: ProjectConf) => {
   const handlePush = async () => {
     setLoading(true)
     task.run({
-      id: 'gitReview/push',
+      uid: 'gitReview/push',
       async exec() {
         try {
           const res = await gitPush(path, pageState.commitMsg)

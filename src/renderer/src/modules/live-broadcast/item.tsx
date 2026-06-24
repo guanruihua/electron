@@ -1,5 +1,5 @@
 import React from 'react'
-import { DiagonalLoading, Icon, Img } from '@/components'
+import { Icon, Img } from '@/components'
 import { Button } from 'antd'
 import { useLoading } from '@/util'
 
@@ -47,7 +47,7 @@ export function Item(props: ItemProps) {
               referrerPolicy="no-referrer"
               src={face}
             />
-            <div>{uname}</div>
+            <div className='uname'>{uname}</div>
           </div>
         )}
         <div className="header-right">

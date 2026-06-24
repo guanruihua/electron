@@ -22,7 +22,7 @@ export function DDL() {
             loading={loadings.info}
             onClick={() =>
               task.run({
-                id: 'info/edit-ddl-json-file',
+                uid: 'info/edit-ddl-json-file',
                 async exec() {
                   return await window.api.invoke(
                     'cmd',

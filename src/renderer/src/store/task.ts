@@ -17,52 +17,43 @@ export const useTaskStore = create(
       initSuccess: false,
       running: false,
       loadings: {},
-      loadingsGroup: {},
-      tasks: [],
-      taskIndex: 0,
+      loadingCount: {},
       async setLoading(task: Task, loading: boolean) {
-        const { id } = task
+        const { uid } = task
+        if (!isString(uid)) return
         const state = get()
-        const newLoadings = state.loadings
-        const newLoadingsGroup = state.loadingsGroup
-        if (isString(id)) {
-          newLoadings[id] = loading
-        }
-        let group = task.group
-        if (!group && id?.includes('/')) {
-          group = id.split('/').at(0)
-        }
-        if (group)
-          if (loading) {
-            newLoadings[group] = true
-            if (isNumber(newLoadingsGroup[group])) {
-              ++newLoadingsGroup[group]
+        const loadings = state.loadings
+        const loadingCount = state.loadingCount
+        loadings[uid] = loading
+
+        if (uid.includes('/')) {
+          const group = uid.split('/').at(0)
+          if (isString(group)) {
+            if (!isNumber(loadingCount[group])) loadingCount[group] = 0
+
+            if (loading) {
+              loadingCount[group]++
+              loadings[group] = loading
             } else {
-              newLoadingsGroup[group] = 1
-            }
-          } else {
-            if (isNumber(newLoadingsGroup[group])) {
-              --newLoadingsGroup[group]
-            } else {
-              newLoadingsGroup[group] = 0
-            }
-            if (newLoadingsGroup[group] < 1) {
-              newLoadingsGroup[group] = 0
-              newLoadings[group] = false
+              loadingCount[group]--
+              if (loadingCount[group] < 1) {
+                loadings[group] = false
+              }
             }
           }
+        }
 
         set({
-          loadings: newLoadings,
-          loadingsGroup: newLoadingsGroup,
+          loadings,
+          loadingCount,
         })
       },
       async run(task: Task) {
         this.setLoading(task, true)
         try {
           const { exec, cmd } = task
-          if (exec) await exec()
-          if (isString(cmd)) await window.api.invoke('cmd', cmd)
+          if (exec) return await exec()
+          if (isString(cmd)) return await window.api.invoke('cmd', cmd)
         } catch (error) {
           console.error(task, error)
         } finally {

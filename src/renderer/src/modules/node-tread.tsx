@@ -19,7 +19,7 @@ export function NodeTread() {
             icon={<Icon type="run" />}
             onClick={() =>
               task.run({
-                id: 'nodeThread/query',
+                uid: 'nodeThread/query',
                 exec: sys.findNodeTreads,
               })
             }
@@ -31,7 +31,7 @@ export function NodeTread() {
             loading={loadings.nodeThread}
             onClick={() =>
               task.run({
-                id: 'nodeThread/stopAll',
+                uid: 'nodeThread/stopAll',
                 exec: sys.stopNodeTreads,
               })
             }
@@ -85,7 +85,7 @@ export function NodeTread() {
                 onClick={async () => {
                   if (!row.pid) return
                   await task.run({
-                    id: `nodeThread/stop-${row.pid}`,
+                    uid: `nodeThread/stop-${row.pid}`,
                     async exec() {
                       return await window.api.invoke(
                         'cmd',
@@ -94,7 +94,7 @@ export function NodeTread() {
                     },
                   })
                   await task.run({
-                    id: 'nodeThread/query',
+                    uid: 'nodeThread/query',
                     exec: sys.findNodeTreads,
                   })
                 }}

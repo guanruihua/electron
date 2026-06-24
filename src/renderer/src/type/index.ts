@@ -102,6 +102,7 @@ export type UserInfo = Partial<{
     activeTab: string
     enableEmail: boolean
     enableClipboard: boolean
+    filterModule: string
     [key: string]: any
   }>
   [key: string]: any

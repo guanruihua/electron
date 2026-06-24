@@ -6,12 +6,12 @@ import { useTaskStore } from '@/store/task'
 import { ProjectHeader } from './project/header'
 
 import './project.less'
+import { likeValue } from '@/util'
 
 export default function Project() {
   const sys = useSysStore()
   const task = useTaskStore()
-
-  // console.log(sys.modules)
+  const { userInfo } = sys
 
   return (
     <ContentLayout
@@ -20,9 +20,15 @@ export default function Project() {
       key={sys.modules.length}
     >
       <ProjectHeader sys={sys} task={task} />
-      {sys.modules?.map?.((item, i) => (
-        <ProjectItem key={i} item={item} />
-      ))}
+      {sys.modules
+        ?.filter((_) =>
+          userInfo.setting?.filterModule
+            ? likeValue(userInfo.setting.filterModule, _.label)
+            : true,
+        )
+        ?.map?.((item) => (
+          <ProjectItem key={item.path} item={item} />
+        ))}
     </ContentLayout>
   )
 }

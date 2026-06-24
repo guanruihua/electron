@@ -13,7 +13,7 @@ const uid = 'Live-broadcast'
 export function LiveBroadcast() {
   const sys = useSysStore()
   const { env } = sys || {}
-  const { bilibili_up_UIDs = [], room_ids = [] } = env || {}
+  const { bilibili_up_UIDs = [] } = env || {}
 
   const [map, setMap] = React.useState<ObjectType<ObjectType<any>>>({})
 
@@ -24,12 +24,12 @@ export function LiveBroadcast() {
       DBName,
       payload: {
         uid,
-      }
+      },
     })
 
     if (res.error) return
     const data = res?.data?.at(0)?.data
-    if(isObject(data)) setMap(data)
+    if (isObject(data)) setMap(data)
     return
   }
 
@@ -69,20 +69,31 @@ export function LiveBroadcast() {
     sys.initSuccess && init()
   }, [sys.initSuccess])
 
+  const list = isObject(map)
+    ? Object.values(map)
+        .map((_) => {
+          if (_.live_status === 1) _.sort = 10
+          else if (_.live_status === 2) _.sort = 5
+          else _.sort = 1
+
+          return _
+        })
+        .sort((a, b) => b.sort - a.sort)
+    : []
+
   return (
     <div
       className="live-broadcast"
-      data-hidden={sys.initSuccess === false || !room_ids?.length}
+      data-hidden={sys.initSuccess === false || !bilibili_up_UIDs?.length}
     >
-      {isObject(map) &&
-        Object.values(map).map((data, i) => (
-          <Item
-            key={i}
-            data={data}
-            i={i}
-            updateRoom={() => reload([data.uid])}
-          />
-        ))}
+      {list.map((data, i) => (
+        <Item
+          key={i}
+          data={data}
+          i={i}
+          updateRoom={async () => await reload([data.uid])}
+        />
+      ))}
     </div>
   )
 }

@@ -7,11 +7,9 @@ export * from './req'
 import { isArray, isNumber, isObject, isString } from 'asura-eye'
 import { message } from 'aurad'
 import { copyText } from 'harpe'
-import { v4 as getUUID }  from 'uuid'
+import { v4 as getUUID } from 'uuid'
 
-export {
-  getUUID
-}
+export { getUUID }
 
 /**
  * @title isChange
@@ -81,28 +79,30 @@ export const isEffectValue = (target) => {
 /**
  * @title likeValue
  * @description Search for similar values
- * @param {Object} param
+ * @param {any} value
+ * @param {any} likeRecord
+ * @param {string|string[]} [keys]
  * @returns {boolean}
  */
-export const likeValue = ({ value, record, keys }: any) => {
+export const likeValue = (
+  value: any,
+  likeRecord: any,
+  keys?: string | string[],
+) => {
   if (isString(value)) {
-    if (isString(record))
-      return record.toLowerCase().includes(value.trim().toLowerCase())
-    if (isObject(record)) {
+    if (isString(likeRecord))
+      return likeRecord.toLowerCase().includes(value.trim().toLowerCase())
+    if (isObject(likeRecord)) {
+      if (isString(keys)) return likeValue(value, likeRecord[keys])
       if (isArray(keys))
-        return keys.some((key) =>
-          likeValue({
-            value,
-            record: record[key],
-          }),
-        )
+        return keys.some((key) => likeValue(value, likeRecord[key]))
 
-      return Object.keys(record).some((key) =>
-        likeValue({
-          value,
-          record: record[key],
-        }),
+      return Object.keys(likeRecord).some((key) =>
+        likeValue(value, likeRecord[key]),
       )
+    }
+    if (isArray(likeRecord)) {
+      return likeRecord.some((record) => likeValue(value, record))
     }
   }
   return false

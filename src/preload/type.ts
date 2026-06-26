@@ -10,7 +10,6 @@ export type InvokeType =
   | 'dev'
   | 'fs'
   | 'cmdResult'
-  | 'updateApps'
   | 'getSysInfo'
   | 'getFileTree'
   | 'getRunningApp'

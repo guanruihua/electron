@@ -19,15 +19,6 @@ export const getModules = async (path: string) =>
     [],
   )
 
-export const getApps = async (path: string) =>
-  getJSON(
-    await window.api.invoke('fs', {
-      action: 'readFile',
-      payload: { path: path + '/apps.json' },
-    }),
-    [],
-  )
-
 export const getSetting = async (path: string) =>
   getJSON(
     await window.api.invoke('fs', {

@@ -1,5 +1,5 @@
 import { SysState } from '@/type'
-import { getApps, getFile, getModules, getSetting } from '@/util'
+import { getFile, getModules, getSetting } from '@/util'
 import { initUserInfo } from './user-info'
 
 export const getSysInitState = async (): Promise<SysState> => {
@@ -9,7 +9,6 @@ export const getSysInitState = async (): Promise<SysState> => {
   console.log(env)
   const setting = await getSetting(path)
   const modules = await getModules(path)
-  const apps = await getApps(path)
 
   const {
     // path = 'D:\\Data\\electron',
@@ -32,7 +31,6 @@ export const getSysInitState = async (): Promise<SysState> => {
 
     NodeTreads: [],
     modules,
-    apps,
     innerCol: 1,
     runningUIDMapPID: {},
     data: {},
@@ -59,7 +57,6 @@ export const getSysInitState = async (): Promise<SysState> => {
   // console.log({
   //   setting,
   //   modules,
-  //   apps,
   // })
   return newState
 }

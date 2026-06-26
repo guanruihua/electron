@@ -5,7 +5,6 @@ import { getClipboard } from './clipboard'
 
 import { cmd } from '../helper/cmd'
 import { fileSystem } from '../helper/file-system'
-import { updateApps } from '../helper/updateApps'
 import { getFileTree } from '../helper/get/file-tree'
 import { getRunningApp } from '../helper/get/running-app'
 import { stopAppByName } from '../helper/handle/stop-app'
@@ -28,7 +27,6 @@ export const ipcMainHandle = (mainWindow: BrowserWindow) => {
     stopAppByName,
     getRunningApp,
     getFileTree,
-    updateApps,
     fs: fileSystem,
     url: async (_, url: any) => {
       if (isString(url)) shell.openExternal(url)

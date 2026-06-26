@@ -36,7 +36,6 @@ declare global {
        * - dev 执行服务命令
        * - fs  文件系统
        * - cmdResult 执行命令, 有log 回调
-       * - updateApps 更新 app 列表
        * - getSysInfo 获取系统信息
        * - getFileTree 获取文件树
        * - getRunningApp 获取运行 app

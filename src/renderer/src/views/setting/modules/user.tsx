@@ -54,14 +54,9 @@ export function User() {
         />
       </div>
       <Form form={form} layout="vertical">
-        <div className="flex row">
-          <Form.Item label="Total Modules">
-            <div>{sys.modules?.length || 0}</div>
-          </Form.Item>
-          <Form.Item label="Total App">
-            <div>{sys.apps?.length || 0}</div>
-          </Form.Item>
-        </div>
+        <Form.Item label="Total Modules">
+          <div>{sys.modules?.length || 0}</div>
+        </Form.Item>
         <Form.Item label="Setting Path" name="path">
           <div>{sys.path}</div>
         </Form.Item>

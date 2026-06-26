@@ -124,7 +124,6 @@ export type SysState = {
     [key: string]: any
   }>
   NodeTreads: NodeTread[]
-  apps: [string, string][]
   modules: ProjectConf[]
   runningUIDMapPID: ObjectType<string[]>
   data: ObjectType

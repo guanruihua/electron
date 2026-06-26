@@ -13,7 +13,7 @@ type Actions<T> = {
   init(force?: boolean): Promise<void>
   setData(data: ObjectType): Promise<void>
   setUserInfo(info: UserInfo, key?: string): Promise<void>
-  saveToFile(type: 'setting' | 'modules' | 'apps'): Promise<void>
+  saveToFile(type: 'setting' | 'modules'): Promise<void>
   findNodeTreads(): Promise<void>
   stopNodeTreads(): Promise<void>
   stopNodeTread(item: ObjectType): Promise<void>
@@ -36,7 +36,6 @@ export const useSysStore = create(
 
       NodeTreads: [],
       modules: [],
-      apps: [],
       runningUIDMapPID: {},
       data: {},
       innerCol: 1,
@@ -113,7 +112,7 @@ export const useSysStore = create(
         set(await getSysInitState())
         await this.findNodeTreads()
       },
-      async saveToFile(type: 'setting' | 'modules' | 'apps') {
+      async saveToFile(type: 'setting' | 'modules') {
         const {
           path,
           ignoreApps,

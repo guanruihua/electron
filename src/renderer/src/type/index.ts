@@ -115,17 +115,18 @@ export type SysState = {
   ignoreApps: string
   innerCol: number
   selectedQuickStart: number
-  quickStarts: string[][]
   selectProject: ProjectConf
   env: Partial<{
     room_ids: number[]
     uid: string
     bilibili_up_UIDs: number[]
+    webView: string[][]
     [key: string]: any
   }>
   NodeTreads: NodeTread[]
   apps: [string, string][]
   modules: ProjectConf[]
   runningUIDMapPID: ObjectType<string[]>
+  data: ObjectType
   [key: string]: any
 }

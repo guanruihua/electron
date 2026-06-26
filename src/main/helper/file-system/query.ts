@@ -50,7 +50,7 @@ const setRelatedData = async (
   const list = relatedData.split(',').map((_) => _.trim())
 
   const fileStat = await stat({ path: currentPath })
-  
+
   for (const type of list) {
     if (type === 'stat') {
       item.stat = fileStat
@@ -88,6 +88,7 @@ const setRelatedData = async (
 
 export const readCurrentDir = async (payload: FS_Payload) => {
   const { path, setting = {} } = payload
+  console.log(`[readCurrentDir] `, payload)
 
   const { includeDir, excludeDir, includeFile, excludeFile, relatedData } =
     setting as FileSystemSetting

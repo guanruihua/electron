@@ -10,6 +10,7 @@ import { isChange } from '@/util'
 
 const tableName = 'cache'
 const uid = 'Live-broadcast'
+
 export function LiveBroadcast() {
   const sys = useSysStore()
   const { env } = sys || {}

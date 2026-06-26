@@ -11,6 +11,7 @@ type Actions<T> = {
   set(newState: Partial<T>): void
   get(): T
   init(force?: boolean): Promise<void>
+  setData(data: ObjectType): Promise<void>
   setUserInfo(info: UserInfo, key?: string): Promise<void>
   saveToFile(type: 'setting' | 'modules' | 'apps'): Promise<void>
   findNodeTreads(): Promise<void>
@@ -31,17 +32,19 @@ export const useSysStore = create(
       path: '',
       ignoreApps: '',
       selectedQuickStart: 0,
-      quickStarts: [] as string[][],
       selectProject: {} as ProjectConf,
 
       NodeTreads: [],
       modules: [],
       apps: [],
       runningUIDMapPID: {},
-
+      data: {},
       innerCol: 1,
       contentLayout: {},
 
+      async setData(data: ObjectType) {
+        set({ data: { ...this.data, ...data } })
+      },
       async setUserInfo(
         info: UserInfo | UserInfo[keyof UserInfo],
         key?: string,
@@ -114,7 +117,6 @@ export const useSysStore = create(
         const {
           path,
           ignoreApps,
-          quickStarts = [],
           selectedQuickStart = 0,
           selectProject,
         } = get()
@@ -123,7 +125,6 @@ export const useSysStore = create(
           saveSettingToFile(path, {
             path,
             ignoreApps,
-            quickStarts,
             selectedQuickStart,
             selectProject,
           })

@@ -14,7 +14,6 @@ export const getSysInitState = async (): Promise<SysState> => {
   const {
     // path = 'D:\\Data\\electron',
     ignoreApps = 'AsHotplugCtrl,NVIDIA,输入法,x86,Help',
-    quickStarts = [],
     selectedQuickStart = 0,
     selectProject,
   } = setting || {}
@@ -28,16 +27,15 @@ export const getSysInitState = async (): Promise<SysState> => {
       weatherInfo: [],
     },
     ignoreApps,
-    quickStarts,
     selectedQuickStart,
     selectProject,
 
     NodeTreads: [],
     modules,
     apps,
-
     innerCol: 1,
     runningUIDMapPID: {},
+    data: {},
   }
 
   const list = ['db', 'img', 'weather-db']

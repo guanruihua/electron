@@ -7,6 +7,7 @@ import { registerShortcuts } from './on/shortcuts'
 
 // app.setPath('cache', app.getPath('userData') + '\\Cache')
 // app.disableHardwareAcceleration()
+// app.commandLine.appendSwitch('disable-blink-features', 'AutomationControlled')
 // app.commandLine.appendSwitch('disable-renderer-backgrounding')
 // app.commandLine.appendSwitch('disable-background-timer-throttling')
 // app.commandLine.appendSwitch('enable-features', 'GlobalShortcutsPortal')
@@ -21,7 +22,6 @@ app.whenReady().then(async () => {
   ipcMainHandle(mainWindow)
   registerShortcuts(mainWindow)
   // on_webview(mainWindow)
-
 
   app.on('browser-window-created', (_, window) => {
     optimizer.watchWindowShortcuts(window)

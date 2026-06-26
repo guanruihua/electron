@@ -5,6 +5,7 @@ import { ClipboardManager } from '@/views/clipboard'
 import MusicPlayer from '@/views/music/music'
 import Project from '@/views/project/project'
 import App from '@/views/app/app'
+import Hot from '@/views/hot'
 // import TerminalPage from '@/views/terminal'
 // import { View } from '@/views/view'
 
@@ -24,6 +25,12 @@ export const Routes = [
     title: 'Project',
     type: 'project',
     children: <Project />,
+  },
+  {
+    id: '06',
+    title: 'Hot',
+    type: 'hot',
+    children: <Hot />
   },
   { id: '03', title: 'App', type: 'app', children: <App /> },
   {

@@ -1,4 +1,4 @@
-import { ipcMain, BrowserWindow } from 'electron'
+import { ipcMain, BrowserWindow, shell } from 'electron'
 import { createScreenMask } from '../gen/create-screen-mask'
 import { isObject, isString } from 'asura-eye'
 import { getClipboard } from './clipboard'
@@ -13,12 +13,12 @@ import { getUserDataPath } from '../helper/get/user-info'
 import { copy } from '../helper/handle/clipboard'
 import { getSysInfo } from '../helper/get/sys-info/sys-info'
 import { db } from '../db'
+import { webView } from './webview'
 
 // import { Logger } from '../helper/logger'
 
 export const ipcMainHandle = (mainWindow: BrowserWindow) => {
   // const logger = Logger(mainWindow)
-
   const Conf = {
     db,
     copy,
@@ -30,6 +30,10 @@ export const ipcMainHandle = (mainWindow: BrowserWindow) => {
     getFileTree,
     updateApps,
     fs: fileSystem,
+    url: async (_, url: any) => {
+      if (isString(url)) shell.openExternal(url)
+    },
+    webView: async (_, conf: any) => await webView(mainWindow, conf),
     setSize: async (_e, conf: any) => {
       if (!isObject(conf)) return
       const { width, height } = conf

@@ -8,9 +8,32 @@ import { isArray, isNumber, isObject, isString } from 'asura-eye'
 import { message } from 'aurad'
 import { copyText } from 'harpe'
 import { v4 as getUUID } from 'uuid'
+import * as cheerio from 'cheerio'
+import { ObjectType } from '0type'
 
-export { getUUID }
+export const invoke = window.api.invoke
 
+export { getUUID, cheerio }
+
+export async function getCache(payload: ObjectType) {
+  const res = await window.api.db({
+    action: 'find',
+    DBName: 'db',
+    tableName: 'cache',
+    payload,
+  })
+  return res?.data
+}
+
+export async function setCache(payload: ObjectType) {
+  const res = await window.api.db({
+    action: 'update',
+    DBName: 'db',
+    tableName: 'cache',
+    payload,
+  })
+  return res
+}
 /**
  * @title isChange
  * @description Comparison value

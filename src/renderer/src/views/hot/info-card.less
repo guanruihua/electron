@@ -1,0 +1,61 @@
+.info-card {
+  padding-right: 5px;
+  border-radius: 12px;
+
+  &-empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+    color: #ffffff90;
+  }
+
+  &-container {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    gap: 10px;
+    max-height: calc(var(--h) - 86px);
+    overflow-y: auto;
+    padding-right: 5px;
+    min-height: 64px;
+  }
+
+  &-item {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    cursor: pointer;
+
+    .left {
+      display: grid;
+      grid-template-rows: 1fr auto;
+      min-height: 32px;
+
+      .title {
+        font-size: 14px;
+      }
+
+      .hot {
+        font-size: 12px;
+        color: #ffffff80;
+      }
+    }
+
+    img {
+      width: 160px;
+      height: 85px;
+      object-fit: cover;
+    }
+
+    .jinjia {
+      grid-column: 1/-1;
+
+      &-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        border-bottom: 1px solid #ffffff20;
+        padding-bottom: 5px;
+      }
+    }
+  }
+}

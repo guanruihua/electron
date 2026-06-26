@@ -19,6 +19,8 @@ export type InvokeType =
   | 'copy'
   | 'getClipboard'
   | 'setSize'
+  | 'webView'
+  | 'url'
 
 export type FS_Action =
   | 'createPathIfNotExist'

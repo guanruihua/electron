@@ -22,6 +22,7 @@ export const initUserInfo = async (newState: SysState) => {
       activeTab: '01',
       enableClipboard: true,
       enableEmail: true,
+      enableLoginPlatform: true,
     }
   }
 

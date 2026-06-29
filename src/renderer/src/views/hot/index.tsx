@@ -1,14 +1,14 @@
 import { Button, Tabs } from 'antd'
 import { Icon } from '@/components'
 import { isArray, isString } from 'asura-eye'
-import { useHotStore } from './store'
+import { useWebViewStore } from './store'
 import { items, Conf } from './conf'
 import './index.less'
 import './info-card.less'
 import React from 'react'
 
 export default function Hot() {
-  const wv = useHotStore()
+  const wv = useWebViewStore()
 
   const reload = async () => {
     if (!isArray(items)) return

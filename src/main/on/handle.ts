@@ -12,7 +12,7 @@ import { getUserDataPath } from '../helper/get/user-info'
 import { copy } from '../helper/handle/clipboard'
 import { getSysInfo } from '../helper/get/sys-info/sys-info'
 import { db } from '../db'
-import { webView } from './webview'
+import { webView } from './webView'
 
 // import { Logger } from '../helper/logger'
 

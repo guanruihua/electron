@@ -50,7 +50,7 @@ export const QuickStart = () => {
       renderList.forEach(async (item) => {
         const { path } = item
         if (!path) return
-        await invoke('cmd', path)
+        await invoke('cmd', `start "" "${path}"`)
       })
     } finally {
       setLoading(false)

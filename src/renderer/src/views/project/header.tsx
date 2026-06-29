@@ -29,24 +29,27 @@ export function ProjectHeader(props: ProjectHeaderProps) {
 
   return (
     <div className="project-header">
-      <div className="project-header-query-input">
-        <AutoComplete
-          options={options}
-          allowClear
-          showSearch={{
-            onSearch,
-          }}
-          placeholder="Search..."
-          onChange={(value) => {
-            sys.setUserInfo(
-              {
-                filterModule: value,
-              },
-              'setting',
-            )
-          }}
-        />
+      <div className="project-header-container">
+        <div className="project-header-query-input">
+          <AutoComplete
+            options={options}
+            allowClear
+            showSearch={{
+              onSearch,
+            }}
+            placeholder="Search..."
+            onChange={(value) => {
+              sys.setUserInfo(
+                {
+                  filterModule: value,
+                },
+                'setting',
+              )
+            }}
+          />
+        </div>
       </div>
+
       <div className="root-badge">
         <Button
           className="edit-json-file"

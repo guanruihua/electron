@@ -94,12 +94,11 @@ export default function Opt() {
 
   return (
     <div className="layout-module card module-opt other-card">
-      <div className="flex gap wrap">
-        <div className="layout-flex">Clipboard</div>
+      <div className="w-layout-flex justify-start">
         <Switch
           checked={enableClipboard}
-          checkedChildren={'Enabled'}
-          unCheckedChildren={'Disabled'}
+          checkedChildren={'Enabled Clipboard'}
+          unCheckedChildren={'Disabled Clipboard'}
           onChange={(enableClipboard) => {
             sys.setUserInfo(
               {

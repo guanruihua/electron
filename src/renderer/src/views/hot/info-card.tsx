@@ -1,4 +1,4 @@
-import { useHotStore } from './store'
+import { useWebViewStore } from './store'
 import { isArray, isString } from 'asura-eye'
 
 type Props = {
@@ -6,7 +6,7 @@ type Props = {
 }
 export default function InfoCard(props: Props) {
   const { type } = props
-  const wv = useHotStore()
+  const wv = useWebViewStore()
   const data = wv?.Data?.[type]?.hot || []
 
   return (

@@ -103,6 +103,7 @@ export type UserInfo = Partial<{
     enableEmail: boolean
     enableClipboard: boolean
     filterModule: string
+    enableLoginPlatform: boolean
     [key: string]: any
   }>
   [key: string]: any

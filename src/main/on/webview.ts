@@ -51,6 +51,8 @@ export async function webView(mainWindow: BrowserWindow, conf: any) {
     switch (type) {
       case 'destroy':
         return destroyView(mainWindow, uid)
+      case 'get-url':
+        return ViewMap[uid].webContents.getURL()
       case 'get-html':
         const html = await ViewMap[uid].webContents.executeJavaScript(
           'document.documentElement.outerHTML',

@@ -10,10 +10,10 @@ export function createBrowserWindow(): BrowserWindow {
   })
 
   const mainWindow = new BrowserWindow({
-    width: 510,
-    height: 640,
-    minWidth: 500,
-    minHeight: 640,
+    width: 520,
+    height: 560,
+    minWidth: 520,
+    minHeight: 560,
     resizable: true,
     icon,
     titleBarStyle: 'hidden',
@@ -26,7 +26,6 @@ export function createBrowserWindow(): BrowserWindow {
       preload: path.join(__dirname, '../preload/index.js'),
     },
   })
-  // mainWindow.maximize()
 
   mainWindow.on('ready-to-show', () => {
     mainWindow.show()

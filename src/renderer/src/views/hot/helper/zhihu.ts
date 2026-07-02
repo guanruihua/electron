@@ -1,6 +1,7 @@
+import { ObjectType } from '0type'
 import { cheerio } from '@/util'
 
-export const zhihu_hot = (html: string) => {
+export const zhihu_hot = (html: string): ObjectType | void => {
   const $ = cheerio.load(html)
   const doms = $('.HotList-list>.HotItem')
   // console.log(doms)
@@ -16,8 +17,9 @@ export const zhihu_hot = (html: string) => {
     const record = { logo, title, excerpt, hot, url }
     list.push(record)
   })
-
-  return {
-    hot: list,
-  }
+  if (list.length)
+    return {
+      hot: list,
+    }
+  return
 }

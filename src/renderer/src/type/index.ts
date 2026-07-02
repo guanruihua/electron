@@ -47,6 +47,23 @@ export type ProjectConf = Partial<{
   pid: string[]
   memory: number
   children: ProjectConf[]
+
+  FSStatus: {
+    'package.json': boolean
+    node_modules: boolean
+  }
+
+  Jenkins: {
+    url_frontend: string
+    url_backend: string
+    frontend_status: string
+    backend_status: string
+    frontend_list: ObjectType[]
+    backend_list: ObjectType[]
+  } | undefined
+  
+  webs: string[]
+
   [key: string]: any
 }>
 
@@ -116,7 +133,6 @@ export type SysState = {
   ignoreApps: string
   innerCol: number
   selectedQuickStart: number
-  selectProject: ProjectConf
   env: Partial<{
     room_ids: number[]
     uid: string
@@ -124,9 +140,7 @@ export type SysState = {
     webView: string[][]
     [key: string]: any
   }>
-  NodeTreads: NodeTread[]
   modules: ProjectConf[]
-  runningUIDMapPID: ObjectType<string[]>
   data: ObjectType
   [key: string]: any
 }

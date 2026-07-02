@@ -1,4 +1,5 @@
 export * from './icons'
+export * from './btn'
 export * from './diagonal-loading'
 export * from './md/md'
 export * from './img'

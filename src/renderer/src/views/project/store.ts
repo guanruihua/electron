@@ -1,8 +1,12 @@
-import { isString } from 'asura-eye'
+import { isArray, isString } from 'asura-eye'
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
+import { useSysStore } from '@/store/sys'
+import { NodeTread, ProjectConf } from '@/type'
+import { getNodeThread, likeValue } from '@/util'
+import { getFSStatus, getJenkins } from './helper'
+import { useWebViewStore } from '../hot/store'
 import { ObjectType } from '0type'
-import dayjs from 'dayjs'
 
 export type ProjState = Partial<{
   activeUID: string
@@ -15,6 +19,9 @@ export type ProjState = Partial<{
   Data: Partial<{
     [key: string]: any
   }>
+  projects: ProjectConf[]
+  NodeTreads: NodeTread[]
+  runningUIDMapPID: ObjectType<string[]>
   [key: string]: any
 }>
 
@@ -22,9 +29,12 @@ export type ProjActions<T> = {
   set(newState: Partial<T>): void
   get(): T
   init(): Promise<void>
-  getCache(uid: string): Promise<any>
-  analysisURL(uid: string, url: string): Promise<void>
-  invoke(payload: ObjectType): Promise<any>
+  getProjectData(item: ProjectConf): Promise<ProjectConf>
+  updateProjectData(item: ProjectConf): Promise<void>
+
+  findNodeTreads(): Promise<void>
+  stopNodeTreads(): Promise<void>
+  stopNodeTread(item: ObjectType): Promise<void>
 }
 
 export type UseWebViewState = ProjState & ProjActions<ProjState>
@@ -32,81 +42,104 @@ export type UseWebViewState = ProjState & ProjActions<ProjState>
 export const useProjStore = create(
   persist<UseWebViewState>(
     (set, get) => ({
-      activeUID: 'zhihu',
+      activeUID: '',
       Init: {},
       Data: {},
       loadings: {},
-      async getCache(uid: string) {
-        const find = await window.api.db({
-          action: 'find',
-          DBName: 'db',
-          tableName: 'cache',
-          payload: {
-            uid: `proj/${uid}`,
-          },
+      NodeTreads: [],
+      runningUIDMapPID: {},
+      projects: [],
+      async getProjectData(item: ProjectConf) {
+        const { Data = {} } = useWebViewStore.getState()
+        const { path } = item
+        if (!isString(path)) return item
+        item.FSStatus = await getFSStatus(path)
+
+        // jenkins
+        item.Jenkins = getJenkins(item, Data)
+
+        // webs
+        const webs = Object.keys(item).filter(
+          (key) => key.startsWith('url-') && key !== 'url-review',
+        )
+        if (isArray(webs) && webs.length) {
+          item.webs = webs
+        }
+        return item
+      },
+      async updateProjectData(item: ProjectConf) {
+        const { projects = [] } = get()
+        const newItem = await this.getProjectData(item)
+
+        set({
+          projects: projects.map((_) => {
+            if (_.path === item.path) {
+              return newItem
+            }
+            return _
+          }),
         })
-        return find.data?.at(0)?.data
       },
       async init() {
-     
-      },
-      async invoke(payload: ObjectType) {
-        if (isString(payload.uid)) set({ activeUID: payload.uid })
-        return window.api.invoke('webView', payload)
-      },
-      async analysisURL(uid: string, url: string) {
-        const { Init = {}, Data = {}, loadings = {} } = get()
-        try {
-          loadings[uid] = true
-          set({ loadings })
+        const { runningUIDMapPID = {} } = get()
+        const { modules, userInfo } = useSysStore.getState()
+        const newState: ProjState = {
+          initSuccess: true,
+          projects: [],
+        }
 
-          if (!Data[uid]) {
-            const data = await this.getCache(uid)
-            if (data) {
-              Data[uid] = data
-              set({ Init, Data, activeUID: uid })
-            }
+        if (isArray(modules)) {
+          newState.projects =
+            modules?.filter((_) =>
+              isString(userInfo.setting?.filterModule)
+                ? likeValue(userInfo.setting.filterModule, _.label)
+                : 
+                true,
+            ) || []
+          set(newState)
+          // newState.projects = newState.projects
+          const list = newState.projects
+
+          // fs-status
+          for (let i = 0; i < list.length; i++) {
+            const item = list[i]
+            newState.projects[i] = await this.getProjectData(item)
           }
+          set(newState)
+        }
 
-          const res = await this.invoke({ url, uid })
-          // console.log(uid, url, res)
+        // console.log('init', initSuccess, userInfo, modules)
 
-          if (res === 1) {
-            Init[uid] = true
-          } else if (res === 2) {
-            Init[uid] = true
-            await this.invoke({ type: 'reload', uid })
-          } else {
-            Init[uid] = false
-            set({ Init, activeUID: uid })
-            return
-          }
-          const html = await this.invoke({ type: 'get-html', uid })
-          // console.log(html)
+        const res = await getNodeThread(newState.projects!, runningUIDMapPID)
 
-          if (!isString(html)) return
-          // const data = getWebViewRecord(uid, html)
-          const data:any = {}
-          if (!data) return
-          data.updateDate = dayjs().format('MM-DD HH:mm:ss')
-          Data[uid] = data
+        // console.log(res)
 
-          set({ Init, Data, activeUID: uid })
+        set({ ...newState, ...res })
+      },
+      async findNodeTreads() {
+        const { projects = [] } = get()
+        const res = await getNodeThread(projects, get().runningUIDMapPID || {})
 
-          await window.api.db({
-            action: 'update',
-            DBName: 'db',
-            tableName: 'cache',
-            payload: {
-              uid: `hot/${uid}`,
-              data,
-            },
-          })
+        // console.log(res)
 
-          return
-        } finally {
-          loadings[uid] = false
-          set({ loadings })
+        set(res)
+      },
+      async stopNodeTreads() {
+        await window.api.invoke('cmd', 'taskkill /F /IM node.exe')
+        await this.findNodeTreads()
+      },
+      async stopNodeTread(item: ObjectType) {
+        if (!item.path) return
+        const selector = `.opt-item[data-path="${item.path.replaceAll('\\', '>')}"]`
+        const dom: HTMLDivElement | null = document.querySelector(selector)
+        if (!dom) return
+        const pids = [...new Set(dom.dataset.pid?.split(' '))]
+        if (pids.length) {
+          await window.api.invoke(
+            'cmd',
+            `taskkill ${pids.map((p) => `/PID ${p}`).join(' ')} /F`,
+          )
+          await this.findNodeTreads()
         }
       },
       set,

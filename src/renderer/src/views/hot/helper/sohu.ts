@@ -1,6 +1,7 @@
+import { ObjectType } from '0type'
 import { cheerio } from '@/util'
 
-export const sohu = (html: string) => {
+export const sohu = (html: string): ObjectType | void => {
   const $ = cheerio.load(html)
   const doms = $('.FS-important-news>.news-content>a')
   const list: any[] = []
@@ -13,8 +14,11 @@ export const sohu = (html: string) => {
       url: _.attr('href'),
     })
   })
-// console.log(list)
-  return {
-    hot: list,
-  }
+  // console.log(list)
+  if (list.length)
+    return {
+      hot: list,
+    }
+
+  return
 }

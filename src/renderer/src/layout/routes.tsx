@@ -2,7 +2,7 @@ import DashboardView from '@/views/dashboard'
 // import FileResourceManagement from '@/views/file-resource'
 import Setting from '@/views/setting'
 import { ClipboardManager } from '@/views/clipboard'
-import MusicPlayer from '@/views/music/music'
+// import MusicPlayer from '@/views/music/music'
 import Project from '@/views/project/project'
 import App from '@/views/app/app'
 import Hot from '@/views/hot'
@@ -25,12 +25,14 @@ export const Routes = [
     title: 'Project',
     type: 'project',
     children: <Project />,
+    destroyOnHidden: false,
   },
   {
     id: '06',
     title: 'Hot',
     type: 'hot',
-    children: <Hot />
+    children: <Hot />,
+    destroyOnHidden: false,
   },
   { id: '03', title: 'App', type: 'app', children: <App /> },
   {
@@ -40,12 +42,12 @@ export const Routes = [
     children: <ClipboardManager />,
     destroyOnHidden: false,
   },
-  {
-    id: '05',
-    type: 'music-player',
-    children: <MusicPlayer />,
-    destroyOnHidden: false,
-  },
+  // {
+  //   id: '05',
+  //   type: 'music-player',
+  //   children: <MusicPlayer />,
+  //   destroyOnHidden: false,
+  // },
   {
     id: '100',
     title: 'Setting',

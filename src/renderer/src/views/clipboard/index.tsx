@@ -20,6 +20,11 @@ export function ClipboardManager() {
 
   const renderList = getRenderList(list, pageState)
 
+  const handleKeydown = (e) => {
+    const { key } = e
+    console.log(key)
+  }
+
   React.useEffect(() => {
     // 获取要监听的元素
     const element = document.querySelector('.clipboard-manager')
@@ -68,6 +73,7 @@ export function ClipboardManager() {
   React.useEffect(() => {
     if (sys.initSuccess && sys.path) {
       load()
+      document.addEventListener('keydown', handleKeydown)
     }
   }, [sys.initSuccess, sys.path])
 

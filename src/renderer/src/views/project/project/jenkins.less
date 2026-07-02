@@ -1,0 +1,77 @@
+.project-item {
+  .jenkins {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 5px 0 10px;
+
+    &-item {
+      font-size: 12px;
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 5px 10px;
+
+      .name {
+        letter-spacing: 1px;
+      }
+
+      .status {
+        letter-spacing: 1px;
+        color: #ffffff60;
+        text-transform: uppercase;
+      }
+
+      .time {
+        font-size: 10px;
+        letter-spacing: 1px;
+        color: #ffffff60;
+      }
+
+      &[data-status='success'] {
+        .status {
+          color: var(--success);
+        }
+      }
+
+      &[data-status='error'] {
+        .status {
+          color: var(--error);
+        }
+      }
+    }
+
+    .frontend,
+    .backend {
+      .title {
+        margin-bottom: 5px;
+        font-size: 14px;
+        font-weight: bold;
+        letter-spacing: 1px;
+        text-shadow: 0 0 3px #000;
+      }
+
+      &[data-status='success'] {
+        .title {
+          color: var(--success);
+        }
+      }
+
+      &[data-status='error'] {
+        .title {
+          color: var(--error);
+        }
+      }
+
+      .container {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 5px;
+
+        .jenkins-item {
+          border-radius: 12px;
+        }
+      }
+    }
+  }
+}

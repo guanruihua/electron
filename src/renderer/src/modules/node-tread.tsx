@@ -2,11 +2,11 @@ import React from 'react'
 import { Button } from 'antd'
 import { isArray } from 'asura-eye'
 import { Icon } from '@/components'
-import { useSysStore } from '@/store/sys'
 import { useTaskStore } from '@/store/task'
+import { useProjStore } from '@/views/project/store'
 
 export function NodeTread() {
-  const sys = useSysStore()
+  const p = useProjStore()
   const task = useTaskStore()
   const loadings = task.loadings
   return (
@@ -16,31 +16,27 @@ export function NodeTread() {
         <div className="flex gap">
           <Button
             loading={loadings.nodeThread}
-            icon={<Icon type="run" />}
+            icon={<Icon type="search" />}
             onClick={() =>
               task.run({
                 uid: 'nodeThread/query',
-                exec: sys.findNodeTreads,
+                exec: p.findNodeTreads,
               })
             }
-          >
-            Query
-          </Button>
+          />
           <Button
             icon={<Icon type="stop" />}
             loading={loadings.nodeThread}
             onClick={() =>
               task.run({
                 uid: 'nodeThread/stopAll',
-                exec: sys.stopNodeTreads,
+                exec: p.stopNodeTreads,
               })
             }
-          >
-            Stop
-          </Button>
+          />
         </div>
       </div>
-      {isArray(sys?.NodeTreads) && sys.NodeTreads.length > 0 && (
+      {isArray(p?.NodeTreads) && p.NodeTreads.length > 0 && (
         <div
           className="grid all-node-tread border-radius"
           style={{
@@ -61,7 +57,7 @@ export function NodeTread() {
               borderBottom: '2px solid rgba(255, 255, 255, .3)',
             }}
           />
-          {sys.NodeTreads.map((row: any, i) => (
+          {p.NodeTreads.map((row: any, i) => (
             <React.Fragment key={i}>
               <div
                 className="node-tread-row-title flex items-center text-12"
@@ -95,7 +91,7 @@ export function NodeTread() {
                   })
                   await task.run({
                     uid: 'nodeThread/query',
-                    exec: sys.findNodeTreads,
+                    exec: p.findNodeTreads,
                   })
                 }}
               />

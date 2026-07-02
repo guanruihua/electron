@@ -2,6 +2,7 @@ import { isObject, isString } from 'asura-eye'
 import { BrowserWindow, WebContentsView } from 'electron'
 
 const ViewMap: Record<string, WebContentsView | null> = {}
+const UrlMap: Record<string, string | null> = {}
 
 // 当不再需要视图时，执行销毁
 function destroyView(mainWindow: BrowserWindow, uid: string) {
@@ -27,7 +28,20 @@ export async function webView(mainWindow: BrowserWindow, conf: any) {
     return { x: 60, y: 136, width: 800, height: 600 }
   }
 
-  if (isString(url)) {
+  if (isString(url) && !isString(type)) {
+    if (ViewMap[uid] && UrlMap[uid] !== url) {
+      console.log(`[WebContentsView Init] update / url: ${url} uid: ${uid}`)
+
+      ViewMap[uid].webContents.loadURL(url)
+      UrlMap[uid] = url
+
+      return new Promise((rs) => {
+        if (!ViewMap[uid]) return rs(0)
+        ViewMap[uid].webContents.on('did-finish-load', () => rs(1))
+        ViewMap[uid].webContents.on('preload-error', () => rs(0))
+      })
+    }
+
     if (!ViewMap[uid]) {
       console.log(`[WebContentsView Init] url: ${url} uid: ${uid}`)
       ViewMap[uid] = new WebContentsView()
@@ -37,14 +51,16 @@ export async function webView(mainWindow: BrowserWindow, conf: any) {
         'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
       )
       ViewMap[uid].webContents.loadURL(url)
+      UrlMap[uid] = url
+
       return new Promise((rs) => {
         if (!ViewMap[uid]) return rs(0)
         ViewMap[uid].webContents.on('did-finish-load', () => rs(1))
         ViewMap[uid].webContents.on('preload-error', () => rs(0))
       })
     }
+
     return 2
-    // 等待页面加载完成后获取内容
   }
 
   if (isString(type) && ViewMap[uid]) {

@@ -81,9 +81,7 @@ export default function RunningApp() {
             icon={<Icon type="stop" />}
             loading={loadings.runningApp__stopAll}
             onClick={stopAll}
-          >
-            Stop All
-          </Button>
+          />
           <Button
             loading={loadings.runningApp__query}
             icon={<Icon type="reload" style={{ fontSize: 16 }} />}
@@ -91,44 +89,41 @@ export default function RunningApp() {
           />
         </div>
       </div>
-      <div className="pt">
-        <div
-          className="flex col p border-radius"
-          style={{
-            background: 'var(--bg-content)',
-            minHeight: 80,
-            justifyContent: 'center',
-          }}
-        >
-          {appList.length ? (
-            appList.map((item) => {
-              const { id } = item
-              return (
-                <div
-                  key={id}
-                  className="grid gap"
-                  style={{
-                    gridTemplateColumns: '1fr auto',
-                    alignItems: 'center',
-                  }}
-                >
-                  <div className="text-12">
-                    {item.title} ({item.name})
-                  </div>
-                  <Icon
-                    loading={loadings[`runningApp__stop-${item.id}`]}
-                    type="stop"
-                    className="opt stop"
-                    style={{ fontSize: 24 }}
-                    onClick={() => stop(item)}
-                  />
+      <div
+        className="flex col pt"
+        style={{
+          minHeight: 80,
+          justifyContent: 'center',
+        }}
+      >
+        {appList.length ? (
+          appList.map((item) => {
+            const { id } = item
+            return (
+              <div
+                key={id}
+                className="grid gap"
+                style={{
+                  gridTemplateColumns: '1fr auto',
+                  alignItems: 'center',
+                }}
+              >
+                <div className="text-12">
+                  {item.title} ({item.name})
                 </div>
-              )
-            })
-          ) : (
-            <div className="text-center">Empty</div>
-          )}
-        </div>
+                <Icon
+                  loading={loadings[`runningApp__stop-${item.id}`]}
+                  type="stop"
+                  className="opt stop"
+                  style={{ fontSize: 24 }}
+                  onClick={() => stop(item)}
+                />
+              </div>
+            )
+          })
+        ) : (
+          <div className="text-center">Empty</div>
+        )}
       </div>
     </div>
   )

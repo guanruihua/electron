@@ -2,6 +2,8 @@ import { classNames } from 'harpe'
 import React from 'react'
 
 export type IconType =
+  | 'window'
+  | 'world-search'
   | 'fold'
   | 'install'
   | 'reinstall'
@@ -114,6 +116,21 @@ export function Icon(props: IconProps) {
     )
   }
 
+  if (type === 'window')
+    return (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="1em"
+        height="1em"
+        viewBox="0 0 20 20"
+        {...rest}
+      >
+        <path
+          fill="currentColor"
+          d="M0 3c0-1.1.9-2 2-2h16a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2 2v12h16V5z"
+        ></path>
+      </svg>
+    )
   // if (type === '')
   //   return (
   //     <svg
@@ -126,6 +143,27 @@ export function Icon(props: IconProps) {
   //     ></svg>
   //   )
 
+  if (type === 'world-search')
+    return (
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="1em"
+        height="1em"
+        viewBox="0 0 24 24"
+        {...rest}
+      >
+        <g
+          fill="none"
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth={2}
+        >
+          <path d="M21 12a9 9 0 1 0-9 9M3.6 9h16.8M3.6 15h7.9"></path>
+          <path d="M11.5 3a17 17 0 0 0 0 18m1-18a17 17 0 0 1 2.574 8.62M15 18a3 3 0 1 0 6 0a3 3 0 1 0-6 0m5.2 2.2L22 22"></path>
+        </g>
+      </svg>
+    )
   if (type === 'search')
     return (
       <svg

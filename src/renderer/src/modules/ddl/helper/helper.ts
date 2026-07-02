@@ -60,6 +60,9 @@ export const getTime = (Conf: ObjectType) => {
 }
 
 export async function updateCountdown(Conf: ObjectType): Promise<string[]> {
+  const { webViewData } = Conf
+  // console.log(webViewData)
+
   const { now, diffMs, DAYs } = getTime(Conf)
   const res: string[] = [
     {
@@ -131,6 +134,20 @@ export async function updateCountdown(Conf: ObjectType): Promise<string[]> {
         res.push(`明天就是${name}！！！！！`)
       }
     })
+
+  const { jinjia, /* sohu, zhihu */ } = webViewData || {}
+    const _jinjia = jinjia?.hot?.at(0)?.data?.at(0)
+    const _jinjia1 = jinjia?.hot?.at(1)?.data?.at(0)
+    const _jinjia2 = jinjia?.hot?.at(2)?.data?.at(0)
+  if (_jinjia) {
+    const _ = _jinjia
+    const _1 = _jinjia1
+    const _2 = _jinjia2
+    res.push(`------- ${jinjia.updateDate} --------`)
+    res.push(`${_.title}     ${_.new}     ${_.rise}`)
+    res.push(`${_1.title}       ${_1.new}    ${_1.rise}`)
+    res.push(`${_2.title}       ${_2.new}        ${_2.rise}`)
+  }
 
   return res
 }

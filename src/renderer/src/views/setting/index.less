@@ -2,9 +2,33 @@
   background: #000;
   height: var(--h);
 
-  .user-setting{
-    padding: 20px 20px 10px;
+  .user-setting {
+    padding: 10px;
+
+    &-row {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 5px;
+
+      .name {
+        font-size: 11px;
+        color: #ffffffa0;
+      }
+
+      .value {
+        font-size: 12px;
+      }
+    }
+
+    &-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding-top: 10px;
+    }
   }
+
   .header {
     display: flex;
     align-items: center;
@@ -28,7 +52,7 @@
   }
 
   .card {
-    padding: 20px;
+    padding: 10px;
     background-color: #3c3c3c;
     border-radius: 12px;
     font-size: 12px;

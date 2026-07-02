@@ -4,8 +4,9 @@ import { getJSON, useLoading } from '@/util'
 import { isString } from 'asura-eye'
 import { SysState } from '@/type'
 import './info.less'
+import { WebViewState } from '@/views/hot/store'
 
-export const useMyState = (sys: SysState) => {
+export const useMyState = (sys: SysState, wv: WebViewState) => {
   const { userInfo } = sys
   const { weatherInfo } = userInfo
   const [loading, setLoading] = useLoading()
@@ -26,6 +27,7 @@ export const useMyState = (sys: SysState) => {
     }
     const Conf = getJSON(res)
     Conf.weatherInfo = weatherInfo
+    Conf.webViewData = wv.Data
 
     clear()
 

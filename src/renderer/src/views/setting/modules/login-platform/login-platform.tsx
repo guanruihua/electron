@@ -1,97 +1,128 @@
-import { Icon } from '@/components'
+import { Icon, StatusButton } from '@/components'
 import { Button } from 'antd'
 import './login-platform.less'
 import { Switch } from 'antd'
 import { useSysStore } from '@/store/sys'
-import React from 'react'
 import { useWebViewStore } from '@/views/hot/store'
-import { invoke, sleep } from '@/util'
+import { invoke } from '@/util'
 import { isString } from 'asura-eye'
+import React from 'react'
 
 const Conf = [
   //
   ['jenkins', 'jenkins', 'https://jenkins.yessafe.com.cn'],
-  ['zhihu', '知乎', 'https://www.zhihu.com/hot', 'signin'],
+  ['zhihu', '知乎', 'https://www.zhihu.com', 'signin'],
 ]
 
 const isLogin = (url: string) => {
   if (!isString(url)) return false
-  return ['signin', 'login'].some((_) => url.includes(_))
+  return !['signin', 'login'].some((_) => url.includes(_))
 }
 
 export default function LoginPlatform() {
   const wv = useWebViewStore()
-  const { Logged = {} } = wv
+  const { Status = {} } = wv
   const sys = useSysStore()
   const { enableLoginPlatform = false } = sys?.userInfo?.setting || {}
 
-  const init = async () => {
-    const Logged = wv.Logged || {}
+  const handleInit = async (uid: string, url: string) => {
+    const res = await invoke('webView', { uid, url })
+    wv.setStatus({
+      [`${uid}_init`]: !!res,
+    })
+  }
 
-    const check = async (uid: string) => {
-      const pageUrl = await invoke('webView', { uid, type: 'get-url' })
-      if (isLogin(pageUrl)) {
-        Logged[uid] = true
-        return true
-      }
-      Logged[uid] = false
-      return false
+  const handleLogin = async (uid: string, showLoginPage = true) => {
+    const url = await invoke('webView', {
+      uid,
+      type: 'get-url',
+    })
+    const status = !!isLogin(url)
+    wv.setStatus({
+      [`${uid}_login`]: status,
+    })
+    if (!status && showLoginPage) {
+      wv.set({ tmpActiveUID: uid })
+      await invoke('webView', { uid, type: 'show' })
     }
+  }
 
-    Promise.all(
+  const init = async () => {
+    const flag = sys?.userInfo?.setting?.enableLoginPlatform
+    if (!flag) return
+
+    return Promise.all(
       Conf.map(async (item) => {
         const [uid, _, url] = item
-        await invoke('webView', { url, uid })
-        const status = await check(uid)
-        if (status) return
-        await sleep(2000)
-        const status2 = await check(uid)
-        if (status2) return
-        await sleep(2000)
-        const status3 = await check(uid)
-        if (status3) return
-        await sleep(2000)
-        await check(uid)
+        await handleInit(uid, url)
+        await handleLogin(uid, false)
       }),
     )
   }
 
   React.useEffect(() => {
-    init()
-  }, [])
-
-  console.log(wv.Logged)
+    sys.initSuccess && init()
+  }, [sys.initSuccess])
 
   return (
     <div className="login-platform layout-module">
+      {wv.tmpActiveUID && (
+        <div className="root-badge">
+          <Button
+            icon={<Icon type="close" />}
+            onClick={async () => {
+              await invoke('webView', { uid: wv.tmpActiveUID, type: 'hidden' })
+            }}
+          />
+        </div>
+      )}
       <div className="login-platform-header w-layout-flex justify-start mb">
         <Switch
           checked={enableLoginPlatform}
           checkedChildren={'Enabled Login Platform'}
           unCheckedChildren={'Disabled Login Platform'}
-          onChange={(enableLoginPlatform) => {
-            sys.setUserInfo(
-              {
-                enableLoginPlatform,
-              },
-              'setting',
-            )
+          onChange={(enableLoginPlatform) =>
+            sys.setUserInfo({ enableLoginPlatform }, 'setting')
+          }
+        />
+        <Button
+          icon={<Icon type="reload" />}
+          onClick={() => {
+            init()
           }}
         />
-        <Button icon={<Icon type="reload" />} />
       </div>
       <div className="login-platform-container">
         {Conf.map((item) => {
           const [uid, name, url] = item
-          const loggedStatus = !!Logged[uid]
           return (
             <div
-              className="login-platform-item layout-flex"
+              className="login-platform-item w-layout-flex space-between"
               key={url}
-              data-logged={loggedStatus}
             >
-              {loggedStatus ? <Icon type="check" /> : <Icon type="close" />}
               <div className="name">{name}</div>
+              <div className="right">
+                <StatusButton
+                  label="Init"
+                  type="link"
+                  status={Status[`${uid}_init`]}
+                  onClick={() => handleInit(uid, url)}
+                />
+                <StatusButton
+                  type="link"
+                  status={Status[`${uid}_login`]}
+                  label="Login"
+                  onClick={() => handleLogin(uid)}
+                />
+                <Button
+                  type="link"
+                  icon={<Icon type="window" />}
+                  onClick={async () => {
+                    wv.set({ tmpActiveUID: uid })
+                    await invoke('webView', { uid, type: 'show' })
+                  }}
+                />
+              </div>
             </div>
           )
         })}

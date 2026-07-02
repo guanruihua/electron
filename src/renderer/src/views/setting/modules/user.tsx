@@ -1,29 +1,21 @@
-import React from 'react'
 import { Icon } from '@/components'
-import { Button, Form } from 'antd'
+import { Button } from 'antd'
 import { useSysStore } from '@/store/sys'
 import { useLoadings } from '@/util'
 
 export function User() {
   const sys = useSysStore()
   const [loadings, setLoadings] = useLoadings()
-  const [form]: any[] = Form.useForm()
 
-  React.useEffect(() => {
-    if (sys.initSuccess && sys.path) {
-      form.setFieldsValue(sys)
-    }
-  }, [sys.initSuccess, sys.path])
+  const list = [
+    ['Total Modules', sys.modules?.length || 0],
+    ['Setting Path', sys.path],
+    ['Ignore APP', sys.ignoreApps],
+  ]
 
   return (
-    <div className="user-setting relative layout-module">
-      <div
-        className="flex gap absolute"
-        style={{
-          top: 10,
-          right: 10,
-        }}
-      >
+    <div className="user-setting layout-module">
+      <div className="flex gap">
         <Button
           loading={loadings.edit_env}
           icon={<Icon type="edit" />}
@@ -45,7 +37,9 @@ export function User() {
               'edit',
             )
           }}
-        />
+        >
+          Setting
+        </Button>
         <Button
           loading={loadings.init}
           icon={<Icon type="reload" style={{ fontSize: 16 }} />}
@@ -53,17 +47,17 @@ export function User() {
           onClick={() => setLoadings(sys.init(true), 'init')}
         />
       </div>
-      <Form form={form} layout="vertical">
-        <Form.Item label="Total Modules">
-          <div>{sys.modules?.length || 0}</div>
-        </Form.Item>
-        <Form.Item label="Setting Path" name="path">
-          <div>{sys.path}</div>
-        </Form.Item>
-        <Form.Item label="Ignore APP" name="ignoreApps">
-          <div>{sys.ignoreApps}</div>
-        </Form.Item>
-      </Form>
+      <div className="user-setting-container">
+        {list.map((row, i) => {
+          const [name, value] = row
+          return (
+            <div key={i} className="user-setting-row">
+              <div className="name">{name}</div>
+              <div className="value">{value}</div>
+            </div>
+          )
+        })}
+      </div>
     </div>
   )
 }

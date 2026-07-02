@@ -1,6 +1,6 @@
 import { ObjectType } from '0type'
-import { ProjectConf, SysState, UserInfo } from '@/type'
-import { getNodeThread, saveSettingToFile } from '@/util'
+import { SysState, UserInfo } from '@/type'
+import { saveSettingToFile } from '@/util'
 import { create } from 'zustand'
 import { persist, createJSONStorage } from 'zustand/middleware'
 import { getSysInitState } from './sys-helper/init'
@@ -14,10 +14,7 @@ type Actions<T> = {
   setData(data: ObjectType): Promise<void>
   setUserInfo(info: UserInfo, key?: string): Promise<void>
   saveToFile(type: 'setting' | 'modules'): Promise<void>
-  findNodeTreads(): Promise<void>
-  stopNodeTreads(): Promise<void>
-  stopNodeTread(item: ObjectType): Promise<void>
-  handleSelectProject(item: ObjectType): Promise<void>
+
 }
 export type UseSysState = SysState & Actions<SysState>
 
@@ -32,11 +29,7 @@ export const useSysStore = create(
       path: '',
       ignoreApps: '',
       selectedQuickStart: 0,
-      selectProject: {} as ProjectConf,
-
-      NodeTreads: [],
       modules: [],
-      runningUIDMapPID: {},
       data: {},
       innerCol: 1,
       contentLayout: {},
@@ -77,40 +70,9 @@ export const useSysStore = create(
           console.log('UserInfo update successfully')
         }
       },
-      async handleSelectProject(selectProject: ObjectType) {
-        set({ selectProject })
-        await this.saveToFile('setting')
-      },
-      async findNodeTreads() {
-        const modules = get().modules || []
-        const res = await getNodeThread(modules, get().runningUIDMapPID)
-
-        // console.log(res)
-        set({
-          NodeTreads: res.NodeTreads || [],
-          modules: res.Modules || [],
-        })
-      },
-      async stopNodeTreads() {
-        await window.api.invoke('cmd', 'taskkill /F /IM node.exe')
-        await this.findNodeTreads()
-      },
-      async stopNodeTread(item: ObjectType) {
-        if (!item.path) return
-        const selector = `.opt-item[data-path="${item.path.replaceAll('\\', '>')}"]`
-        const dom: HTMLDivElement | null = document.querySelector(selector)
-        if (!dom) return
-        const pids = [...new Set(dom.dataset.pid?.split(' '))]
-        await window.api.invoke(
-          'cmd',
-          `taskkill ${pids.map((p) => `/PID ${p}`).join(' ')} /F`,
-        )
-        await this.findNodeTreads()
-      },
       async init(force: boolean = false) {
         if (force) set({ initSuccess: true })
         set(await getSysInitState())
-        await this.findNodeTreads()
       },
       async saveToFile(type: 'setting' | 'modules') {
         const {

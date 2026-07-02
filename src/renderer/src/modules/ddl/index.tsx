@@ -5,13 +5,15 @@ import { useMyState } from './state'
 import { useMsg } from '@/util'
 import { useSysStore } from '@/store/sys'
 import { useTaskStore } from '@/store/task'
+import { useWebViewStore } from '@/views/hot/store'
 
 export function DDL() {
   const sys = useSysStore()
+  const wv = useWebViewStore()
   const task = useTaskStore()
   const { loadings } = task
   const { context, success, error } = useMsg()
-  const { loading, setLoading, ddl, reload } = useMyState(sys)
+  const { loading, setLoading, ddl, reload } = useMyState(sys, wv)
 
   return (
     <div className="dashboard-info-ddl">

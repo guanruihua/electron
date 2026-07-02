@@ -49,13 +49,13 @@ export function Email() {
   }
   return (
     <div className="layout-module card" data-running={running}>
-      <div className="flex gap col">
+      <div className="flex col">
         <div className="title">
           <Icon type="check" />
           <Icon type="close" />
           Backend Server
         </div>
-        <div className="flex gap items-center">
+        <div className="flex gap items-center mb">
           <Button onClick={check}>Check</Button>
           <Switch
             checked={status}
@@ -69,7 +69,7 @@ export function Email() {
             }}
           />
         </div>
-        <div className="flex gap col">
+        <div className="flex col">
           <div className="title">Email</div>
           <div className="flex gap row">
             <Button disabled={!running} onClick={sendTextEmail}>

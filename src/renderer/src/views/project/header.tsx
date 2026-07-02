@@ -3,12 +3,14 @@ import { likeValue } from '@/util'
 import { AutoComplete, AutoCompleteProps } from 'antd'
 import { Button } from 'antd'
 import { useState } from 'react'
+import { useProjStore } from './store'
 
 export interface ProjectHeaderProps {
   [key: string]: any
 }
 
 export function ProjectHeader(props: ProjectHeaderProps) {
+  const p = useProjStore()
   const { sys, task } = props
   const { loadings } = task
 
@@ -32,6 +34,7 @@ export function ProjectHeader(props: ProjectHeaderProps) {
       <div className="project-header-container">
         <div className="project-header-query-input">
           <AutoComplete
+            value={sys.userInfo.setting?.filterModule || ''}
             options={options}
             allowClear
             showSearch={{
@@ -45,6 +48,7 @@ export function ProjectHeader(props: ProjectHeaderProps) {
                 },
                 'setting',
               )
+              p.init()
             }}
           />
         </div>
@@ -72,13 +76,9 @@ export function ProjectHeader(props: ProjectHeaderProps) {
           className="reload"
           loading={loadings.nodeThread}
           icon={<Icon type="reload" style={{ fontSize: 16 }} />}
-          onClick={() =>
-            task.run({
-              uid: 'nodeThread__query',
-              name: 'Query Node Thread',
-              exec: sys.findNodeTreads,
-            })
-          }
+          onClick={() => {
+            p?.init()
+          }}
         />
       </div>
     </div>

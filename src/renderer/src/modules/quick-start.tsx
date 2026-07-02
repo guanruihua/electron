@@ -74,9 +74,7 @@ export const QuickStart = () => {
             disabled={!renderList?.length}
             className="bold"
             onClick={startAll}
-          >
-            Start All
-          </Button>
+          />
           <Button
             icon={<Icon type="edit" />}
             loading={loading}

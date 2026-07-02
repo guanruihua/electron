@@ -1,4 +1,5 @@
 import { ContentLayout } from '@/components/layout'
+import { NodeTread } from '@/modules/node-tread'
 import { QuickStart } from '@/modules/quick-start'
 import RunningApp from '@/modules/running-app'
 // import Task from '@/modules/task'
@@ -11,6 +12,7 @@ export default function App() {
       {/* <Task /> */}
       <RunningApp />
       {/* <Timeline /> */}
+      <NodeTread />
     </ContentLayout>
   )
 }

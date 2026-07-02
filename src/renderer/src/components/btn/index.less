@@ -1,0 +1,24 @@
+.status-button {
+  --color: var(--warning);
+
+  span {
+    color: var(--color);
+  }
+
+  svg,
+  rect,
+  path {
+    color: var(--color);
+  }
+
+  // border-color: var(--color);
+
+
+  &[data-cmp-status="true"] {
+    --color: var(--success);
+  }
+
+  &[data-cmp-status="false"] {
+    --color: var(--error);
+  }
+}

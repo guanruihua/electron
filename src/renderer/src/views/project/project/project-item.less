@@ -4,19 +4,8 @@
   &-header {
     display: flex;
     flex-direction: column;
-
-    .pids {
-      display: flex;
-      flex-direction: row;
-      gap: 10px;
-      font-size: 10px;
-      font-weight: bold;
-
-      div {
-        letter-spacing: 1px;
-        color: #ffffff60;
-      }
-    }
+    padding: 10px 0;
+    gap: 10px;
   }
 
   &-module {
@@ -88,4 +77,48 @@
   .ant-btn:disabled {
     border: none !important;
   }
+
+
+  .pids {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    font-size: 10px;
+    font-weight: bold;
+
+    div {
+      font-size: 10px;
+      letter-spacing: 1px;
+      color: #ffffff60;
+    }
+  }
+}
+
+.project-item-header {
+  position: relative;
+
+  &-badge {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    position: absolute;
+    top: 24px;
+    left: 0;
+    font-size: 10px;
+
+    &>div {
+      color: #ffffff60;
+
+      &[data-status='success'] {
+        color: var(--success);
+      }
+
+      &[data-status='error'] {
+        color: var(--error);
+      }
+
+    }
+  }
+
+
 }

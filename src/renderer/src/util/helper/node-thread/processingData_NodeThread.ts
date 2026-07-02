@@ -1,10 +1,10 @@
 import { ObjectType } from '0type'
-import { ProjectConf, SysState } from '@/type'
+import { NodeTread, ProjectConf } from '@/type'
 import { isArray, isObject, isString } from 'asura-eye'
 
 export const processingData_NodeThread = (
-  OriginNodeTreads: SysState['NodeTreads'],
-  modules: SysState['modules'],
+  OriginNodeTreads: NodeTread[],
+  projects: ProjectConf,
   runningUIDMapPID: ObjectType<string[]>,
 ) => {
   // console.log({
@@ -13,9 +13,7 @@ export const processingData_NodeThread = (
   //   runningUIDMapPID,
   // })
   const nameMap: ObjectType<string> = {}
-  let NodeTreads: SysState['NodeTreads'] = []
-
-  const tmp: ObjectType<SysState['NodeTreads']> = {}
+  let NodeTreads: NodeTread[] = []
 
   for (let i = 0; i < OriginNodeTreads.length; i++) {
     const item = OriginNodeTreads[i]
@@ -40,7 +38,7 @@ export const processingData_NodeThread = (
   if (UIDs.length) {
     UIDs.forEach((uid) => {
       const pids = runningUIDMapPID[uid] || []
-      const newNodeTread: SysState['NodeTreads'][0] = {
+      const newNodeTread: NodeTread = {
         title: 'Node',
         dirPath: uid,
         memory: 0,
@@ -94,21 +92,19 @@ export const processingData_NodeThread = (
     }
   }
 
-  const Modules: SysState['modules'] = modules.map((item) => {
-    setPid(item)
-    if (isArray(item.children)) {
-      item.children = item.children.map((child) => {
-        setPid(child)
-        return child
-      })
-    }
-    return item
-  })
-
   // console.log(NodeTreads, Modules)
 
   return {
     NodeTreads,
-    Modules,
+    projects: projects.map((item) => {
+      setPid(item)
+      if (isArray(item.children)) {
+        item.children = item.children.map((child) => {
+          setPid(child)
+          return child
+        })
+      }
+      return item
+    }),
   }
 }

@@ -1,6 +1,7 @@
+import { ObjectType } from '0type'
 import { cheerio } from '@/util'
 
-export const bili = (html: string) => {
+export const bili = (html: string): ObjectType | void => {
   const $ = cheerio.load(html)
   const doms = $(
     '.bili-dyn-live-users .bili-dyn-live-users__body .bili-dyn-live-users__item',
@@ -16,8 +17,9 @@ export const bili = (html: string) => {
     const record = { i, logo, uname, title }
     list.push(record)
   })
-
-  return {
-    liveBroadcast: list,
-  }
+  if (list.length)
+    return {
+      liveBroadcast: list,
+    }
+  return
 }
